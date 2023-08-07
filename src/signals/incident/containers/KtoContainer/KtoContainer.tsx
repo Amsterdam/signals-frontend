@@ -9,6 +9,7 @@ import { compose } from 'redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import useFetch from 'hooks/useFetch'
+import type { FetchError } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
 
@@ -27,7 +28,6 @@ import type {
   State,
   OptionMapped,
 } from './types'
-import { sortByTopic, isFetchError } from './utils'
 import injectReducer from '../../../../utils/injectReducer'
 
 const initialState: State = {
@@ -48,6 +48,10 @@ const reactReducer = (state: State, action: Action) => {
     default:
       return { ...state }
   }
+}
+
+const isFetchError = (error?: boolean | FetchError): error is FetchError => {
+  return (error as FetchError).detail !== undefined
 }
 
 export const KtoContainer = () => {
@@ -130,9 +134,15 @@ export const KtoContainer = () => {
         value: option.text,
       }))
 
-    const sortedOptions = sortByTopic(opts)
+    opts.push({
+      key: 'anders',
+      value: 'Over iets anders.',
+      topic: 'Over iets anders.',
+      open_answer: true,
+      is_satisfied: false,
+    })
 
-    dispatch({ type: 'SET_FORM_OPTIONS', payload: sortedOptions })
+    dispatch({ type: 'SET_FORM_OPTIONS', payload: opts })
   }, [options, satisfactionIndication, isLoadingOptions, isSatisfied])
 
   if (isLoadingCheck || isLoadingOptions) {

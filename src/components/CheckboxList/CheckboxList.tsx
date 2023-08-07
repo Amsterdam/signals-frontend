@@ -1,20 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+// Copyright (C) 2019 - 2022 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 
 import { Label } from '@amsterdam/asc-ui'
-import type {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger,
-} from 'react-hook-form'
 import styled, { css } from 'styled-components'
 
 import Checkbox from 'components/Checkbox'
-import FormField from 'components/FormField'
-import TextArea from 'components/TextArea'
 
 import TopicLabel from '../TopicLabel'
 
@@ -72,8 +64,7 @@ type Option = {
   key?: string
   slug?: string
   value: string
-  topic?: string | null
-  open_answer?: boolean
+  topic?: string
 }
 
 export type CheckboxListProps<T = Option> = {
@@ -116,12 +107,6 @@ export type CheckboxListProps<T = Option> = {
   toggleAllLabel?: string
   /** Text label for the group toggle in its toggled state */
   toggleNothingLabel?: string
-  formValidation?: {
-    errors: FieldErrors
-    trigger: UseFormTrigger<any>
-    setValue: UseFormSetValue<any>
-    register: UseFormRegister<any>
-  }
 }
 
 const CheckboxList = <T extends Option>({
@@ -140,7 +125,6 @@ const CheckboxList = <T extends Option>({
   title,
   toggleAllLabel,
   toggleNothingLabel,
-  formValidation,
 }: CheckboxListProps<T>) => {
   /**
    * Tracking of boxes that have been checked
@@ -339,77 +323,45 @@ const CheckboxList = <T extends Option>({
         </Toggle>
       )}
 
-      {options.map(
-        ({ id, key, slug, value: label, topic, open_answer }, index) => {
-          const uid = id || key
-          const optionId = [boxWrapperKeyPrefix, name, uid]
-            .filter(Boolean)
-            .join('_')
-          const value = slug || key
-          const defaultOption = defaultValue?.find(
-            (option) => option.id === id
-          ) || { disabled: false }
+      {options.map(({ id, key, slug, value: label, topic }, index) => {
+        const uid = id || key
+        const optionId = [boxWrapperKeyPrefix, name, uid]
+          .filter(Boolean)
+          .join('_')
+        const value = slug || key
+        const defaultOption = defaultValue?.find(
+          (option) => option.id === id
+        ) || { disabled: false }
 
-          return (
-            <Fragment key={optionId}>
-              {options.findIndex((option) => option.topic === topic) ===
-                index &&
-                topic && <TopicLabel>{topic}</TopicLabel>}
-              <Wrapper disabled={defaultOption.disabled || false}>
-                <Label
-                  htmlFor={optionId}
-                  label={label}
-                  disabled={defaultOption.disabled}
-                  noActiveState
-                >
-                  <Checkbox
-                    checked={isChecked(groupId) || isChecked(uid)}
-                    data-id={uid}
-                    data-testid={`checkbox-${optionId}`}
-                    id={optionId}
-                    name={name}
-                    onChange={handleIndividualCheck}
-                    type="checkbox"
-                    value={value}
-                  />
-                </Label>
-
-                {open_answer && isChecked(uid) && formValidation && (
-                  <FormField
-                    meta={{
-                      label: ``,
-                      name: value,
-                      subtitle: '',
-                    }}
-                    hasError={(errorType) =>
-                      formValidation.errors[`open_answer-${label}`]?.type ===
-                      errorType
-                    }
-                    getError={(errorType) =>
-                      formValidation.errors[`open_answer-${label}`]?.type ===
-                      errorType
-                    }
-                  >
-                    <TextArea
-                      {...formValidation.register(`open_answer-${label}`)}
-                      maxRows={5}
-                      name={value}
-                      onChange={(event) => {
-                        formValidation.setValue(
-                          `open_answer-${label}`,
-                          event.target.value
-                        )
-                        formValidation.trigger(`open_answer-${label}`)
-                      }}
-                      rows={2}
-                    />
-                  </FormField>
-                )}
-              </Wrapper>
-            </Fragment>
-          )
+        if (!uid) {
+          return null
         }
-      )}
+        return (
+          <Fragment key={optionId}>
+            {options.findIndex((option) => option.topic === topic) === index &&
+              topic && <TopicLabel>{topic}</TopicLabel>}
+            <Wrapper disabled={defaultOption.disabled || false}>
+              <Label
+                htmlFor={optionId}
+                label={label}
+                disabled={defaultOption.disabled}
+                noActiveState
+              >
+                <Checkbox
+                  checked={isChecked(groupId) || isChecked(uid)}
+                  data-id={uid}
+                  data-testid={`checkbox-${optionId}`}
+                  id={optionId}
+                  name={name}
+                  onChange={handleIndividualCheck}
+                  type="checkbox"
+                  value={value}
+                />
+              </Label>
+            </Wrapper>
+          </Fragment>
+        )
+      })}
     </FilterGroup>
   )
 }

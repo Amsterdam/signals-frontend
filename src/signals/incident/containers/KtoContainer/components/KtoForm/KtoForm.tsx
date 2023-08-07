@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import type {
   BaseSyntheticEvent,
   ChangeEvent,
@@ -37,23 +37,28 @@ import {
   StyledTextArea,
 } from './styled'
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
-import type {
-  FormData,
-  FileInputPayload,
-  FeedbackFormData,
-  OptionMapped,
-} from '../../types'
-import { getMergedOpenAnswers } from '../../utils'
-
-const mapValues = require('lodash/mapValues')
+import type { FeedbackFormData, OptionMapped } from '../../types'
 
 interface Props {
   contactAllowed: boolean
   dataFeedbackForms: FeedbackFormData
   isSatisfied: boolean
-  onSubmit: (formData: FormData) => void
+  onSubmit: (formData: Omit<FormData, 'text_list_extra'>) => void
   options: OptionMapped[]
   setContactAllowed: Dispatch<SetStateAction<boolean>>
+}
+
+interface FormData {
+  allows_contact: boolean
+  is_satisfied: boolean
+  text_list: string[]
+  text_list_extra: string
+  text_extra: string
+}
+
+interface FileInputPayload {
+  images: File[]
+  images_previews: string[]
 }
 
 const KtoForm = ({
@@ -75,7 +80,7 @@ const KtoForm = ({
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled
 
   /* istanbul ignore next */
-  const fixedQuestions = yup
+  const schema = yup
     .object({
       allows_contact: yup.boolean().required(),
       is_satisfied: yup.boolean().required(),
@@ -83,22 +88,16 @@ const KtoForm = ({
         .array()
         .min(1, 'Dit veld is verplicht')
         .required('Dit veld is verplicht'),
-
+      text_list_extra: yup.string().when('text_list', (text_list, schema) => {
+        return (Array.isArray(text_list) ? text_list : [text_list]).includes(
+          options.slice(-1)[0].value
+        )
+          ? schema.required('Dit veld is verplicht')
+          : schema
+      }),
       text_extra: yup.string(),
     })
     .required()
-
-  const schema = yup.lazy((obj: Record<string, string>) =>
-    yup
-      .object(
-        mapValues(obj, (_value: string, key: string) => {
-          if (key.startsWith('open_answer')) {
-            return yup.string().required()
-          }
-        })
-      )
-      .concat(fixedQuestions)
-  )
 
   const formMethods = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -106,6 +105,7 @@ const KtoForm = ({
       allows_contact: contactAllowed,
       is_satisfied: isSatisfied,
       text_list: [],
+      text_list_extra: '',
       text_extra: '',
     },
   })
@@ -115,7 +115,6 @@ const KtoForm = ({
     watch,
     trigger,
     getValues,
-    register,
     formState: { errors },
   } = formMethods
 
@@ -133,7 +132,12 @@ const KtoForm = ({
       }
       const allFormData = getValues()
 
-      const formData = getMergedOpenAnswers(allFormData)
+      allFormData.text_list = [
+        ...allFormData.text_list,
+        allFormData.text_list_extra,
+      ].filter(Boolean)
+
+      const { text_list_extra, ...formData } = allFormData
 
       onSubmit(formData)
     } else {
@@ -144,7 +148,14 @@ const KtoForm = ({
     }
   }
 
+  const watchTextList = watch('text_list')
   const watchTextExtra = watch('text_extra')
+
+  useEffect(() => {
+    if (!watchTextList.includes('Over iets anders')) {
+      setValue('text_list_extra', '')
+    }
+  }, [setValue, watchTextList])
 
   return (
     <FormProvider {...formMethods}>
@@ -175,12 +186,13 @@ const KtoForm = ({
                       options.map((option) => option.value)
                     )
                     trigger('text_list')
-                  }}
-                  formValidation={{
-                    errors: errors,
-                    trigger: trigger,
-                    setValue: setValue,
-                    register: register,
+                    if (
+                      !getValues().text_list?.includes(
+                        options.slice(-1)[0]?.value
+                      )
+                    ) {
+                      trigger('text_list_extra')
+                    }
                   }}
                 />
               ) : (
@@ -194,16 +206,36 @@ const KtoForm = ({
                     trigger('text_list')
                   }}
                   options={options}
-                  formValidation={{
-                    selectedRadioButton: getValues().text_list[0],
-                    errors: errors,
-                    trigger: trigger,
-                    setValue: setValue,
-                    register: register,
-                  }}
                 />
               )}
             </FormField>
+
+            {watchTextList?.includes(options.slice(-1)[0].value) && (
+              <FormField
+                meta={{
+                  label: ``,
+                  name: 'text',
+                  subtitle: '',
+                }}
+                hasError={(errorType) =>
+                  errors['text_list_extra']?.type === errorType
+                }
+                getError={(errorType) =>
+                  errors['text_list_extra']?.type === errorType
+                }
+              >
+                <StyledTextArea
+                  data-testid="kto-text"
+                  maxRows={5}
+                  name="text"
+                  onChange={(event) => {
+                    setValue('text_list_extra', event.target.value)
+                    trigger('text_list_extra')
+                  }}
+                  rows={2}
+                />
+              </FormField>
+            )}
           </GridArea>
 
           {satisfactionIndication === 'nee' && (

@@ -26,6 +26,8 @@ import routes, {
   EXPORT_URL,
 } from './routes'
 
+// Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
+
 const OverviewContainer = lazy(() => import('./components/Overview'))
 const LoginPage = lazy(() => import('components/pages/LoginPage'))
 const UsersOverviewContainer = lazy(() => import('./users/Overview'))
@@ -40,6 +42,7 @@ const DepartmentsOverviewContainer = lazy(
   () => import('./departments/Overview')
 )
 const DepartmentsDetailContainer = lazy(() => import('./departments/Detail'))
+
 const SubcategoriesOverview = lazy(
   () => import('./categories/subcategories/Overview')
 )
@@ -52,7 +55,9 @@ const SubcategoryDetail = lazy(
 const MainCategoryDetail = lazy(
   () => import('./categories/main-categories/Detail')
 )
+
 const ExportContainer = lazy(() => import('./export'))
+
 const NotFoundPage = lazy(() => import('components/pages/NotFoundPage'))
 
 const SettingsModule = () => {
