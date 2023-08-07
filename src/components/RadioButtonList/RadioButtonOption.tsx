@@ -84,7 +84,6 @@ export const RadioButtonOption = ({
                 )
                 formValidation.trigger(`open_answer-${option.value}`)
               }}
-              rows={2}
             />
           </FormField>
         )}

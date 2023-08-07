@@ -1,6 +1,6 @@
 import type { OptionMapped } from './types'
 import { sortByTopic } from './utils'
-import { getMergedOpenAnswers, stripLastCharacterIfNotLetter } from './utils'
+import { getMergedOpenAnswers, stripLastNonLetterChar } from './utils'
 
 describe('utils', () => {
   describe('sortByTopic', () => {
@@ -190,7 +190,7 @@ describe('utils', () => {
     })
   })
 
-  describe('stripLastCharacterIfNotLetter', () => {
+  describe('stripLastNonLetterChar', () => {
     it('strips last non-letter character', () => {
       const input1 = 'Hello!'
       const input2 = 'Test123'
@@ -198,11 +198,11 @@ describe('utils', () => {
       const input4 = 'Goodbye.'
       const input5 = '123456'
 
-      expect(stripLastCharacterIfNotLetter(input1)).toBe('Hello')
-      expect(stripLastCharacterIfNotLetter(input2)).toBe('Test123')
-      expect(stripLastCharacterIfNotLetter(input3)).toBe('NoLetter')
-      expect(stripLastCharacterIfNotLetter(input4)).toBe('Goodbye')
-      expect(stripLastCharacterIfNotLetter(input5)).toBe('123456')
+      expect(stripLastNonLetterChar(input1)).toBe('Hello')
+      expect(stripLastNonLetterChar(input2)).toBe('Test123')
+      expect(stripLastNonLetterChar(input3)).toBe('NoLetter')
+      expect(stripLastNonLetterChar(input4)).toBe('Goodbye')
+      expect(stripLastNonLetterChar(input5)).toBe('123456')
     })
 
     it('does not modify the string if the last character is a letter', () => {
@@ -212,11 +212,11 @@ describe('utils', () => {
       const input4 = 'Goodbye'
       const input5 = '123456a'
 
-      expect(stripLastCharacterIfNotLetter(input1)).toBe('Hello')
-      expect(stripLastCharacterIfNotLetter(input2)).toBe('Test')
-      expect(stripLastCharacterIfNotLetter(input3)).toBe('NoLetter')
-      expect(stripLastCharacterIfNotLetter(input4)).toBe('Goodbye')
-      expect(stripLastCharacterIfNotLetter(input5)).toBe('123456a')
+      expect(stripLastNonLetterChar(input1)).toBe('Hello')
+      expect(stripLastNonLetterChar(input2)).toBe('Test')
+      expect(stripLastNonLetterChar(input3)).toBe('NoLetter')
+      expect(stripLastNonLetterChar(input4)).toBe('Goodbye')
+      expect(stripLastNonLetterChar(input5)).toBe('123456a')
     })
   })
 })

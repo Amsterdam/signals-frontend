@@ -403,7 +403,6 @@ const CheckboxList = <T extends Option>({
                         )
                         formValidation.trigger(`open_answer-${label}`)
                       }}
-                      rows={2}
                     />
                   </FormField>
                 )}
