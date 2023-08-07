@@ -139,7 +139,6 @@ describe('CaterpillarLayer', () => {
   })
 
   it('should handle deselecting a tree', () => {
-    configuration.featureFlags.useGisib = true
     const featureId = 308778
     const selected = selection.find(({ id }) => id === featureId)
 

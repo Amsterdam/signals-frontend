@@ -150,10 +150,6 @@
           "description": "Disallows processing of an issue that has category Overig-overig and status Afgehandeld",
           "type": "boolean"
         },
-        "useGisib": {
-          "description": "When true, will use GISIB for the map",
-          "type": "boolean"
-        },
         "showStandardTextAdminV1": {
           "description": "Shows the old way of managing standard text for email responses.",
           "type": "boolean"
