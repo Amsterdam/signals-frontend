@@ -86,6 +86,7 @@ const RadioButtonList = <T extends RadioButtonOptionType>({
       >
         {radioOptions.map((option, index) => (
           <RadioButtonOption
+            key={index}
             option={option}
             index={index}
             formValidation={formValidation}

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import { Column, Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -56,8 +56,6 @@ const schema = yup.object({
 })
 
 export const Detail = () => {
-  const [waitForTimeout, setWaitForTimeout] = useState(false)
-
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
@@ -85,7 +83,6 @@ export const Detail = () => {
   }))
 
   const formMethods = useForm<StandardTextForm>({
-    reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
     defaultValues: { ...defaultValues },
   })
@@ -102,9 +99,10 @@ export const Detail = () => {
       )
     } else if (hasDirtyFields) {
       post(`${configuration.STANDARD_TEXTS_ENDPOINT}`, createPost(getValues()))
+    } else {
+      navigate(redirectURL)
     }
-    navigate(redirectURL)
-  }, [formState.dirtyFields, navigate, params.id, patch, getValues, post])
+  }, [formState.dirtyFields, params.id, patch, getValues, post, navigate])
 
   const handleOnCancel = () => {
     navigate(redirectURL)
@@ -126,16 +124,9 @@ export const Detail = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setWaitForTimeout(true)
-
-      // Set delay to wait for search endpoint to be updated
-      const timer = setTimeout(() => {
-        navigate(redirectURL)
-      }, 750)
-
-      return () => clearTimeout(timer)
+      navigate(redirectURL)
     }
-  }, [isSuccess, navigate, waitForTimeout])
+  }, [isSuccess, navigate])
 
   useEffect(() => {
     if (error) {
@@ -194,7 +185,7 @@ export const Detail = () => {
                   }
                 />
               </Row>
-              {(isLoading || waitForTimeout) && <LoadingIndicator />}
+              {isLoading && <LoadingIndicator />}
               <Row>
                 <Column span={12}>
                   <Form onSubmit={handleSubmit(onSubmit)}>
