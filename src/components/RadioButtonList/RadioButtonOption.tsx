@@ -73,6 +73,8 @@ export const RadioButtonOption = ({
           >
             <TextArea
               {...formValidation.register(`open_answer-${option.value}`)}
+              maxLength={1000}
+              maxContentLength={1000}
               maxRows={5}
               name={option.name}
               onChange={(event) => {
@@ -82,7 +84,6 @@ export const RadioButtonOption = ({
                 )
                 formValidation.trigger(`open_answer-${option.value}`)
               }}
-              rows={2}
             />
           </FormField>
         )}
