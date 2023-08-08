@@ -18,7 +18,6 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie, Location } from 'types/incident'
 
-import configuration from '../../../../../../../shared/services/configuration/configuration'
 import StatusLayer from '../../Asset/Selector/StatusLayer'
 import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 
@@ -32,9 +31,7 @@ export const CaterpillarLayer: FC = () => {
       // Caterpillar layer renders only a single feature type (oak tree)
       const featureType = meta.featureTypes[0]
 
-      const featureId = configuration.featureFlags.useGisib
-        ? feature.id
-        : (feature.properties[featureType.idField] as string)
+      const featureId = feature.id
 
       const isSelected = Boolean(
         selection?.find((item) => item.id === featureId)
@@ -121,11 +118,9 @@ export const CaterpillarLayer: FC = () => {
 
   return (
     <>
-      {configuration.featureFlags.useGisib
-        ? features
-            .filter((feature: any) => feature.geometry.coordinates.length > 0)
-            .map((feat) => getMarker(feat, featureStatusTypes))
-        : features.map((feat) => getMarker(feat, featureStatusTypes))}
+      {features
+        .filter((feature: any) => feature.geometry.coordinates.length > 0)
+        .map((feat) => getMarker(feat, featureStatusTypes))}
 
       {statusFeatures.length > 0 && featureStatusTypes && (
         <StatusLayer

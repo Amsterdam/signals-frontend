@@ -24,8 +24,7 @@
     "showMainCategories": false,
     "showStandardTextAdminV1": true,
     "showStandardTextAdminV2": false,
-    "disableClosingCategoryOverigOverig": false,
-    "useGisib": false
+    "disableClosingCategoryOverigOverig": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
