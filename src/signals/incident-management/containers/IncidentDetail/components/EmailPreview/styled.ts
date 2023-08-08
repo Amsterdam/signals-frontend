@@ -19,8 +19,11 @@ export const styling = `
 </style>`
 
 export const StyledFormFooter = styled(FormFooter)`
+  height: auto;
+  padding-left: ${themeSpacing(7)};
+  padding-bottom: ${themeSpacing(4)};
   .formFooterRow {
-    padding-left: ${themeSpacing(4)};
+    padding-left: ${themeSpacing(0)};
   }
 `
 

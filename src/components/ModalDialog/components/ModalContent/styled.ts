@@ -8,6 +8,7 @@ export const StyledSection = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin: ${themeSpacing(4)};
+  padding: ${themeSpacing(4)};
   overflow-y: auto;
+  overflow-wrap: break-word;
 `

@@ -3,7 +3,7 @@
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
 
-import { ConfirmationProvider } from 'components/Confirmation/ConfirmationProvider'
+import { ConfirmationProvider } from 'containers/Confirmation/ConfirmationProvider'
 import * as useConfirm from 'hooks/useConfirm'
 
 import useConfirmedCancel, {

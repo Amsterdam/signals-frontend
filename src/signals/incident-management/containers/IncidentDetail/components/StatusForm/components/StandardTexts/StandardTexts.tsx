@@ -29,7 +29,7 @@ export const StandardTexts = ({
   onClose,
   onHandleUseStandardText,
 }: Props) => (
-  <ModalDialog title="Standaardtekst" onClose={onClose} isConfirmation>
+  <ModalDialog title="Standaardtekst" onClose={onClose}>
     <Wrapper data-scroll-lock-scrollable>
       {standardTexts.length === 0 && (
         <StyledDefaultText key={`empty_${status}`} empty>

@@ -13,7 +13,6 @@ import * as yup from 'yup'
 import BackLink from 'components/BackLink'
 import Button from 'components/Button'
 import Checkbox from 'components/Checkbox'
-import { useConfirm } from 'hooks/useConfirm'
 import GlobalError from 'components/GlobalError'
 import Input from 'components/Input'
 import Label from 'components/Label'
@@ -22,6 +21,7 @@ import PageHeader from 'components/PageHeader'
 import RadioButtonList from 'components/RadioButtonList'
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { useConfirm } from 'hooks/useConfirm'
 import useFetch from 'hooks/useFetch'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
@@ -115,9 +115,7 @@ export const Detail = () => {
     const confirmed = await isConfirmed(
       'Let op, je verwijdert de standaardtekst',
       'Er is geen back-up beschikbaar\n' +
-        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar' +
-        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar' +
-        'Er is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaarEr is geen back-up beschikbaar'
+        '000000000000000000000000000000000000000000000000000000jjjjjjj000000000000000000000000000000000000000000000000000000jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'
     )
     if (confirmed) del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
   }

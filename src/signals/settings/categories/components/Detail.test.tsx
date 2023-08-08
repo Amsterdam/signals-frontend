@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
-import * as useConfirm from 'hooks/useConfirm'
 import { withContext } from 'components/Summary/Summary.test'
+import * as useConfirm from 'hooks/useConfirm'
 import { subCategories } from 'utils/__tests__/fixtures'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
 

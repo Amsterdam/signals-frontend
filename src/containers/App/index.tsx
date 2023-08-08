@@ -26,9 +26,9 @@ import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyCon
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
-import { ConfirmationProvider } from '../../components/Confirmation'
 import useDefaultHeader from '../../hooks/useDefaultHeader'
 import useTallHeader from '../../hooks/useTallHeader'
+import { ConfirmationProvider } from '../Confirmation'
 
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }

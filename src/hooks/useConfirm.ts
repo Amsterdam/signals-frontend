@@ -2,8 +2,8 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useContext } from 'react'
 
-import type { State } from '../components/Confirmation/context'
-import { ConfirmationContext } from '../components/Confirmation/context'
+import type { State } from '../containers/Confirmation/context'
+import { ConfirmationContext } from '../containers/Confirmation/context'
 
 export const useConfirm = () => {
   const { confirm, setConfirm } = useContext<State>(ConfirmationContext)

@@ -483,14 +483,14 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(navigateMock).not.toHaveBeenCalled()
 
-    await act(async () => {
+    act(() => {
       fireEvent.change(
         getByTestId('detail-user-form').querySelector('#last_name'),
         { target: { value: 'Foo Bar Baz' } }
       )
     })
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
@@ -524,7 +524,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     expect(navigateMock).not.toHaveBeenCalled()
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
@@ -540,7 +540,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     await findByTestId('user-detail-form-container')
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 

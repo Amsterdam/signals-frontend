@@ -42,12 +42,15 @@ jest.mock('react-router-dom', () => ({
 }))
 
 describe('Detail', () => {
+  let success: boolean
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ id: `${id}` }))
+
+    success = false
   })
 
   afterEach(() => {
@@ -129,8 +132,6 @@ describe('Detail', () => {
   })
 
   it('deletes the standard text when the button Verwijderen -> Bevestig is pressed', async () => {
-    let success = false
-
     server.use(
       rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
         success = true
@@ -145,9 +146,8 @@ describe('Detail', () => {
 
     await waitFor(() => expect(success).toEqual(true))
   })
-  it("doesn't delete the standard text when the button Verwijderen-> Annuleer is pressed", async () => {
-    let success = false
 
+  it("doesn't delete the standard text when the button Verwijderen-> Annuleer is pressed", async () => {
     server.use(
       rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
         success = true

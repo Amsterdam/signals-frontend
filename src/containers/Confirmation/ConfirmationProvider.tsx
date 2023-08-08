@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 import type { Confirm } from './context'
 import { ConfirmationContext } from './context'
-import ModalDialog from '../ModalDialog'
+import ModalDialog from '../../components/ModalDialog'
 
 export type Props = {
   children: ReactNode

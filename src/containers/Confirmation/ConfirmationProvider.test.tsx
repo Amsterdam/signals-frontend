@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event'
 import { ConfirmationProvider } from './ConfirmationProvider'
 import { useConfirm } from '../../hooks/useConfirm'
 import { withAppContext } from '../../test/utils'
-import Button from '../Button'
+import Button from '../../components/Button'
 
 const answer = jest.fn()
 const TestButton = () => {

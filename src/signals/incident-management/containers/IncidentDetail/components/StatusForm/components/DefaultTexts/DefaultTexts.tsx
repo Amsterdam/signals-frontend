@@ -6,7 +6,7 @@ import ModalDialog from 'components/ModalDialog'
 import type { DefaultText as DefaultTextType } from 'types/api/default-text'
 import type { StatusCode } from 'types/status-code'
 
-import { StyledDefaultText, StyledTitle, StyledLink, Wrapper } from './styled'
+import { StyledDefaultText, StyledTitle, StyledLink } from './styled'
 
 export type DefaulTextsProps = {
   defaultTexts: Array<DefaultTextType>
@@ -29,8 +29,8 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
     defaultTexts.find((text) => text.state === status)
 
   return (
-    <ModalDialog title="Standaardtekst" onClose={onClose} isConfirmation={true}>
-      <Wrapper data-scroll-lock-scrollable>
+    <ModalDialog title="Standaardtekst" onClose={onClose}>
+      <div data-scroll-lock-scrollable={true}>
         {(!allText || allText.templates.length === 0) && (
           <StyledDefaultText key={`empty_${status}`} empty>
             Er is geen standaard tekst voor deze subcategorie en status
@@ -57,7 +57,7 @@ const DefaultTexts: FC<DefaulTextsProps> = ({
               </StyledLink>
             </StyledDefaultText>
           ))}
-      </Wrapper>
+      </div>
     </ModalDialog>
   )
 }
