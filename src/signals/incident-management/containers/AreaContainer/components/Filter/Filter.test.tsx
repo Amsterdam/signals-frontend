@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react'
 
-import Filter from '../'
+import configuration from 'shared/services/configuration/configuration'
 
+import Filter from './'
+jest.mock('shared/services/configuration/configuration')
 describe('Filter', () => {
   it('should render', () => {
     render(<Filter subcategory="foo" startDate={new Date().toISOString()} />)
@@ -82,5 +84,13 @@ describe('Filter', () => {
     render(<Filter departments="foo" startDate={new Date().toISOString()} />)
 
     expect(screen.queryByTestId('departments')).not.toBeInTheDocument()
+  })
+
+  it('should render the correct focus radius meters in de legend', () => {
+    configuration.map.optionsAreaMap.focusRadiusMeters = 66
+
+    render(<Filter subcategory="foo" startDate={new Date().toISOString()} />)
+
+    expect(screen.getByText('Straal 66m')).toBeInTheDocument()
   })
 })
