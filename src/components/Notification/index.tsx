@@ -10,7 +10,6 @@ import { useLocation } from 'react-router-dom'
 import {
   ONCLOSE_TIMEOUT,
   SLIDEUP_TIMEOUT,
-  TYPE_GLOBAL,
   TYPE_LOCAL,
   VARIANT_ERROR,
   VARIANT_NOTICE,
@@ -37,7 +36,7 @@ interface NotificationProps {
 /**
  * Component that shows a title, a close button and, optionally, a message in a full-width bar with
  * a coloured background. The component slides up automatically after eight seconds, but only when
- * its variant is not VARIANT_ERROR and its type is not TYPE_GLOBAL.
+ * its variant is not VARIANT_ERROR.
  */
 const Notification: FunctionComponent<NotificationProps> = ({
   title,
@@ -76,11 +75,7 @@ const Notification: FunctionComponent<NotificationProps> = ({
   }, [onClose, type, location])
 
   useEffect(() => {
-    if (
-      variant === VARIANT_ERROR ||
-      type === TYPE_GLOBAL ||
-      typeof onClose !== 'function'
-    ) {
+    if (variant === VARIANT_ERROR || typeof onClose !== 'function') {
       return undefined
     }
 

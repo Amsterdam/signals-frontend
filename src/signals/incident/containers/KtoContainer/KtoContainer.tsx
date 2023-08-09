@@ -11,6 +11,7 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import reducer from 'signals/incident/containers/IncidentContainer/reducer'
+import { isFetchError } from 'signals/shared/type-guards'
 
 import KtoForm from './components/KtoForm/KtoForm'
 import {
@@ -27,7 +28,7 @@ import type {
   State,
   OptionMapped,
 } from './types'
-import { isFetchError, sortByTopic, stripLastNonLetterChar } from './utils'
+import { sortByTopic, stripLastNonLetterChar } from './utils'
 import injectReducer from '../../../../utils/injectReducer'
 
 const initialState: State = {
