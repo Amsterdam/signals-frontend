@@ -116,6 +116,7 @@ const KtoForm = ({
     trigger,
     getValues,
     register,
+    unregister,
     formState: { errors },
   } = formMethods
 
@@ -181,6 +182,7 @@ const KtoForm = ({
                     trigger: trigger,
                     setValue: setValue,
                     register: register,
+                    unregister: unregister,
                   }}
                 />
               ) : (
@@ -190,6 +192,13 @@ const KtoForm = ({
                   groupName="kto"
                   hasEmptySelectionButton={false}
                   onChange={(_groupName, option: OptionMapped) => {
+                    options.forEach((option) => {
+                      // Clear all open answers when changing options
+                      if (option.open_answer) {
+                        unregister(`open_answer-${option.value}`)
+                      }
+                    })
+
                     setValue('text_list', [option.value])
                     trigger('text_list')
                   }}
