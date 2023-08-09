@@ -122,18 +122,18 @@ const UserForm = ({ data, history, onCancel, onSubmit, readOnly }) => {
     notifications: userNotifications,
   })
 
-  const onChangeEvent = useCallback(
-    (event) => {
-      onChange(event.target.name, event.target.value)
-    },
-    [onChange]
-  )
-
   const onChange = useCallback(
     (field, value) => {
       dispatch({ field, value })
     },
     [dispatch]
+  )
+
+  const onChangeEvent = useCallback(
+    (event) => {
+      onChange(event.target.name, event.target.value)
+    },
+    [onChange]
   )
 
   const getFormData = useCallback(() => {
