@@ -74,7 +74,7 @@ export const StyledButton = styled(Button)`
   margin-right: ${themeSpacing(2)};
 `
 
-export const StyledH4 = styled(Heading)`
+export const StyledH2 = styled(Heading)`
   margin-bottom: ${themeSpacing(4)};
   margin-top: ${themeSpacing(0)};
 `

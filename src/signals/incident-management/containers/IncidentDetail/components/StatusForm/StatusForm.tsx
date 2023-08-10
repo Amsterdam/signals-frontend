@@ -32,7 +32,7 @@ import {
   StyledButton,
   StyledCheckbox,
   StyledCheckboxLabel,
-  StyledH4,
+  StyledH2,
   StyledLabel,
   StyledParagraph,
   StyledSection,
@@ -265,7 +265,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
   return (
     <Form onSubmit={handleSubmit} data-testid="status-form" noValidate>
-      <StyledH4 forwardedAs="h2">Status wijzigen</StyledH4>
+      <StyledH2 forwardedAs="h2">Status wijzigen</StyledH2>
 
       <StyledSection>
         <StyledLabel htmlFor="status" label="Status" />

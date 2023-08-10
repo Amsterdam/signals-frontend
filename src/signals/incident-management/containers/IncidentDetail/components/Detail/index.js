@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
-import { Fragment, useMemo, useContext } from 'react'
+import { useMemo, useContext, Fragment } from 'react'
 
-import {
-  themeColor,
-  themeSpacing,
-  Heading,
-  Link as AscLink,
-} from '@amsterdam/asc-ui'
+import { themeColor, themeSpacing, Heading } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import configuration from 'shared/services/configuration/configuration'
@@ -15,6 +10,7 @@ import { string2date, string2time } from 'shared/services/string-parser'
 import { attachmentsType, contextType } from 'shared/types'
 
 import Area from './components/Area'
+import Contact from './components/Contact'
 import ExtraProperties from './components/ExtraProperties'
 import Location from './components/Location'
 import Reporter from './components/Reporter'
@@ -34,6 +30,7 @@ const Title = styled(Heading)`
 const DefinitionList = styled.dl`
   margin: 0;
   display: grid;
+  grid-template-rows: repeat(5, auto) 1fr;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
@@ -62,10 +59,6 @@ const DefinitionList = styled.dl`
     padding-bottom: ${themeSpacing(2)};
     width: 100%;
   }
-`
-
-const StyledLink = styled(AscLink)`
-  font-size: 1rem;
 `
 
 const Detail = ({ context }) => {
@@ -110,23 +103,7 @@ const Detail = ({ context }) => {
 
         {incident.reporter && (
           <Fragment>
-            <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-            <dd data-testid="detail-phone-value">
-              {showPhone ? (
-                <StyledLink
-                  data-testid="detail-phone-link"
-                  variant="inline"
-                  href={`tel:${incident.reporter.phone}`}
-                >
-                  {incident.reporter.phone}
-                </StyledLink>
-              ) : (
-                incident.reporter.phone
-              )}
-            </dd>
-
-            <dt data-testid="detail-email-definition">E-mail melder</dt>
-            <dd data-testid="detail-email-value">{incident.reporter.email}</dd>
+            <Contact incident={incident} showPhone={showPhone} />
 
             <dt data-testid="detail-sharing-definition">
               Toestemming contactgegevens delen

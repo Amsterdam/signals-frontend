@@ -403,6 +403,7 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
+        getHistory,
         attachments: state?.attachments,
         toggleExternal: toggleExternalDispatch,
       }}
