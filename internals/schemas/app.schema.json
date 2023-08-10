@@ -610,7 +610,7 @@
       "properties": {
         "focusRadiusMeters": {
           "type": "integer",
-          "description": "Defines the radius of the view circle of the area map that shows nearby incidents. Should be the same as the backend configuration."
+          "description": "Defines the radius of the view circle of the area map that shows nearby incidents. Should be the same as the SIGNAL_API_CONTEXT_GEOGRAPHY_RADIUS configuration in the backend."
         },
         "zoom": {
           "type": "integer"
