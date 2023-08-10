@@ -13,9 +13,8 @@ export const StyledModal = styled(Modal)`
   flex-direction: column;
 `
 export const StyledFormFooter = styled(FormFooter)`
-  margin-left: ${themeSpacing(4)};
-  margin-bottom: ${themeSpacing(4)};
-  padding: 0;
+  padding-top: ${themeSpacing(4)};
+  padding-left: ${themeSpacing(4)};
   display: flex;
   flex-direction: column;
   align-self: flex-start;

@@ -6,7 +6,7 @@ import { createContext } from 'react'
 export type Confirm = {
   prompt: string
   title: string
-  isOpen: boolean
+  open: boolean
   proceed: () => void
   cancel: () => void
 }

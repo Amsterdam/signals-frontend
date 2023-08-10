@@ -15,7 +15,7 @@ export const ConfirmationProvider = ({ children }: Props) => {
   const [confirm, setConfirm] = useState<Confirm>({
     prompt: '',
     title: '',
-    isOpen: false,
+    open: false,
     proceed: () => {},
     cancel: () => {},
   })
@@ -24,7 +24,7 @@ export const ConfirmationProvider = ({ children }: Props) => {
     <ConfirmationContext.Provider value={{ confirm, setConfirm }}>
       {children}
       <ModalDialog
-        open={confirm.isOpen}
+        open={confirm.open}
         onClose={confirm.cancel}
         title={confirm.title}
         isConfirmation

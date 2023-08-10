@@ -9,7 +9,7 @@ import ModalDialog from './ModalDialog'
 
 const title = 'foo'
 const content = 'bar'
-const open = true
+
 const isConfirmation = true
 const mockClose = jest.fn()
 const mockConfirm = jest.fn()
@@ -83,7 +83,7 @@ describe('ModalDialog', () => {
     render(
       withAppContext(
         <ModalDialog
-          open={open}
+          open
           onClose={mockClose}
           title={title}
           onConfirm={mockConfirm}

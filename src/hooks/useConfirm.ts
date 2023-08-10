@@ -13,18 +13,18 @@ export const useConfirm = () => {
       setConfirm({
         title,
         prompt,
-        isOpen: true,
+        open: true,
         proceed: resolve,
         cancel: reject,
       })
     })
     return promise.then(
       () => {
-        setConfirm({ ...confirm, isOpen: false })
+        setConfirm({ ...confirm, open: false })
         return true
       },
       () => {
-        setConfirm({ ...confirm, isOpen: false })
+        setConfirm({ ...confirm, open: false })
         return false
       }
     )
