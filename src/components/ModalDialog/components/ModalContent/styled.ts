@@ -4,13 +4,8 @@
 import { themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-export const StyledSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  padding-top: ${themeSpacing(4)};
-  padding-left: ${themeSpacing(4)};
-  padding-right: ${themeSpacing(4)};
-  overflow-y: auto;
+export const Wrapper = styled.div`
+  overflow: auto;
   overflow-wrap: break-word;
+  padding: ${themeSpacing(4)};
 `

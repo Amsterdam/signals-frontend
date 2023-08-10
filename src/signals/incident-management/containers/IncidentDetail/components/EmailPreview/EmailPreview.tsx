@@ -3,7 +3,7 @@
 import LoadingIndicator from 'components/LoadingIndicator'
 import ModalDialog from 'components/ModalDialog/ModalDialog'
 
-import { StyledFormFooter, StyledIframe, styling } from './styled'
+import { StyledIframe, styling } from './styled'
 
 interface EmailPreviewProps {
   onClose: () => void
@@ -30,21 +30,17 @@ const EmailPreview = ({
 
   return (
     <ModalDialog
+      cancelBtnLabel="Wijzig"
       data-testid="email-preview-modal"
-      title={title}
+      isConfirmation={true}
       onClose={onClose}
+      onConfirm={onUpdate}
+      submitBtnLabel="Verstuur"
+      title={title}
     >
       {isLoading && <LoadingIndicator />}
       {emailBody && (
-        <>
-          <StyledIframe data-testid="email-body-iframe" srcDoc={styledHtml} />
-          <StyledFormFooter
-            cancelBtnLabel="Wijzig"
-            onCancel={onClose}
-            submitBtnLabel="Verstuur"
-            onSubmitForm={onUpdate}
-          />
-        </>
+        <StyledIframe data-testid="email-body-iframe" srcDoc={styledHtml} />
       )}
     </ModalDialog>
   )

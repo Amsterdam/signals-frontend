@@ -2,12 +2,16 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
-import { StyledSection } from './styled'
+import { Wrapper } from './styled'
 
 export type Props = {
   children?: ReactNode
 }
 
 export const ModalContent = ({ children }: Props) => {
-  return <StyledSection data-testid="modal-content">{children}</StyledSection>
+  return (
+    <Wrapper>
+      <div data-testid="modal-content">{children}</div>
+    </Wrapper>
+  )
 }

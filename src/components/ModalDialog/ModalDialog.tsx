@@ -7,30 +7,34 @@ import { ModalHeader } from './components/ModalHeader'
 import { StyledFormFooter, StyledModal } from './styled'
 
 export type ModalDialogProps = {
-  onClose: () => void
-  title: string
-  onConfirm?: () => void
+  cancelBtnLabel?: string
   children?: ReactNode
   isConfirmation?: boolean
+  onClose: () => void
+  onConfirm?: () => void
   open?: boolean
+  title: string
+  submitBtnLabel?: string
 }
 
 const ModalDialog = ({
-  open = true,
+  cancelBtnLabel = 'Annuleer',
+  children,
+  isConfirmation = false,
   onClose,
   onConfirm,
+  open = true,
+  submitBtnLabel = 'Bevestig',
   title,
-  isConfirmation = false,
-  children,
 }: ModalDialogProps) => (
   <StyledModal open={open} onClose={onClose} data-testid="modal-dialog">
     <ModalHeader title={title} onClose={onClose} />
     <ModalContent>{children}</ModalContent>
     {isConfirmation && (
       <StyledFormFooter
-        cancelBtnLabel="Annuleer"
+        cancelBtnLabel={cancelBtnLabel}
         onCancel={onClose}
-        submitBtnLabel="Bevestig"
+        submitBtnLabel={submitBtnLabel}
         onSubmitForm={onConfirm}
         inline={true}
       />
