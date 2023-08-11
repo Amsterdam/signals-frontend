@@ -27,7 +27,6 @@ import type { Incident } from 'types/api/incident'
 
 import type { Feature } from './types'
 
-const FOCUS_RADIUS_METERS = 50
 const CURRENT_INCIDENT_MARKER_Z = -100 // Show below incident markers
 
 const AREA_MAP_OPTIONS: MapOptions = {
@@ -145,7 +144,9 @@ const AreaMap: FunctionComponent<AreaMapProps> = ({
 
       // Compute circle radius in SVG viewBox coordinate units
       const circleRadius = Math.floor(
-        (FOCUS_RADIUS_METERS / svgSideLengthInMeters) * SVG_SQUARE_SIZE
+        (configuration.map.optionsAreaMap.focusRadiusMeters /
+          svgSideLengthInMeters) *
+          SVG_SQUARE_SIZE
       )
 
       svg.innerHTML = `

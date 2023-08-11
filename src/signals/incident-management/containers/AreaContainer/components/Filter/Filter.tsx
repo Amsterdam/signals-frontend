@@ -1,6 +1,7 @@
 import { Heading, Icon, themeSpacing, List, ListItem } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import configuration from 'shared/services/configuration/configuration'
 import { dateToString } from 'shared/services/date-utils'
 
 interface FilterProps {
@@ -99,7 +100,7 @@ const Filter: React.FC<FilterProps> = (props) => {
             <StyledIcon size={ICON_SIZE}>
               <img alt="Straal" src="/assets/images/area-map/icon-radius.svg" />
             </StyledIcon>
-            Straal 50m
+            {`Straal ${configuration.map.optionsAreaMap.focusRadiusMeters}m`}
           </ListItem>
         </List>
       </Field>

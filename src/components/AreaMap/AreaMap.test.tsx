@@ -7,9 +7,9 @@ import { withAppContext } from 'test/utils'
 import type { Geography } from 'types/api/geography'
 import { StatusCode } from 'types/status-code'
 
-import AreaMap from '..'
-import type { AreaMapProps } from '../AreaMap'
-import type { Feature } from '../types'
+import AreaMap from './'
+import type { AreaMapProps } from './AreaMap'
+import type { Feature } from './types'
 
 const features: Feature[] = [
   {

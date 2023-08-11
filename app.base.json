@@ -98,6 +98,7 @@
       "zoom": 7
     },
     "optionsAreaMap": {
+      "focusRadiusMeters": 50,
       "zoom": 14,
       "maxZoom": 15
     },
