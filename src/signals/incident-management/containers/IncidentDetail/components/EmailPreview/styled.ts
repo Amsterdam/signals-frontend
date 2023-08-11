@@ -9,14 +9,13 @@ export const styling = `
     line-height: 22px;
     overflow-wrap: break-word;
     word-break: break-all;
-    word-break: break-word;
     hyphens: auto;
   }
 </style>`
 
 export const StyledIframe = styled.iframe`
   border: none;
-  width: 100%;
+  width: 102%;
   // Set height manually to just over max height over content modal
-  height: 76vh;
+  height: 54vh;
 `

@@ -97,6 +97,10 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
+
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -115,6 +119,9 @@ describe('Detail', () => {
 
     await waitFor(async () => {
       expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
+    })
+    await waitFor(async () => {
+      expect(mockNavigate).toBeCalledTimes(1)
     })
   })
 

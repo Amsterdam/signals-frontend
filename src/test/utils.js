@@ -15,8 +15,8 @@ import MapContext from 'containers/MapContext'
 import loadModels from 'models'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 
-import { ConfirmationProvider } from '../containers/Confirmation'
 import configureStore from '../configureStore'
+import { ConfirmationProvider } from '../containers/Confirmation'
 import constructYupResolver from '../signals/incident/services/yup-resolver'
 
 // set a default screenwidth of 2560 pixels

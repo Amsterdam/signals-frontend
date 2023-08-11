@@ -5,9 +5,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { ConfirmationProvider } from './ConfirmationProvider'
+import Button from '../../components/Button'
 import { useConfirm } from '../../hooks/useConfirm'
 import { withAppContext } from '../../test/utils'
-import Button from '../../components/Button'
 
 const answer = jest.fn()
 const TestButton = () => {
