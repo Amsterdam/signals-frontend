@@ -53,12 +53,6 @@ export const RoleForm = ({
     [setRolePermissions, permissions, rolePermissions]
   )
 
-  useEffect(() => {
-    if (isValid && !readOnly) {
-      handleSubmit(event)
-    }
-  }, [event, isValid, handleSubmit, errors, readOnly])
-
   const navigate = useNavigate()
 
   const handleSubmit = useCallback(
@@ -91,6 +85,12 @@ export const RoleForm = ({
     },
     [onPatchRole, onSaveRole, permissions, role.id]
   )
+
+  useEffect(() => {
+    if (isValid && !readOnly) {
+      handleSubmit(event)
+    }
+  }, [event, isValid, handleSubmit, errors, readOnly])
 
   const handleCancel = useCallback(() => {
     navigate(ROLES_URL)

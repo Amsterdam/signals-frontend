@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useRef, useState, useCallback } from 'react'
 
 /**
@@ -36,7 +36,7 @@ const useFormValidation = (formRef) => {
       ;[...elements].forEach((element) => {
         const {
           name,
-          validity: { valid, valueMissing, typeMismatch, patternMismatch },
+          validity: { valid, valueMissing },
           required,
         } = element
         let error
@@ -44,32 +44,6 @@ const useFormValidation = (formRef) => {
         if (!valid) {
           if (required && valueMissing) {
             error = 'Dit veld is verplicht'
-          }
-
-          if (typeMismatch || patternMismatch) {
-            switch (element.type) {
-              case 'email':
-                error = 'Het veld moet een geldig e-mailadres bevatten'
-                break
-              case 'date':
-                error = 'Het veld moet een geldige datumnotatie bevatten'
-                break
-              case 'number':
-                error = 'Het veld mag alleen nummers bevatten'
-                break
-              case 'tel':
-                error = 'Het veld moet een geldig telefoonnummer bevatten'
-                break
-              case 'time':
-                error = 'Het veld moet een geldige tijdnotatie bevatten'
-                break
-              case 'url':
-                error = 'Het veld moet een geldig url bevatten'
-                break
-              default:
-                error = 'De waarde van het veld voldoet niet'
-                break
-            }
           }
         }
 
