@@ -178,11 +178,11 @@ const KtoForm = ({
                     trigger('text_list')
                   }}
                   formValidation={{
-                    errors: errors,
-                    trigger: trigger,
-                    setValue: setValue,
-                    register: register,
-                    unregister: unregister,
+                    errors,
+                    trigger,
+                    setValue,
+                    register,
+                    unregister,
                   }}
                 />
               ) : (
@@ -205,10 +205,10 @@ const KtoForm = ({
                   options={options}
                   formValidation={{
                     selectedRadioButton: getValues().text_list[0],
-                    errors: errors,
-                    trigger: trigger,
-                    setValue: setValue,
-                    register: register,
+                    errors,
+                    trigger,
+                    setValue,
+                    register,
                   }}
                 />
               )}
