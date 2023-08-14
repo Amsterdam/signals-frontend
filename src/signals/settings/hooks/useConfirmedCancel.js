@@ -2,8 +2,12 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useNavigate } from 'react-router-dom'
 
+import { useConfirm } from 'hooks/useConfirm'
+
 export const confirmationMessage =
   'Niet opgeslagen gegevens gaan verloren. Doorgaan?'
+
+export const title = 'Bevestig uw keuze'
 
 /**
  * Custom hook useConfirmedCancel
@@ -15,14 +19,18 @@ export const confirmationMessage =
  */
 const useConfirmedCancel = (redirectURL) => {
   const navigate = useNavigate()
+  const { isConfirmed } = useConfirm()
 
   /**
    * redirect function
    *
    * @param {Boolean} isPristine - Flag indicating if the form data has changed
    */
-  return (isPristine) => {
-    if (isPristine || (!isPristine && global.confirm(confirmationMessage))) {
+  return async (isPristine) => {
+    if (
+      isPristine ||
+      (!isPristine && (await isConfirmed(title, confirmationMessage)))
+    ) {
       navigate(redirectURL)
     }
   }

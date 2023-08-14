@@ -3,7 +3,13 @@
 import { renderHook } from '@testing-library/react-hooks'
 import * as reactRouterDom from 'react-router-dom'
 
-import useConfirmedCancel, { confirmationMessage } from './useConfirmedCancel'
+import { ConfirmationProvider } from 'containers/Confirmation/ConfirmationProvider'
+import * as useConfirm from 'hooks/useConfirm'
+
+import useConfirmedCancel, {
+  confirmationMessage,
+  title,
+} from './useConfirmedCancel'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -11,52 +17,50 @@ jest.mock('react-router-dom', () => ({
 }))
 
 const navigateMock = jest.fn()
+const isConfirmedMock = jest.fn()
+
+jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
+  return {
+    isConfirmed: isConfirmedMock,
+  }
+})
+
 jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateMock)
 
 const redirectURL = 'https://redirect-me-here'
 
-global.window.confirm = jest.fn()
-
 describe('signals/settings/hooks/useConfirmedCancel', () => {
-  it('should redirect', () => {
-    const pristine = true
-    const { result } = renderHook(() => useConfirmedCancel(redirectURL))
+  it('should navigate when isPristine is true, or isPristine is false and IsCOnfirmed is true', async () => {
+    const renderhookOptions = {
+      wrapper: ({ children }) => (
+        <ConfirmationProvider>{children}</ConfirmationProvider>
+      ),
+    }
+    const { result } = renderHook(
+      () => useConfirmedCancel(redirectURL),
+      renderhookOptions
+    )
 
-    expect(navigateMock).not.toHaveBeenCalled()
+    expect(isConfirmedMock).not.toHaveBeenCalled()
 
-    result.current(pristine)
+    await result.current(true)
 
-    expect(navigateMock).toHaveBeenCalledWith(redirectURL)
-
-    expect(global.window.confirm).not.toHaveBeenCalled()
-  })
-
-  it('should show a confirm', () => {
-    const { result } = renderHook(() => useConfirmedCancel(redirectURL))
-
-    expect(global.window.confirm).not.toHaveBeenCalled()
-
-    result.current(true)
-
-    expect(global.window.confirm).not.toHaveBeenCalled()
-
+    expect(isConfirmedMock).not.toHaveBeenCalled()
     expect(navigateMock).toHaveBeenCalled()
 
     navigateMock.mockReset()
 
-    result.current(false)
+    await result.current(false)
 
-    expect(global.window.confirm).toHaveBeenCalledWith(confirmationMessage)
-
+    expect(isConfirmedMock).toHaveBeenCalledWith(title, confirmationMessage)
     expect(navigateMock).not.toHaveBeenCalled()
 
-    global.window.confirm.mockReset()
-    global.window.confirm.mockReturnValue(true)
+    isConfirmedMock.mockReset()
+    isConfirmedMock.mockReturnValue(true)
 
-    result.current(false)
+    await result.current(false)
 
-    expect(global.window.confirm).toHaveBeenCalledWith(confirmationMessage)
-
+    expect(isConfirmedMock).toHaveBeenCalledWith(title, confirmationMessage)
     expect(navigateMock).toHaveBeenCalledWith(redirectURL)
   })
 })

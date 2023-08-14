@@ -2,10 +2,10 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { SyntheticEvent } from 'react'
 
+import ModalDialog from 'components/ModalDialog'
 import type { StandardText as StandardTextType } from 'types/api/standard-texts'
 import type { StatusCode } from 'types/status-code'
 
-import ModalDialog from '../../../ModalDialog'
 import {
   StyledDefaultText,
   StyledTitle,

@@ -6,6 +6,7 @@ import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import { withContext } from 'components/Summary/Summary.test'
+import * as useConfirm from 'hooks/useConfirm'
 import { subCategories } from 'utils/__tests__/fixtures'
 import historyJSON from 'utils/__tests__/fixtures/history.json'
 
@@ -24,11 +25,18 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({ categoryId: '145' }),
 }))
 
-global.window.confirm = jest.fn()
+const isConfirmedMock = jest.fn()
+const origUseConfirm = useConfirm.useConfirm
 
 const navigateSpy = jest.fn()
 jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
-
+jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
+  const orig = origUseConfirm()
+  return {
+    ...orig,
+    isConfirmed: isConfirmedMock,
+  }
+})
 const categoryJSON = subCategories?.find((sub) => sub?._links['sia:parent'])
 
 const defaultProps: Props = {
@@ -43,6 +51,13 @@ describe('Detail', () => {
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue(jest.fn(() => true))
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
+    jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
+      const orig = origUseConfirm()
+      return {
+        ...orig,
+        isConfirmed: isConfirmedMock,
+      }
+    })
 
     mockRequestHandler({
       status: 200,
@@ -130,13 +145,13 @@ describe('Detail', () => {
     // no changes to data in form fields
     userEvent.click(cancelButton)
 
-    expect(global.window.confirm).toHaveBeenCalledTimes(0)
+    expect(isConfirmedMock).toHaveBeenCalledTimes(0)
 
     // changes made, data differs from initial API data
     userEvent.type(nameField, 'Some other value')
 
     userEvent.click(cancelButton)
-    expect(global.window.confirm).toHaveBeenCalledTimes(1)
+    expect(isConfirmedMock).toHaveBeenCalledTimes(1)
   })
 
   it('should call patch on submit', async () => {

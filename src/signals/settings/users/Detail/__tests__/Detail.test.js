@@ -6,6 +6,7 @@ import { act } from 'react-dom/test-utils'
 import * as reactRouterDom from 'react-router-dom'
 
 import * as appSelectors from 'containers/App/selectors'
+import * as useConfirm from 'hooks/useConfirm'
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import configuration from 'shared/services/configuration/configuration'
@@ -30,6 +31,7 @@ jest.mock('containers/App/selectors', () => ({
 }))
 
 const navigateMock = jest.fn()
+const isConfirmedMock = jest.fn()
 
 jest.mock('models/departments/selectors', () => ({
   __esModule: true,
@@ -40,6 +42,12 @@ jest.mock('models/roles/selectors', () => ({
   __esModule: true,
   ...jest.requireActual('models/roles/selectors'),
 }))
+
+jest.spyOn(useConfirm, 'useConfirm').mockImplementation(() => {
+  return {
+    isConfirmed: isConfirmedMock,
+  }
+})
 
 jest
   .spyOn(modelSelectors, 'makeSelectDepartments')
@@ -430,7 +438,7 @@ describe('signals/settings/users/containers/Detail', () => {
   it('should direct to the overview page when cancel button is clicked and form data is pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}))
 
-    global.window.confirm = jest.fn()
+    isConfirmedMock.confirm = jest.fn()
 
     const { findByTestId, rerender, getByTestId } = render(
       withAppContext(<UserDetail />)
@@ -444,7 +452,7 @@ describe('signals/settings/users/containers/Detail', () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
-    expect(global.window.confirm).not.toHaveBeenCalled()
+    expect(isConfirmedMock).not.toHaveBeenCalled()
 
     expect(navigateMock).toHaveBeenCalledTimes(1)
     expect(navigateMock).toHaveBeenCalledWith(
@@ -459,7 +467,7 @@ describe('signals/settings/users/containers/Detail', () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
-    expect(global.window.confirm).not.toHaveBeenCalled()
+    expect(isConfirmedMock).not.toHaveBeenCalled()
     expect(navigateMock).toHaveBeenCalledTimes(2)
     expect(navigateMock).toHaveBeenCalledWith(
       expect.stringContaining(routes.users)
@@ -468,8 +476,6 @@ describe('signals/settings/users/containers/Detail', () => {
 
   it('should direct to the overview page when cancel button is clicked and form data is NOT pristine', async () => {
     jest.spyOn(reactRouterDom, 'useLocation').mockImplementation(() => ({}))
-
-    global.window.confirm = jest.fn()
 
     const { findByTestId, getByTestId } = render(withAppContext(<UserDetail />))
 
@@ -488,16 +494,16 @@ describe('signals/settings/users/containers/Detail', () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
-    expect(global.window.confirm).toHaveBeenCalledTimes(1)
+    expect(isConfirmedMock).toHaveBeenCalledTimes(1)
     expect(navigateMock).toHaveBeenCalledTimes(0)
 
-    global.window.confirm.mockReturnValue(true)
+    isConfirmedMock.mockReturnValue(true)
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(getByTestId('cancel-btn'))
     })
 
-    expect(global.window.confirm).toHaveBeenCalledTimes(2)
+    expect(isConfirmedMock).toHaveBeenCalledTimes(2)
     expect(navigateMock).toHaveBeenCalledTimes(1)
     expect(navigateMock).toHaveBeenCalledWith(
       expect.stringContaining(routes.users)
@@ -509,8 +515,6 @@ describe('signals/settings/users/containers/Detail', () => {
     jest
       .spyOn(reactRouterDom, 'useLocation')
       .mockImplementation(() => ({ referrer }))
-
-    global.window.confirm = jest.fn()
 
     const { findByTestId, rerender, getByTestId } = render(
       withAppContext(<UserDetail />)
@@ -541,7 +545,10 @@ describe('signals/settings/users/containers/Detail', () => {
     })
 
     // user is only asked for confirmation when form data isn't pristine
-    expect(global.window.confirm).not.toHaveBeenCalled()
+
+    isConfirmedMock.mockReset()
+    isConfirmedMock.mockReturnValue(true)
+    expect(isConfirmedMock).not.toHaveBeenCalled()
     expect(navigateMock).toHaveBeenCalledTimes(2)
     expect(navigateMock).toHaveBeenCalledWith(expect.stringContaining(referrer))
   })

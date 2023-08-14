@@ -16,6 +16,7 @@ import loadModels from 'models'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import configureStore from '../configureStore'
+import { ConfirmationProvider } from '../containers/Confirmation'
 import constructYupResolver from '../signals/incident/services/yup-resolver'
 
 // set a default screenwidth of 2560 pixels
@@ -46,7 +47,9 @@ loadModels(store)
 export const withAppContext = (Component) => (
   <ThemeProvider>
     <Provider store={store}>
-      <Router history={history}>{Component}</Router>
+      <ConfirmationProvider>
+        <Router history={history}>{Component}</Router>
+      </ConfirmationProvider>
     </Provider>
   </ThemeProvider>
 )

@@ -21,6 +21,7 @@ import PageHeader from 'components/PageHeader'
 import RadioButtonList from 'components/RadioButtonList'
 import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { useConfirm } from 'hooks/useConfirm'
 import useFetch from 'hooks/useFetch'
 import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
@@ -56,6 +57,8 @@ const schema = yup.object({
 })
 
 export const Detail = () => {
+  const { isConfirmed } = useConfirm()
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const params = useParams()
@@ -108,8 +111,12 @@ export const Detail = () => {
     navigate(redirectURL)
   }
 
-  const handleOnDelete = () => {
-    del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
+  const handleOnDelete = async () => {
+    const confirmed = await isConfirmed(
+      'Let op, je verwijdert de standaardtekst',
+      'Er is geen back-up beschikbaar.'
+    )
+    if (confirmed) del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
   }
 
   useEffect(() => {

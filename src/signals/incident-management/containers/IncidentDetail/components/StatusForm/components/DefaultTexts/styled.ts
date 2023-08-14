@@ -27,7 +27,5 @@ export const StyledTitle = styled.div`
 `
 
 export const Wrapper = styled.div`
-  padding: ${themeSpacing(5, 4)};
-  overflow: auto;
   height: 100%;
 `

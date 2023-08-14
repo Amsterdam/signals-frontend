@@ -28,6 +28,7 @@ import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
 import useDefaultHeader from '../../hooks/useDefaultHeader'
 import useTallHeader from '../../hooks/useTallHeader'
+import { ConfirmationProvider } from '../Confirmation'
 
 const ContentContainer = styled.div<{
   padding: { top: number; bottom: number }
@@ -105,80 +106,83 @@ export const AppContainer = () => {
   return (
     <ThemeProvider>
       <AppContext.Provider value={contextValue}>
-        <Fragment>
-          {!configuration.featureFlags.appMode && defaultHeader && (
-            <SiteHeaderContainer />
-          )}
+        <ConfirmationProvider>
+          <Fragment>
+            {!configuration.featureFlags.appMode && defaultHeader && (
+              <SiteHeaderContainer />
+            )}
 
-          <ContentContainer
-            padding={{
-              top: headerIsTall ? 0 : 50,
-              bottom: getIsAuthenticated() ? 20 : 0,
-            }}
-          >
-            <Suspense fallback={<LoadingIndicator />}>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<Navigate to="incident/beschrijf" replace />}
-                />
-                <Route
-                  path="login"
-                  element={<Navigate to="/manage" replace />}
-                />
-                <Route
-                  path="manage"
-                  element={<Navigate to="/manage/incidents" replace />}
-                />
-                <Route
-                  path="/manage/*"
-                  element={<IncidentManagementModule />}
-                />
-                <Route path="/instellingen/*" element={<SettingsModule />} />
-                {configuration.featureFlags.enablePublicIncidentsMap && (
+            <ContentContainer
+              padding={{
+                top: headerIsTall ? 0 : 50,
+                bottom: getIsAuthenticated() ? 20 : 0,
+              }}
+            >
+              <Suspense fallback={<LoadingIndicator />}>
+                <Routes>
                   <Route
-                    path="/meldingenkaart"
-                    element={<IncidentMapContainer />}
+                    path="/"
+                    element={<Navigate to="incident/beschrijf" replace />}
                   />
-                )}
-                {configuration.featureFlags.enableMyIncidents && (
-                  <Route path="/mijn-meldingen/*" element={<MyIncidents />} />
-                )}
-                <Route
-                  path="/incident/reactie/:uuid"
-                  element={<IncidentReplyContainer />}
-                />
-                {configuration.featureFlags.enableForwardIncidentToExternal && (
                   <Route
-                    path="/incident/extern/:id"
-                    element={<ExternalReplyContainer />}
+                    path="login"
+                    element={<Navigate to="/manage" replace />}
                   />
-                )}
-                <Route path="/incident/*" element={<IncidentContainer />} />
-                {configuration.featureFlags.enablePublicSignalMap && (
                   <Route
-                    path="/kaart"
-                    element={<IncidentOverviewContainer />}
+                    path="manage"
+                    element={<Navigate to="/manage/incidents" replace />}
                   />
-                )}
-                <Route
-                  path="/kto/:satisfactionIndication/:uuid"
-                  element={<KtoContainer />}
-                />
-                <Route
-                  path="/categorie/:category/:subcategory"
-                  element={<IncidentContainer />}
-                />
-                <Route
-                  path="/toegankelijkheidsverklaring"
-                  element={<Toegankelijkheidsverklaring />}
-                />
-                <Route path={'*'} element={<SettingsModule />} />
-              </Routes>
-            </Suspense>
-          </ContentContainer>
-          <Footer />
-        </Fragment>
+                  <Route
+                    path="/manage/*"
+                    element={<IncidentManagementModule />}
+                  />
+                  <Route path="/instellingen/*" element={<SettingsModule />} />
+                  {configuration.featureFlags.enablePublicIncidentsMap && (
+                    <Route
+                      path="/meldingenkaart"
+                      element={<IncidentMapContainer />}
+                    />
+                  )}
+                  {configuration.featureFlags.enableMyIncidents && (
+                    <Route path="/mijn-meldingen/*" element={<MyIncidents />} />
+                  )}
+                  <Route
+                    path="/incident/reactie/:uuid"
+                    element={<IncidentReplyContainer />}
+                  />
+                  {configuration.featureFlags
+                    .enableForwardIncidentToExternal && (
+                    <Route
+                      path="/incident/extern/:id"
+                      element={<ExternalReplyContainer />}
+                    />
+                  )}
+                  <Route path="/incident/*" element={<IncidentContainer />} />
+                  {configuration.featureFlags.enablePublicSignalMap && (
+                    <Route
+                      path="/kaart"
+                      element={<IncidentOverviewContainer />}
+                    />
+                  )}
+                  <Route
+                    path="/kto/:satisfactionIndication/:uuid"
+                    element={<KtoContainer />}
+                  />
+                  <Route
+                    path="/categorie/:category/:subcategory"
+                    element={<IncidentContainer />}
+                  />
+                  <Route
+                    path="/toegankelijkheidsverklaring"
+                    element={<Toegankelijkheidsverklaring />}
+                  />
+                  <Route path={'*'} element={<SettingsModule />} />
+                </Routes>
+              </Suspense>
+            </ContentContainer>
+            <Footer />
+          </Fragment>
+        </ConfirmationProvider>
       </AppContext.Provider>
     </ThemeProvider>
   )

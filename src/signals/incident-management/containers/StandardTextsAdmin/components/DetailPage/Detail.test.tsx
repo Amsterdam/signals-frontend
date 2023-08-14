@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { render, screen, waitFor } from '@testing-library/react'
+import { getByRole, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
@@ -15,6 +15,8 @@ import * as API from '../../../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
+  rest,
+  server,
 } from '../../../../../../../internals/testing/msw-server'
 import { mockSubcategory } from '../../_test_/mock-subcategories'
 
@@ -40,12 +42,15 @@ jest.mock('react-router-dom', () => ({
 }))
 
 describe('Detail', () => {
+  let success: boolean
   beforeEach(() => {
     jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ id: `${id}` }))
+
+    success = false
   })
 
   afterEach(() => {
@@ -92,6 +97,10 @@ describe('Detail', () => {
   })
 
   it('navigates to the previous page when there is a change and the button Opslaan is clicked', async () => {
+    jest
+      .spyOn(reactRouterDom, 'useNavigate')
+      .mockImplementation(() => mockNavigate)
+
     render(withAppContext(<Detail />))
 
     await waitFor(() => {
@@ -111,6 +120,9 @@ describe('Detail', () => {
     await waitFor(async () => {
       expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
     })
+    await waitFor(async () => {
+      expect(mockNavigate).toBeCalledTimes(1)
+    })
   })
 
   it('navigates to the previous page when there is no change and the button Opslaan is clicked', async () => {
@@ -126,15 +138,40 @@ describe('Detail', () => {
     })
   })
 
-  it('deletes the standard text when the button Verwijderen is pressed', () => {
-    jest
-      .spyOn(reactRouterDom, 'useNavigate')
-      .mockImplementation(() => mockNavigate)
+  it('deletes the standard text when the button Verwijderen -> Bevestig is pressed', async () => {
+    server.use(
+      rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
+        success = true
+        return res(ctx.status(202))
+      })
+    )
+
     render(withAppContext(<Detail />))
 
     userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
+    userEvent.click(screen.getByRole('button', { name: 'Bevestig' }))
 
-    expect(mockNavigate).toBeCalledWith('../')
+    await waitFor(() => expect(success).toEqual(true))
+  })
+
+  it("doesn't delete the standard text when the button Verwijderen-> Annuleer is pressed", async () => {
+    server.use(
+      rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
+        success = true
+        return res(ctx.status(202))
+      })
+    )
+
+    render(withAppContext(<Detail />))
+
+    userEvent.click(screen.getByRole('button', { name: 'Verwijderen' }))
+    userEvent.click(
+      getByRole(screen.getByTestId('modal-dialog'), 'button', {
+        name: 'Annuleer',
+      })
+    )
+
+    await waitFor(() => expect(success).toEqual(false))
   })
 
   it('navigates to previous page when Annuleren is pressed', () => {
