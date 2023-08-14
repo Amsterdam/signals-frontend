@@ -9,6 +9,7 @@ import type {
   UseFormRegister,
   UseFormSetValue,
   UseFormTrigger,
+  UseFormUnregister,
 } from 'react-hook-form'
 import styled, { css } from 'styled-components'
 
@@ -121,6 +122,7 @@ export type CheckboxListProps<T = Option> = {
     trigger: UseFormTrigger<any>
     setValue: UseFormSetValue<any>
     register: UseFormRegister<any>
+    unregister: UseFormUnregister<any>
   }
 }
 
@@ -260,6 +262,9 @@ const CheckboxList = <T extends Option>({
         } else {
           const option = getChecked(target.dataset.id)
 
+          option?.open_answer &&
+            formValidation?.unregister(`open_answer-${option?.value}`)
+
           option && modifiedState.delete(option)
         }
 
@@ -281,7 +286,16 @@ const CheckboxList = <T extends Option>({
         return modifiedState
       })
     },
-    [getChecked, getOption, groupValue, name, numOptions, onChange, onToggle]
+    [
+      formValidation,
+      getChecked,
+      getOption,
+      groupValue,
+      name,
+      numOptions,
+      onChange,
+      onToggle,
+    ]
   )
 
   /**

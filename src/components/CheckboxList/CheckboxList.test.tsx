@@ -671,6 +671,7 @@ describe('signals/incident-management/components/CheckboxList', () => {
       trigger: jest.fn(),
       setValue: jest.fn(),
       register: jest.fn(),
+      unregister: jest.fn(),
     }
 
     render(
