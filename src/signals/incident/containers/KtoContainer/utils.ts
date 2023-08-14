@@ -1,5 +1,3 @@
-import type { FetchError } from 'hooks/useFetch'
-
 import type { FormData, OptionMapped } from './types'
 
 const mergeAnswers = (
@@ -51,12 +49,6 @@ export const sortByTopic = (array: OptionMapped[]) => {
       return 0
     }
   })
-}
-
-export const isFetchError = (
-  error?: boolean | FetchError
-): error is FetchError => {
-  return (error as FetchError).detail !== undefined
 }
 
 export const stripLastNonLetterChar = (inputString: string) => {

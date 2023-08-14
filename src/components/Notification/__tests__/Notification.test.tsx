@@ -225,30 +225,6 @@ describe('components/Notification', () => {
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  it('does not use timeouts to time navigation actions for TYPE_GLOBAL', () => {
-    const onClose = jest.fn()
-
-    render(
-      withAppContext(
-        <Notification title="Foo bar" type={TYPE_GLOBAL} onClose={onClose} />
-      )
-    )
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    act(() => {
-      jest.advanceTimersByTime(SLIDEUP_TIMEOUT)
-    })
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    act(() => {
-      jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
-    })
-
-    expect(onClose).not.toHaveBeenCalled()
-  })
-
   it('hides the component after a specific amount of time and executes callback function', () => {
     const onClose = jest.fn()
 

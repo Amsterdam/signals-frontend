@@ -6,7 +6,7 @@ import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import {
-  TYPE_LOCAL,
+  TYPE_GLOBAL,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
@@ -31,6 +31,12 @@ jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
 
+const defaultProps = {
+  entityName: 'Categorie',
+  isLoading: false,
+  redirectURL: '../overview',
+}
+
 describe('signals/settings/hooks/useFetchResponseNotification', () => {
   afterEach(() => {
     navigateSpy.mockReset()
@@ -39,18 +45,25 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
 
   it('should not do anything', () => {
     renderHook(() =>
-      withAppContext(useFetchResponseNotification({ isLoading: true }))
-    )
-
-    renderHook(() =>
       withAppContext(
-        useFetchResponseNotification({ isLoading: true, error: new Error() })
+        useFetchResponseNotification({ ...defaultProps, isLoading: true })
       )
     )
 
     renderHook(() =>
       withAppContext(
         useFetchResponseNotification({
+          ...defaultProps,
+          isLoading: true,
+          error: new Error(),
+        })
+      )
+    )
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
           isLoading: true,
           error: new Error(),
           isSuccess: true,
@@ -59,7 +72,7 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
     )
 
     renderHook(() =>
-      withAppContext(useFetchResponseNotification({ isLoading: false }))
+      withAppContext(useFetchResponseNotification({ ...defaultProps }))
     )
 
     expect(dispatch).not.toHaveBeenCalled()
@@ -69,10 +82,15 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
   it('should dispatch error', () => {
     const title = 'Keyboard not found. Press F1 to continue.'
     const variant = VARIANT_ERROR
-    const type = TYPE_LOCAL
+    const type = TYPE_GLOBAL
 
     renderHook(() =>
-      withAppContext(useFetchResponseNotification({ error: new Error(title) }))
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
+          error: new Error(title),
+        })
+      )
     )
 
     expect(dispatch).toHaveBeenCalledWith(
@@ -83,24 +101,24 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
   })
 
   it('should dispatch success', () => {
-    const type = TYPE_LOCAL
+    const type = TYPE_GLOBAL
     const variant = VARIANT_SUCCESS
 
     renderHook(() =>
       withAppContext(
-        useFetchResponseNotification({ isSuccess: true, isExisting: true })
+        useFetchResponseNotification({ ...defaultProps, isSuccess: true })
       )
     )
 
     expect(dispatch).toHaveBeenLastCalledWith(
-      showGlobalNotification({ title: 'Gegevens bijgewerkt', variant, type })
+      showGlobalNotification({ title: 'Categorie bijgewerkt', variant, type })
     )
 
     renderHook(() =>
       withAppContext(
         useFetchResponseNotification({
+          ...defaultProps,
           isSuccess: true,
-          isExisting: true,
           entityName: 'Gebruiker',
         })
       )
@@ -109,8 +127,6 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({ title: 'Gebruiker bijgewerkt', variant, type })
     )
-
-    expect(navigateSpy).not.toHaveBeenCalled()
   })
 
   it('should redirect', () => {
@@ -118,7 +134,11 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
 
     renderHook(() =>
       withAppContext(
-        useFetchResponseNotification({ isSuccess: true, redirectURL })
+        useFetchResponseNotification({
+          ...defaultProps,
+          isSuccess: true,
+          redirectURL,
+        })
       )
     )
 

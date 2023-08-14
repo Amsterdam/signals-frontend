@@ -7,33 +7,29 @@ import { useNavigate } from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
 import {
-  TYPE_LOCAL,
+  TYPE_GLOBAL,
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
-// eslint-disable-next-line no-unused-vars
-import { State } from 'hooks/useFetch'
+import type { FetchError } from 'hooks/useFetch'
 
-/**
- * Custom hook useConfirmedCancel
- *
- * Will take a URL and can be used as onCancel callback for forms
- *
- * @param {Object} options
- * @param {String} options.entityName - Name by which the stored/patched data should be labeled (eg. 'Afdeling')
- * @param {State['error']} options.error - Exception object
- * @param {Boolean} options.isLoading - Flag indicating if data is still loading
- * @param {State['error']} options.isSuccess - Flag indicating if data has been stored/patched successfully
- * @param {String} options.redirectURL - URL to which the push should be directed when isSuccess is truthy
- * @returns {void}
- */
+import { isFetchError } from '../../shared/type-guards'
+
+interface Props {
+  entityName: string // Name by which the stored/patched data should be labeled (eg. 'Afdeling')
+  isLoading: boolean // Flag indicating if data is still loading
+  redirectURL: string // URL to which the push should be directed when isSuccess is truthy
+  isSuccess?: boolean // Flag indicating if data has been stored/patched successfully
+  error?: boolean | FetchError // Exception object
+}
+
 const useFetchResponseNotification = ({
   entityName,
   error,
   isLoading,
   isSuccess,
   redirectURL,
-}) => {
+}: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const showNotification = useCallback(
@@ -42,7 +38,7 @@ const useFetchResponseNotification = ({
         showGlobalNotification({
           variant,
           title,
-          type: TYPE_LOCAL,
+          type: TYPE_GLOBAL,
         })
       ),
     [dispatch]
@@ -54,7 +50,7 @@ const useFetchResponseNotification = ({
     let message
     let variant = VARIANT_SUCCESS
 
-    if (error) {
+    if (error && isFetchError(error)) {
       ;({ message } = error)
       variant = VARIANT_ERROR
     }
