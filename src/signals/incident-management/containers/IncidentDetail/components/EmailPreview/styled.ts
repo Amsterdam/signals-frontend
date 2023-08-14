@@ -10,12 +10,12 @@ export const styling = `
     overflow-wrap: break-word;
     word-break: break-all;
     hyphens: auto;
+    margin-left: 0%;
   }
 </style>`
 
 export const StyledIframe = styled.iframe`
   border: none;
-  width: 102%;
-  // Set height manually to just over max height over content modal
-  height: 54vh;
+  width: 100%;
+  height: 100%;
 `

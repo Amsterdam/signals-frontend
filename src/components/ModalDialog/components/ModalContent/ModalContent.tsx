@@ -2,16 +2,15 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
-import { Wrapper } from './styled'
+import { Content, Wrapper } from './styled'
 
 export type Props = {
   children?: ReactNode
+  $hasIframe: boolean
 }
 
-export const ModalContent = ({ children }: Props) => {
-  return (
-    <Wrapper>
-      <div data-testid="modal-content">{children}</div>
-    </Wrapper>
-  )
-}
+export const ModalContent = ({ children, $hasIframe }: Props) => (
+  <Wrapper $hasIframe={$hasIframe}>
+    <Content data-testid="modal-content">{children}</Content>
+  </Wrapper>
+)

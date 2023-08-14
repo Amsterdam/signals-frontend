@@ -37,6 +37,7 @@ const EmailPreview = ({
       onConfirm={onUpdate}
       submitBtnLabel="Verstuur"
       title={title}
+      $hasIframe={true}
     >
       {isLoading && <LoadingIndicator />}
       {emailBody && (

@@ -15,6 +15,7 @@ export type ModalDialogProps = {
   open?: boolean
   title: string
   submitBtnLabel?: string
+  $hasIframe?: boolean
 }
 
 const ModalDialog = ({
@@ -26,10 +27,16 @@ const ModalDialog = ({
   open = true,
   submitBtnLabel = 'Bevestig',
   title,
+  $hasIframe = false,
 }: ModalDialogProps) => (
-  <StyledModal open={open} onClose={onClose} data-testid="modal-dialog">
+  <StyledModal
+    open={open}
+    onClose={onClose}
+    data-testid="modal-dialog"
+    $hasIframe={$hasIframe}
+  >
     <ModalHeader title={title} onClose={onClose} />
-    <ModalContent>{children}</ModalContent>
+    <ModalContent $hasIframe={$hasIframe}>{children}</ModalContent>
     {isConfirmation && (
       <StyledFormFooter
         cancelBtnLabel={cancelBtnLabel}
