@@ -15,7 +15,6 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import useGetIncidentContextGeography from 'hooks/api/useGetContextGeography'
 import useGetIncident from 'hooks/api/useGetIncident'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
 
 import Filter from './components/Filter'
 import IncidentDetail from './components/IncidentDetail'
@@ -84,10 +83,7 @@ export const AreaContainer: FunctionComponent = () => {
     }
   }, [getIncidentContextGeography, id])
 
-  const handleClose = useCallback(
-    () => navigate(`${INCIDENT_URL}/${id}`),
-    [navigate, id]
-  )
+  const handleClose = useCallback(() => navigate(-1), [navigate])
 
   const startDate = subWeeks(new Date(), 12).toISOString()
 
