@@ -11,9 +11,12 @@ export const StyledModal = styled(Modal)<{ $hasIframe: boolean }>`
   flex-direction: column;
   justify-content: space-between;
 
+  // Set height manually since an iFrame does not enlarge the modal
   ${({ $hasIframe }) => ($hasIframe ? 'height: 75%' : 'height: auto')}
 `
 export const StyledFormFooter = styled(FormFooter)`
   padding-left: ${themeSpacing(4)};
+  padding-bottom: ${themeSpacing(4)};
+  padding-top: unset;
   height: 44px;
 `

@@ -7,10 +7,8 @@ export const styling = `
   *{
     font-family: Amsterdam Sans, sans-serif;
     line-height: 22px;
-    overflow-wrap: break-word;
-    word-break: break-all;
     hyphens: auto;
-    margin-left: 0%;
+    margin-left: unset;
   }
 </style>`
 
