@@ -118,7 +118,10 @@ export const OverviewPage = () => {
 
         <ListWrapper>
           <form onSubmit={onSearchSubmit}>
-            <Label htmlFor="Searchbar" label="Zoek op standaardtekst">
+            <Label
+              htmlFor="Searchbar"
+              label={`Zoek op standaardtekst (${data?.count ?? 0})`}
+            >
               <SearchBar
                 id="Searchbar"
                 value={searchQuery}
