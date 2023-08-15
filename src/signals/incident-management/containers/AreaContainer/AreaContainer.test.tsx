@@ -6,16 +6,15 @@ import * as reactRouterDom from 'react-router-dom'
 
 import type { Feature } from 'components/AreaMap/types'
 import * as actions from 'containers/App/actions'
-import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
 import { StatusCode as mockStatusCode } from 'types/status-code'
 
-import AreaContainer from '..'
-import * as API from '../../../../../../internals/testing/api'
+import AreaContainer from '.'
+import * as API from '../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
-} from '../../../../../../internals/testing/msw-server'
+} from '../../../../../internals/testing/msw-server'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -102,7 +101,7 @@ describe('<AreaContainer />', () => {
 
     userEvent.click(closeButton)
 
-    expect(navigateSpy).toHaveBeenCalledWith(`${INCIDENT_URL}/${ID}`)
+    expect(navigateSpy).toHaveBeenCalledWith(-1)
   })
 
   it('should show the incident bar when a marker has been selected', async () => {
