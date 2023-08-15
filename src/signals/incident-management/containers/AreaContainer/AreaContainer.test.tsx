@@ -29,11 +29,11 @@ jest.spyOn(reactRouterDom, 'useParams').mockImplementation(() => ({
   id: ID,
 }))
 
-jest.mock('../components/Filter', () => () => (
+jest.mock('./components/Filter', () => () => (
   <div data-testid="filter">filter</div>
 ))
 jest.mock(
-  '../components/IncidentDetail',
+  './components/IncidentDetail',
   () =>
     ({ onBack }: { onBack: () => void }) => {
       return (
