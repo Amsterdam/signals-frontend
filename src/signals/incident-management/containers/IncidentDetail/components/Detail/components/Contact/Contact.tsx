@@ -12,7 +12,7 @@ import {
 import { useParams } from 'react-router-dom'
 
 import Edit from './Edit'
-import { StyledEditButton, StyledLink } from './styled'
+import { StyledDD, StyledEditButton, StyledLink } from './styled'
 import { useFetch } from '../../../../../../../../hooks'
 import configuration from '../../../../../../../../shared/services/configuration/configuration'
 import type { Incident } from '../../../../../../../../types/incident'
@@ -73,7 +73,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
       {showEdit ? (
         <Edit incident={incident} submit={submit} onClose={onClose} />
       ) : (
-        <dd data-testid="detail-phone-value" style={{ position: 'relative' }}>
+        <StyledDD data-testid="detail-phone-value">
           <StyledEditButton
             data-testid="edit-contact-button"
             icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
@@ -95,7 +95,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
           ) : (
             incident.reporter.phone
           )}
-        </dd>
+        </StyledDD>
       )}
 
       <dt data-testid="detail-email-definition">E-mail melder</dt>

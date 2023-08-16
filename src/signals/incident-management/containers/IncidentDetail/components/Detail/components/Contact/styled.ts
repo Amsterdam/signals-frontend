@@ -40,3 +40,7 @@ export const StyledInput = styled(Input)<{ showError?: boolean }>`
     margin-top: 4px;
   }
 `
+
+export const StyledDD = styled.dd`
+  position: relative;
+`

@@ -24,12 +24,12 @@
       "updated_at": "2023-08-16T09:06:52.860Z"
     },
      {
-      "id": 0,
+      "id": 1,
       "email": "bakkie@example.com",
       "phone": "string",
       "allows_contact": true,
       "sharing_allowed": true,
-      "state": "string",
+      "state": "verification_email_sent",
       "email_verification_token_expires": "2023-08-16T09:06:52.860Z",
       "created_at": "2023-08-16T09:06:52.860Z",
       "updated_at": "2023-08-16T09:06:52.860Z"

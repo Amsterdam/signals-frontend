@@ -305,6 +305,8 @@ const handlers = [
     res(ctx.status(200))
   ),
 
+  rest.post(API.SIGNAL_REPORTER, (_req, res, ctx) => res(ctx.status(200))),
+
   rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(204), ctx.json(null))
   ),
