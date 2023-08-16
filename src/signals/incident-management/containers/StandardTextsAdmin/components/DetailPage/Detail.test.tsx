@@ -6,7 +6,7 @@ import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
 import { showGlobalNotification } from 'containers/App/actions'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
+import { TYPE_GLOBAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { withAppContext } from 'test/utils'
 
 import { Detail } from './Detail'
@@ -133,7 +133,7 @@ describe('Detail', () => {
 
     await waitFor(() => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-      expect(mockNavigate).toBeCalledWith('../')
+      expect(mockNavigate).toBeCalledWith(-1)
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     })
   })
@@ -182,7 +182,7 @@ describe('Detail', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
 
-    expect(mockNavigate).toBeCalledWith('../')
+    expect(mockNavigate).toBeCalledWith(-1)
   })
 
   it('should change the state', () => {
@@ -265,7 +265,7 @@ describe('Detail', () => {
             title: 'Interne fout op de server. Probeer het nogmaals',
             message: 'De standaardtekst kon niet worden opgehaald',
             variant: VARIANT_ERROR,
-            type: TYPE_LOCAL,
+            type: TYPE_GLOBAL,
           })
         )
       })
@@ -326,7 +326,7 @@ describe('Detail', () => {
 
       await waitFor(() => {
         userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-        expect(mockNavigate).toBeCalledWith('../')
+        expect(mockNavigate).toBeCalledWith(-1)
       })
     })
   })
