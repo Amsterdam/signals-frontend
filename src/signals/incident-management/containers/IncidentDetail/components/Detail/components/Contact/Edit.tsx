@@ -26,8 +26,10 @@ const Edit = ({ onClose, incident, submit }: Props) => {
         'E-mailadres mag niet leeg zijn. Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl.'
       ),
     phone: yup
-      .number()
-      .typeError(
+      // test phone number with regex with optional spaces, brackets, + and -
+      .string()
+      .matches(
+        /^(\+|\(|\)|\s|-|[0-9]){3,20}$/,
         'Vul een geldig telefoonnummer in. Alleen cijfers, spaties, haakjes, + en - zijn toegestaan.'
       ),
   })
@@ -48,20 +50,6 @@ const Edit = ({ onClose, incident, submit }: Props) => {
       <Form onSubmit={handleSubmit(submit)}>
         <div>
           <StyledInput
-            {...register('email')}
-            placeholder={'E-mail melder'}
-            defaultValue={incident.reporter.email}
-            showError={!!errors.email}
-          />
-          {errors?.email?.message && (
-            <ErrorMessage
-              data-testid="invalid-email"
-              message={errors.email?.message}
-            />
-          )}
-        </div>
-        <div>
-          <StyledInput
             {...register('phone')}
             placeholder="Telefoon melder"
             defaultValue={incident.reporter.phone}
@@ -71,6 +59,20 @@ const Edit = ({ onClose, incident, submit }: Props) => {
             <ErrorMessage
               data-testid="invalid-phone"
               message={errors.phone?.message}
+            />
+          )}
+        </div>
+        <div>
+          <StyledInput
+            {...register('email')}
+            placeholder={'E-mail melder'}
+            defaultValue={incident.reporter.email}
+            showError={!!errors.email}
+          />
+          {errors?.email?.message && (
+            <ErrorMessage
+              data-testid="invalid-email"
+              message={errors.email?.message}
             />
           )}
         </div>

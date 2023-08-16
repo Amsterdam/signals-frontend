@@ -28,7 +28,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
   const [showEdit, setShowEdit] = useState(false)
   const { post, isSuccess, get, data } = useFetch<Result<SignalReporter>>()
 
-  const { getHistory } = useContext(IncidentDetailContext)
+  const { getHistory, getIncident } = useContext(IncidentDetailContext)
 
   const params = useParams()
 
@@ -43,8 +43,9 @@ export const Contact = ({ incident, showPhone }: Props) => {
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`,
         data
       )
+      onClose()
     },
-    [incident.reporter.sharing_allowed, params.id, post]
+    [incident.reporter.sharing_allowed, onClose, params.id, post]
   )
 
   useEffect(() => {
@@ -53,9 +54,12 @@ export const Contact = ({ incident, showPhone }: Props) => {
         getHistory(
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/history`
         )
-      onClose()
+
+      getIncident &&
+        getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}`)
+      get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
     }
-  }, [getHistory, isSuccess, onClose, params.id])
+  }, [get, getHistory, getIncident, isSuccess, params.id])
 
   useEffect(() => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)

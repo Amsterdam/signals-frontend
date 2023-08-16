@@ -406,6 +406,7 @@ const IncidentDetail = () => {
         getHistory,
         attachments: state?.attachments,
         toggleExternal: toggleExternalDispatch,
+        getIncident,
       }}
     >
       <Row data-testid="incident-detail">

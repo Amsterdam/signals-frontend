@@ -12,6 +12,7 @@ export interface Context {
   preview?: (section: string, payload?: Partial<State>) => void
   edit?: (section: string, payload?: Partial<State>) => void
   close?: () => void
+  getIncident?: (url: string) => void
   getHistory?: (url: string) => void
   toggleExternal?: () => void
   attachments?: Result<Attachment>
