@@ -30,7 +30,7 @@ const Title = styled(Heading)`
 const DefinitionList = styled.dl`
   margin: 0;
   display: grid;
-  grid-template-rows: repeat(5, auto) 1fr;
+  grid-template-rows: repeat(${(p) => p.autoRowsStart}, auto) 1fr;
 
   @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
     column-gap: ${({ theme }) => theme.layouts.medium.gutter}px;
@@ -77,14 +77,15 @@ const Detail = ({ context }) => {
     const phoneNumber = incident.reporter.phone?.replaceAll(' ', '')
     return !/[ *]/.test(phoneNumber)
   }, [incident.reporter.phone])
-
   return (
     <Wrapper data-testid="incident-detail-detail">
       <Title data-testid="detail-title" forwardedAs="h2" styleAs="h4">
         {incident.text}
       </Title>
 
-      <DefinitionList>
+      <DefinitionList
+        autoRowsStart={4 + (memoIncident.extra_properties?.length || 0)}
+      >
         <dt>Overlast</dt>
         <dd>
           {string2date(incident.incident_date_start)}{' '}

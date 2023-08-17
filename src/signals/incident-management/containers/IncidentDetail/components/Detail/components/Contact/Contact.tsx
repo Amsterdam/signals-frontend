@@ -49,7 +49,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
   )
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && data) {
       getHistory &&
         getHistory(
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/history`
@@ -59,7 +59,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
         getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}`)
       get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
     }
-  }, [get, getHistory, getIncident, isSuccess, params.id])
+  }, [get, getHistory, getIncident, isSuccess, params.id, data])
 
   useEffect(() => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
@@ -105,7 +105,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
       <dt data-testid="detail-email-definition">E-mail melder</dt>
       {!showEdit && (
         <dd data-testid="detail-email-value">{`${incident.reporter.email} ${
-          emailChanged ? ' (verificatie e-mail verstuurd)' : ''
+          emailChanged ? ' (verificatie verzonden)' : ''
         }`}</dd>
       )}
     </Fragment>

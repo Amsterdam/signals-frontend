@@ -92,7 +92,7 @@ describe('Contact', () => {
 
   it('should open edit form, change email and submit', async () => {
     const getHistoryMock = jest.fn()
-
+    const getIncidentMock = jest.fn()
     await act(async () => {
       render(
         withAppContext(
@@ -100,6 +100,7 @@ describe('Contact', () => {
             value={{
               update: jest.fn(),
               getHistory: getHistoryMock,
+              getIncident: getIncidentMock,
             }}
           >
             <Contact showPhone incident={incidentFixture} />
@@ -124,6 +125,7 @@ describe('Contact', () => {
 
     await waitFor(() => {
       expect(getHistoryMock).toHaveBeenCalled()
+      expect(getIncidentMock).toHaveBeenCalled()
     })
   })
 
@@ -133,9 +135,7 @@ describe('Contact', () => {
     })
 
     await waitFor(() => {
-      expect(
-        screen.queryByText(/verificatie e-mail verstuurd/)
-      ).toBeInTheDocument()
+      expect(screen.queryByText(/verificatie verzonden/)).toBeInTheDocument()
     })
   })
 })
