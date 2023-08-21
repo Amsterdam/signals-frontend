@@ -12,6 +12,7 @@ import {
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
 import type { FetchError } from 'hooks/useFetch'
+import { RequestType } from 'hooks/useFetch'
 
 import { isFetchError } from '../../shared/type-guards'
 
@@ -21,6 +22,7 @@ interface Props {
   redirectURL: string // URL to which the push should be directed when isSuccess is truthy
   isSuccess?: boolean // Flag indicating if data has been stored/patched successfully
   error?: boolean | FetchError // Exception object
+  requestType?: string // Flag indicating what type of request it is
 }
 
 const useFetchResponseNotification = ({
@@ -29,6 +31,7 @@ const useFetchResponseNotification = ({
   isLoading,
   isSuccess,
   redirectURL,
+  requestType,
 }: Props) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -57,11 +60,29 @@ const useFetchResponseNotification = ({
 
     if (isSuccess) {
       const entityLabel = entityName || 'Gegevens'
-      message = `${entityLabel} bijgewerkt`
+
+      switch (requestType) {
+        case RequestType.DELETE: {
+          message = `${entityLabel} verwijderd`
+          break
+        }
+        case RequestType.PATCH || RequestType.PUT: {
+          message = `${entityLabel} bijgewerkt`
+          break
+        }
+        case RequestType.POST: {
+          message = `${entityLabel} toegevoegd`
+          break
+        }
+        default: {
+          message = `${entityLabel} bijgewerkt`
+          break
+        }
+      }
     }
 
     showNotification(variant, message)
-  }, [entityName, error, isLoading, isSuccess, showNotification])
+  }, [entityName, error, isLoading, isSuccess, showNotification, requestType])
 
   useEffect(() => {
     if (isLoading) return

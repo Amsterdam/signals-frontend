@@ -34,7 +34,7 @@ export const DepartmentDetailContainer = ({
 }) => {
   const { departmentId } = useParams()
   const isExistingDepartment = departmentId !== undefined
-  const { isLoading, isSuccess, data, error, get, patch } = useFetch()
+  const { isLoading, isSuccess, data, error, get, patch, type } = useFetch()
   const confirmedCancel = useConfirmedCancel(routes.departments)
   const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`
   const title = `${entityName} ${
@@ -44,7 +44,7 @@ export const DepartmentDetailContainer = ({
   useFetchResponseNotification({
     entityName,
     error,
-    isExisting: isExistingDepartment,
+    requestType: type,
     isLoading,
     isSuccess,
     redirectURL: routes.departments,

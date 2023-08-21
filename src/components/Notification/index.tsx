@@ -109,6 +109,7 @@ const Notification: FunctionComponent<NotificationProps> = ({
     setShouldHide(true)
 
     const slideUpTimeoutId = window.setTimeout(() => {
+      window.clearTimeout(onCloseTimeoutRef.current)
       window.clearTimeout(slideUpTimeoutRef.current)
 
       /* istanbul ignore else */

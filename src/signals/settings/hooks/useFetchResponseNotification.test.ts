@@ -10,6 +10,7 @@ import {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
 } from 'containers/Notification/constants'
+import { RequestType } from 'hooks/useFetch'
 import { withAppContext } from 'test/utils'
 
 import useFetchResponseNotification from './useFetchResponseNotification'
@@ -126,6 +127,77 @@ describe('signals/settings/hooks/useFetchResponseNotification', () => {
 
     expect(dispatch).toHaveBeenCalledWith(
       showGlobalNotification({ title: 'Gebruiker bijgewerkt', variant, type })
+    )
+  })
+
+  it('should display correct message', () => {
+    const type = TYPE_GLOBAL
+    const variant = VARIANT_SUCCESS
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({ ...defaultProps, isSuccess: true })
+      )
+    )
+
+    expect(dispatch).toHaveBeenLastCalledWith(
+      showGlobalNotification({ title: 'Categorie bijgewerkt', variant, type })
+    )
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
+          isSuccess: true,
+          requestType: RequestType.DELETE,
+        })
+      )
+    )
+
+    expect(dispatch).toHaveBeenLastCalledWith(
+      showGlobalNotification({ title: 'Categorie verwijderd', variant, type })
+    )
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
+          isSuccess: true,
+          requestType: RequestType.PATCH,
+        })
+      )
+    )
+
+    expect(dispatch).toHaveBeenLastCalledWith(
+      showGlobalNotification({ title: 'Categorie bijgewerkt', variant, type })
+    )
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
+          isSuccess: true,
+          requestType: RequestType.PUT,
+        })
+      )
+    )
+
+    expect(dispatch).toHaveBeenLastCalledWith(
+      showGlobalNotification({ title: 'Categorie bijgewerkt', variant, type })
+    )
+
+    renderHook(() =>
+      withAppContext(
+        useFetchResponseNotification({
+          ...defaultProps,
+          isSuccess: true,
+          requestType: RequestType.POST,
+        })
+      )
+    )
+
+    expect(dispatch).toHaveBeenLastCalledWith(
+      showGlobalNotification({ title: 'Categorie toegevoegd', variant, type })
     )
   })
 

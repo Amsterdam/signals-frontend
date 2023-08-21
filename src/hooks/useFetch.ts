@@ -13,11 +13,20 @@ export type FetchError = (Response | Error) & {
   status?: number
 }
 
+export enum RequestType {
+  DELETE = 'DELETE',
+  GET = 'GET',
+  PATCH = 'PATCH',
+  POST = 'POST',
+  PUT = 'PUT',
+}
+
 export interface State<T> {
   data?: T
   error?: boolean | FetchError
   isLoading: boolean
   isSuccess?: boolean
+  type?: RequestType
 }
 
 export interface FetchResponse<T> extends State<T> {
@@ -64,6 +73,7 @@ const useFetch = <T>(): FetchResponse<T> => {
     error: undefined,
     isLoading: false,
     isSuccess: undefined,
+    type: undefined,
   }
 
   const reducer = (state: State<T>, action: Action): State<T> => {
@@ -77,6 +87,7 @@ const useFetch = <T>(): FetchResponse<T> => {
           data: action.payload as T,
           isLoading: false,
           error: false,
+          type: RequestType.GET,
         }
 
       case 'SET_MODIFY_DATA':
@@ -86,6 +97,7 @@ const useFetch = <T>(): FetchResponse<T> => {
           isLoading: false,
           error: false,
           isSuccess: true,
+          type: RequestType.PATCH,
         }
 
       case 'SET_DELETE_DATA':
@@ -94,6 +106,7 @@ const useFetch = <T>(): FetchResponse<T> => {
           isLoading: false,
           error: false,
           isSuccess: true,
+          type: RequestType.DELETE,
         }
 
       case 'SET_ERROR':

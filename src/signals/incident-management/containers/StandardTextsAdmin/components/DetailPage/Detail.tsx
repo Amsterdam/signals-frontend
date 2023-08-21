@@ -6,7 +6,6 @@ import { Column, Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import isEmpty from 'lodash/isEmpty'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import * as yup from 'yup'
 
@@ -19,11 +18,8 @@ import Label from 'components/Label'
 import LoadingIndicator from 'components/LoadingIndicator'
 import PageHeader from 'components/PageHeader'
 import RadioButtonList from 'components/RadioButtonList'
-import { showGlobalNotification } from 'containers/App/actions'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { useConfirm } from 'hooks/useConfirm'
 import useFetch from 'hooks/useFetch'
-import { getErrorMessage } from 'shared/services/api/api'
 import configuration from 'shared/services/configuration/configuration'
 import { changeStatusOptionList } from 'signals/incident-management/definitions/statusList'
 
@@ -39,6 +35,7 @@ import {
 } from './styled'
 import type { StandardTextDetailData, StandardTextForm } from './types'
 import { createPatch, createPost } from './utils'
+import useFetchResponseNotification from '../../../../../settings/hooks/useFetchResponseNotification'
 import { SelectedSubcategories } from '../SelectedSubcategories'
 import Subcategories from '../Subcategories'
 
@@ -60,15 +57,22 @@ export const Detail = () => {
   const { isConfirmed } = useConfirm()
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const params = useParams()
-  const { get, data, isLoading, patch, del, post, isSuccess, error } =
+  const { get, data, isLoading, patch, del, post, isSuccess, error, type } =
     useFetch<StandardTextDetailData>()
 
   const title = params.id
     ? 'Standaardtekst wijzigen'
     : 'Standaardtekst toevoegen'
-  const redirectURL = '../'
+
+  useFetchResponseNotification({
+    entityName: 'Standaard tekst',
+    error,
+    isLoading,
+    isSuccess,
+    redirectURL: '../',
+    requestType: type,
+  })
 
   const defaultValues: StandardTextForm | null = useMemo(() => {
     return {
@@ -103,12 +107,12 @@ export const Detail = () => {
     } else if (hasDirtyFields) {
       post(`${configuration.STANDARD_TEXTS_ENDPOINT}`, createPost(getValues()))
     } else {
-      navigate(redirectURL)
+      navigate(-1)
     }
   }, [formState.dirtyFields, params.id, patch, getValues, post, navigate])
 
   const handleOnCancel = () => {
-    navigate(redirectURL)
+    navigate(-1)
   }
 
   const handleOnDelete = async () => {
@@ -116,37 +120,20 @@ export const Detail = () => {
       'Let op, je verwijdert de standaardtekst',
       'Er is geen back-up beschikbaar.'
     )
-    if (confirmed) del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
+    if (confirmed) {
+      del(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
+    }
   }
 
   useEffect(() => {
-    if (params.id && !data && !isLoading) {
+    if (params.id && !data && !isLoading && !error) {
       get(`${configuration.STANDARD_TEXTS_ENDPOINT}${params.id}`)
     }
-  }, [data, get, params, isLoading])
+  }, [data, get, params, isLoading, error])
 
   useEffect(() => {
     defaultValues && reset(defaultValues)
   }, [defaultValues, reset])
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate(redirectURL)
-    }
-  }, [isSuccess, navigate])
-
-  useEffect(() => {
-    if (error) {
-      dispatch(
-        showGlobalNotification({
-          title: getErrorMessage(error),
-          message: 'De standaardtekst kon niet worden opgehaald',
-          variant: VARIANT_ERROR,
-          type: TYPE_LOCAL,
-        })
-      )
-    }
-  }, [dispatch, error])
 
   return (
     <FormProvider {...formMethods}>

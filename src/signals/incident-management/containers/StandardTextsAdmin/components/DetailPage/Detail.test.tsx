@@ -5,8 +5,6 @@ import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
-import { showGlobalNotification } from 'containers/App/actions'
-import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import { withAppContext } from 'test/utils'
 
 import { Detail } from './Detail'
@@ -133,7 +131,7 @@ describe('Detail', () => {
 
     await waitFor(() => {
       userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-      expect(mockNavigate).toBeCalledWith('../')
+      expect(mockNavigate).toBeCalledWith(-1)
       expect(screen.queryByTestId('loading-indicator')).not.toBeInTheDocument()
     })
   })
@@ -182,7 +180,7 @@ describe('Detail', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
 
-    expect(mockNavigate).toBeCalledWith('../')
+    expect(mockNavigate).toBeCalledWith(-1)
   })
 
   it('should change the state', () => {
@@ -248,6 +246,8 @@ describe('Detail', () => {
     })
   })
 
+  // {"payload": {"title": "Interne fout op de server. Probeer het nogmaals", "type": "global", "variant": "error"}, "type": "sia/App/SHOW_GLOBAL_NOTIFICATION"}
+
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
       mockRequestHandler({
@@ -260,14 +260,14 @@ describe('Detail', () => {
       render(withAppContext(<Detail />))
 
       await waitFor(() => {
-        expect(dispatch).toHaveBeenCalledWith(
-          showGlobalNotification({
+        expect(dispatch).toHaveBeenCalledWith({
+          payload: {
             title: 'Interne fout op de server. Probeer het nogmaals',
-            message: 'De standaardtekst kon niet worden opgehaald',
-            variant: VARIANT_ERROR,
-            type: TYPE_LOCAL,
-          })
-        )
+            type: 'global',
+            variant: 'error',
+          },
+          type: 'sia/App/SHOW_GLOBAL_NOTIFICATION',
+        })
       })
     })
 
@@ -326,7 +326,7 @@ describe('Detail', () => {
 
       await waitFor(() => {
         userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
-        expect(mockNavigate).toBeCalledWith('../')
+        expect(mockNavigate).toBeCalledWith(-1)
       })
     })
   })
