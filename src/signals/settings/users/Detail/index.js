@@ -32,8 +32,16 @@ const UserDetail = () => {
   const userCan = useSelector(makeSelectUserCan)
 
   const isExistingUser = userId !== undefined
-  const { isLoading, isSuccess, error, data, get, patch, post, type } =
-    useFetch()
+  const {
+    isLoading,
+    isSuccess,
+    error,
+    data,
+    get,
+    patch,
+    post,
+    type: requestType,
+  } = useFetch()
   const { get: historyGet, data: historyData } = useFetch()
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data))
   const redirectURL = location.referrer || routes.users
@@ -45,7 +53,7 @@ const UserDetail = () => {
   useFetchResponseNotification({
     entityName,
     error,
-    requestType: type,
+    requestType,
     isLoading,
     isSuccess,
     redirectURL,

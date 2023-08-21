@@ -26,7 +26,7 @@ export interface State<T> {
   error?: boolean | FetchError
   isLoading: boolean
   isSuccess?: boolean
-  type?: string
+  type?: RequestType
 }
 
 export interface FetchResponse<T> extends State<T> {
