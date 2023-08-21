@@ -111,11 +111,12 @@ export const AssetLayer: FC = () => {
         options={{
           icon,
           alt,
-          keyboard: false,
+          keyboard: true,
         }}
         latLng={coordinates}
         events={{
           click: onClick,
+          keypress: onClick,
         }}
       />
     )
