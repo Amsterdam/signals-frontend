@@ -73,15 +73,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
 
       onClose()
     },
-    [
-      get,
-      getHistory,
-      getIncident,
-      incident.reporter.sharing_allowed,
-      onClose,
-      params.id,
-      post,
-    ]
+    [get, getHistory, getIncident, incident.reporter, onClose, params.id, post]
   )
 
   useEffect(() => {
