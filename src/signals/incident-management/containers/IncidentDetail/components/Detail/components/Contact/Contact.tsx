@@ -26,7 +26,7 @@ type Props = {
 
 export const Contact = ({ incident, showPhone }: Props) => {
   const [showEdit, setShowEdit] = useState(false)
-  const { post, isSuccess, get, data } = useFetch<Result<SignalReporter>>()
+  const { post, get, data } = useFetch<Result<SignalReporter>>()
 
   const { getHistory, getIncident } = useContext(IncidentDetailContext)
 
@@ -37,19 +37,12 @@ export const Contact = ({ incident, showPhone }: Props) => {
   }, [])
 
   const submit = useCallback(
-    (data) => {
+    async (data) => {
       data.sharing_allowed = incident.reporter.sharing_allowed
-      post(
+      await post(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`,
         data
       )
-      onClose()
-    },
-    [incident.reporter.sharing_allowed, onClose, params.id, post]
-  )
-
-  useEffect(() => {
-    if (isSuccess && data) {
       getHistory &&
         getHistory(
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/history`
@@ -58,8 +51,19 @@ export const Contact = ({ incident, showPhone }: Props) => {
       getIncident &&
         getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}`)
       get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
-    }
-  }, [get, getHistory, getIncident, isSuccess, params.id, data])
+
+      onClose()
+    },
+    [
+      get,
+      getHistory,
+      getIncident,
+      incident.reporter.sharing_allowed,
+      onClose,
+      params.id,
+      post,
+    ]
+  )
 
   useEffect(() => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)

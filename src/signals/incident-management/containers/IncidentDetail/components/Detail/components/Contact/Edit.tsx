@@ -26,10 +26,9 @@ const Edit = ({ onClose, incident, submit }: Props) => {
         'E-mailadres mag niet leeg zijn. Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl.'
       ),
     phone: yup
-      // test phone number with regex with optional spaces, brackets, + and -
       .string()
       .matches(
-        /^(\+|\(|\)|\s|-|[0-9]){3,20}$/,
+        /^(?:(\+|\(|\)|\s|-|[0-9]){3,20})?$/,
         'Vul een geldig telefoonnummer in. Alleen cijfers, spaties, haakjes, + en - zijn toegestaan.'
       ),
   })
