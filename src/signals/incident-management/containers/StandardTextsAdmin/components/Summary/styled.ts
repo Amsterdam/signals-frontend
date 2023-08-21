@@ -37,7 +37,6 @@ export const Title = styled.div`
 
 export const Text = styled.div<{ $isHighlighted: boolean }>`
   font-weight: 400;
-  line-height: 16px;
   line-height: 24px;
   overflow: hidden;
 
