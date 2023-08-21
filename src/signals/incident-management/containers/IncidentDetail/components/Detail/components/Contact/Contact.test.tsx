@@ -75,9 +75,6 @@ describe('Contact', () => {
     screen.getByText(
       'E-mailadres mag niet leeg zijn. Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl.'
     )
-    screen.getByText(
-      'Vul een geldig telefoonnummer in. Alleen cijfers, spaties, haakjes, + en - zijn toegestaan.'
-    )
 
     userEvent.type(screen.getByPlaceholderText('E-mail melder'), 'test')
 
@@ -87,6 +84,16 @@ describe('Contact', () => {
 
     screen.getByText(
       'Vul een geldig e-mailadres in, met een @ en een domeinnaam. Bijvoorbeeld: naam@domein.nl.'
+    )
+
+    userEvent.type(screen.getByPlaceholderText('Telefoon melder'), 'test')
+
+    await act(async () => {
+      userEvent.click(screen.getByTestId('contact-form-submit-button'))
+    })
+
+    screen.getByText(
+      'Vul een geldig telefoonnummer in. Alleen cijfers, spaties, haakjes, + en - zijn toegestaan.'
     )
   })
 

@@ -39,10 +39,29 @@ export const Contact = ({ incident, showPhone }: Props) => {
   const submit = useCallback(
     async (data) => {
       data.sharing_allowed = incident.reporter.sharing_allowed
+
+      /**
+       * If email and phone both are changed we need to send 2 requests.
+       * One to update the email with a resulting email verification. Then one to immediately update the phone number.
+       */
+      if (
+        data.email !== incident.reporter.email &&
+        data.phone !== incident.reporter.phone
+      ) {
+        await post(
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`,
+          {
+            ...data,
+            email: incident.reporter.email,
+          }
+        )
+      }
+
       await post(
         `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`,
         data
       )
+
       getHistory &&
         getHistory(
           `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/history`
