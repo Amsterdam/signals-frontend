@@ -4,15 +4,19 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+import ErrorMessage from 'components/ErrorMessage'
+import type { Incident } from 'types/incident'
+
 import { Form, StyledInput, FormWrapper } from './styled'
-import ErrorMessage from '../../../../../../../../components/ErrorMessage'
-import type { Incident } from '../../../../../../../../types/incident'
 import { StyledButton, StyledH2 } from '../../../StatusForm/styled'
 
 type Props = {
   onClose: () => void
   incident: Incident
-  submit: (data: any) => void
+  submit: (
+    data: { email?: string; phone?: string },
+    hasDirtyFields: boolean
+  ) => void
 }
 
 const Edit = ({ onClose, incident, submit }: Props) => {
@@ -41,12 +45,16 @@ const Edit = ({ onClose, incident, submit }: Props) => {
     resolver: yupResolver(schema),
   })
 
-  const { errors } = formState
+  const { errors, dirtyFields } = formState
   return (
     <FormWrapper>
       <StyledH2 forwardedAs="h2">Contactgegevens melder wijzigen</StyledH2>
 
-      <Form onSubmit={handleSubmit(submit)}>
+      <Form
+        onSubmit={handleSubmit((data) => {
+          submit(data, !!(dirtyFields.email || dirtyFields.phone))
+        })}
+      >
         <div>
           <StyledInput
             {...register('phone')}

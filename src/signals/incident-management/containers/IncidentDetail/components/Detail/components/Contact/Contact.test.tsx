@@ -97,7 +97,7 @@ describe('Contact', () => {
     )
   })
 
-  it('should open edit form, change email and submit', async () => {
+  it('should open edit form, change email and phone and submit', async () => {
     const getHistoryMock = jest.fn()
     const getIncidentMock = jest.fn()
     await act(async () => {
@@ -121,6 +121,7 @@ describe('Contact', () => {
     })
 
     userEvent.type(screen.getByPlaceholderText('E-mail melder'), 'm')
+    userEvent.type(screen.getByPlaceholderText('Telefoon melder'), '123123')
 
     userEvent.click(screen.getByTestId('contact-form-submit-button'))
 
