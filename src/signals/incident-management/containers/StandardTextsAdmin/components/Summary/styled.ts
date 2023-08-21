@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { themeColor, Icon } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import { themeColor, Icon, themeSpacing } from '@amsterdam/asc-ui'
+import styled, { css } from 'styled-components'
 
 export const ColumnDescription = styled.div`
   margin-left: 26px;
@@ -27,14 +27,38 @@ export const Title = styled.div`
   font-weight: 700;
   line-height: 24px;
   margin-bottom: 8px;
+
+  em {
+    background-color: ${themeColor('tint', 'level3')};
+    font-style: normal;
+    padding: ${themeSpacing(0, 1)};
+  }
 `
 
-export const Text = styled.div`
+export const Text = styled.div<{ $isHighlighted: boolean }>`
   font-weight: 400;
   line-height: 16px;
+  line-height: 24px;
   overflow: hidden;
+
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  ${({ $isHighlighted }) =>
+    $isHighlighted &&
+    css`
+      white-space: wrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
+      em {
+        background-color: ${themeColor('tint', 'level3')};
+        font-style: normal;
+        font-weight: 700;
+        padding: ${themeSpacing(0, 1)};
+      }
+    `}
 `
 
 export const Wrapper = styled.div`

@@ -21,9 +21,18 @@ export interface Props {
 }
 
 export const Summary = ({ standardText, onClick }: Props) => {
-  const { state, title, text, id } = standardText
+  const {
+    state,
+    title: originalTitle,
+    text,
+    id,
+    meta: { highlight },
+  } = standardText
 
   const status = statusList.find(({ key }) => key === state) as StatusType
+
+  const title = highlight?.title ? highlight.title : originalTitle
+  const description = highlight?.text ? highlight.text.join('...') : text
 
   return (
     <Wrapper
@@ -44,8 +53,11 @@ export const Summary = ({ standardText, onClick }: Props) => {
       </ColumnStatus>
 
       <ColumnDescription>
-        <Title>{title}</Title>
-        <Text>{text}</Text>
+        <Title dangerouslySetInnerHTML={{ __html: title }} />
+        <Text
+          dangerouslySetInnerHTML={{ __html: description }}
+          $isHighlighted={highlight?.text}
+        />
       </ColumnDescription>
     </Wrapper>
   )
