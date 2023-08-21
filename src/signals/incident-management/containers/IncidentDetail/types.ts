@@ -12,6 +12,8 @@ export interface Context {
   preview?: (section: string, payload?: Partial<State>) => void
   edit?: (section: string, payload?: Partial<State>) => void
   close?: () => void
+  getIncident?: (url: string) => void
+  getHistory?: (url: string) => void
   toggleExternal?: () => void
   attachments?: Result<Attachment>
 }
@@ -90,4 +92,16 @@ export interface User {
 export type EmailTemplate = {
   subject?: string
   html?: string
+}
+
+export type SignalReporter = {
+  id: string
+  email: string
+  phone: string
+  allows_contact: boolean
+  sharing_allowed: boolean
+  state: string
+  email_verification_token_expires: string
+  created_at: string
+  updated_at: string
 }

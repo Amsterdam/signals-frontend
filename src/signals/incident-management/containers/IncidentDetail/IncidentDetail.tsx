@@ -403,8 +403,10 @@ const IncidentDetail = () => {
         preview: previewDispatch,
         edit: editDispatch,
         close: closeDispatch,
+        getHistory,
         attachments: state?.attachments,
         toggleExternal: toggleExternalDispatch,
+        getIncident,
       }}
     >
       <Row data-testid="incident-detail">

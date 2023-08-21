@@ -25,6 +25,7 @@ import openSignalsReportFixture from '../mocks/fixtures/report_signals-open.json
 import reopenRequestedSignalsReportFixture from '../mocks/fixtures/report_signals-reopen-requested.json'
 import incidentReporterFixture from '../mocks/fixtures/reporter.json'
 import reportsFixture from '../mocks/fixtures/reports.json'
+import signalReporterFixture from '../mocks/fixtures/signal_reporter.json'
 import {
   activeFilter,
   detail,
@@ -156,6 +157,10 @@ const handlers = [
 
   rest.get(API.REPORTS, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(reportsFixture))
+  ),
+
+  rest.get(API.SIGNAL_REPORTER, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(signalReporterFixture))
   ),
 
   rest.get(API.STANDARD_TEXTS_SEARCH_ENDPOINT, (req, res, ctx) => {
@@ -299,6 +304,8 @@ const handlers = [
   rest.post(API.PUBLIC_INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
     res(ctx.status(200))
   ),
+
+  rest.post(API.SIGNAL_REPORTER, (_req, res, ctx) => res(ctx.status(200))),
 
   rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(204), ctx.json(null))
