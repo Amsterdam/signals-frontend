@@ -121,7 +121,10 @@ const Summary: FC<SummaryProps> = ({
   return (
     <Wrapper data-testid="asset-select-summary">
       <StyledMap mapOptions={options}>
-        <StyledMarker args={[center]} options={{ icon: markerIcon }} />
+        <StyledMarker
+          args={[center]}
+          options={{ icon: markerIcon, keyboard: false }}
+        />
       </StyledMap>
 
       <Address data-testid="asset-select-summary-address">
