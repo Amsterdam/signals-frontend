@@ -13,6 +13,7 @@ import type { ReactElement, FC } from 'react'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 import { Marker } from '@amsterdam/react-maps'
+import FocusTrap from 'focus-trap-react'
 import type {
   MapOptions,
   LeafletMouseEvent,
@@ -156,101 +157,103 @@ const Selector: FC = () => {
   }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const mapWrapper = (
-    <Wrapper data-testid="asset-select-selector">
-      <DetailPanel language={meta.language} />
+    <FocusTrap>
+      <Wrapper data-testid="asset-select-selector">
+        <DetailPanel language={meta.language} />
 
-      <StyledMap
-        hasZoomControls={desktopView}
-        mapOptions={mapOptions}
-        events={{ click, dblclick: doubleClick }}
-        setInstance={setMap}
-        hasGPSControl
-      >
-        <StyledViewerContainer
-          topLeft={
-            <TopLeftWrapper>
-              <GPSButton
-                tabIndex={0}
-                onLocationSuccess={(location: LocationResult) => {
-                  const coordinates = {
-                    lat: location.latitude,
-                    lng: location.longitude,
-                  }
-                  fetchLocation(coordinates)
-                }}
-                onLocationError={() => {
-                  setMapMessage(
-                    <>
-                      <strong>
-                        {`${configuration.language.siteAddress} heeft geen
+        <StyledMap
+          hasZoomControls={desktopView}
+          mapOptions={mapOptions}
+          events={{ click, dblclick: doubleClick }}
+          setInstance={setMap}
+          hasGPSControl
+        >
+          <StyledViewerContainer
+            topLeft={
+              <TopLeftWrapper>
+                <GPSButton
+                  tabIndex={0}
+                  onLocationSuccess={(location: LocationResult) => {
+                    const coordinates = {
+                      lat: location.latitude,
+                      lng: location.longitude,
+                    }
+                    fetchLocation(coordinates)
+                  }}
+                  onLocationError={() => {
+                    setMapMessage(
+                      <>
+                        <strong>
+                          {`${configuration.language.siteAddress} heeft geen
                             toestemming om uw locatie te gebruiken.`}
-                      </strong>
-                      <p>
-                        Dit kunt u wijzigen in de voorkeuren of instellingen van
-                        uw browser of systeem.
-                      </p>
-                    </>
-                  )
-                }}
-                onLocationOutOfBounds={() => {
-                  setMapMessage(
-                    'Uw locatie valt buiten de kaart en is daardoor niet te zien'
-                  )
+                        </strong>
+                        <p>
+                          Dit kunt u wijzigen in de voorkeuren of instellingen
+                          van uw browser of systeem.
+                        </p>
+                      </>
+                    )
+                  }}
+                  onLocationOutOfBounds={() => {
+                    setMapMessage(
+                      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+                    )
+                  }}
+                />
+
+                {hasFeatureTypes && (
+                  <ZoomMessage
+                    data-testid="zoom-message"
+                    zoomLevel={MAP_ASSETS_ZOOM_LEVEL}
+                  >
+                    Zoom in om de{' '}
+                    {meta?.language?.objectTypePlural || 'objecten'} te zien
+                  </ZoomMessage>
+                )}
+
+                {mapMessage && (
+                  <MapMessage
+                    data-testid="map-message"
+                    onClick={() => {
+                      setMapMessage('')
+                      setMaxAssetWarningActive(false)
+                    }}
+                  >
+                    {mapMessage}
+                  </MapMessage>
+                )}
+              </TopLeftWrapper>
+            }
+            topRight={
+              <TopRightWrapper>
+                <MapCloseButton onClick={() => dispatch(closeMap())} />
+              </TopRightWrapper>
+            }
+          />
+
+          <WfsLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL}>
+            <>
+              <Layer />
+              <NearbyLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL} />
+            </>
+          </WfsLayer>
+
+          {showMarker && (
+            <span data-testid="asset-pin-marker">
+              <Marker
+                key={Object.values(coordinates).toString()}
+                setInstance={setPinMarker}
+                args={[coordinates]}
+                options={{
+                  icon: markerIcon,
+                  keyboard: false,
                 }}
               />
-
-              {hasFeatureTypes && (
-                <ZoomMessage
-                  data-testid="zoom-message"
-                  zoomLevel={MAP_ASSETS_ZOOM_LEVEL}
-                >
-                  Zoom in om de {meta?.language?.objectTypePlural || 'objecten'}{' '}
-                  te zien
-                </ZoomMessage>
-              )}
-
-              {mapMessage && (
-                <MapMessage
-                  data-testid="map-message"
-                  onClick={() => {
-                    setMapMessage('')
-                    setMaxAssetWarningActive(false)
-                  }}
-                >
-                  {mapMessage}
-                </MapMessage>
-              )}
-            </TopLeftWrapper>
-          }
-          topRight={
-            <TopRightWrapper>
-              <MapCloseButton onClick={() => dispatch(closeMap())} />
-            </TopRightWrapper>
-          }
-        />
-
-        <WfsLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL}>
-          <>
-            <Layer />
-            <NearbyLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL} />
-          </>
-        </WfsLayer>
-
-        {showMarker && (
-          <span data-testid="asset-pin-marker">
-            <Marker
-              key={Object.values(coordinates).toString()}
-              setInstance={setPinMarker}
-              args={[coordinates]}
-              options={{
-                icon: markerIcon,
-                keyboard: false,
-              }}
-            />
-          </span>
-        )}
-      </StyledMap>
-    </Wrapper>
+            </span>
+          )}
+        </StyledMap>
+      </Wrapper>
+    </FocusTrap>
   )
 
   return ReactDOM.createPortal(mapWrapper, appHtmlElement)

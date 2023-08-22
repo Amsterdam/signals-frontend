@@ -46,6 +46,10 @@ export const TopLeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${themeSpacing(4)};
+
+  > * {
+    margin-bottom: ${themeSpacing(2)};
+  }
 `
 
 export const TopRightWrapper = styled.div`
