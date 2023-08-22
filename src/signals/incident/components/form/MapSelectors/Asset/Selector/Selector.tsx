@@ -41,6 +41,7 @@ import {
   StyledMap,
   StyledViewerContainer,
   TopLeftWrapper,
+  TopRightWrapper,
   Wrapper,
 } from './styled'
 import WfsLayer from './WfsLayer'
@@ -222,7 +223,9 @@ const Selector: FC = () => {
             </TopLeftWrapper>
           }
           topRight={
-            <MapCloseButton onClick={() => dispatch(closeMap())} tabIndex={0} />
+            <TopRightWrapper>
+              <MapCloseButton onClick={() => dispatch(closeMap())} />
+            </TopRightWrapper>
           }
         />
 

@@ -48,6 +48,13 @@ export const TopLeftWrapper = styled.div`
   margin-right: ${themeSpacing(4)};
 `
 
+export const TopRightWrapper = styled.div`
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    position: absolute;
+    right: ${DETAIL_PANEL_WIDTH}px;
+  }
+`
+
 export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
 })`

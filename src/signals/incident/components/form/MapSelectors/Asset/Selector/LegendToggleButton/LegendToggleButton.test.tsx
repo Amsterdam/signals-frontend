@@ -16,7 +16,13 @@ describe('LegendToggleButton', () => {
 
   it('handles onClick', () => {
     render(
-      withAppContext(<LegendToggleButton onClick={onClick} isOpen={false} />)
+      withAppContext(
+        <LegendToggleButton
+          onClick={onClick}
+          isOpen={false}
+          legendButtonRef={jest.fn()}
+        />
+      )
     )
 
     expect(onClick).not.toHaveBeenCalled()
