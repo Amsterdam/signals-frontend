@@ -37,7 +37,7 @@ export const Title = styled.div`
 
 export const Text = styled.div<{ $isHighlighted: boolean }>`
   font-weight: 400;
-  line-height: 24px;
+  line-height: ${themeSpacing(6)};
   overflow: hidden;
 
   text-overflow: ellipsis;
