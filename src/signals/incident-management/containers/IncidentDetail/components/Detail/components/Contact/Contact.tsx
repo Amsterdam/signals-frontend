@@ -15,6 +15,7 @@ import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import type { Incident } from 'types/incident'
 
+import Cancel from './Cancel'
 import Edit from './Edit'
 import { StyledDD, StyledEditButton, StyledLink } from './styled'
 import IncidentDetailContext from '../../../../context'
@@ -26,18 +27,29 @@ type Props = {
 }
 
 export const Contact = ({ incident, showPhone }: Props) => {
-  const [showEdit, setShowEdit] = useState(false)
-  const { post, get, data } = useFetch<Result<SignalReporter>>()
+  const [activeComponent, setActiveComponent] = useState<
+    'edit' | 'cancel' | null
+  >(null)
+  const {
+    post,
+    get,
+    data: signalReportersData,
+  } = useFetch<Result<SignalReporter>>()
 
-  const { getHistory, getIncident } = useContext(IncidentDetailContext)
-
+  const { getIncident } = useContext(IncidentDetailContext)
   const params = useParams()
 
   const onClose = useCallback(() => {
-    setShowEdit(false)
+    setActiveComponent(null)
   }, [])
 
-  const submit = useCallback(
+  const syncData = useCallback(() => {
+    getIncident &&
+      getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}`)
+    get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
+  }, [get, getIncident, params.id])
+
+  const submitEdit = useCallback(
     async (data, hasDirtyFields) => {
       if (hasDirtyFields) {
         data.sharing_allowed = incident.reporter.sharing_allowed
@@ -64,18 +76,42 @@ export const Contact = ({ incident, showPhone }: Props) => {
           data
         )
 
-        getHistory &&
-          getHistory(
-            `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/history`
-          )
-
-        getIncident &&
-          getIncident(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}`)
-        get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
+        syncData()
       }
       onClose()
     },
-    [get, getHistory, getIncident, incident.reporter, onClose, params.id, post]
+    [
+      incident.reporter.email,
+      incident.reporter.phone,
+      incident.reporter.sharing_allowed,
+      onClose,
+      params.id,
+      post,
+      syncData,
+    ]
+  )
+
+  const cancelableReporterId = useMemo(() => {
+    const signalReportsCount = signalReportersData?.results?.length || 0
+    return (
+      signalReportsCount > 1 &&
+      signalReportersData?.results?.find(
+        (result) =>
+          result.state === 'verification_email_sent' || result.state === 'new'
+      )?.id
+    )
+  }, [signalReportersData?.results])
+
+  const submitCancel = useCallback(
+    async (data) => {
+      await post(
+        `${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters/${cancelableReporterId}/cancel`,
+        data
+      )
+
+      syncData()
+    },
+    [cancelableReporterId, params.id, post, syncData]
   )
 
   useEffect(() => {
@@ -83,24 +119,28 @@ export const Contact = ({ incident, showPhone }: Props) => {
   }, [get, params.id])
 
   const emailChanged = useMemo(() => {
-    return data?.results?.find(
+    return signalReportersData?.results?.find(
       (result) => result.state === 'verification_email_sent'
     )
-  }, [data])
+  }, [signalReportersData])
 
   return (
     <Fragment>
       <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-      {showEdit ? (
-        <Edit incident={incident} submit={submit} onClose={onClose} />
-      ) : (
+      {activeComponent === 'edit' && (
+        <Edit incident={incident} submit={submitEdit} onClose={onClose} />
+      )}
+      {activeComponent === 'cancel' && (
+        <Cancel onClose={onClose} onSubmit={submitCancel} />
+      )}
+      {!activeComponent && (
         <StyledDD data-testid="detail-phone-value">
           <StyledEditButton
             data-testid="edit-contact-button"
             icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
             iconSize={18}
             onClick={() => {
-              setShowEdit(true)
+              setActiveComponent('edit')
             }}
             type="button"
             variant="application"
@@ -120,10 +160,21 @@ export const Contact = ({ incident, showPhone }: Props) => {
       )}
 
       <dt data-testid="detail-email-definition">E-mail melder</dt>
-      {!showEdit && (
-        <dd data-testid="detail-email-value">{`${incident.reporter.email} ${
-          emailChanged ? ' (verificatie verzonden)' : ''
-        }`}</dd>
+      {!activeComponent && (
+        <dd data-testid="detail-email-value">
+          {`${incident.reporter.email} ${
+            emailChanged ? ' (verificatie verzonden)' : ''
+          }`}
+          {cancelableReporterId && (
+            <StyledLink
+              variant="inline"
+              href={'#'}
+              onClick={() => setActiveComponent('cancel')}
+            >
+              Verificatie annuleren
+            </StyledLink>
+          )}
+        </dd>
       )}
     </Fragment>
   )

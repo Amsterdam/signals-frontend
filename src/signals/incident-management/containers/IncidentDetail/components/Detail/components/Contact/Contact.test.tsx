@@ -5,7 +5,12 @@ import * as reactRouterDom from 'react-router-dom'
 import IncidentDetailContext from 'signals/incident-management/containers/IncidentDetail/context'
 
 import { Contact } from './Contact'
-import { fetchMock } from '../../../../../../../../../internals/testing/msw-server'
+import signalReporterFixture from '../../../../../../../../../internals/mocks/fixtures/signal_reporter.json'
+import * as API from '../../../../../../../../../internals/testing/api'
+import {
+  fetchMock,
+  mockRequestHandler,
+} from '../../../../../../../../../internals/testing/msw-server'
 import { withAppContext } from '../../../../../../../../test/utils'
 import incidentJSON from '../../../../../../../../utils/__tests__/fixtures/incident.json'
 const incidentFixture = incidentJSON as unknown as any
@@ -98,7 +103,6 @@ describe('Contact', () => {
   })
 
   it('should open edit form, change email and phone and submit', async () => {
-    const getHistoryMock = jest.fn()
     const getIncidentMock = jest.fn()
     await act(async () => {
       render(
@@ -106,7 +110,6 @@ describe('Contact', () => {
           <IncidentDetailContext.Provider
             value={{
               update: jest.fn(),
-              getHistory: getHistoryMock,
               getIncident: getIncidentMock,
             }}
           >
@@ -132,7 +135,6 @@ describe('Contact', () => {
     })
 
     await waitFor(() => {
-      expect(getHistoryMock).toHaveBeenCalled()
       expect(getIncidentMock).toHaveBeenCalled()
     })
   })
@@ -144,6 +146,88 @@ describe('Contact', () => {
 
     await waitFor(() => {
       expect(screen.queryByText(/verificatie verzonden/)).toBeInTheDocument()
+
+      expect(screen.queryByText(/Verificatie annuleren/)).toBeInTheDocument()
+    })
+  })
+
+  it('should open and render cancel form', async () => {
+    await act(async () => {
+      render(withAppContext(<Contact showPhone incident={incidentFixture} />))
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Verificatie annuleren/)).toBeInTheDocument()
+
+      userEvent.click(screen.getByText(/Verificatie annuleren/))
+    })
+
+    expect(screen.queryByText(/Annuleer wijziging/)).toBeInTheDocument()
+
+    expect(
+      screen.getByText('Reden van de wijziging (niet verplicht)')
+    ).toBeInTheDocument()
+
+    expect(screen.getByTestId('cancel-form-submit-button')).toBeInTheDocument()
+    expect(screen.getByTestId('cancel-form-cancel-button')).toBeInTheDocument()
+  })
+
+  it('should open and render cancel form and submit with cancel reason', async () => {
+    const getIncidentMock = jest.fn()
+    await act(async () => {
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider
+            value={{
+              update: jest.fn(),
+              getIncident: getIncidentMock,
+            }}
+          >
+            <Contact showPhone incident={incidentFixture} />
+          </IncidentDetailContext.Provider>
+        )
+      )
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Verificatie annuleren/)).toBeInTheDocument()
+
+      userEvent.click(screen.getByText(/Verificatie annuleren/))
+    })
+
+    userEvent.type(
+      screen.getByPlaceholderText(
+        'Omschrijf waarom de wijziging wordt geannuleerd'
+      ),
+      'test'
+    )
+
+    userEvent.click(screen.getByTestId('cancel-form-submit-button'))
+
+    await waitFor(() => {
+      expect(getIncidentMock).toHaveBeenCalled()
+    })
+  })
+
+  it('should not show the verificatie annuleren link', async () => {
+    const signalReporterFixtureCopy = { ...signalReporterFixture }
+    signalReporterFixtureCopy.results.shift()
+
+    mockRequestHandler({
+      status: 200,
+      method: 'get',
+      url: API.SIGNAL_REPORTER,
+      body: signalReporterFixture,
+    })
+
+    await act(async () => {
+      render(withAppContext(<Contact showPhone incident={incidentFixture} />))
+    })
+
+    await waitFor(() => {
+      expect(
+        screen.queryByText(/Verificatie annuleren/)
+      ).not.toBeInTheDocument()
     })
   })
 })

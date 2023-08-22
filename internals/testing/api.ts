@@ -28,6 +28,7 @@ export const INCIDENT_CONTEXT_REPORTER = `${INCIDENT}/context/reporter`
 export const CATEGORIES_PRIVATE_ENDPOINT = `${API_BASE_URL}/private/categories/:categoryId`
 export const CATEGORIES_PRIVATE_ENDPOINT_HISTORY = `${API_BASE_URL}/private/categories/:categoryId/history`
 export const SIGNAL_REPORTER = `${INCIDENT}/reporters`
+export const CANCEL_SIGNAL_REPORTER = `${SIGNAL_REPORTER}/:reporterId/cancel`
 export const STANDARD_TEXTS_SEARCH_ENDPOINT = `${API_BASE_URL}/private/status-messages/search`
 export const STANDARD_TEXTS_DETAIL_ENDPOINT = `${API_BASE_URL}/private/status-messages/:standardTextId`
 export const STANDARD_TEXTS_ENDPOINT = `${API_BASE_URL}/private/status-messages/`
