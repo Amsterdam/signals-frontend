@@ -157,6 +157,10 @@
         "showStandardTextAdminV2": {
           "description": "Shows the new way of managing standard text for email responses. One text can be assigned to multiple statuses.",
           "type": "boolean"
+        },
+        "showContactEdit": {
+          "description": "Shows the contact edit and cancel button and form in the backoffice.",
+          "type": "boolean"
         }
       },
       "required": [
