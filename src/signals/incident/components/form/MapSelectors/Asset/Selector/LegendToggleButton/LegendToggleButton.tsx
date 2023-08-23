@@ -11,6 +11,7 @@ export interface LegendToggleButtonProps {
   className?: string
   isOpen: boolean
   onClick: () => void
+  legendButtonRef: React.ForwardedRef<HTMLButtonElement>
 }
 
 const StyledButton = styled(Button)`
@@ -28,6 +29,7 @@ const LegendToggleButton: FC<LegendToggleButtonProps> = ({
   className,
   isOpen,
   onClick,
+  legendButtonRef,
 }) => (
   <StyledButton
     aria-controls="legendPanel"
@@ -38,6 +40,7 @@ const LegendToggleButton: FC<LegendToggleButtonProps> = ({
     tabIndex={0}
     type="button"
     variant="blank"
+    ref={legendButtonRef}
   >
     Uitleg
   </StyledButton>

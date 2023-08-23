@@ -60,7 +60,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
   })
   const [showLegendPanel, setShowLegendPanel] = useState(false)
-  const buttonRef = useRef<HTMLButtonElement>(null)
+  const closeLegendRef = useRef<HTMLButtonElement>(null)
+  const legendButtonRef = useRef<HTMLButtonElement>(null)
   const [optionsList, setOptionsList] = useState(null)
 
   const [showAddressPanel, setShowAddressPanel] = useState(false)
@@ -140,6 +141,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   )
 
   const toggleLegend = useCallback(() => {
+    if (showLegendPanel && legendButtonRef.current) {
+      legendButtonRef.current.focus()
+    }
     setShowLegendPanel(!showLegendPanel)
   }, [showLegendPanel])
 
@@ -163,10 +167,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   }, [removeItem])
 
   useEffect(() => {
-    if (buttonRef?.current && showLegendPanel) {
-      buttonRef.current.focus()
+    if (closeLegendRef?.current && showLegendPanel) {
+      closeLegendRef.current.focus()
     }
-  }, [buttonRef, showLegendPanel])
+  }, [closeLegendRef, showLegendPanel])
 
   return (
     <PanelContent
@@ -259,10 +263,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
             onClose={toggleLegend}
             slide={showLegendPanel ? 'in' : 'out'}
             items={legendItems}
-            buttonRef={buttonRef}
+            buttonRef={closeLegendRef}
           />
 
-          <LegendToggleButton onClick={toggleLegend} isOpen={showLegendPanel} />
+          <LegendToggleButton
+            onClick={toggleLegend}
+            isOpen={showLegendPanel}
+            legendButtonRef={legendButtonRef}
+          />
         </>
       )}
 

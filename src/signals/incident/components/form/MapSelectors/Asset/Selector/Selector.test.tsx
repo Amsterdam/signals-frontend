@@ -36,6 +36,11 @@ jest.mock('@amsterdam/asc-ui/lib/utils/hooks', () => ({
   useMatchMedia: () => [mockShowDesktopVariant],
 }))
 
+jest.mock('focus-trap-react', () => ({
+  __esModule: true,
+  default: ({ children }: any) => <div>{children}</div>,
+}))
+
 jest.mock('./LegendPanel', () => ({ onClose }: LegendPanelProps) => (
   <span data-testid="mock-legend-panel">
     <input type="button" name="closeLegend" onClick={onClose} />

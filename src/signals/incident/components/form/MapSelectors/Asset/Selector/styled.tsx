@@ -46,6 +46,17 @@ export const TopLeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${themeSpacing(4)};
+
+  > * {
+    margin-bottom: ${themeSpacing(2)};
+  }
+`
+
+export const TopRightWrapper = styled.div`
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    position: absolute;
+    right: ${DETAIL_PANEL_WIDTH}px;
+  }
 `
 
 export const ScrollWrapper = styled.div.attrs({

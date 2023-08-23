@@ -33,7 +33,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
     <CloseBtn
       data-testid="close-button"
       ref={buttonRef}
-      tabIndex={0}
+      tabIndex={-1}
       title="Sluit uitleg"
       onClick={onClose}
     />
