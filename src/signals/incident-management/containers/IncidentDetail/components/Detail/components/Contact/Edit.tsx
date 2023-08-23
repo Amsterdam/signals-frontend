@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import ErrorMessage from 'components/ErrorMessage'
 import type { Incident } from 'types/incident'
 
-import { Form, StyledInput, EditFormWrapper } from './styled'
+import { StyledForm, StyledInput, EditFormWrapper } from './styled'
 import { StyledButton, StyledH2 } from '../../../StatusForm/styled'
 
 type Props = {
@@ -50,7 +50,7 @@ const Edit = ({ onClose, incident, submit }: Props) => {
     <EditFormWrapper>
       <StyledH2 forwardedAs="h2">Contactgegevens melder wijzigen</StyledH2>
 
-      <Form
+      <StyledForm
         onSubmit={handleSubmit((data) => {
           submit(data, !!(dirtyFields.email || dirtyFields.phone))
         })}
@@ -101,7 +101,7 @@ const Edit = ({ onClose, incident, submit }: Props) => {
             Annuleer
           </StyledButton>
         </div>
-      </Form>
+      </StyledForm>
     </EditFormWrapper>
   )
 }

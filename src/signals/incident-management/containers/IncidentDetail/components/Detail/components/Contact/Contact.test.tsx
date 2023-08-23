@@ -3,6 +3,8 @@ import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 
 import IncidentDetailContext from 'signals/incident-management/containers/IncidentDetail/context'
+import { withAppContext } from 'test/utils'
+import incidentJSON from 'utils/__tests__/fixtures/incident.json'
 
 import { Contact } from './Contact'
 import signalReporterFixture from '../../../../../../../../../internals/mocks/fixtures/signal_reporter.json'
@@ -11,8 +13,6 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../../../internals/testing/msw-server'
-import { withAppContext } from '../../../../../../../../test/utils'
-import incidentJSON from '../../../../../../../../utils/__tests__/fixtures/incident.json'
 const incidentFixture = incidentJSON as unknown as any
 
 fetchMock.disableMocks()

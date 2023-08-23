@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 import {
   Input,
   Link as AscLink,
@@ -24,9 +26,9 @@ export const EditFormWrapper = styled.div`
   grid-row: span 2;
 `
 
-export const Form = styled.form`
+export const StyledForm = styled.form`
   display: grid;
-  grid-gap: 24px;
+  grid-gap: ${themeSpacing(6)};
 `
 
 export const StyledInput = styled(Input)<{ showError?: boolean }>`
@@ -38,7 +40,7 @@ export const StyledInput = styled(Input)<{ showError?: boolean }>`
 
   // when ErrorMessage is sibling add margin-top 4px
   + div {
-    margin-top: 4px;
+    margin-top: ${themeSpacing(1)};
   }
 `
 
@@ -51,9 +53,4 @@ export const CancelFormWrapper = styled.div`
   margin-bottom: ${themeSpacing(6)};
   background-color: ${themeColor('tint', 'level2')};
   grid-row: span 2;
-`
-
-export const StyledCancelForm = styled.form`
-  display: grid;
-  grid-gap: 24px;
 `

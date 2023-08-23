@@ -24,7 +24,8 @@
     "showMainCategories": false,
     "showStandardTextAdminV1": true,
     "showStandardTextAdminV2": false,
-    "disableClosingCategoryOverigOverig": false
+    "disableClosingCategoryOverigOverig": false,
+    "showContactEdit": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

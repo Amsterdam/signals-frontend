@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom'
 
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
+import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification'
 import type { Incident } from 'types/incident'
 
 import Cancel from './Cancel'
@@ -33,6 +34,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
   const {
     post,
     get,
+    error,
     data: signalReportersData,
   } = useFetch<Result<SignalReporter>>()
 
@@ -118,6 +120,14 @@ export const Contact = ({ incident, showPhone }: Props) => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
   }, [get, params.id])
 
+  useFetchResponseNotification({
+    entityName: 'Contactgegevens',
+    error,
+    isLoading: false,
+    isSuccess: false,
+    redirectURL: '',
+  })
+
   const emailChanged = useMemo(() => {
     return signalReportersData?.results?.find(
       (result) => result.state === 'verification_email_sent'
@@ -127,24 +137,30 @@ export const Contact = ({ incident, showPhone }: Props) => {
   return (
     <Fragment>
       <dt data-testid="detail-phone-definition">Telefoon melder</dt>
-      {activeComponent === 'edit' && (
-        <Edit incident={incident} submit={submitEdit} onClose={onClose} />
-      )}
-      {activeComponent === 'cancel' && (
-        <Cancel onClose={onClose} onSubmit={submitCancel} />
+      {configuration.featureFlags.showContactEdit && (
+        <>
+          {activeComponent === 'edit' && (
+            <Edit incident={incident} submit={submitEdit} onClose={onClose} />
+          )}
+          {activeComponent === 'cancel' && (
+            <Cancel onClose={onClose} onSubmit={submitCancel} />
+          )}
+        </>
       )}
       {!activeComponent && (
         <StyledDD data-testid="detail-phone-value">
-          <StyledEditButton
-            data-testid="edit-contact-button"
-            icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
-            iconSize={18}
-            onClick={() => {
-              setActiveComponent('edit')
-            }}
-            type="button"
-            variant="application"
-          />
+          {configuration.featureFlags.showContactEdit && (
+            <StyledEditButton
+              data-testid="edit-contact-button"
+              icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
+              iconSize={18}
+              onClick={() => {
+                setActiveComponent('edit')
+              }}
+              type="button"
+              variant="application"
+            />
+          )}
           {showPhone ? (
             <StyledLink
               data-testid="detail-phone-link"
@@ -162,18 +178,21 @@ export const Contact = ({ incident, showPhone }: Props) => {
       <dt data-testid="detail-email-definition">E-mail melder</dt>
       {!activeComponent && (
         <dd data-testid="detail-email-value">
-          {`${incident.reporter.email} ${
-            emailChanged ? ' (verificatie verzonden)' : ''
-          }`}
-          {cancelableReporterId && (
-            <StyledLink
-              variant="inline"
-              href={'#'}
-              onClick={() => setActiveComponent('cancel')}
-            >
-              Verificatie annuleren
-            </StyledLink>
-          )}
+          {`${incident.reporter.email}`}
+          {emailChanged && configuration.featureFlags.showContactEdit
+            ? ' (verificatie verzonden)'
+            : ''}
+
+          {configuration.featureFlags.showContactEdit &&
+            cancelableReporterId && (
+              <StyledLink
+                variant="inline"
+                href={'#'}
+                onClick={() => setActiveComponent('cancel')}
+              >
+                Verificatie annuleren
+              </StyledLink>
+            )}
         </dd>
       )}
     </Fragment>

@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
+import { Label } from '@amsterdam/asc-ui'
 import { useForm } from 'react-hook-form'
 
-import { CancelFormWrapper, StyledCancelForm } from './styled'
-import TextArea from '../../../../../../../../components/TextArea'
+import TextArea from 'components/TextArea'
+
+import { CancelFormWrapper, StyledForm } from './styled'
 import { StyledButton, StyledH2 } from '../../../StatusForm/styled'
 
 type Props = {
@@ -28,7 +30,7 @@ export default function Cancel({ onClose, onSubmit }: Props) {
     <CancelFormWrapper>
       <StyledH2 forwardedAs="h2">Annuleer wijziging</StyledH2>
 
-      <StyledCancelForm
+      <StyledForm
         onSubmit={handleSubmit((data) => {
           const dirtyKeys = Object.keys(dirtyFields)
           const dirtyData = dirtyKeys.reduce((acc, key) => {
@@ -42,11 +44,21 @@ export default function Cancel({ onClose, onSubmit }: Props) {
           onClose()
         })}
       >
-        <TextArea
-          {...register('reason')}
-          label="Reden van de wijziging (niet verplicht)"
-          placeholder="Omschrijf waarom de wijziging wordt geannuleerd"
-        ></TextArea>
+        <div>
+          <Label
+            htmlFor="reason"
+            label={
+              <>
+                <strong>Reden van de wijziging</strong>
+                <span>&nbsp;(niet verplicht)</span>
+              </>
+            }
+          />
+          <TextArea
+            {...register('reason')}
+            placeholder="Omschrijf waarom de wijziging wordt geannuleerd"
+          ></TextArea>
+        </div>
         <div>
           <StyledButton
             data-testid="cancel-form-submit-button"
@@ -64,7 +76,7 @@ export default function Cancel({ onClose, onSubmit }: Props) {
             Annuleer
           </StyledButton>
         </div>
-      </StyledCancelForm>
+      </StyledForm>
     </CancelFormWrapper>
   )
 }
