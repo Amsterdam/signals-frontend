@@ -1,5 +1,5 @@
 import type { StandardText } from 'types/api/standard-texts'
-
+import type { StatusCode } from 'types/status-code'
 export interface Option {
   key: string
   value: string
@@ -16,9 +16,19 @@ export interface StandardTextsAdminValue {
   setSearchQuery: (searchQuery: string) => void
 }
 
+export interface Facet {
+  count: number
+  active: boolean
+  term: StatusCode | boolean
+}
+
 export interface StandardTextsData {
   count: number
   results: StandardText[]
+  facets: {
+    active: Facet[]
+    state: Facet[]
+  }
   _links: {
     next: {
       href: string | null

@@ -1,4 +1,4 @@
-import { RadioGroup, Label } from '@amsterdam/asc-ui'
+import { RadioGroup, Label, themeSpacing, themeColor } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 export const FilterGroup = styled.div`
@@ -20,4 +20,10 @@ export const StyledLabel = styled(Label)`
 
 export const StyledRadioGroup = styled(RadioGroup)`
   display: inline-flex;
+`
+
+export const OptionCount = styled.span`
+  color: ${themeColor('tint', 'level5')};
+  margin-left: ${themeSpacing(1)};
+  order: 2;
 `
