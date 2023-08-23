@@ -2,6 +2,7 @@ import { render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRouterDom from 'react-router-dom'
 
+import configuration from 'shared/services/configuration/configuration'
 import IncidentDetailContext from 'signals/incident-management/containers/IncidentDetail/context'
 import { withAppContext } from 'test/utils'
 import incidentJSON from 'utils/__tests__/fixtures/incident.json'
@@ -13,6 +14,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../../../internals/testing/msw-server'
+jest.mock('shared/services/configuration/configuration')
 const incidentFixture = incidentJSON as unknown as any
 
 fetchMock.disableMocks()
@@ -23,6 +25,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('Contact', () => {
   beforeAll(() => {
+    configuration.featureFlags.showContactEdit = true
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ id: '7740' }))
@@ -164,9 +167,7 @@ describe('Contact', () => {
 
     expect(screen.queryByText(/Annuleer wijziging/)).toBeInTheDocument()
 
-    expect(
-      screen.getByText('Reden van de wijziging (niet verplicht)')
-    ).toBeInTheDocument()
+    expect(screen.getByText('Reden van de wijziging')).toBeInTheDocument()
 
     expect(screen.getByTestId('cancel-form-submit-button')).toBeInTheDocument()
     expect(screen.getByTestId('cancel-form-cancel-button')).toBeInTheDocument()
