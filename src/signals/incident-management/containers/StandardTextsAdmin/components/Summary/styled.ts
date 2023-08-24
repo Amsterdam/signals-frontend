@@ -36,20 +36,16 @@ export const Title = styled.div`
 `
 
 export const Text = styled.div<{ $isHighlighted: boolean }>`
-  font-weight: 400;
-  line-height: ${themeSpacing(6)};
+  line-height: 2rem;
   overflow: hidden;
-
   text-overflow: ellipsis;
   white-space: nowrap;
 
   ${({ $isHighlighted }) =>
     $isHighlighted &&
     css`
-      white-space: wrap;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      max-height: calc(3 * 2rem);
+      white-space: unset;
 
       em {
         background-color: ${themeColor('tint', 'level3')};
@@ -61,6 +57,6 @@ export const Text = styled.div<{ $isHighlighted: boolean }>`
 `
 
 export const Wrapper = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: ${themeSpacing(6)};
   cursor: pointer;
 `
