@@ -22,6 +22,8 @@ export default {
   // https://api.data.amsterdam.nl/api/swagger/?url=/signals/swagger/openapi.yaml#/default/get_signals_v1_private_departments_
   // for reference.
   DEPARTMENTS_ENDPOINT: '/signals/v1/private/departments/',
+  // Public. Verify the token for reporter email verification.
+  EMAIL_VERIFICATION_ENDPOINT: '/signals/v1/public/reporter/verify-email',
   // Public. Used by the KTO (klanttevredenheidsonderzoek) module to verify the
   // validity of a request. No Swagger documentation available.
   FEEDBACK_FORMS_ENDPOINT: '/signals/v1/public/feedback/forms/',
