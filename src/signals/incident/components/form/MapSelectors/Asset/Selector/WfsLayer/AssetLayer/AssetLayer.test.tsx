@@ -148,13 +148,17 @@ describe('AssetLayer', () => {
     ).toBeInTheDocument()
   })
 
-  it('should handle deselecting a container', async () => {
+  it('should handle deselecting a container with keyboard', async () => {
     render(withAssetMap({ selection: newSelection }))
 
     const container = screen.getByAltText(
       `Papier container, is geselecteerd (${featureId})`
     )
-    userEvent.click(container)
+
+    container.focus()
+
+    userEvent.keyboard('{Enter}')
+
     expect(removeItem).toHaveBeenCalled()
     expect(setItem).not.toHaveBeenCalled()
   })
