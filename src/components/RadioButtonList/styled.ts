@@ -24,6 +24,7 @@ export const StyledRadioGroup = styled(RadioGroup)`
 
 export const OptionCount = styled.span`
   color: ${themeColor('tint', 'level5')};
+  font-weight: 700;
   margin-left: ${themeSpacing(1)};
   order: 2;
 `
