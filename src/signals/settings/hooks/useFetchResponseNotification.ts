@@ -18,8 +18,8 @@ import { isFetchError } from '../../shared/type-guards'
 
 interface Props {
   entityName: string // Name by which the stored/patched data should be labeled (eg. 'Afdeling')
-  isLoading: boolean // Flag indicating if data is still loading
-  redirectURL: string // URL to which the push should be directed when isSuccess is truthy
+  isLoading?: boolean // Flag indicating if data is still loading
+  redirectURL?: string // URL to which the push should be directed when isSuccess is truthy
   isSuccess?: boolean // Flag indicating if data has been stored/patched successfully
   error?: boolean | FetchError // Exception object
   requestType?: string // Flag indicating what type of request it is
@@ -48,7 +48,7 @@ const useFetchResponseNotification = ({
   )
 
   useEffect(() => {
-    if (isLoading || !(error || isSuccess)) return
+    if (isLoading || (!error && !isSuccess)) return
 
     let message
     let variant = VARIANT_SUCCESS
@@ -60,27 +60,17 @@ const useFetchResponseNotification = ({
 
     if (isSuccess) {
       const entityLabel = entityName || 'Gegevens'
-
-      switch (requestType) {
-        case RequestType.DELETE: {
-          message = `${entityLabel} verwijderd`
-          break
-        }
-        case RequestType.PATCH || RequestType.PUT: {
-          message = `${entityLabel} bijgewerkt`
-          break
-        }
-        case RequestType.POST: {
-          message = `${entityLabel} toegevoegd`
-          break
-        }
-        default: {
-          message = `${entityLabel} bijgewerkt`
-          break
-        }
+      const actionMap: { [key: string]: string } = {
+        [RequestType.DELETE]: 'verwijderd',
+        [RequestType.PATCH]: 'bijgewerkt',
+        [RequestType.PUT]: 'bijgewerkt',
+        [RequestType.POST]: 'toegevoegd',
       }
-    }
 
+      message = `${entityLabel} ${
+        requestType ? actionMap[requestType] : 'bijgewerkt'
+      }`
+    }
     showNotification(variant, message)
   }, [entityName, error, isLoading, isSuccess, showNotification, requestType])
 
