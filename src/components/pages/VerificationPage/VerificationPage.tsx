@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
 
-import { StyledButton, StyledLabel, StyledP } from './styled'
+import { StyledButton, StyledButtonDescription, StyledP } from './styled'
 import { useFetch } from '../../../hooks'
 import configuration from '../../../shared/services/configuration/configuration'
 import BasePage from '../BasePage'
@@ -23,11 +23,12 @@ export function VerificationPage() {
 
   let button: ReactNode = (
     <>
-      <StyledLabel>
+      <StyledButtonDescription id={'verify-email-button'}>
         <strong>Wilt u nog een andere melding doen?</strong>
-      </StyledLabel>
+      </StyledButtonDescription>
       <div>
         <StyledButton
+          aria-describedby={'verify-email-button'}
           variant="primary"
           forwardedAs={Link}
           to="/incident/beschrijf"
