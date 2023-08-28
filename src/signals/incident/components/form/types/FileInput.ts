@@ -1,7 +1,7 @@
 import type { WizardSection } from 'signals/incident/definitions/wizard'
 import type { FormMeta } from 'types/reactive-form'
 
-export const enum FileTypes {
+export enum FileTypes {
   JPEG = 'image/jpeg',
   JPG = 'image/jpg',
   PNG = 'image/png',
@@ -10,7 +10,7 @@ export const enum FileTypes {
 
 export interface Meta extends FormMeta {
   allowedFileTypes: FileTypes[]
-  isVisible: boolean
+  isVisible?: boolean
   label: string
   maxFileSize: number
   maxNumberOfFiles: number
@@ -21,11 +21,13 @@ export interface Meta extends FormMeta {
 
 export interface Parent {
   meta: {
-    addToSelection: () => void
-    getClassification: () => void
-    handleSubmit: () => void
-    incidentContainer: () => void
-    removeFromSelection: () => void
-    wizard: WizardSection
+    addToSelection?: () => void
+    getClassification?: () => void
+    handleSubmit?: () => void
+    incidentContainer?: () => void
+    removeFromSelection?: () => void
+    updateIncident: (data: any) => void
+    wizard?: WizardSection
   }
+  value?: any
 }

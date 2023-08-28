@@ -8,7 +8,7 @@ import FileInput from '../FileInput'
 import type { Meta, Parent } from '../types/FileInput'
 
 export interface Props {
-  handler: ReactiveFormMeta['handler']
+  handler: () => { value: File[] }
   hasError: ReactiveFormMeta['hasError']
   getError: ReactiveFormMeta['getError']
   parent: Parent

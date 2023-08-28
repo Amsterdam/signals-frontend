@@ -10,7 +10,7 @@ import type { Props } from './FileInputRenderer'
 import { FileTypes } from '../types/FileInput'
 
 const defaultProps: Props = {
-  handler: jest.fn(),
+  handler: () => ({ value: [] as File[] }),
   getError: jest.fn(),
   hasError: jest.fn(),
   parent: {
@@ -21,12 +21,7 @@ const defaultProps: Props = {
     subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
     minFileSize: 30720,
     maxFileSize: 20971520,
-    allowedFileTypes: [
-      FileTypes.JPEG,
-      FileTypes.JPG,
-      FileTypes.PNG,
-      FileTypes.GIF,
-    ],
+    allowedFileTypes: Object.values(FileTypes),
     maxNumberOfFiles: 3,
     name: 'images',
     isVisible: true,

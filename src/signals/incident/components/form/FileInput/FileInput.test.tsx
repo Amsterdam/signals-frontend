@@ -1,25 +1,42 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render, fireEvent, act, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import FileInput from '..'
+import FileInput from '.'
+import { FileTypes } from '../types/FileInput'
+import type { Parent } from '../types/FileInput'
+
+declare let window: { URL?: { createObjectURL: any; revokeObjectURL: any } }
 
 describe('Form component <FileInput />', () => {
   const metaFields = {
     name: 'input-field-name',
     isVisible: true,
+
+    label: "Foto's toevoegen",
+    subtitle: 'Voeg een foto toe om de situatie te verduidelijken',
+    minFileSize: 30720,
+    maxFileSize: 20971520,
+    allowedFileTypes: [
+      FileTypes.JPEG,
+      FileTypes.JPG,
+      FileTypes.PNG,
+      FileTypes.GIF,
+    ],
+    maxNumberOfFiles: 3,
+  }
+
+  const parent = {
+    meta: { updateIncident: jest.fn() } as Parent['meta'],
+    value: jest.fn(),
   }
 
   const props = {
-    handler: jest.fn(),
-    parent: {
-      meta: {
-        updateIncident: jest.fn(),
-      },
-      value: jest.fn(),
-    },
+    handler: () => ({ value: [] as File[] }),
+    parent,
+    meta: metaFields,
   }
 
   describe('rendering', () => {
@@ -28,10 +45,10 @@ describe('Form component <FileInput />', () => {
         withAppContext(
           <FileInput
             {...props}
-            meta={{
-              ...metaFields,
-              maxNumberOfFiles: 3,
-            }}
+            // meta={{
+            //   ...metaFields,
+            //   maxNumberOfFiles: 3,
+            // }}
           />
         )
       )
@@ -44,8 +61,7 @@ describe('Form component <FileInput />', () => {
     describe('events', () => {
       const minFileSize = 30 * 2 ** 10
       const maxFileSize = 20 * 2 ** 20
-      let handler
-      let parent
+      let handler = jest.fn()
 
       const file1 = {
         name: 'bloem.jpeg',
@@ -76,12 +92,6 @@ describe('Form component <FileInput />', () => {
 
       beforeEach(() => {
         handler = jest.fn()
-        parent = {
-          meta: {
-            updateIncident: jest.fn(),
-          },
-          value: jest.fn(),
-        }
 
         window.URL = {
           createObjectURL: jest.fn(),
@@ -96,7 +106,7 @@ describe('Form component <FileInput />', () => {
 
       it('uploads already uploaded file and triggers multiple errors', async () => {
         handler.mockImplementation(() => ({ value: [file2, file3, file4] }))
-        const { queryByTestId, findByTestId } = render(
+        const { findByTestId } = render(
           withAppContext(
             <FileInput
               parent={parent}
@@ -105,13 +115,13 @@ describe('Form component <FileInput />', () => {
                 ...metaFields,
                 maxNumberOfFiles: 4,
                 maxFileSize,
-                allowedFileTypes: ['image/jpeg'],
+                allowedFileTypes: [FileTypes.JPEG],
               }}
             />
           )
         )
 
-        const fileInputElement = queryByTestId('file-input-upload')
+        const fileInputElement = screen.getByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file1] } })
         })
@@ -127,7 +137,7 @@ describe('Form component <FileInput />', () => {
       it('uploads a file with no extra validations', async () => {
         handler.mockImplementation(() => ({ value: undefined }))
 
-        const { queryByTestId, findByTestId } = render(
+        const { findByTestId } = render(
           withAppContext(
             <FileInput
               parent={parent}
@@ -136,13 +146,13 @@ describe('Form component <FileInput />', () => {
                 ...metaFields,
                 maxNumberOfFiles: 3,
                 maxFileSize,
-                allowedFileTypes: ['image/jpeg'],
+                allowedFileTypes: [FileTypes.JPEG],
               }}
             />
           )
         )
 
-        const fileInputElement = queryByTestId('file-input-upload')
+        const fileInputElement = screen.getByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file1] } })
         })
@@ -158,7 +168,7 @@ describe('Form component <FileInput />', () => {
       it('it removes 1 file when remove button was clicked', async () => {
         const expectedBlob = 'blob'
         handler.mockImplementation(() => ({ value: [file1, file2] }))
-        window.URL.createObjectURL.mockImplementation(() => expectedBlob)
+        window.URL?.createObjectURL.mockImplementation(() => expectedBlob)
 
         const { queryAllByTestId, findByTestId } = render(
           withAppContext(
@@ -216,7 +226,7 @@ describe('Form component <FileInput />', () => {
         expect(queryByTestId('file-input-upload')).toBeInTheDocument()
         expect(queryByTestId('file-input-error')).not.toBeInTheDocument()
 
-        const fileInputElement = queryByTestId('file-input-upload')
+        const fileInputElement = screen.getByTestId('file-input-upload')
         act(() => {
           fireEvent.change(fileInputElement, { target: { files: [file5] } })
         })
