@@ -301,29 +301,20 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await screen.findByTestId('incident-detail')
 
-    act(() => {
-      userEvent.click(screen.getByText('Notitie toevoegen'))
-    })
+    userEvent.click(screen.getByText('Notitie toevoegen'))
 
     userEvent.type(screen.getByTestId('add-note-text'), 'Foo bar baz')
 
     expect(emit).not.toHaveBeenCalled()
     expect(storeDispatch).not.toHaveBeenCalled()
 
-    act(() => {
-      userEvent.click(screen.getByTestId('add-note-save-note-button'))
-    })
-
-    await screen.findByTestId('incident-detail')
-    await screen.findByTestId('incident-detail')
-
-    expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
+    userEvent.click(screen.getByTestId('add-note-save-note-button'))
 
     await waitFor(() => {
-      expect(storeDispatch).toHaveBeenCalledWith(patchIncidentSuccess())
+      expect(emit).toHaveBeenCalledWith('highlight', { type: 'notes' })
     })
 
-    await screen.findByTestId('incident-detail')
+    expect(storeDispatch).toHaveBeenCalledWith(patchIncidentSuccess())
   })
 
   it('should handle attachment upload', async () => {
