@@ -174,7 +174,6 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
             feature.properties.created_at
           )}`,
           keyboard: false,
-          zIndexOffset: -1,
         }
       )
 
