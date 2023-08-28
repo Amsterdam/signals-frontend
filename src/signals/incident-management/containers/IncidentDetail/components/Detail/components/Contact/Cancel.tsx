@@ -28,7 +28,7 @@ export default function Cancel({ onClose, onSubmit }: Props) {
 
   return (
     <CancelFormWrapper>
-      <StyledH2 forwardedAs="h2">Annuleer wijziging</StyledH2>
+      <StyledH2 forwardedAs="h2">Annuleer e-mail wijziging</StyledH2>
 
       <StyledForm
         onSubmit={handleSubmit((data) => {
