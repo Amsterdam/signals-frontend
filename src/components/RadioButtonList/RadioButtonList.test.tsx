@@ -172,4 +172,49 @@ describe('signals/incident-management/components/RadioButtonList', () => {
 
     expect(screen.getAllByRole('textbox')).toHaveLength(1)
   })
+
+  it('should render a count whenever this is provided', () => {
+    const statusFilters = [
+      {
+        key: 'm',
+        value: 'Gemeld',
+        count: 6,
+      },
+      {
+        key: 'i',
+        value: 'In afwachting van behandeling',
+        count: 1,
+      },
+      {
+        key: 'reaction requested',
+        value: 'Reactie gevraagd',
+      },
+    ]
+
+    const onChange = jest.fn()
+
+    const groupName = 'filter'
+
+    const formValidation = {
+      errors: {},
+      trigger: jest.fn(),
+      setValue: jest.fn(),
+      register: jest.fn(),
+      selectedRadioButton: statusFilters[0].value,
+    }
+
+    render(
+      withAppContext(
+        <RadioButtonList
+          options={statusFilters}
+          groupName={groupName}
+          onChange={onChange}
+          formValidation={formValidation}
+        />
+      )
+    )
+
+    expect(screen.getByText('(6)')).toBeInTheDocument()
+    expect(screen.getByText('(1)')).toBeInTheDocument()
+  })
 })

@@ -106,6 +106,7 @@ export const OverviewPage = () => {
       <Grid>
         <div>
           <Filter
+            meta={data?.facets}
             currentStatusFilter={statusFilter}
             currentActiveFilter={activeFilter}
             setStatusFilter={setStatusFilter}

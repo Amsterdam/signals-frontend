@@ -44,7 +44,7 @@ describe('Contact', () => {
 
     expect(screen.getByText('14020')).toBeInTheDocument()
 
-    expect(screen.queryByText('me@email.com')).toBeInTheDocument()
+    expect(screen.getByText(/me@email.com/)).toBeInTheDocument()
 
     expect(screen.getByTestId('edit-contact-button')).toBeInTheDocument()
   })
@@ -165,7 +165,7 @@ describe('Contact', () => {
       userEvent.click(screen.getByText(/Verificatie annuleren/))
     })
 
-    expect(screen.queryByText(/Annuleer wijziging/)).toBeInTheDocument()
+    expect(screen.queryByText(/Annuleer e-mail wijziging/)).toBeInTheDocument()
 
     expect(screen.getByText('Reden van de wijziging')).toBeInTheDocument()
 

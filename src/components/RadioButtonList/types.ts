@@ -7,4 +7,5 @@ export interface RadioButtonOption extends Option {
   name?: string
   topic?: string | null
   open_answer?: boolean
+  count?: number
 }
