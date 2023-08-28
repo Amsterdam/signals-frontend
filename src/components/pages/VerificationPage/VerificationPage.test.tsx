@@ -26,6 +26,8 @@ describe('VerificationPage', () => {
   it('should render the verification success page', async () => {
     render(withAppContext(<VerificationPage />))
 
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
+
     await waitFor(() => {
       expect(screen.getByText('E-mailadres bevestigd')).toBeInTheDocument()
       expect(
@@ -48,6 +50,8 @@ describe('VerificationPage', () => {
     })
 
     render(withAppContext(<VerificationPage />))
+
+    expect(screen.getByTestId('loading-indicator')).toBeInTheDocument()
 
     await waitFor(() => {
       expect(screen.getByText('Link ongeldig')).toBeInTheDocument()
