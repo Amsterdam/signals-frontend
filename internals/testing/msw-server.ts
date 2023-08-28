@@ -277,6 +277,10 @@ const handlers = [
 
   // POST
 
+  rest.post(API.EMAIL_VERIFICATION_ENDPOINT, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json(null))
+  ),
+
   rest.post(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(200), ctx.json(detail))
   ),

@@ -26,6 +26,7 @@ import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyCon
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
+import VerificationPage from '../../components/pages/VerificationPage'
 import useDefaultHeader from '../../hooks/useDefaultHeader'
 import useTallHeader from '../../hooks/useTallHeader'
 import { ConfirmationProvider } from '../Confirmation'
@@ -175,6 +176,10 @@ export const AppContainer = () => {
                   <Route
                     path="/toegankelijkheidsverklaring"
                     element={<Toegankelijkheidsverklaring />}
+                  />
+                  <Route
+                    path="/verify_email/:token"
+                    element={<VerificationPage />}
                   />
                   <Route path={'*'} element={<SettingsModule />} />
                 </Routes>
