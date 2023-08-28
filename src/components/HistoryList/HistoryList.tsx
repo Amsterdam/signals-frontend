@@ -64,29 +64,31 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
   className,
 }) => (
   <List className={className}>
-    {list.map(({ identifier, when, who, action, description }) => (
-      <Item key={identifier}>
-        <Time>
-          {string2date(when)} om {string2time(when)}
-          <Who>{who}</Who>
-        </Time>
+    {list.map(({ identifier, when, who, action, description }) => {
+      return (
+        <Item key={`${identifier}-${when}`}>
+          <Time>
+            {string2date(when)} om {string2time(when)}
+            <Who>{who}</Who>
+          </Time>
 
-        <Action>
-          {action && (
-            <span data-testid="history-list-item-action">
-              <Markdown allowedElements={['a', 'p']}>{action}</Markdown>
-            </span>
-          )}
-          {description && (
-            <span data-testid="history-list-item-description">
-              <Markdown allowedElements={['a', 'p', 'ul', 'ol', 'li']}>
-                {description}
-              </Markdown>
-            </span>
-          )}
-        </Action>
-      </Item>
-    ))}
+          <Action>
+            {action && (
+              <span data-testid="history-list-item-action">
+                <Markdown allowedElements={['a', 'p']}>{action}</Markdown>
+              </span>
+            )}
+            {description && (
+              <span data-testid="history-list-item-description">
+                <Markdown allowedElements={['a', 'p', 'ul', 'ol', 'li']}>
+                  {description}
+                </Markdown>
+              </span>
+            )}
+          </Action>
+        </Item>
+      )
+    })}
   </List>
 )
 
