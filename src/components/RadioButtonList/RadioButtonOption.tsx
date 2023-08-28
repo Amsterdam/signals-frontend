@@ -8,7 +8,7 @@ import RadioButtonComponent from 'components/RadioButton'
 import TextArea from 'components/TextArea'
 
 import type { RadioButtonListProps } from './RadioButtonList'
-import { StyledLabel } from './styled'
+import { StyledLabel, OptionCount } from './styled'
 import type { RadioButtonOption as RadioButtonOptionType } from './types'
 import TopicLabel from '../TopicLabel'
 
@@ -38,19 +38,22 @@ export const RadioButtonOption = ({
         htmlFor={option.key || option.name}
         label={option.value}
       >
-        <RadioButtonComponent
-          data-testid={`${groupName}-${option.key || option.name}`}
-          checked={option.key === defaultValue}
-          id={option.key || (option.name as string)}
-          onChange={() => {
-            if (onChange) {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              onChange(groupName, option)
-            }
-          }}
-          value={option.key}
-        />
+        <>
+          <RadioButtonComponent
+            data-testid={`${groupName}-${option.key || option.name}`}
+            checked={option.key === defaultValue}
+            id={option.key || (option.name as string)}
+            onChange={() => {
+              if (onChange) {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                onChange(groupName, option)
+              }
+            }}
+            value={option.key}
+          />
+          {option.count && <OptionCount>({option.count})</OptionCount>}
+        </>
       </StyledLabel>
 
       {option.open_answer &&
