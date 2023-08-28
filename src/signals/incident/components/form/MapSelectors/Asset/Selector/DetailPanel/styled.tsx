@@ -75,6 +75,11 @@ export const Description = styled.span`
   font-weight: 400;
 `
 
+export const StyledLabelPDOkAutoSuggest = styled.label`
+  display: block;
+  font-weight: 700;
+`
+
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
   margin: ${themeSpacing(4, 0)};
   width: 100%;

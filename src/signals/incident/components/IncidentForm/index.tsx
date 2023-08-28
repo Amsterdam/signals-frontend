@@ -14,7 +14,7 @@ import { isEmpty, isObject } from 'lodash'
 import isEqual from 'lodash/isEqual'
 import { Controller } from 'react-hook-form'
 
-import { Form, Fieldset, ProgressContainer } from './styled'
+import { Form, ControlsWrapper, ProgressContainer } from './styled'
 import { clearBlockingAlert } from './utils/clear-blocking-alert'
 import { scrollToInvalidElement } from './utils/scroll-to-invalid-element'
 import formatConditionalForm from '../../services/format-conditional-form'
@@ -249,7 +249,7 @@ const IncidentForm = forwardRef<any, any>(
       <div data-testid="incident-form" ref={formRef}>
         <ProgressContainer />
         <Form>
-          <Fieldset isSummary={isSummary}>
+          <ControlsWrapper isSummary={isSummary}>
             {Object.entries(controls).map(([key, value]: any) => {
               return (
                 (value.render && parent && reactHookFormProps?.control && (
@@ -305,7 +305,7 @@ const IncidentForm = forwardRef<any, any>(
                 null
               )
             })}
-          </Fieldset>
+          </ControlsWrapper>
         </Form>
       </div>
     )
