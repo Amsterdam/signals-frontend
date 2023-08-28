@@ -44,7 +44,7 @@ describe('Contact', () => {
 
     expect(screen.getByText('14020')).toBeInTheDocument()
 
-    expect(screen.getByText('me@email.com')).toBeInTheDocument()
+    expect(screen.getByText(/me@email.com/)).toBeInTheDocument()
 
     expect(screen.getByTestId('edit-contact-button')).toBeInTheDocument()
   })
