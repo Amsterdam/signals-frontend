@@ -42,15 +42,7 @@ describe('Form component <FileInput />', () => {
   describe('rendering', () => {
     it('should render upload field correctly', () => {
       const { getByTestId, getAllByTestId } = render(
-        withAppContext(
-          <FileInput
-            {...props}
-            // meta={{
-            //   ...metaFields,
-            //   maxNumberOfFiles: 3,
-            // }}
-          />
-        )
+        withAppContext(<FileInput {...props} />)
       )
 
       expect(getByTestId('file-input')).toBeInTheDocument()
