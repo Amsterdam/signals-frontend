@@ -1,6 +1,6 @@
 import {
   breakpoint,
-  Paragraph,
+  Heading,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
@@ -69,9 +69,7 @@ export const ScrollWrapper = styled.div.attrs({
   margin: ${themeSpacing(0, -4)};
 `
 
-export const Title = styled(Paragraph).attrs({
-  styleAs: 'h1',
-})`
+export const Title = styled(Heading)`
   margin: ${themeSpacing(-4, -4, 0)};
   padding: ${themeSpacing(3, 4)};
 
