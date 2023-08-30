@@ -67,7 +67,7 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
             message={errors.email.message}
           />
         )}
-        <StyledInput {...register('email')} />
+        <StyledInput {...register('email')} id={'email-address'} />
       </ErrorWrapper>
 
       <Button type="submit" variant="secondary">
