@@ -13,7 +13,7 @@ const CloseButton = ({ className = '', close }: Props) => (
   <StyledButton
     className={className}
     data-testid="close-button"
-    aria-label="Sluit button"
+    aria-label="Sluiten"
     icon={<CloseIcon />}
     iconSize={16}
     onClick={close}
