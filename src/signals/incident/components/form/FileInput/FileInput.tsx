@@ -32,7 +32,7 @@ const FileInput = ({ handler, parent, meta }: Props) => {
   )
 
   const checkNumberOfFiles = useCallback(
-    (_file, index) => index < maxNumberOfFiles,
+    (_, index) => index < maxNumberOfFiles,
     [maxNumberOfFiles]
   )
 
