@@ -5,7 +5,6 @@ import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import {
-  Paragraph,
   Label,
   Input,
   Checkbox,
@@ -35,6 +34,7 @@ import {
   PanelContent,
   StyledAssetList,
   StyledButton,
+  StyledLabelPDOkAutoSuggest,
   StyledLegendPanel,
   StyledPDOKAutoSuggest,
 } from './styled'
@@ -180,19 +180,20 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
       <Title>{language.title || 'Locatie'}</Title>
 
       <ScrollWrapper>
-        <Paragraph strong gutterBottom={16}>
+        <StyledLabelPDOkAutoSuggest htmlFor={'location'}>
           {language.subTitle || 'U kunt maar een object kiezen'}
           <Description>
             {language.description ||
               'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
           </Description>
-        </Paragraph>
+        </StyledLabelPDOkAutoSuggest>
 
         {!(showAddressPanel && shouldRenderAddressPanel) && (
           <StyledPDOKAutoSuggest
             onFocus={() => {
               setShowAddressPanel(true)
             }}
+            id={'location'}
             onClear={removeItem}
             onSelect={onAddressSelect}
             value={addressValue}

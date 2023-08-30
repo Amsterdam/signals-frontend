@@ -15,13 +15,13 @@ const FileInputRenderer = ({
   validatorsOrOpts,
 }) => {
   if (!meta?.isVisible) return null
-
   return (
     <FormField
       meta={meta}
       options={validatorsOrOpts}
       hasError={hasError}
       getError={getError}
+      isFieldSet
     >
       <FileInput handler={handler} parent={parent} meta={meta} />
     </FormField>

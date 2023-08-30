@@ -29,6 +29,7 @@ const DateTimeInput: FC<DateTimeInputProps> = ({
       options={validatorsOrOpts}
       hasError={hasError}
       getError={getError}
+      isFieldSet
     >
       <DateTime onUpdate={updateTimestamp} value={value} />
     </FormField>

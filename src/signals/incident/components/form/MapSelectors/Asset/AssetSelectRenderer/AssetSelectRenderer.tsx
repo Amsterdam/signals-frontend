@@ -21,6 +21,7 @@ const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
       options={validatorsOrOpts}
       hasError={hasError}
       getError={getError}
+      isFieldSet
     >
       <AssetSelect value={handler().value} meta={meta} parent={parent} />
     </FormField>

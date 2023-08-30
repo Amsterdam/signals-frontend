@@ -8,7 +8,7 @@ export const Form = styled.form`
 
 export const ProgressContainer = styled.div``
 
-export const Fieldset = styled.fieldset<{ isSummary?: boolean }>`
+export const ControlsWrapper = styled.div<{ isSummary?: boolean }>`
   border: 0;
   padding: 0;
   margin: 0;
