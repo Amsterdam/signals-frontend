@@ -1,15 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { useState, useCallback } from 'react'
-
-import PropTypes from 'prop-types'
 
 import FileInputComponent from 'components/FileInput'
 
 import fileSize from '../../../services/file-size'
+import type { Meta, Parent } from '../types/FileInput'
 
-const FileInput = ({ handler, parent, meta }) => {
-  const [errors, setErrors] = useState()
+export interface Props {
+  handler: () => { value: File[] }
+  parent: Parent
+  meta: Meta
+}
+
+const FileInput = ({ handler, parent, meta }: Props) => {
+  const [errors, setErrors] = useState<string[]>()
   const maxNumberOfFiles = (meta && meta.maxNumberOfFiles) || 3
   const checkMinFileSize = useCallback(
     (file) => file.size >= meta.minFileSize,
@@ -27,7 +32,7 @@ const FileInput = ({ handler, parent, meta }) => {
   )
 
   const checkNumberOfFiles = useCallback(
-    (file, index) => index < maxNumberOfFiles,
+    (_, index) => index < maxNumberOfFiles,
     [maxNumberOfFiles]
   )
 
@@ -93,9 +98,10 @@ const FileInput = ({ handler, parent, meta }) => {
         .filter(maxNumberOfFilesFilter)
 
       setErrors(getErrorMessages(batchFiles))
+
       parent.meta.updateIncident({
         [meta.name]: files,
-        [`${meta.name}_previews`]: files.map((file) =>
+        [`${meta.name}_previews`]: files.map((file: File) =>
           window.URL.createObjectURL(file)
         ),
       })
@@ -111,26 +117,21 @@ const FileInput = ({ handler, parent, meta }) => {
     ]
   )
 
-  const files = handler()?.value || []
+  const files = handler().value || []
 
   return (
     <FileInputComponent
+      allowedFileTypes={meta.allowedFileTypes}
       errorMessages={errors}
+      files={files}
+      label={meta.label}
+      maxFileSize={meta.maxFileSize}
+      maxNumberOfFiles={maxNumberOfFiles}
+      minFileSize={meta.minFileSize}
       name={meta.name}
       onChange={handleChange}
-      files={files}
-      maxNumberOfFiles={maxNumberOfFiles}
-      maxFileSize={meta.maxFileSize}
-      minFileSize={meta.minFileSize}
-      allowedFileTypes={meta.allowedFileTypes}
     />
   )
-}
-
-FileInput.propTypes = {
-  handler: PropTypes.func,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
 }
 
 export default FileInput

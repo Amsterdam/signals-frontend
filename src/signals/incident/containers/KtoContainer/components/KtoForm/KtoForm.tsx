@@ -36,6 +36,7 @@ import {
   HelpText,
   StyledTextArea,
 } from './styled'
+import { FileTypes } from '../../../../components/form/types/FileInput'
 import { makeSelectIncidentContainer } from '../../../IncidentContainer/selectors'
 import type {
   FormData,
@@ -239,12 +240,7 @@ const KtoForm = ({
                     'Voeg een foto toe om de situatie te verduidelijken',
                   minFileSize: 30 * 2 ** 10, // 30 KiB.
                   maxFileSize: 20 * 2 ** 20, // 20 MiB.
-                  allowedFileTypes: [
-                    'image/jpeg',
-                    'image/jpg',
-                    'image/png',
-                    'image/gif',
-                  ],
+                  allowedFileTypes: Object.values(FileTypes),
                   maxNumberOfFiles: 3,
                 }}
               />
