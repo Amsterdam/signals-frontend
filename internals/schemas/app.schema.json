@@ -47,6 +47,9 @@
         },
         "frontPageAlert": {
           "$ref": "#/definitions/FrontPageAlert"
+        },
+        "piwik": {
+          "$ref": "#/definitions/Piwik"
         }
       },
       "required": [
@@ -808,6 +811,17 @@
         }
       },
       "title": "FrontPageAlert"
+    },
+    "Piwik": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Piwik api key"
+        }
+      },
+      "title": "Piwik"
     }
   }
 }
