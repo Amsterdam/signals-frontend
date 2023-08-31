@@ -19,15 +19,21 @@ export interface Meta extends FormMeta {
   subtitle: string
 }
 
-export interface Parent {
-  meta: {
-    addToSelection?: () => void
-    getClassification?: () => void
-    handleSubmit?: () => void
-    incidentContainer?: () => void
-    removeFromSelection?: () => void
-    updateIncident: (data: any) => void
-    wizard?: WizardSection
+export interface ParentMeta {
+  addToSelection?: () => void
+  getClassification?: () => void
+  handleSubmit?: () => void
+  incidentsContainer?: {
+    incident: {
+      id: number
+    }
   }
+  removeFromSelection?: () => void
+  updateIncident: (data: any) => void
+  wizard?: WizardSection
+}
+
+export interface Parent {
+  meta: ParentMeta
   value?: any
 }

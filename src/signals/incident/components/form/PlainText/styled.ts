@@ -1,28 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import get from 'lodash/get'
-import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import styled, { css } from 'styled-components'
 
-import Markdown from 'components/Markdown'
-import { getIsAuthenticated } from 'shared/services/auth/auth'
-import mapDynamicFields from 'signals/incident/services/map-dynamic-fields'
-
-import { makeSelectIncidentContainer } from '../../../containers/IncidentContainer/selectors'
-
-const injectParent = (value, parent) =>
-  mapDynamicFields(value, {
-    incident: get(parent, 'meta.incidentContainer.incident'),
-  })
-
-const Label = styled.div`
+export const Label = styled.div`
   font-weight: 700;
   margin: 0;
 `
 
-const getStyle = (type) => {
+const getStyle = (type?: string) => {
   switch (type) {
     case 'alert':
       return css`
@@ -82,7 +68,7 @@ const getStyle = (type) => {
   }
 }
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div<{ type?: string }>`
   ul {
     padding: ${themeSpacing(0, 0, 0, 6)};
     margin: 0;
@@ -102,38 +88,3 @@ const Wrapper = styled.div`
 
   ${({ type }) => getStyle(type)}
 `
-
-const PlainText = ({ className, meta, parent }) => {
-  const { mapActive } = useSelector(makeSelectIncidentContainer)
-  const valueAuthenticated = getIsAuthenticated() && meta?.valueAuthenticated
-  const value = !valueAuthenticated && meta?.value
-  return meta?.isVisible ? (
-    <Wrapper className={className} type={meta.type} data-testid="plain-text">
-      {meta.label && (
-        <Label>
-          <Markdown hideTabindexLink={mapActive}>
-            {injectParent(meta.label, parent)}
-          </Markdown>
-        </Label>
-      )}
-      {valueAuthenticated && (
-        <Markdown>{injectParent(valueAuthenticated, parent)}</Markdown>
-      )}
-      {value && (
-        <Markdown linkTarget="_blank">{injectParent(value, parent)}</Markdown>
-      )}
-    </Wrapper>
-  ) : null
-}
-
-PlainText.defaultProps = {
-  className: '',
-}
-
-PlainText.propTypes = {
-  className: PropTypes.string,
-  meta: PropTypes.object,
-  parent: PropTypes.object,
-}
-
-export default PlainText
