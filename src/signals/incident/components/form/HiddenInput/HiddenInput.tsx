@@ -11,13 +11,13 @@ export interface Props {
   getError: ReactiveFormMeta['getError']
   hasError: ReactiveFormMeta['hasError']
   handler: ReactiveFormMeta['handler']
-  validatorOrOpts: FormOptions
+  validatorsOrOpts: FormOptions
   meta: HiddenInputMeta
   parent: Parent
 }
 
 const HiddenInput = (props: Props) => {
-  const { parent, meta, handler } = props
+  const { parent, meta } = props
 
   useEffect(() => {
     parent.meta.updateIncident({
@@ -27,13 +27,13 @@ const HiddenInput = (props: Props) => {
   }, [])
 
   if (!meta.name || !meta.value) return null
+
   return (
     <input
       data-testid="hidden-input"
       type="hidden"
       id={meta.name}
       value={meta.value}
-      {...handler}
     />
   )
 }
