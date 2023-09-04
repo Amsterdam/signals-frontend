@@ -105,6 +105,7 @@ const IncidentDetail = () => {
 
   const {
     del: deleteAttachment,
+    patch: patchAttachment,
     isLoading: isDeleteAttachmentLoading,
     isSuccess: isDeleteAttachmentSuccess,
   } = useFetch()
@@ -350,6 +351,13 @@ const IncidentDetail = () => {
     [deleteAttachment]
   )
 
+  const changeAttachment = useCallback(
+    (href, attachment) => {
+      patchAttachment(href, attachment)
+    },
+    [patchAttachment]
+  )
+
   useEffect(() => {
     if (
       uploadSuccess ||
@@ -424,6 +432,7 @@ const IncidentDetail = () => {
             attachments={state.attachments?.results ?? []}
             add={addAttachment}
             remove={removeAttachment}
+            patch={changeAttachment}
             isChildIncident={isChild}
             isParentIncident={isParent}
             isRemoving={isRemovingAttachment}

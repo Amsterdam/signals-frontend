@@ -22,7 +22,9 @@
       "location": "https://ae70d54aca324d0480ca01934240c78f.jpg",
       "is_image": true,
       "created_at": "2020-06-10T11:51:24.281272+02:00",
-      "created_by": ""
+      "created_by": "",
+      "public": false,
+      "caption": ""
     }
   ]
 }

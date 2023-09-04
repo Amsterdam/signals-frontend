@@ -68,6 +68,13 @@ export interface Attachment {
   created_by: string
   is_image: boolean
   location: string
+  caption: string
+  public: boolean
+  _links: {
+    self: {
+      href: string
+    }
+  }
 }
 
 export interface Result<T> {
