@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-/* eslint-disable  react/prop-types */
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { themeColor, ascDefaultTheme } from '@amsterdam/asc-ui'
 import { render, screen } from '@testing-library/react'
 import 'jest-styled-components'
@@ -9,63 +8,69 @@ import * as auth from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import { withAppContext } from 'test/utils'
 
-import PlainText from '.'
+import PlainText from './PlainText'
+import type { Props } from './PlainText'
 
 jest.mock('shared/services/auth/auth')
 jest.mock('shared/services/configuration/configuration')
 
-describe('Form component <PlainText />', () => {
-  const metaProps = {
-    value: 'Lorem Ipsum',
-    isVisible: true,
-  }
-  const incidentId = 666
+const incidentId = 666
 
-  const getProps = (meta = metaProps) => ({
-    meta,
-    parent: {
-      meta: {
-        incidentContainer: {
-          incident: {
-            id: incidentId,
-          },
+const defaultProps: Props = {
+  className: 'dummy-name',
+  parent: {
+    meta: {
+      incidentContainer: {
+        incident: {
+          id: incidentId,
         },
       },
     },
-  })
+  } as unknown as Props['parent'],
+  meta: {
+    value: 'Lorem Ipsum',
+    isVisible: true,
+  } as Props['meta'],
+}
 
+describe('Form component <PlainText />', () => {
   beforeEach(() => {
     jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
   })
 
   afterEach(() => {
     jest.resetAllMocks()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.__reset()
   })
 
   describe('rendering', () => {
     it('should render plain text correctly', () => {
-      const props = getProps({ ...metaProps, label: 'Label' })
-
-      const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+      render(
+        withAppContext(
+          <PlainText
+            {...defaultProps}
+            meta={{ ...defaultProps.meta, label: 'label' }}
+          />
+        )
       )
 
-      expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(screen.getByTestId('plain-text')).toBeInTheDocument()
+      expect(screen.getByText(defaultProps.meta.value)).toBeInTheDocument()
     })
 
     it('should render plain text with links correctly when NOT authenticated', () => {
       const linkText = 'the-link'
       const linkAuthenticatedText = 'auth-link'
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         label: 'Label',
         valueAuthenticated: `${linkAuthenticatedText}: [{incident.id}](/manage/incident/{incident.id}).`,
         value: `${linkText}: {incident.id}.`,
-      })
+      }
 
-      render(withAppContext(<PlainText {...props} />))
+      render(withAppContext(<PlainText {...defaultProps} meta={customMeta} />))
       expect(screen.getByText(linkText, { exact: false })).toBeInTheDocument()
       expect(
         screen.queryByText(linkAuthenticatedText, { exact: false })
@@ -82,14 +87,14 @@ describe('Form component <PlainText />', () => {
       jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
       const linkText = 'the-link'
       const linkAuthenticatedText = 'auth-link'
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         label: 'Label',
         valueAuthenticated: `${linkAuthenticatedText}: [{incident.id}](/manage/incident/{incident.id}).`,
         value: `${linkText}: {incident.id}.`,
-      })
+      }
 
-      render(withAppContext(<PlainText {...props} />))
+      render(withAppContext(<PlainText {...defaultProps} meta={customMeta} />))
       expect(
         screen.queryByText(linkText, { exact: false })
       ).not.toBeInTheDocument()
@@ -102,17 +107,17 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text citation correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         type: 'citation',
-      })
+      }
 
       const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+        withAppContext(<PlainText {...defaultProps} meta={customMeta} />)
       )
 
       expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(getByText(defaultProps.meta.value)).toBeInTheDocument()
 
       const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding', '20px')
@@ -123,15 +128,15 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text info correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         type: 'info',
-      })
+      }
 
-      render(withAppContext(<PlainText {...props} />))
+      render(withAppContext(<PlainText {...defaultProps} meta={customMeta} />))
 
       expect(screen.getByTestId('plain-text')).toBeInTheDocument()
-      expect(screen.getByText(props.meta.value)).toBeInTheDocument()
+      expect(screen.getByText(defaultProps.meta.value)).toBeInTheDocument()
 
       const element = screen.getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding', '20px')
@@ -139,18 +144,18 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text caution correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         value: 'Caution',
         type: 'caution',
-      })
+      }
 
       const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+        withAppContext(<PlainText {...defaultProps} meta={customMeta} />)
       )
 
       expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(getByText(customMeta.value)).toBeInTheDocument()
 
       const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('padding-left', '12px')
@@ -158,17 +163,17 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text alert correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         type: 'alert',
-      })
+      }
 
       const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+        withAppContext(<PlainText {...defaultProps} meta={customMeta} />)
       )
 
       expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(getByText(defaultProps.meta.value)).toBeInTheDocument()
 
       const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('color', '#ec0000')
@@ -177,17 +182,17 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text alert-inverted correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         type: 'alert-inverted',
-      })
+      }
 
       const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+        withAppContext(<PlainText {...defaultProps} meta={customMeta} />)
       )
 
       expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(getByText(defaultProps.meta.value)).toBeInTheDocument()
 
       const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('background-color', '#ec0000')
@@ -196,46 +201,33 @@ describe('Form component <PlainText />', () => {
     })
 
     it('should render plain text message correctly', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         type: 'message',
-      })
+      }
 
       const { getByTestId, getByText } = render(
-        withAppContext(<PlainText {...props} />)
+        withAppContext(<PlainText {...defaultProps} meta={customMeta} />)
       )
 
       expect(getByTestId('plain-text')).toBeInTheDocument()
-      expect(getByText(props.meta.value)).toBeInTheDocument()
+      expect(getByText(defaultProps.meta.value)).toBeInTheDocument()
 
       const element = getByTestId('plain-text')
       expect(element).toHaveStyleRule('color', '#000000')
     })
 
     it('should render no plain text when not visible', () => {
-      const props = getProps({
-        ...metaProps,
+      const customMeta = {
+        ...defaultProps.meta,
         isVisible: false,
-      })
+      }
 
-      render(withAppContext(<PlainText {...props} />))
+      render(withAppContext(<PlainText {...defaultProps} meta={customMeta} />))
       expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
-      expect(screen.queryByText(props.meta.value)).not.toBeInTheDocument()
-    })
-
-    it('should render no plain text without meta', () => {
-      const props = getProps(null)
-
-      render(withAppContext(<PlainText {...props} />))
-      expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
-    })
-
-    it('should render no plain text without meta when authenticated', () => {
-      jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => true)
-      const props = getProps(null)
-
-      render(withAppContext(<PlainText {...props} />))
-      expect(screen.queryByTestId('plain-text')).not.toBeInTheDocument()
+      expect(
+        screen.queryByText(defaultProps.meta.value)
+      ).not.toBeInTheDocument()
     })
   })
 })

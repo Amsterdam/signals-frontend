@@ -10,24 +10,30 @@ export enum FileTypes {
 
 export interface Meta extends FormMeta {
   allowedFileTypes: FileTypes[]
-  isVisible?: boolean
   label: string
   maxFileSize: number
   maxNumberOfFiles: number
   minFileSize: number
   name: string
   subtitle: string
+  isVisible?: boolean
+}
+
+export interface ParentMeta {
+  updateIncident: (data: any) => void
+  addToSelection?: () => void
+  getClassification?: () => void
+  handleSubmit?: () => void
+  incidentsContainer?: {
+    incident: {
+      id: number
+    }
+  }
+  removeFromSelection?: () => void
+  wizard?: WizardSection
 }
 
 export interface Parent {
-  meta: {
-    addToSelection?: () => void
-    getClassification?: () => void
-    handleSubmit?: () => void
-    incidentContainer?: () => void
-    removeFromSelection?: () => void
-    updateIncident: (data: any) => void
-    wizard?: WizardSection
-  }
+  meta: ParentMeta
   value?: any
 }
