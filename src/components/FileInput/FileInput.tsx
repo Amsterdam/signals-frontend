@@ -25,7 +25,7 @@ interface FileInputProps {
   maxFileSize?: number
   allowedFileTypes?: string[]
   name: string
-  label: string
+  label?: string
   helpText?: string
   required?: boolean
   errorMessages?: string[]
