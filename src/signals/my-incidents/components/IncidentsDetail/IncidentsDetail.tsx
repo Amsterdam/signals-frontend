@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import { useState } from 'react'
+
+import AttachmentViewer from 'components/AttachmentViewer'
 
 import { ExtraProperties } from './ExtraProperties'
 import {
@@ -30,6 +33,16 @@ export const IncidentsDetail = ({
 }: Props) => {
   const { _display, text, location, extra_properties, _links } = incidentsDetail
   const attachments = _links?.['sia:attachments']
+  const [selectedAttachment, setSelectedAttachment] = useState<string | null>(
+    null
+  )
+
+  const formattedAttachments =
+    attachments?.map((attachment) => ({
+      createdAt: attachment.created_at,
+      createdBy: attachment.created_by,
+      location: attachment.href,
+    })) || []
 
   const attachmentsUser = attachments?.filter(
     (attachment) => !attachment.created_by
@@ -60,6 +73,16 @@ export const IncidentsDetail = ({
               Foto{attachmentsUser.length > 1 && "'s"} gestuurd door u
             </FormTitle>
 
+            {attachments.map((attachment, index) => (
+              <ImageWrapper
+                key={attachment.href + index}
+                onClick={() => {
+                  setSelectedAttachment(attachment.href)
+                }}
+              >
+                <StyledImage src={attachment.href} />
+              </ImageWrapper>
+            ))}
             <ImagesWrapper>
               {attachmentsUser.map((attachment, index) => (
                 <ImageWrapper key={attachment.href + index}>
@@ -104,6 +127,16 @@ export const IncidentsDetail = ({
           <ExtraProperties items={extra_properties} />
         </DescriptionWrapper>
       </dl>
+
+      {selectedAttachment && (
+        <AttachmentViewer
+          attachments={formattedAttachments}
+          href={selectedAttachment}
+          onClose={() => {
+            setSelectedAttachment(null)
+          }}
+        />
+      )}
     </ContentWrapper>
   )
 }
