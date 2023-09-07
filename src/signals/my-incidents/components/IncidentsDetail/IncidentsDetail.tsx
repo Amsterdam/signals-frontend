@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
-import { useState } from 'react'
-
 import { Paragraph } from '@amsterdam/asc-ui'
-
-import AttachmentViewer from 'components/AttachmentViewer'
 
 import { ExtraProperties } from './ExtraProperties'
 import {
@@ -32,14 +28,6 @@ export const IncidentsDetail = ({
 }: Props) => {
   const { _display, text, location, extra_properties, _links } = incidentsDetail
   const attachments = _links?.['sia:attachments']
-  const [showAttachmentViewer, setShowAttachmentViewer] = useState('')
-
-  const formattedAttachments =
-    attachments?.map((attachment) => ({
-      createdAt: attachment.created_at,
-      createdBy: attachment.created_by,
-      location: attachment.href,
-    })) || []
 
   return (
     <ContentWrapper>
@@ -60,12 +48,7 @@ export const IncidentsDetail = ({
           <FormTitle>Foto{attachments.length > 1 && "'s"}</FormTitle>
 
           {attachments.map((attachment, index) => (
-            <ImageWrapper
-              key={attachment.href + index}
-              onClick={() => {
-                setShowAttachmentViewer(attachment.href)
-              }}
-            >
+            <ImageWrapper key={attachment.href + index}>
               <StyledImage src={attachment.href} />
             </ImageWrapper>
           ))}
@@ -85,16 +68,6 @@ export const IncidentsDetail = ({
       <Wrapper>
         <ExtraProperties items={extra_properties} />
       </Wrapper>
-
-      {showAttachmentViewer && (
-        <AttachmentViewer
-          attachments={formattedAttachments}
-          href={showAttachmentViewer}
-          onClose={() => {
-            setShowAttachmentViewer('')
-          }}
-        />
-      )}
     </ContentWrapper>
   )
 }
