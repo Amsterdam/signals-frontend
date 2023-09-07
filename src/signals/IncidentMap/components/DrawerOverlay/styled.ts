@@ -10,19 +10,21 @@ import {
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
-import type { ModeProp } from './types'
-import { isDesktop } from './utils'
+import type { DeviceMode } from 'hooks/useDeviceMode'
 
 export const HANDLE_SIZE_MOBILE = 40
 export const MENU_WIDTH = 420
 
-export const MapOverlay = styled('div')<ModeProp>`
+export const MapOverlay = styled('div')<{
+  $mode: DeviceMode
+  $isDesktop: (mode: DeviceMode) => boolean
+}>`
   display: flex;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  top: ${({ $mode }) => (isDesktop($mode) ? 0 : '50%')};
+  top: ${({ $mode, $isDesktop }) => ($isDesktop($mode) ? 0 : '50%')};
   pointer-events: none;
   @media print {
     position: relative;
@@ -117,7 +119,11 @@ export const DrawerContentWrapper = styled('div')`
   }
 `
 
-export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`
+export const DrawerContainer = styled.div<{
+  animate: boolean
+  $mode: DeviceMode
+  $isDesktop: (mode: DeviceMode) => boolean
+}>`
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -127,8 +133,8 @@ export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`
   left: 0;
   will-change: transform;
 
-  ${({ $mode }) =>
-    isDesktop($mode) &&
+  ${({ $mode, $isDesktop }) =>
+    $isDesktop($mode) &&
     css`
       right: initial;
       left: initial;
@@ -141,14 +147,17 @@ export const DrawerContainer = styled.div<{ animate: boolean } & ModeProp>`
     `}
 `
 
-export const Drawer = styled.div<ModeProp>`
+export const Drawer = styled.div<{
+  $mode: DeviceMode
+  $isDesktop: (mode: DeviceMode) => boolean
+}>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   min-height: 0;
   pointer-events: all;
-  ${({ $mode }) =>
-    isDesktop($mode) &&
+  ${({ $mode, $isDesktop }) =>
+    $isDesktop($mode) &&
     css`
       flex-direction: row-reverse;
     `}

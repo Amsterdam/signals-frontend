@@ -4,13 +4,3 @@ export enum DrawerState {
   Open = 'OPEN',
   Closed = 'CLOSED',
 }
-
-export enum DeviceMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
-}
-
-export interface ModeProp {
-  // prefixing mode with $ to prevent prop bleeding through to the DOM
-  $mode: DeviceMode
-}
