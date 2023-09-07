@@ -124,7 +124,6 @@ const FileInput = ({ handler, parent, meta }: Props) => {
       allowedFileTypes={meta.allowedFileTypes}
       errorMessages={errors}
       files={files}
-      label=""
       maxFileSize={meta.maxFileSize}
       maxNumberOfFiles={maxNumberOfFiles}
       minFileSize={meta.minFileSize}
