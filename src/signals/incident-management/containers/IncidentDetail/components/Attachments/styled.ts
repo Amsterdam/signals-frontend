@@ -35,7 +35,7 @@ export const StyledBox = styled.div`
   display: inline-block;
   margin-right: ${themeSpacing(2)};
   margin-bottom: ${themeSpacing(2)};
-  width: ${themeSpacing(45)};
+  width: ${themeSpacing(50)};
   height: 135px;
   border: 1px solid ${themeColor('tint', 'level3')} !important;
   cursor: pointer;
@@ -122,10 +122,16 @@ export const StyledEmployee = StyledDate
 export const StyledName = styled(StyledDate)`
   font-weight: bold;
 `
-
 export const StyledButton = styled(AscButton)`
-  grid-area: tools;
   padding: ${themeSpacing(0, 1.5)};
+`
+
+export const StyledButtonsWrapper = styled.div`
+  display: flex;
+  grid-area: tools;
+  & > *:not(:first-child) {
+    margin-left: ${themeSpacing(2)};
+  }
 `
 
 export const StyledUploadProgressError = styled(StyledUploadProgress)`
@@ -141,4 +147,33 @@ export const StyledLoadingIndicator = styled(LoadingIndicator)`
 
 export const StyledAddNote = styled(AddNote)`
   margin-top: ${themeSpacing(8)};
+`
+
+export const EditAttachmentWrapper = styled.div`
+  padding: ${themeSpacing(5)};
+  background-color: ${themeColor('tint', 'level2')};
+  width: 429px;
+
+  // margin 0 on StyledBox within EditAttachmentWrapper
+  & > ${StyledBox} {
+    margin: 0;
+  }
+`
+
+export const StyledH2 = styled(Heading)`
+  margin-bottom: ${themeSpacing(4)};
+  margin-top: ${themeSpacing(0)};
+`
+
+export const StyledForm = styled.form`
+  display: grid;
+  grid-gap: ${themeSpacing(6)};
+  margin-top: ${themeSpacing(4)};
+`
+
+export const ButtonsWrapper = styled.div`
+  display: flex;
+  & > *:not(:first-child) {
+    margin-left: ${themeSpacing(2)};
+  }
 `

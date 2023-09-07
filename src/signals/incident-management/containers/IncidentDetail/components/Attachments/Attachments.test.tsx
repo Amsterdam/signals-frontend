@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
-import { screen, render, fireEvent } from '@testing-library/react'
+import { screen, render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import * as appSelectors from 'containers/App/selectors'
@@ -20,7 +20,13 @@ jest.mock('./UploadProgress', () => ({ progress }: { progress: number }) => (
   <span>progress-{progress}</span>
 ))
 
+const patch = jest.fn()
+
 describe('Attachments', () => {
+  beforeEach(() => {
+    patch.mockClear()
+  })
+
   it('renders the Attachments component', () => {
     const add = jest.fn()
     const remove = jest.fn()
@@ -29,6 +35,7 @@ describe('Attachments', () => {
     render(
       withAppContext(
         <Attachments
+          patch={patch}
           attachments={attachments.results}
           add={add}
           remove={remove}
@@ -52,17 +59,11 @@ describe('Attachments', () => {
     const add = jest.fn()
     const remove = jest.fn()
 
-    const newAttachments = [
-      {
-        ...attachments.results[0],
-        location: '',
-      },
-    ]
-
     render(
       withAppContext(
         <Attachments
-          attachments={newAttachments}
+          patch={patch}
+          attachments={attachments.results}
           add={add}
           remove={remove}
           isChildIncident={false}
@@ -84,6 +85,7 @@ describe('Attachments', () => {
     render(
       withAppContext(
         <Attachments
+          patch={patch}
           attachments={[]}
           add={add}
           remove={remove}
@@ -115,6 +117,7 @@ describe('Attachments', () => {
     render(
       withAppContext(
         <Attachments
+          patch={patch}
           attachments={newAttachments}
           add={add}
           remove={remove}
@@ -131,6 +134,9 @@ describe('Attachments', () => {
   })
 
   describe('uploading', () => {
+    beforeEach(() => {
+      patch.mockClear()
+    })
     it('calls add and shows the file', async () => {
       const add = jest.fn()
       const remove = jest.fn()
@@ -145,6 +151,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -187,6 +194,7 @@ describe('Attachments', () => {
       const { rerender } = render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -212,6 +220,7 @@ describe('Attachments', () => {
       rerender(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -230,6 +239,7 @@ describe('Attachments', () => {
       rerender(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -248,6 +258,7 @@ describe('Attachments', () => {
       rerender(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -278,6 +289,7 @@ describe('Attachments', () => {
       const { rerender } = render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -303,6 +315,7 @@ describe('Attachments', () => {
       rerender(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -321,6 +334,7 @@ describe('Attachments', () => {
       rerender(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -357,6 +371,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -394,6 +409,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -425,6 +441,7 @@ describe('Attachments', () => {
     render(
       withAppContext(
         <Attachments
+          patch={patch}
           attachments={attachments.results}
           add={add}
           remove={remove}
@@ -449,6 +466,9 @@ describe('Attachments', () => {
   })
 
   describe('deleting', () => {
+    beforeEach(() => {
+      patch.mockClear()
+    })
     it('does not show the delete button when not allowed', () => {
       const add = jest.fn()
       const remove = jest.fn()
@@ -459,6 +479,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -486,6 +507,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -513,6 +535,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -540,6 +563,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -567,6 +591,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -604,6 +629,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={newAttachments}
             add={add}
             remove={remove}
@@ -633,6 +659,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -663,6 +690,7 @@ describe('Attachments', () => {
       render(
         withAppContext(
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -680,6 +708,249 @@ describe('Attachments', () => {
     })
   })
 
+  describe('patch', () => {
+    const publicAttachmentResults = [
+      {
+        ...attachments.results[0],
+        created_by: 'user@example.com',
+      },
+    ]
+
+    beforeEach(() => {
+      patch.mockClear()
+    })
+
+    it('should open EditAttachment form and the form should be interactive', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={publicAttachmentResults}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeInTheDocument()
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeDisabled()
+
+      expect(
+        screen.queryByRole('checkbox', { name: 'Openbaar tonen' })
+      ).toBeInTheDocument()
+
+      expect(screen.queryByText(/Onderschrift/)).not.toBeInTheDocument()
+
+      userEvent.click(screen.getByRole('checkbox', { name: 'Openbaar tonen' }))
+
+      expect(screen.getByText(/Onderschrift/)).toBeInTheDocument()
+    })
+
+    it('should show public and non public attachments with and without edit button', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      const attachmentResultsMultiple = [
+        {
+          ...attachments.results[0],
+          created_by: 'user@example.com',
+          public: true,
+        },
+        {
+          ...attachments.results[0],
+          location: 'https://ae70d54aca324d0480ca01934240c78ff.jpg',
+        },
+      ]
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={attachmentResultsMultiple}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeInTheDocument()
+
+      expect(screen.getByText('Melder')).toBeInTheDocument()
+
+      expect(screen.getByText('Openbaar')).toBeInTheDocument()
+
+      expect(screen.getAllByText(/^[a-zA-Z0-9]+.jpg/).length).toBe(2)
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      expect(screen.getByText(/Onderschrift/)).toBeInTheDocument()
+      expect(
+        screen.getByRole('checkbox', { name: 'Openbaar tonen' })
+      ).toBeInTheDocument()
+    })
+
+    it('should open EditAttachment form and it should send a PATCH request', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={publicAttachmentResults}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeInTheDocument()
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      userEvent.click(screen.getByRole('checkbox', { name: 'Openbaar tonen' }))
+
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+      await waitFor(() =>
+        expect(patch).toHaveBeenCalledWith(
+          'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
+          { public: true }
+        )
+      )
+
+      patch.mockClear()
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      userEvent.type(screen.getByRole('textbox'), 'test')
+
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+      await waitFor(() =>
+        expect(patch).toHaveBeenCalledWith(
+          'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
+          { public: true, caption: 'test' }
+        )
+      )
+    })
+
+    it('should open EditAttachment form and it should send a PATCH request with caption null', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      const publicAttachmentResultsWithCaption = [
+        {
+          ...attachments.results[0],
+          caption: 'test',
+          created_by: 'test@user.nl',
+        },
+      ]
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={publicAttachmentResultsWithCaption}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeInTheDocument()
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      userEvent.click(screen.getByRole('checkbox', { name: 'Openbaar tonen' }))
+
+      userEvent.clear(screen.getByRole('textbox'))
+
+      userEvent.click(screen.getByRole('button', { name: 'Opslaan' }))
+
+      await waitFor(() =>
+        expect(patch).toHaveBeenCalledWith(
+          'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
+          { public: true, caption: null }
+        )
+      )
+    })
+
+    it('should open EditAttachment form, fill it and press cancel button', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={publicAttachmentResults}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).toBeInTheDocument()
+
+      userEvent.click(screen.getByTitle('Openbaar maken'))
+
+      userEvent.click(screen.getByRole('checkbox', { name: 'Openbaar tonen' }))
+
+      userEvent.type(screen.getByRole('textbox'), 'test')
+
+      userEvent.click(screen.getByRole('button', { name: 'Annuleer' }))
+
+      await waitFor(() => expect(patch).not.toHaveBeenCalled())
+    })
+  })
+
   it('shows the preview', () => {
     const preview = jest.fn()
     const add = jest.fn()
@@ -690,6 +961,7 @@ describe('Attachments', () => {
       withAppContext(
         <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}
@@ -725,6 +997,7 @@ describe('Attachments', () => {
       withAppContext(
         <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
           <Attachments
+            patch={patch}
             attachments={attachments.results}
             add={add}
             remove={remove}

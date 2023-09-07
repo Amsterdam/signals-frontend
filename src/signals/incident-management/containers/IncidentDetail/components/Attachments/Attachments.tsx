@@ -20,6 +20,7 @@ import { makeSelectUser, makeSelectUserCan } from 'containers/App/selectors'
 import { getAttachmentFileName } from 'shared/services/get-attachment-file-name'
 import fileSize from 'signals/incident/services/file-size'
 
+import EditAttachment from './EditAttachment.'
 import {
   StyledAddNote,
   StyledBox,
@@ -39,6 +40,7 @@ import {
   StyledUploadProgressError,
   Title,
   Wrapper,
+  StyledButtonsWrapper,
 } from './styled'
 import StyledUploadProgress from './UploadProgress'
 import IncidentDetailContext from '../../context'
@@ -60,6 +62,7 @@ interface AttachmentsProps {
   className?: string
   add: (file: File) => void
   remove: (attachment: Attachment) => void
+  patch: (href: string, payload: { public?: boolean; caption?: string }) => void
   isChildIncident: boolean
   isParentIncident: boolean
   isRemoving: boolean
@@ -71,6 +74,7 @@ const Attachments: FC<AttachmentsProps> = ({
   attachments,
   className,
   add,
+  patch,
   remove,
   isChildIncident,
   isParentIncident,
@@ -82,6 +86,9 @@ const Attachments: FC<AttachmentsProps> = ({
   const [files, setFiles] = useState<Files>([])
   const [error, setError] = useState('')
   const [showNoteForm, setShowNoteForm] = useState(false)
+  const [selectedEditAttachment, setSelectedEditAttachment] = useState<
+    string | null
+  >(null)
   const hasAttachments = attachments.length > 0 || files.length > 0
   const userCan = useSelector(makeSelectUserCan)
   const user = useSelector(makeSelectUser)
@@ -148,7 +155,7 @@ const Attachments: FC<AttachmentsProps> = ({
 
   return (
     <Wrapper className={className} data-testid="attachments-definition">
-      {hasAttachments && (
+      {hasAttachments && !selectedEditAttachment && (
         <Title forwardedAs="h2" styleAs="h4">
           Bestanden
         </Title>
@@ -156,55 +163,95 @@ const Attachments: FC<AttachmentsProps> = ({
       {attachments.map((attachment) => {
         const fileName = getAttachmentFileName(attachment.location)
 
+        if (
+          selectedEditAttachment &&
+          selectedEditAttachment !== attachment.location
+        )
+          return null
         return (
-          <StyledBox
-            key={attachment.location}
-            onClick={() => {
-              onClickPreview(attachment)
-            }}
-            title={fileName}
+          <EditAttachment
+            key={attachment.location + attachment.created_at}
+            showEditAttachment={selectedEditAttachment === attachment.location}
+            setSelectedEditAttachment={setSelectedEditAttachment}
+            patch={patch}
+            attachment={attachment}
           >
-            {isPdf(attachment.location) ? (
-              <StyledPdfImg
-                alt="Pdf icon"
-                src={'/assets/images/icon-pdf.svg'}
-              />
-            ) : (
-              <>
-                <StyledImg src={attachment.location} />
-                <StyledGradient />
-              </>
-            )}
-            <StyledBoxContent>
-              {!attachment.created_by && (
-                <StyledReporter>Melder</StyledReporter>
-              )}
-              <StyledDetails isPdf={isPdf(attachment.location)}>
-                {fileName && <StyledName>{fileName}</StyledName>}
-                {attachment.created_by && (
-                  <StyledEmployee>{attachment.created_by}</StyledEmployee>
-                )}
-                <StyledDate>
-                  {format(parseISO(attachment.created_at), 'dd-MM-yyyy HH:mm')}
-                </StyledDate>
-              </StyledDetails>
-              {canDeleteAttachment(attachment) && (
-                <StyledButton
-                  icon={<DeleteIcon />}
-                  iconSize={18}
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    window.confirm(
-                      `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
-                    ) && remove(attachment)
-                  }}
-                  title="Bijlage verwijderen"
-                  variant="application"
-                  disabled={isRemoving}
+            <StyledBox
+              key={attachment.location + attachment.created_at}
+              onClick={() => {
+                onClickPreview(attachment)
+              }}
+              title={fileName}
+            >
+              {isPdf(attachment.location) ? (
+                <StyledPdfImg
+                  alt="Pdf icon"
+                  src={'/assets/images/icon-pdf.svg'}
                 />
+              ) : (
+                <>
+                  <StyledImg src={attachment.location} />
+                  <StyledGradient />
+                </>
               )}
-            </StyledBoxContent>
-          </StyledBox>
+              <StyledBoxContent>
+                {!attachment.created_by && (
+                  <StyledReporter>Melder</StyledReporter>
+                )}
+                {attachment.public && attachment.created_by && (
+                  <StyledReporter>Openbaar</StyledReporter>
+                )}
+                <StyledDetails isPdf={isPdf(attachment.location)}>
+                  {fileName && <StyledName>{fileName}</StyledName>}
+                  {attachment.created_by && (
+                    <StyledEmployee>{attachment.created_by}</StyledEmployee>
+                  )}
+                  <StyledDate>
+                    {format(
+                      parseISO(attachment.created_at),
+                      'dd-MM-yyyy HH:mm'
+                    )}
+                  </StyledDate>
+                </StyledDetails>
+                <StyledButtonsWrapper>
+                  {attachment.created_by && (
+                    <StyledButton
+                      icon={
+                        <img
+                          src="/assets/images/icon-edit.svg"
+                          alt="Bewerken"
+                        />
+                      }
+                      iconSize={18}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        setSelectedEditAttachment(attachment.location)
+                      }}
+                      title="Openbaar maken"
+                      variant="application"
+                      disabled={isRemoving || !!selectedEditAttachment}
+                    />
+                  )}
+                  {canDeleteAttachment(attachment) && (
+                    <StyledButton
+                      icon={<DeleteIcon />}
+                      iconSize={18}
+                      onClick={(event) => {
+                        event.stopPropagation()
+                        window.confirm(
+                          `Weet je zeker dat je de bijlage '${fileName}' wilt verwijderen?`
+                        ) && remove(attachment)
+                        setSelectedEditAttachment(null)
+                      }}
+                      title="Bijlage verwijderen"
+                      variant="application"
+                      disabled={isRemoving}
+                    />
+                  )}
+                </StyledButtonsWrapper>
+              </StyledBoxContent>
+            </StyledBox>
+          </EditAttachment>
         )
       })}
       {files.map((file) =>
