@@ -120,9 +120,9 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
-  const stateShownImage = (isPublic: boolean, isCreatedBy: string) => {
-    if (isPublic) return 'openbaar getoond'
-    return isCreatedBy !== null ? isCreatedBy : 'melder'
+  const stateShownImage = (isPublic: boolean, isCreatedBy: string | null) => {
+    if (isCreatedBy === null) return 'melder'
+    return isPublic ? 'openbaar getoond' : isCreatedBy
   }
 
   const formattedAttachments =

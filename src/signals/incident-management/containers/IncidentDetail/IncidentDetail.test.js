@@ -263,12 +263,13 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incident-detail')
   })
 
-  it('show "melder" when createBy is empty and public is false', async () => {
+  it('shows "melder" when isCreatedBy is null', async () => {
     render(withAppContext(<IncidentDetail />))
 
     const attachment = await screen.findByTitle(
       'ae70d54aca324d0480ca01934240c78f.jpg'
     )
+    const attachment2 = await screen.findByTitle('melder2.jpg')
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
@@ -283,12 +284,28 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     )
 
     expect(await screen.findByText('melder')).toBeInTheDocument()
+
+    userEvent.click(screen.getByTitle(/sluiten/i))
+
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(attachment2)
+
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    )
+
+    expect(await screen.findByText('melder')).toBeInTheDocument()
   })
 
-  it('show "openbaar getoond" when public is true', async () => {
+  it('show "openbaar getoond" when public is true and isCreatedBy is not null', async () => {
     render(withAppContext(<IncidentDetail />))
 
-    const attachment = await screen.findByTitle('https://fakeURL.jpg')
+    const attachment = await screen.findByTitle('openbaargetoond.jpg')
 
     expect(
       screen.queryByTestId('attachment-viewer-image')
@@ -400,7 +417,9 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
 
     await screen.findByTestId('incident-detail')
 
-    const deleteButton = screen.getByTitle(/bijlage verwijderen/i)
+    const deleteButton = screen.getByTestId(
+      'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+    )
     userEvent.click(deleteButton)
     await screen.findByTestId('incident-detail')
     expect(deleteCalled).toBe(true)
