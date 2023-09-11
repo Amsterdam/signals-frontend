@@ -4,21 +4,13 @@ import { useEffect, useState } from 'react'
 
 import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints'
 
-export enum DeviceMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
-}
-
-export interface ModeProp {
-  $mode: DeviceMode
-}
+import { DeviceMode } from 'types/device'
 
 function getDeviceMode(size: number) {
   if (size <= sizes.tabletM) {
     return DeviceMode.Mobile
-  } else {
-    return DeviceMode.Desktop
   }
+  return DeviceMode.Desktop
 }
 
 interface UseDeviceModeReturn {

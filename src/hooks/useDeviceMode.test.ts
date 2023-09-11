@@ -3,7 +3,8 @@
 import { renderHook } from '@testing-library/react-hooks'
 
 import { resizeWindow } from '__tests__/utils'
-import { DeviceMode, useDeviceMode } from 'hooks/useDeviceMode'
+import { useDeviceMode } from 'hooks/useDeviceMode'
+import { DeviceMode } from 'types/device'
 
 describe('useDeviceMode', () => {
   beforeEach(() => {

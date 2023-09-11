@@ -10,7 +10,7 @@ import {
 } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
-import type { DeviceMode } from 'hooks/useDeviceMode'
+import type { DeviceMode } from 'types/device'
 
 export const HANDLE_SIZE_MOBILE = 40
 export const MENU_WIDTH = 420

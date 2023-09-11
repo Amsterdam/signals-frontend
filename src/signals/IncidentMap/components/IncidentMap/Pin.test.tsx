@@ -4,8 +4,8 @@
 import { render, screen } from '@testing-library/react'
 import type { Map } from 'leaflet'
 
-import { DeviceMode } from 'hooks/useDeviceMode'
 import configuration from 'shared/services/configuration/configuration'
+import { DeviceMode } from 'types/device'
 
 import type { Props } from './Pin'
 import { Pin } from './Pin'

@@ -7,9 +7,9 @@ import { Marker } from '@amsterdam/react-maps'
 import type { LatLngLiteral, Map } from 'leaflet'
 
 import { useDeviceMode } from 'hooks/useDeviceMode'
-import type { DeviceMode } from 'hooks/useDeviceMode'
 import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
+import type { DeviceMode } from 'types/device'
 
 export interface Props {
   map: Map
