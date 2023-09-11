@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { Button, Modal, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -25,15 +25,6 @@ const StyledButton = styled(Button)`
     }
   }
 `
-
-export const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
 export const StyledModal = styled(Modal)`
   max-height: 100vh;
   height: 100vh;
@@ -80,14 +71,6 @@ export const Reporter = styled.div`
   font-weight: bold;
 `
 
-export const Employee = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: ${themeSpacing(2)};
-  font-size: 1rem;
-  line-height: ${themeSpacing(6)};
-`
-
 export const Date = styled.div`
   margin-bottom: ${themeSpacing(2)};
   font-size: 1rem;
@@ -129,7 +112,7 @@ export const NextButton = styled(StyledButton)`
 `
 
 export const StyledInteractiveImage = styled(InteractiveImage)`
-  margin: ${themeSpacing(23, 0, 5)};
+  margin: ${themeSpacing(23, 0, 0)};
   max-height: calc(100vh - ${themeSpacing(28)});
   max-width: 100%;
 `
