@@ -3,6 +3,7 @@
 import styled from 'styled-components'
 
 import { MAX_ZOOM_LEVEL } from './constants'
+import { themeColor } from '@amsterdam/asc-ui'
 
 type Image = {
   zoom: number
@@ -35,4 +36,16 @@ export const ZoomedImage = styled.div.attrs<ZoomedImageProps>(
 )<ZoomedImageProps>`
   will-change: background-position;
   ${({ zoom }) => `background-size: ${zoom * 200}%`}
+`
+export const Wrapper = styled.div`
+  display: inline-block;
+  background-color: red;
+  width: fit-content;
+`
+
+export const StyledFigCaption = styled.figcaption`
+  background-color: ${themeColor('tint', 'level1')};
+  height: 72px;
+  font-size: 1.5rem;
+  font-weight: 700;
 `

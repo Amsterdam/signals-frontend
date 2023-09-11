@@ -10,7 +10,7 @@
       "href": null
     }
   },
-  "count": 1,
+  "count": 3,
   "results": [
     {
       "_display": "Attachment object (980)",
@@ -22,8 +22,50 @@
       "location": "https://ae70d54aca324d0480ca01934240c78f.jpg",
       "is_image": true,
       "created_at": "2020-06-10T11:51:24.281272+02:00",
-      "created_by": "",
+      "created_by": null,
       "public": false,
+      "caption": ""
+    },
+      {
+      "_display": "Attachment object (984)",
+      "_links": {
+        "self": {
+          "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/87"
+        }
+      },
+      "location": "https://fakestURL.jpg",
+      "is_image": true,
+      "created_at": "2020-06-10T11:51:24.281272+02:00",
+      "created_by": "me",
+      "public": false,
+      "caption": ""
+    },
+    {
+      "_display": "Attachment object (981)",
+      "_links": {
+        "self": {
+          "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
+        }
+      },
+      "location": "https://fakeURL.jpg",
+      "is_image": true,
+      "created_at": "2021-06-10T11:51:24.281272+02:00",
+      "created_by": null,
+      "public": true,
+      "caption": ""
+    },
+    {
+      "_display": "Attachment object (982)",
+      "_links": {
+        "self": {
+          "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
+        }
+      },
+      "location": "https://anotherFakeURL.jpg",
+      "is_image": true,
+      "created_at": "2022-06-10T11:51:24.281272+02:00",
+      "created_by": "me",
+      "public": true,
       "caption": ""
     }
   ]

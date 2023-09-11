@@ -16,6 +16,7 @@ describe('<AttachmentViewer />', () => {
         is_image: true,
         created_at: '2019-08-05T08:19:16.372476+02:00',
         created_by: '',
+        caption: 'text shown',
       },
       {
         _display: 'Attachment object (681)',
@@ -23,6 +24,7 @@ describe('<AttachmentViewer />', () => {
         is_image: true,
         created_at: '2019-08-05T08:19:17.205236+02:00',
         created_by: 'test@signalen.dev',
+        caption: 'text shown',
       },
       {
         _display: 'Attachment object (679)',
@@ -299,5 +301,15 @@ describe('<AttachmentViewer />', () => {
 
       expect(onClose).toHaveBeenCalledTimes(1)
     })
+  })
+
+  it('should show caption', async () => {
+    render(
+      withAppContext(
+        <AttachmentViewer {...props} href={props.attachments[1].location} />
+      )
+    )
+
+    expect(await screen.findByText('text shown')).toBeInTheDocument()
   })
 })
