@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+import { themeColor } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { MAX_ZOOM_LEVEL } from './constants'
-import { themeColor } from '@amsterdam/asc-ui'
 
 type Image = {
   zoom: number
