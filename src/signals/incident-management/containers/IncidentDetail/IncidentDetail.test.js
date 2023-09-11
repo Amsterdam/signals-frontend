@@ -263,6 +263,48 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incident-detail')
   })
 
+  it('show "melder" when createBy is empty and public is false', async () => {
+    render(withAppContext(<IncidentDetail />))
+
+    const attachment = await screen.findByTitle(
+      'ae70d54aca324d0480ca01934240c78f.jpg'
+    )
+
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(attachment)
+
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    )
+
+    expect(await screen.findByText('melder')).toBeInTheDocument()
+  })
+
+  it('show "openbaar getoond" when public is true', async () => {
+    render(withAppContext(<IncidentDetail />))
+
+    const attachment = await screen.findByTitle('https://fakeURL.jpg')
+
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(attachment)
+
+    await waitFor(() =>
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    )
+
+    expect(await screen.findByText('openbaar getoond')).toBeInTheDocument()
+  })
+
   it('closes previews when close button is clicked', async () => {
     render(withAppContext(<IncidentDetail />))
 

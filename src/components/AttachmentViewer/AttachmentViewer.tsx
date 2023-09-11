@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import type { FC } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
@@ -16,7 +16,6 @@ import { getAttachmentFileName } from 'shared/services/get-attachment-file-name'
 import {
   CloseButton,
   Date,
-  Employee,
   Header,
   Info,
   ModalInner,
@@ -33,6 +32,8 @@ export interface Attachment {
   location: string
   createdAt?: string
   createdBy?: string
+  stateShown?: string
+  caption?: string
 }
 
 interface Props {
@@ -112,11 +113,7 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
     >
       <Header>
         <Info>
-          {currentAttachment.createdBy ? (
-            <Employee>{currentAttachment.createdBy}</Employee>
-          ) : (
-            <Reporter>Melder</Reporter>
-          )}
+          <Reporter>{currentAttachment.stateShown}</Reporter>
           {currentAttachment.createdAt && (
             <Date>
               {format(
@@ -168,11 +165,16 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
             />
           )}
 
-          <StyledInteractiveImage
-            src={currentHref}
-            data-testid="attachment-viewer-image"
-            alt={fileName}
-          />
+          <figure>
+            <div>
+              <StyledInteractiveImage
+                src={currentHref}
+                data-testid="attachment-viewer-image"
+                alt={fileName}
+                caption={currentAttachment.caption}
+              />
+            </div>
+          </figure>
         </Wrapper>
       </ModalInner>
     </StyledModal>
