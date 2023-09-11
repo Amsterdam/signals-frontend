@@ -31,7 +31,7 @@ import {
 export interface Attachment {
   location: string
   createdAt?: string
-  createdBy: string | null
+  createdBy?: string | null
   stateShown?: string
   caption?: string
 }

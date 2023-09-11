@@ -44,6 +44,8 @@ export const IncidentsDetail = ({
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.href,
+      stateShown: 'foto gemeente',
+      caption: attachment.caption,
     })) || []
 
   const attachmentsUser = attachments?.filter(
