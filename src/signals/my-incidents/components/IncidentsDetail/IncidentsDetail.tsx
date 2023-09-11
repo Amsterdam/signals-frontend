@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
-import { Paragraph } from '@amsterdam/asc-ui'
 
 import { ExtraProperties } from './ExtraProperties'
 import {
@@ -9,8 +8,12 @@ import {
   ImageWrapper,
   StyledBacklink,
   StyledLink,
-  Wrapper,
+  DescriptionWrapper,
   ContentWrapper,
+  StyledDD,
+  StyledDL,
+  StyledFigCaption,
+  ImagesWrapper,
 } from './styled'
 import { StyledHeading } from '../../pages/styled'
 import type { MyIncidentDetail } from '../../types'
@@ -29,6 +32,14 @@ export const IncidentsDetail = ({
   const { _display, text, location, extra_properties, _links } = incidentsDetail
   const attachments = _links?.['sia:attachments']
 
+  const attachmentsUser = attachments?.filter(
+    (attachment) => !attachment.created_by
+  )
+
+  const attachmentsMunicipality = attachments?.filter(
+    (attachment) => attachment.created_by
+  )
+
   return (
     <ContentWrapper>
       <StyledBacklink to={`/mijn-meldingen/${token}`}>
@@ -38,36 +49,60 @@ export const IncidentsDetail = ({
       <header>
         <StyledHeading>{`Meldingsnummer: ${_display}`}</StyledHeading>
       </header>
-      <Wrapper>
-        <FormTitle>Omschrijving</FormTitle>
-        <Paragraph strong>{text}</Paragraph>
-      </Wrapper>
+      <StyledDL>
+        <DescriptionWrapper>
+          <FormTitle>Omschrijving</FormTitle>
+          <StyledDD>{text}</StyledDD>
+        </DescriptionWrapper>
 
-      {attachments && (
-        <Wrapper>
-          <FormTitle>Foto{attachments.length > 1 && "'s"}</FormTitle>
+        {attachmentsUser?.length > 0 && (
+          <DescriptionWrapper>
+            <FormTitle>
+              Foto{attachmentsUser.length > 1 && "'s"} gestuurd door u
+            </FormTitle>
 
-          {attachments.map((attachment, index) => (
-            <ImageWrapper key={attachment.href + index}>
-              <StyledImage src={attachment.href} />
-            </ImageWrapper>
-          ))}
-        </Wrapper>
-      )}
+            {attachmentsUser.map((attachment, index) => (
+              <ImageWrapper key={attachment.href + index}>
+                <StyledImage src={attachment.href} />
+              </ImageWrapper>
+            ))}
+          </DescriptionWrapper>
+        )}
 
-      <Wrapper>
-        <FormTitle>Locatie</FormTitle>
-        <Paragraph strong style={{ marginBottom: 0 }}>
-          {location.address_text}
-        </Paragraph>
-        <StyledLink variant="inline" onClick={() => setShowMap(true)}>
-          Bekijk op kaart
-        </StyledLink>
-      </Wrapper>
+        {attachmentsMunicipality?.length > 0 && (
+          <DescriptionWrapper>
+            <FormTitle>
+              Foto{attachmentsMunicipality.length > 1 && "'s"} gestuurd door de
+              gemeente
+            </FormTitle>
 
-      <Wrapper>
-        <ExtraProperties items={extra_properties} />
-      </Wrapper>
+            <ImagesWrapper>
+              {attachmentsMunicipality.map((attachment, index) => (
+                <ImageWrapper key={attachment.href + index}>
+                  <StyledImage src={attachment.href} />
+                  {attachment.caption && (
+                    <StyledFigCaption>{attachment.caption}</StyledFigCaption>
+                  )}
+                </ImageWrapper>
+              ))}
+            </ImagesWrapper>
+          </DescriptionWrapper>
+        )}
+
+        <DescriptionWrapper>
+          <FormTitle>Locatie</FormTitle>
+          <StyledDD style={{ marginBottom: 0 }}>
+            {location.address_text}
+          </StyledDD>
+          <StyledLink variant="inline" onClick={() => setShowMap(true)}>
+            Bekijk op kaart
+          </StyledLink>
+        </DescriptionWrapper>
+
+        <DescriptionWrapper>
+          <ExtraProperties items={extra_properties} />
+        </DescriptionWrapper>
+      </StyledDL>
     </ContentWrapper>
   )
 }
