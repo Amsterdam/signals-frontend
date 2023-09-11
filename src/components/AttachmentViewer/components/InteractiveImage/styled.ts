@@ -10,6 +10,7 @@ type Image = {
 }
 
 export const Image = styled.img<Image>`
+  display: block;
   && {
     margin: initial;
   }
@@ -36,16 +37,19 @@ export const ZoomedImage = styled.div.attrs<ZoomedImageProps>(
 )<ZoomedImageProps>`
   will-change: background-position;
   ${({ zoom }) => `background-size: ${zoom * 200}%`}
-`
-export const Wrapper = styled.div`
   display: inline-block;
-  background-color: red;
-  width: fit-content;
 `
+export const Wrapper = styled.div``
 
 export const StyledFigCaption = styled.figcaption`
   background-color: ${themeColor('tint', 'level1')};
-  height: 72px;
+  height: 100%;
   font-size: 1.5rem;
   font-weight: 700;
+  width: 0;
+  min-width: calc(100% - 40px);
+  overflow-wrap: break-word;
+  padding: 20px;
+  line-height: 32px;
+  text-align: left;
 `
