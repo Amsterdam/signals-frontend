@@ -50,7 +50,7 @@ describe('Attachments', () => {
 
     expect(screen.getByText(/bestanden$/i)).toBeInTheDocument()
     expect(screen.getByTitle(fileName)).toBeInTheDocument()
-    expect(screen.getByText(/melder/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/melder/i)).toHaveLength(3)
     expect(screen.getByText(fileName)).toBeInTheDocument()
     expect(screen.getByText('10-06-2020 11:51')).toBeInTheDocument()
   })
@@ -75,7 +75,7 @@ describe('Attachments', () => {
       )
     )
 
-    expect(screen.getByText(/melder/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/melder/i)).toHaveLength(3)
   })
 
   it('works without attachments', () => {
@@ -520,7 +520,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getByTitle(/bijlage verwijderen/i)).toBeInTheDocument()
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
     })
 
     it('shows the delete button when allowed from others and for normal incidents', () => {
@@ -548,7 +548,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getByTitle(/bijlage verwijderen/i)).toBeInTheDocument()
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
     })
 
     it('shows the delete button when allowed from others and for child incidents', () => {
@@ -576,7 +576,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getByTitle(/bijlage verwijderen/i)).toBeInTheDocument()
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
     })
 
     it('shows the delete button when allowed from others and for parent incidents', () => {
@@ -604,7 +604,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getByTitle(/bijlage verwijderen/i)).toBeInTheDocument()
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
     })
 
     it('shows the delete button when its your own attachment and allowed for normal incidents', () => {
@@ -671,8 +671,10 @@ describe('Attachments', () => {
           />
         )
       )
-      const removeButton = screen.getByTitle(/bijlage verwijderen/i)
-      userEvent.click(removeButton)
+      const deleteButton = screen.getByTestId(
+        'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+      )
+      userEvent.click(deleteButton)
       expect(remove).toHaveBeenCalledWith(attachments.results[0])
     })
 
@@ -702,8 +704,10 @@ describe('Attachments', () => {
           />
         )
       )
-      const removeButton = screen.getByTitle(/bijlage verwijderen/i)
-      userEvent.click(removeButton)
+      const deleteButton = screen.getByTestId(
+        'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+      )
+      userEvent.click(deleteButton)
       expect(remove).not.toHaveBeenCalled()
     })
   })

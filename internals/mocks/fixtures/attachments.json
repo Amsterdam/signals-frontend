@@ -26,20 +26,6 @@
       "public": false,
       "caption": ""
     },
-      {
-      "_display": "Attachment object (984)",
-      "_links": {
-        "self": {
-          "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/87"
-        }
-      },
-      "location": "https://fakestURL.jpg",
-      "is_image": true,
-      "created_at": "2020-06-10T11:51:24.281272+02:00",
-      "created_by": "me",
-      "public": false,
-      "caption": ""
-    },
     {
       "_display": "Attachment object (981)",
       "_links": {
@@ -47,7 +33,7 @@
           "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
         }
       },
-      "location": "https://fakeURL.jpg",
+      "location": "https://melder2.jpg",
       "is_image": true,
       "created_at": "2021-06-10T11:51:24.281272+02:00",
       "created_by": null,
@@ -61,7 +47,7 @@
           "href": "http://localhost:8000/signals/v1/private/signals/63/attachments/88"
         }
       },
-      "location": "https://anotherFakeURL.jpg",
+      "location": "https://openbaargetoond.jpg",
       "is_image": true,
       "created_at": "2022-06-10T11:51:24.281272+02:00",
       "created_by": "me",
