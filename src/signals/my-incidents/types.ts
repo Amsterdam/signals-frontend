@@ -13,6 +13,7 @@ interface Attachment {
   created_at: string
   created_by: string
   href: string
+  caption?: string
 }
 
 export interface MyIncident {
