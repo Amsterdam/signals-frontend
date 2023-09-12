@@ -136,7 +136,9 @@ export const Contact = ({ incident, showPhone }: Props) => {
 
   return (
     <Fragment>
-      <dt data-testid="detail-phone-definition">Telefoon melder</dt>
+      <dt data-testid="detail-phone-definition" aria-label="phone">
+        Telefoon melder
+      </dt>
       {configuration.featureFlags.showContactEdit && (
         <>
           {activeComponent === 'edit' && (
@@ -161,7 +163,7 @@ export const Contact = ({ incident, showPhone }: Props) => {
               variant="application"
             />
           )}
-          {showPhone ? (
+          {showPhone && incident.reporter.phone ? (
             <StyledLink
               data-testid="detail-phone-link"
               variant="inline"
@@ -175,7 +177,9 @@ export const Contact = ({ incident, showPhone }: Props) => {
         </StyledDD>
       )}
 
-      <dt data-testid="detail-email-definition">E-mail melder</dt>
+      <dt data-testid="detail-email-definition" aria-label="email">
+        E-mail melder
+      </dt>
       {!activeComponent && (
         <dd data-testid="detail-email-value">
           {`${incident.reporter.email}`}

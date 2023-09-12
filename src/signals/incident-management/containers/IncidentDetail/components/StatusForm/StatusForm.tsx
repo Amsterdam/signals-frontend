@@ -34,6 +34,7 @@ import {
   StyledCheckboxLabel,
   StyledH2,
   StyledLabel,
+  StyledLegend,
   StyledParagraph,
   StyledSection,
 } from './styled'
@@ -299,53 +300,55 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             </StyledAlert>
           ))}
 
-        <StyledLabel label="Versturen" />
+        <fieldset>
+          <StyledLegend>Versturen</StyledLegend>
 
-        {state.flags.isSplitIncident &&
-          (state.status.key === StatusCode.ReactieGevraagd ? (
-            <Alert data-testid="split-incident-reply-warning" level="info">
-              {constants.REPLY_DEELMELDING_EXPLANATION}
-            </Alert>
-          ) : (
-            <Alert data-testid="split-incident-warning" level="info">
-              {constants.DEELMELDING_EXPLANATION}
-            </Alert>
-          ))}
-        {!state.flags.isSplitIncident && !emailIsNotSend && (
-          <div>
-            {state.flags.hasEmail ? (
-              incident?.reporter?.allows_contact ? (
-                <StyledCheckboxLabel
-                  disabled={state.check.disabled}
-                  htmlFor="send_email"
-                  label={constants.MELDING_CHECKBOX_DESCRIPTION}
-                  noActiveState
-                >
-                  <StyledCheckbox
-                    checked={state.check.checked}
-                    data-testid="send-email-checkbox"
-                    disabled={state.check.disabled}
-                    id="send_email"
-                    onClick={onCheck}
-                  />
-                </StyledCheckboxLabel>
-              ) : (
-                <div data-testid="no-contact-allowed-warning">
-                  {constants.NO_CONTACT_ALLOWED}
-                </div>
-              )
+          {state.flags.isSplitIncident &&
+            (state.status.key === StatusCode.ReactieGevraagd ? (
+              <Alert data-testid="split-incident-reply-warning" level="info">
+                {constants.REPLY_DEELMELDING_EXPLANATION}
+              </Alert>
             ) : (
-              <div data-testid="no-email-warning">
-                {constants.NO_REPORTER_EMAIL}
-              </div>
-            )}
-          </div>
-        )}
-        {emailIsNotSend && (
-          <div data-testid="no-emaiI-is-sent-warning">
-            {constants.NO_EMAIL_IS_SENT}
-          </div>
-        )}
+              <Alert data-testid="split-incident-warning" level="info">
+                {constants.DEELMELDING_EXPLANATION}
+              </Alert>
+            ))}
+          {!state.flags.isSplitIncident && !emailIsNotSend && (
+            <div>
+              {state.flags.hasEmail ? (
+                incident?.reporter?.allows_contact ? (
+                  <StyledCheckboxLabel
+                    disabled={state.check.disabled}
+                    htmlFor="send_email"
+                    label={constants.MELDING_CHECKBOX_DESCRIPTION}
+                    noActiveState
+                  >
+                    <StyledCheckbox
+                      checked={state.check.checked}
+                      data-testid="send-email-checkbox"
+                      disabled={state.check.disabled}
+                      id="send_email"
+                      onClick={onCheck}
+                    />
+                  </StyledCheckboxLabel>
+                ) : (
+                  <div data-testid="no-contact-allowed-warning">
+                    {constants.NO_CONTACT_ALLOWED}
+                  </div>
+                )
+              ) : (
+                <div data-testid="no-email-warning">
+                  {constants.NO_REPORTER_EMAIL}
+                </div>
+              )}
+            </div>
+          )}
+          {emailIsNotSend && (
+            <div data-testid="no-emaiI-is-sent-warning">
+              {constants.NO_EMAIL_IS_SENT}
+            </div>
+          )}
+        </fieldset>
       </StyledSection>
       <StyledSection>
         <AddNoteWrapper>

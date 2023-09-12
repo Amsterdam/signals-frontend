@@ -58,6 +58,7 @@ const Edit = ({ onClose, incident, submit }: Props) => {
         <div>
           <StyledInput
             {...register('phone')}
+            id={'phone'}
             placeholder="Telefoon melder"
             defaultValue={incident.reporter.phone}
             showError={!!errors.phone}
@@ -72,6 +73,7 @@ const Edit = ({ onClose, incident, submit }: Props) => {
         <div>
           <StyledInput
             {...register('email')}
+            id={'email'}
             placeholder={'E-mail melder'}
             defaultValue={incident.reporter.email}
             showError={!!errors.email}

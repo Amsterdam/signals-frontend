@@ -190,7 +190,13 @@ const Attachments: FC<AttachmentsProps> = ({
                 />
               ) : (
                 <>
-                  <StyledImg src={attachment.location} />
+                  <StyledImg
+                    src={attachment.location}
+                    alt={
+                      attachment.caption ||
+                      `Bestand met locatie ${attachment.location}`
+                    }
+                  />
                   <StyledGradient />
                 </>
               )}
