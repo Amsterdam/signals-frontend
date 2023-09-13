@@ -11,7 +11,6 @@ import {
   DescriptionWrapper,
   ContentWrapper,
   StyledDD,
-  StyledDL,
   StyledFigCaption,
   ImagesWrapper,
 } from './styled'
@@ -49,7 +48,7 @@ export const IncidentsDetail = ({
       <header>
         <StyledHeading>{`Meldingsnummer: ${_display}`}</StyledHeading>
       </header>
-      <StyledDL>
+      <dl>
         <DescriptionWrapper>
           <FormTitle>Omschrijving</FormTitle>
           <StyledDD>{text}</StyledDD>
@@ -102,7 +101,7 @@ export const IncidentsDetail = ({
         <DescriptionWrapper>
           <ExtraProperties items={extra_properties} />
         </DescriptionWrapper>
-      </StyledDL>
+      </dl>
     </ContentWrapper>
   )
 }

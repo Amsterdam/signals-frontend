@@ -71,7 +71,7 @@ describe('IncidentsDetail', () => {
       'sia:attachments'
     ].map((attachment) => ({
       ...attachment,
-      created_by: 'Gemeente Amsterdam',
+      created_by: 'Someone of the municipality',
     }))
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -135,7 +135,7 @@ describe('IncidentsDetail', () => {
   it('should render correctly with extra properties from object of key value pairss', () => {
     incidentsDetail.extra_properties = {
       'Wat is de locatie van de melding?': 'Amsterdam',
-    }
+    } as any
 
     render(
       withAppContext(

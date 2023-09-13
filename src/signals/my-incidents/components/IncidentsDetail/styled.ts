@@ -20,10 +20,8 @@ export const DescriptionWrapper = styled.div`
 
 export const StyledDD = styled.dd`
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
 `
-
-export const StyledDL = styled.dl``
 
 export const StyledImage = styled.img`
   object-fit: cover;
@@ -33,7 +31,7 @@ export const StyledImage = styled.img`
 export const StyledFigCaption = styled.figcaption``
 
 export const ImagesWrapper = styled.div`
-  gap: 8px;
+  gap: ${themeSpacing(2)};
   display: grid;
 
   @media screen and ${breakpoint('min-width', 'tabletS')} {

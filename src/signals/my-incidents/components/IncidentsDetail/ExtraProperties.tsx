@@ -8,7 +8,7 @@ import type {
   MappedLegacyItem,
 } from 'shared/types/extraProperties'
 
-import { FormTitle, StyledDD, StyledDL } from './styled'
+import { FormTitle, StyledDD } from './styled'
 
 interface Props {
   items?: ExtraPropertiesTypes
@@ -28,13 +28,13 @@ export const ExtraProperties = ({ items }: Props) => {
       }))
 
   return (
-    <StyledDL>
+    <dl>
       {itemList.map((item) => (
         <Fragment key={item.id}>
           <FormTitle>{item.label}</FormTitle>
           <StyledDD>{mapExtraPropertiesToJSX(item.answer)}</StyledDD>
         </Fragment>
       ))}
-    </StyledDL>
+    </dl>
   )
 }
