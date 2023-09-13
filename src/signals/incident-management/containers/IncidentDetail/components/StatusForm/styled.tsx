@@ -83,6 +83,10 @@ export const StyledLabel = styled(Label)`
   font-weight: 700;
 `
 
+export const StyledLegend = styled.legend`
+  font-weight: 700;
+`
+
 export const StyledCheckboxLabel = styled(Label)<{ disabled: boolean }>`
   ${({ disabled }) =>
     disabled &&

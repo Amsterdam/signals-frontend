@@ -191,27 +191,25 @@ const ChangeValue: FunctionComponent<ChangeValueProps> = ({
       <Controller
         name="input"
         control={control}
-        render={({ field: { onChange, value, name } }) => {
-          return (
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            <FormComponent
-              name={name}
-              onChange={(
-                event: React.FormEvent,
-                options: { triggerFormChange: boolean }
-              ) => {
-                onChange(event)
-                if (options?.triggerFormChange) {
-                  handleChange(event)
-                }
-              }}
-              groups={groups}
-              value={value}
-              values={options}
-            />
-          )
-        }}
+        render={({ field: { onChange, value, name } }) => (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          <FormComponent
+            name={name}
+            onChange={(
+              event: React.FormEvent,
+              options: { triggerFormChange: boolean }
+            ) => {
+              onChange(event)
+              if (options?.triggerFormChange) {
+                handleChange(event)
+              }
+            }}
+            groups={groups}
+            value={value}
+            values={options}
+          />
+        )}
       />
 
       {info && <InfoText text={info} className="" />}
