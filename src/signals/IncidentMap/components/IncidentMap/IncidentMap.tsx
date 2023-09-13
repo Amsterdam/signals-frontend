@@ -6,6 +6,7 @@ import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { throttle, isEqual } from 'lodash'
 
+import { useDeviceMode } from 'hooks/useDeviceMode'
 import configuration from 'shared/services/configuration/configuration'
 import { dynamicIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -23,7 +24,6 @@ import type { Filter, Incident, Properties } from '../../types'
 import { AddressLocation } from '../AddressLocation'
 import { AddressSearchMobile } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
-import { isMobile, useDeviceMode } from '../DrawerOverlay/utils'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
@@ -54,7 +54,7 @@ export const IncidentMap = () => {
 
   const listedIcons = useMemo(() => getListOfIcons(filters), [filters])
 
-  const mode = useDeviceMode()
+  const { deviceMode, isMobile } = useDeviceMode()
 
   const closeDrawerOverlay = useCallback(() => {
     setDrawerState(DrawerState.Closed)
@@ -73,7 +73,11 @@ export const IncidentMap = () => {
     (incident: Incident) => {
       const sanitizedCoords = featureToCoordinates(incident.geometry)
       // When marker is underneath the drawerOverlay, move the map slightly up
-      if (map && isMobile(mode) && sanitizedCoords.lat < map.getCenter().lat) {
+      if (
+        map &&
+        isMobile(deviceMode) &&
+        sanitizedCoords.lat < map.getCenter().lat
+      ) {
         const coords = {
           lat: sanitizedCoords.lat - 0.0003,
           lng: sanitizedCoords.lng,
@@ -85,7 +89,7 @@ export const IncidentMap = () => {
       setSelectedIncident(incident)
       setDrawerState(DrawerState.Open)
     },
-    [map, mode]
+    [map, isMobile, deviceMode]
   )
 
   /* istanbul ignore next */
@@ -195,7 +199,7 @@ export const IncidentMap = () => {
           <Pin
             map={map}
             coordinates={coordinates}
-            mode={mode}
+            mode={deviceMode}
             closeOverlay={closeDrawerOverlay}
           />
         )}
@@ -231,7 +235,7 @@ export const IncidentMap = () => {
           />
         </DrawerOverlay>
 
-        {isMobile(mode) && showAddressSearchMobile && (
+        {isMobile(deviceMode) && showAddressSearchMobile && (
           <AddressSearchMobile
             address={address}
             setCoordinates={setCoordinates}

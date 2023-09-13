@@ -5,6 +5,8 @@ import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
+import { useDeviceMode } from 'hooks/useDeviceMode'
+
 import { DetailPanel } from './DetailPanel'
 import {
   Drawer,
@@ -18,7 +20,6 @@ import {
   HandleIcon,
 } from './styled'
 import { DrawerState } from './types'
-import { isMobile, isDesktop, useDeviceMode } from './utils'
 import type { Incident } from '../../types'
 
 const CONTROLS_PADDING = 32
@@ -38,15 +39,18 @@ export const DrawerOverlay = ({
   onStateChange,
   state = DrawerState.Closed,
 }: Props) => {
-  const mode = useDeviceMode()
-  const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop
+  const { deviceMode, isDesktop, isMobile } = useDeviceMode()
+
+  const DrawerHandle = isMobile(deviceMode)
+    ? DrawerHandleMobile
+    : DrawerHandleDesktop
 
   function getDrawerPositionTransform(drawerState = state) {
-    if (drawerState !== DrawerState.Open && !isMobile(mode)) {
+    if (drawerState !== DrawerState.Open && !isMobile(deviceMode)) {
       return `translateX(calc(-100% + 19px))`
     }
 
-    if (drawerState !== DrawerState.Open && isMobile(mode)) {
+    if (drawerState !== DrawerState.Open && isMobile(deviceMode)) {
       return `translateY(calc(100% - 40px))`
     }
 
@@ -66,9 +70,14 @@ export const DrawerOverlay = ({
   }, [onStateChange, state])
 
   return (
-    <DrawerMapOverlay $mode={mode}>
-      <DrawerContainer $mode={mode} style={drawerContainerStyle} animate={true}>
-        <Drawer $mode={mode}>
+    <DrawerMapOverlay $mode={deviceMode} $isDesktop={isDesktop}>
+      <DrawerContainer
+        $mode={deviceMode}
+        $isDesktop={isDesktop}
+        style={drawerContainerStyle}
+        animate={true}
+      >
+        <Drawer $mode={deviceMode} $isDesktop={isDesktop}>
           <DrawerHandle
             type="button"
             variant="blank"
@@ -79,7 +88,7 @@ export const DrawerOverlay = ({
             }
             onClick={drawerClick}
           >
-            {isDesktop(mode) ? (
+            {isDesktop(deviceMode) ? (
               <DrawerHandleMiniDesktop>
                 <Icon size={20}>
                   <HandleIcon $isOpen={state === DrawerState.Open} />

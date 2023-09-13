@@ -1,31 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { renderHook } from '@testing-library/react-hooks'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { mocked } from 'jest-mock'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
-import { getAddress, useDeviceMode } from './utils'
-import { resizeWindow, mockIncidentsLong } from '../__test__'
+import { getAddress } from './utils'
+import { mockIncidentsLong } from '../__test__'
 
 jest.mock('shared/services/reverse-geocoder')
 
 describe('utils', () => {
-  describe('useDeviceMode', () => {
-    it('should give the correct deviceMode {Desktop)', () => {
-      const { result } = renderHook(() => useDeviceMode())
-
-      expect(result.current).toEqual('DESKTOP')
-    })
-
-    it('should give the correct deviceMode (Mobile)', () => {
-      resizeWindow(400, 1200)
-      const { result } = renderHook(() => useDeviceMode())
-
-      expect(result.current).toEqual('MOBILE')
-    })
-  })
-
   describe('getAddress', () => {
     const mockLatLng = { lat: 10, lng: 20 }
 

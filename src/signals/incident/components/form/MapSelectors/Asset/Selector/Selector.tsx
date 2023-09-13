@@ -28,6 +28,7 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import GPSButton from 'components/GPSButton'
 import MapCloseButton from 'components/MapCloseButton'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
+import { useDeviceMode } from 'hooks/useDeviceMode'
 import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
@@ -61,6 +62,8 @@ const Selector: FC = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
+  const { deviceMode, isMobile } = useDeviceMode()
+
   const { coordinates, layer, meta, selection, fetchLocation } =
     useContext(AssetSelectContext)
   const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
@@ -88,6 +91,10 @@ const Selector: FC = () => {
     }),
     [center, coordinates]
   )
+
+  const focusTrapOptions = {
+    ...(isMobile(deviceMode) ? { initialFocus: '#gps-button' } : {}),
+  }
 
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
   const [maxAssetWarningActive, setMaxAssetWarningActive] = useState(true)
@@ -157,7 +164,7 @@ const Selector: FC = () => {
   }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const mapWrapper = (
-    <FocusTrap>
+    <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
         <DetailPanel language={meta.language} />
 

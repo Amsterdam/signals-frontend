@@ -5,10 +5,10 @@ import { render, screen } from '@testing-library/react'
 import type { Map } from 'leaflet'
 
 import configuration from 'shared/services/configuration/configuration'
+import { DeviceMode } from 'types/device'
 
 import type { Props } from './Pin'
 import { Pin } from './Pin'
-import { DeviceMode } from '../DrawerOverlay/types'
 
 jest.mock('@amsterdam/react-maps', () => ({
   __esModule: true,
