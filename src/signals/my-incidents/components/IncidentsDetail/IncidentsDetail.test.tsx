@@ -36,7 +36,7 @@ describe('IncidentsDetail', () => {
 
     expect(screen.getByText('Omschrijving')).toBeInTheDocument()
 
-    expect(screen.getByText('Foto')).toBeInTheDocument()
+    expect(screen.getByText(/Foto/)).toBeInTheDocument()
 
     expect(container.querySelector('img')).toBeInTheDocument()
 
@@ -65,7 +65,33 @@ describe('IncidentsDetail', () => {
       )
     )
 
-    expect(screen.getByText("Foto's")).toBeInTheDocument()
+    expect(screen.getByText(/Foto's/)).toBeInTheDocument()
+
+    const attachmentMunicipality = incidentsDetail._links[
+      'sia:attachments'
+    ].map((attachment) => ({
+      ...attachment,
+      created_by: 'Someone of the municipality',
+    }))
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    incidentsDetail._links['sia:attachments'] = [
+      ...incidentsDetail._links['sia:attachments'],
+      ...attachmentMunicipality,
+    ]
+
+    rerender(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    expect(screen.getAllByText(/Foto's/)).toHaveLength(2)
   })
 
   it('should hide img and gebeurt het vaker if props are missing', function () {
@@ -88,5 +114,42 @@ describe('IncidentsDetail', () => {
     expect(screen.queryByText('Foto')).not.toBeInTheDocument()
 
     expect(container.querySelector('img')).not.toBeInTheDocument()
+  })
+
+  it('should open map', function () {
+    render(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    screen.getByText('Bekijk op kaart').click()
+
+    expect(setShowMap).toHaveBeenCalledWith(true)
+  })
+
+  it('should render correctly with extra properties from object of key value pairss', () => {
+    incidentsDetail.extra_properties = {
+      'Wat is de locatie van de melding?': 'Amsterdam',
+    } as any
+
+    render(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    expect(
+      screen.getByText('Wat is de locatie van de melding?')
+    ).toBeInTheDocument()
+    expect(screen.getByText('Amsterdam')).toBeInTheDocument()
   })
 })

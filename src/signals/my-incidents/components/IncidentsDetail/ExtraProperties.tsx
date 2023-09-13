@@ -2,15 +2,13 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { Fragment } from 'react'
 
-import { Paragraph } from '@amsterdam/asc-ui'
-
 import { mapExtraPropertiesToJSX } from 'shared/services/map-extra-properties'
 import type {
   ExtraPropertiesTypes,
   MappedLegacyItem,
 } from 'shared/types/extraProperties'
 
-import { FormTitle } from './styled'
+import { FormTitle, StyledDD } from './styled'
 
 interface Props {
   items?: ExtraPropertiesTypes
@@ -30,13 +28,13 @@ export const ExtraProperties = ({ items }: Props) => {
       }))
 
   return (
-    <>
+    <dl>
       {itemList.map((item) => (
         <Fragment key={item.id}>
           <FormTitle>{item.label}</FormTitle>
-          <Paragraph strong>{mapExtraPropertiesToJSX(item.answer)}</Paragraph>
+          <StyledDD>{mapExtraPropertiesToJSX(item.answer)}</StyledDD>
         </Fragment>
       ))}
-    </>
+    </dl>
   )
 }

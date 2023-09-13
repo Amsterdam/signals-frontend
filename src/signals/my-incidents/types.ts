@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import type { Item } from 'shared/types/extraProperties'
+import type { LegacyItems } from 'shared/types/extraProperties'
 import type Location from 'types/location'
 export interface MyIncidentsValue {
-  email?: string
   setEmail: (email: string) => void
-  incidentsList?: MyIncident[]
   setIncidentsList: (incidentsList: MyIncident[]) => void
+  incidentsList?: MyIncident[]
+  email?: string
 }
 
 interface Attachment {
   created_at: string
   created_by: string
   href: string
+  caption?: string
 }
 
 export interface MyIncident {
@@ -41,7 +43,7 @@ interface Links {
 export interface MyIncidentDetail extends MyIncident {
   _links: Links & { 'sia:attachments': Attachment[] }
   location: Location
-  extra_properties?: Item[]
+  extra_properties?: Item[] | LegacyItems
 }
 
 export interface Result<T> {
