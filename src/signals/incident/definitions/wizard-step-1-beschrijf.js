@@ -49,8 +49,7 @@ const getControls = memoize(
       info_text: {
         meta: {
           type: 'message',
-          value: `Voordat u een melding doet kunt u op de [meldingenkaart](/meldingenkaart) zien welke meldingen bekend zijn bij de
-          gemeente. Staat uw melding er niet bij? Maak dan een melding.`,
+          value: `step-1.description`,
         },
         render: FormComponents.PlainText,
       },
@@ -142,7 +141,7 @@ const getControls = memoize(
       },
       help_text: {
         meta: {
-          label: configuration.language.helpTextHeader,
+          label: 'step-1.help_text',
           value: configuration.language.helpText,
           ignoreVisibility: true,
         },
@@ -154,7 +153,7 @@ const getControls = memoize(
 )
 
 export default {
-  label: 'Beschrijf uw melding',
+  label: 'step-1.title',
   getNextStep: (wizard, incident) => {
     if (
       !some(getStepControls(wizard.vulaan, incident), (control) => {

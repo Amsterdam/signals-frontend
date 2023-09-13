@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import get from 'lodash/get'
+import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 
 import Markdown from 'components/Markdown'
@@ -24,16 +25,17 @@ export interface Props {
 }
 
 const PlainText = ({ className = '', meta, parent }: Props) => {
+  const { t } = useTranslation()
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const valueAuthenticated = getIsAuthenticated() && meta.valueAuthenticated
-  const value = !valueAuthenticated && meta.value
+  const value = !valueAuthenticated && t(meta.value)
 
   return meta.isVisible ? (
     <Wrapper className={className} type={meta.type} data-testid="plain-text">
       {meta.label && (
         <Label>
           <Markdown hideTabindexLink={mapActive}>
-            {injectParent(meta.label, parent)}
+            {injectParent(t(meta.label), parent)}
           </Markdown>
         </Label>
       )}

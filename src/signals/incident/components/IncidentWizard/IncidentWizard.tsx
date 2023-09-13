@@ -5,6 +5,7 @@ import { useContext, useMemo, useRef } from 'react'
 
 import { ascDefaultTheme, breakpoint, Paragraph } from '@amsterdam/asc-ui/lib'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 import { FrontPageAlert } from 'components/FrontPageAlert'
 import LoadingIndicator from 'components/LoadingIndicator'
@@ -58,6 +59,8 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
   removeQuestionData,
   incidentContainer,
 }) => {
+  const { t } = useTranslation()
+
   // Controls is used here for setting the validations rules used in UseForm resolver.
   const controlsRef = useRef()
   const appContext = useContext(AppContext)
@@ -117,7 +120,7 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                           <Header>
                             <StyledH1>
                               {countAsStep && `${index + 1}. `}
-                              {label || key}
+                              {t(label) || key}
                             </StyledH1>
                             {subHeader && <Paragraph>{subHeader}</Paragraph>}
                           </Header>

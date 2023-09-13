@@ -82,7 +82,7 @@ const expandQuestions = memoize(
 const fallback = expandQuestions({ locatie })
 
 export default {
-  label: 'Locatie en vragen',
+  label: 'step-2.title',
   nextButtonLabel: 'Volgende',
   nextButtonClass: 'action primary arrow-right',
   previousButtonLabel: 'Vorige',

@@ -1,18 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { Suspense } from 'react'
+
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import * as Sentry from '@sentry/browser'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HistoryRouter as Router } from 'redux-first-history/rr6'
 
+import LoadingIndicator from 'components/LoadingIndicator'
 import App from 'containers/App'
 import { authenticateUser } from 'containers/App/actions'
 import loadModels from 'models'
 import { authenticate } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
-// Import root app
+// Import translations
+import 'shared/services/i18n/i18next'
 
 // Import CSS and Global Styles
 import './global.css'
@@ -67,7 +71,9 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={reduxHistory}>
-        <App />
+        <Suspense fallback={<LoadingIndicator />}>
+          <App />
+        </Suspense>
       </Router>
     </Provider>,
     MOUNT_NODE
