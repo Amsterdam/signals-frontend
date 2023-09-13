@@ -11,7 +11,7 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: ${themeSpacing(19.5, 0, 6, 25)};
+  margin: ${themeSpacing(19.5, 0, 6, 0)};
   width: ${themeSpacing(75)};
   @media ${breakpoint('max-width', 'tabletS')} {
     margin: 0;
