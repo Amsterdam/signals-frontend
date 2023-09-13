@@ -35,7 +35,6 @@ export const ImagesWrapper = styled.div`
   display: grid;
 
   @media screen and ${breakpoint('min-width', 'tabletS')} {
-    width: 135px;
     grid-template-columns: repeat(2, 1fr);
   }
 `
@@ -53,12 +52,7 @@ export const ImageWrapper = styled.figure`
   }
 
   @media screen and ${breakpoint('min-width', 'tabletS')} {
-    width: 180px;
-
-    > img {
-      height: 135px;
-      aspect-ratio: unset;
-    }
+    min-width: 180px;
   }
 `
 export const StyledLink = styled(Link)`
