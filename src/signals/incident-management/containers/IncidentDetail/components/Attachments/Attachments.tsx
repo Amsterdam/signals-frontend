@@ -242,7 +242,7 @@ const Attachments: FC<AttachmentsProps> = ({
                     <StyledButton
                       icon={<DeleteIcon />}
                       iconSize={18}
-                      data-testid={attachment.location + attachment.created_at}
+                      data-testid={'DeleteIcon' + attachment.created_at}
                       onClick={(event) => {
                         event.stopPropagation()
                         window.confirm(
