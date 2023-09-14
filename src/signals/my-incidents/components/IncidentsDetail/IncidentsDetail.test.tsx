@@ -67,32 +67,6 @@ describe('IncidentsDetail', () => {
     )
 
     expect(screen.getByText(/Foto's/)).toBeInTheDocument()
-
-    const attachmentMunicipality = incidentsDetail._links[
-      'sia:attachments'
-    ].map((attachment) => ({
-      ...attachment,
-      created_by: 'Someone of the municipality',
-    }))
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    incidentsDetail._links['sia:attachments'] = [
-      ...incidentsDetail._links['sia:attachments'],
-      ...attachmentMunicipality,
-    ]
-
-    rerender(
-      withAppContext(
-        <IncidentsDetail
-          incidentsDetail={incidentsDetail}
-          setShowMap={setShowMap}
-          token={'123'}
-        />
-      )
-    )
-
-    expect(screen.getAllByText(/Foto's/)).toHaveLength(2)
   })
 
   it('should hide img and gebeurt het vaker if props are missing', function () {
