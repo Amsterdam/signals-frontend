@@ -112,7 +112,7 @@ export const NextButton = styled(StyledButton)`
 `
 
 export const StyledInteractiveImage = styled(InteractiveImage)`
-  margin: ${themeSpacing(23, 0, 0)};
-  max-height: calc(100vh - ${themeSpacing(28)});
+  margin: ${themeSpacing(6, 0, 0)};
+  max-height: calc(100vh - ${themeSpacing(75)});
   max-width: 100%;
 `

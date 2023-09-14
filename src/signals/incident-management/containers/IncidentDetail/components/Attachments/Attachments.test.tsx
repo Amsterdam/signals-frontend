@@ -672,7 +672,7 @@ describe('Attachments', () => {
         )
       )
       const deleteButton = screen.getByTestId(
-        'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+        'DeleteIcon2020-06-10T11:51:24.281272+02:00'
       )
       userEvent.click(deleteButton)
       expect(remove).toHaveBeenCalledWith(attachments.results[0])
@@ -705,7 +705,7 @@ describe('Attachments', () => {
         )
       )
       const deleteButton = screen.getByTestId(
-        'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+        'DeleteIcon2020-06-10T11:51:24.281272+02:00'
       )
       userEvent.click(deleteButton)
       expect(remove).not.toHaveBeenCalled()
