@@ -2,8 +2,6 @@
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { useState } from 'react'
 
-import { Paragraph } from '@amsterdam/asc-ui'
-
 import AttachmentViewer from 'components/AttachmentViewer'
 
 import { ExtraProperties } from './ExtraProperties'
@@ -77,18 +75,17 @@ export const IncidentsDetail = ({
               Foto{attachmentsUser.length > 1 && "'s"} gestuurd door u
             </FormTitle>
 
-          {attachments.map((attachment, index) => (
-            <ImageWrapper
-              key={attachment.href + index}
-              onClick={() => {
-                setSelectedAttachment(attachment.href)
-              }}
-            >
-              <StyledImage src={attachment.href} />
-            </ImageWrapper>
-          ))}
-        </Wrapper>
-      )}
+            {attachments.map((attachment, index) => (
+              <ImageWrapper
+                key={attachment.href + index}
+                onClick={() => {
+                  setSelectedAttachment(attachment.href)
+                }}
+              >
+                <StyledImage src={attachment.href} />
+              </ImageWrapper>
+            ))}
+
             <ImagesWrapper>
               {attachmentsUser.map((attachment, index) => (
                 <ImageWrapper key={attachment.href + index}>
@@ -129,9 +126,10 @@ export const IncidentsDetail = ({
           </StyledLink>
         </DescriptionWrapper>
 
-      <Wrapper>
-        <ExtraProperties items={extra_properties} />
-      </Wrapper>
+        <DescriptionWrapper>
+          <ExtraProperties items={extra_properties} />
+        </DescriptionWrapper>
+      </dl>
 
       {selectedAttachment && (
         <AttachmentViewer
@@ -142,10 +140,6 @@ export const IncidentsDetail = ({
           }}
         />
       )}
-        <DescriptionWrapper>
-          <ExtraProperties items={extra_properties} />
-        </DescriptionWrapper>
-      </dl>
     </ContentWrapper>
   )
 }

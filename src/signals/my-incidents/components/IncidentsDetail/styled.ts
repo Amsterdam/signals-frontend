@@ -64,3 +64,5 @@ export const ContentWrapper = styled.div`
   overflow-wrap: anywhere;
   max-width: ${themeSpacing(160)};
 `
+
+export const Wrapper = styled.div``
