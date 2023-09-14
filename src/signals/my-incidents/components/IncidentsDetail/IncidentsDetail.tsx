@@ -75,19 +75,14 @@ export const IncidentsDetail = ({
               Foto{attachmentsUser.length > 1 && "'s"} gestuurd door u
             </FormTitle>
 
-            {attachments.map((attachment, index) => (
-              <ImageWrapper
-                key={attachment.href + index}
-                onClick={() => {
-                  setSelectedAttachment(attachment.href)
-                }}
-              >
-                <StyledImage src={attachment.href} />
-              </ImageWrapper>
-            ))}
             <ImagesWrapper>
               {attachmentsUser.map((attachment, index) => (
-                <ImageWrapper key={attachment.href + index}>
+                <ImageWrapper
+                  key={attachment.href + index}
+                  onClick={() => {
+                    setSelectedAttachment(attachment.href)
+                  }}
+                >
                   <StyledImage src={attachment.href} />
                 </ImageWrapper>
               ))}
