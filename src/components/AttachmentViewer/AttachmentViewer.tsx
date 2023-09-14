@@ -164,17 +164,12 @@ const AttachmentViewer: FC<Props> = ({ href, attachments, onClose }) => {
               onClick={() => setCurrentHref(next)}
             />
           )}
-
-          <figure>
-            <div>
-              <StyledInteractiveImage
-                src={currentHref}
-                data-testid="attachment-viewer-image"
-                alt={fileName}
-                caption={currentAttachment.caption}
-              />
-            </div>
-          </figure>
+          <StyledInteractiveImage
+            src={currentHref}
+            data-testid="attachment-viewer-image"
+            alt={fileName}
+            caption={currentAttachment.caption}
+          />
         </Wrapper>
       </ModalInner>
     </StyledModal>
