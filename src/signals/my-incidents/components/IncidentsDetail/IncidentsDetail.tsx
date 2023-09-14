@@ -36,9 +36,11 @@ export const IncidentsDetail = ({
   const [selectedAttachment, setSelectedAttachment] = useState<string | null>(
     null
   )
+  const [selectedAttachmentEntity, setSelectedAttachmentEntity] =
+    useState<typeof attachments>()
 
   const formattedAttachments =
-    attachments?.map((attachment) => ({
+    selectedAttachmentEntity?.map((attachment) => ({
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.href,
@@ -81,6 +83,7 @@ export const IncidentsDetail = ({
                   key={attachment.href + index}
                   onClick={() => {
                     setSelectedAttachment(attachment.href)
+                    setSelectedAttachmentEntity(attachmentsUser)
                   }}
                 >
                   <StyledImage src={attachment.href} />
@@ -99,7 +102,13 @@ export const IncidentsDetail = ({
 
             <ImagesWrapper>
               {attachmentsMunicipality.map((attachment, index) => (
-                <ImageWrapper key={attachment.href + index}>
+                <ImageWrapper
+                  key={attachment.href + index}
+                  onClick={() => {
+                    setSelectedAttachment(attachment.href)
+                    setSelectedAttachmentEntity(attachmentsMunicipality)
+                  }}
+                >
                   <StyledImage src={attachment.href} />
                   {attachment.caption && (
                     <StyledFigCaption>{attachment.caption}</StyledFigCaption>
@@ -125,7 +134,7 @@ export const IncidentsDetail = ({
         </DescriptionWrapper>
       </dl>
 
-      {selectedAttachment && (
+      {selectedAttachment && selectedAttachmentEntity && (
         <AttachmentViewer
           attachments={formattedAttachments}
           href={selectedAttachment}
