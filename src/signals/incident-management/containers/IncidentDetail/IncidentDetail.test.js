@@ -418,7 +418,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('incident-detail')
 
     const deleteButton = screen.getByTestId(
-      'https://ae70d54aca324d0480ca01934240c78f.jpg2020-06-10T11:51:24.281272+02:00'
+      'DeleteIcon2020-06-10T11:51:24.281272+02:00'
     )
     userEvent.click(deleteButton)
     await screen.findByTestId('incident-detail')
