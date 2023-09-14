@@ -69,7 +69,7 @@ describe('IncidentsDetail', () => {
     expect(screen.getByText(/Foto's/)).toBeInTheDocument()
   })
 
-  it('should hide img and gebeurt het vaker if props are missing', function () {
+  it('should hide img and "gebeurt het vaker" if props are missing', function () {
     const { container } = render(
       withAppContext(
         <IncidentsDetail
