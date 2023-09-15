@@ -31,7 +31,7 @@ export const StyledImage = styled.img`
 export const StyledFigCaption = styled.figcaption``
 
 export const ImagesWrapper = styled.div`
-  gap: ${themeSpacing(2)};
+  gap: ${themeSpacing(4)};
   display: grid;
 
   @media screen and ${breakpoint('min-width', 'tabletS')} {
