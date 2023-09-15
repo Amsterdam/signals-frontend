@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { UIEvent } from 'react'
 import { useMemo } from 'react'
-
-import PropTypes from 'prop-types'
 
 import {
   StyledTR,
@@ -12,13 +11,21 @@ import {
 } from 'components/DataView/styled'
 import onButtonPress from 'utils/on-button-press'
 
+export interface DataViewBodyProps {
+  data: []
+  visibleColumns: string[]
+  onItemClick: (e: UIEvent) => void
+  primaryKeyColumn: number | undefined
+  numberOfColumns: number
+}
+
 const DataViewBody = ({
   data,
   visibleColumns,
   onItemClick,
   primaryKeyColumn,
   numberOfColumns,
-}) => {
+}: DataViewBodyProps) => {
   const dataColumnsMissing = useMemo(
     () => numberOfColumns - visibleColumns.length,
     [numberOfColumns, visibleColumns.length]
@@ -26,7 +33,7 @@ const DataViewBody = ({
 
   return (
     <tbody data-testid="data-view-body">
-      {data.map((row, index) => (
+      {data.map((row: any, index: number) => (
         <StyledTR
           key={JSON.stringify(row) + index}
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
@@ -38,7 +45,7 @@ const DataViewBody = ({
           role={'button'}
           data-testid="data-view-body-row"
         >
-          {visibleColumns.map((column, idx) => {
+          {visibleColumns.map((column: string, idx: number) => {
             if (column === 'Icoon' && row[column] !== 'Niet ingesteld') {
               return (
                 <StyledImageTD
@@ -70,24 +77,6 @@ const DataViewBody = ({
       ))}
     </tbody>
   )
-}
-
-DataViewBody.defaultProps = {
-  onItemClick: null,
-  primaryKeyColumn: undefined,
-}
-
-DataViewBody.propTypes = {
-  /** Array of data to be displayed */
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  /** Total number of columns in current view */
-  numberOfColumns: PropTypes.number.isRequired,
-  /** List of column names that should be displayed and in the order they should be displayed in */
-  visibleColumns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  /** Name of the column that contains the value that is used to build the URL to navigate to on item click */
-  primaryKeyColumn: PropTypes.string,
-  /** Row click callback handler */
-  onItemClick: PropTypes.func,
 }
 
 export default DataViewBody
