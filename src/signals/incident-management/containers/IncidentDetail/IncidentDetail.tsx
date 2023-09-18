@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AttachmentViewer from 'components/AttachmentViewer'
+import type { FormattedAttachment } from 'components/AttachmentViewer'
 import CloseButton from 'components/CloseButton'
 import History from 'components/History'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -124,7 +125,7 @@ const IncidentDetail = () => {
     if (isCreatedBy === null) return 'melder'
     return isPublic ? 'openbaar getoond' : isCreatedBy
   }
-
+  // TODO: Fix this type
   const formattedAttachments =
     state.attachments?.results.map((attachment) => ({
       createdAt: attachment.created_at,

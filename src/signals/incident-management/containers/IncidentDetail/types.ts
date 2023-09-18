@@ -68,7 +68,7 @@ export interface Attachment {
   created_by: string | null
   is_image: boolean
   location: string
-  caption: string
+  caption: string | null
   public: boolean
   _links: {
     self: {

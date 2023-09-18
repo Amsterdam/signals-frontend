@@ -27,18 +27,16 @@ import {
   Title,
   Wrapper,
 } from './styles'
-
-export interface Attachment {
+// TODO: add caption?
+export interface FormattedAttachment {
   location: string
-  createdAt?: string
-  createdBy?: string | null
-  stateShown?: string
-  caption?: string
+  createdAt: string | null
+  createdBy: string | null
 }
 
 interface Props {
   href: string
-  attachments: Attachment[]
+  attachments: FormattedAttachment[]
   onClose: () => void
 }
 

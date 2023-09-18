@@ -10,11 +10,11 @@ export interface MyIncidentsValue {
   email?: string
 }
 
-interface Attachment {
+interface MyIncidentAttachment {
   created_at: string
-  created_by: string
+  created_by: string | null
   href: string
-  caption?: string
+  caption: string | null
 }
 
 export interface MyIncident {
@@ -41,7 +41,7 @@ interface Links {
 }
 
 export interface MyIncidentDetail extends MyIncident {
-  _links: Links & { 'sia:attachments': Attachment[] }
+  _links: Links & { 'sia:attachments': MyIncidentAttachment[] }
   location: Location
   extra_properties?: Item[] | LegacyItems
 }

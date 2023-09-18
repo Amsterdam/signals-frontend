@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 
-import type { Attachment } from 'components/AttachmentViewer/AttachmentViewer'
+import type { FormattedAttachment } from 'components/AttachmentViewer/AttachmentViewer'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
 import { useFetch } from 'hooks'
@@ -187,13 +187,14 @@ const useExternalReplyQuestionnaire = (id: string) => {
 
   const attachments =
     questionnaireData?.questionnaire_explanation.sections.reduce(
-      (previous, current) => [
-        ...previous,
-        ...current.files.map(({ file }) => ({
-          location: file,
-        })),
-      ],
-      [] as Attachment[]
+      (previous, current) =>
+        [
+          ...previous,
+          ...current.files.map(({ file }) => ({
+            location: file,
+          })),
+        ] as FormattedAttachment[],
+      [] as FormattedAttachment[]
     ) || []
 
   return {
