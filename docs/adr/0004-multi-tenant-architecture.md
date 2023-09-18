@@ -58,4 +58,4 @@ For the foreseeable future, the plan is to set up a total of three repositories:
 
 The biggest challenge is keeping repositories in sync. In order to be able to use configuration settings, the responsible configuration repositories have to contain the configuration before it can be used by `signals-frontend`.
 
-Another challenge is the deploy preview that is currently handled by Netlify; each branch in `signals-frontend` can be published separately to show-case specific features or functionality. However, since the code and the configuration is split, a `signals-frontend` build will contain the default configuration and not the instance-specific configuration and thus Netlify doesn't seem suitable at this point in time.
+~~Another challenge is the deploy preview that is currently handled by Netlify; each branch in `signals-frontend` can be published separately to show-case specific features or functionality. However, since the code and the configuration is split, a `signals-frontend` build will contain the default configuration and not the instance-specific configuration and thus Netlify doesn't seem suitable at this point in time.~~
