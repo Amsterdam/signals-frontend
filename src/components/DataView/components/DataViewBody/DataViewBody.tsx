@@ -11,12 +11,12 @@ import {
 } from 'components/DataView/styled'
 import onButtonPress from 'utils/on-button-press'
 
-export interface DataViewBodyProps {
-  data: []
+export interface Props {
+  data: Record<string, any>[]
   visibleColumns: string[]
-  onItemClick: (e: UIEvent) => void
   primaryKeyColumn: number | undefined
   numberOfColumns: number
+  onItemClick?: (e: UIEvent) => void
 }
 
 const DataViewBody = ({
@@ -25,7 +25,7 @@ const DataViewBody = ({
   onItemClick,
   primaryKeyColumn,
   numberOfColumns,
-}: DataViewBodyProps) => {
+}: Props) => {
   const dataColumnsMissing = useMemo(
     () => numberOfColumns - visibleColumns.length,
     [numberOfColumns, visibleColumns.length]
@@ -33,19 +33,19 @@ const DataViewBody = ({
 
   return (
     <tbody data-testid="data-view-body">
-      {data.map((row: any, index: number) => (
+      {data.map((row, index) => (
         <StyledTR
           key={JSON.stringify(row) + index}
           data-item-id={primaryKeyColumn && row[primaryKeyColumn]}
           onClick={onItemClick}
           onKeyDown={(e) => {
-            onButtonPress(e, () => onItemClick(e))
+            onItemClick && onButtonPress(e, () => onItemClick(e))
           }}
           tabIndex={0}
           role={'button'}
           data-testid="data-view-body-row"
         >
-          {visibleColumns.map((column: string, idx: number) => {
+          {visibleColumns.map((column, idx) => {
             if (column === 'Icoon' && row[column] !== 'Niet ingesteld') {
               return (
                 <StyledImageTD
