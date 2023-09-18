@@ -811,6 +811,46 @@ describe('Attachments', () => {
       ).toBeInTheDocument()
     })
 
+    it('should not be able to make pdf public available', async () => {
+      const preview = jest.fn()
+      const add = jest.fn()
+      const remove = jest.fn()
+
+      const attachmentResultsMultiple = [
+        {
+          ...attachments.results[0],
+          created_by: 'user@example.com',
+          public: true,
+        },
+        {
+          ...attachments.results[0],
+          is_image: false,
+          created_by: 'user@example.com',
+          location: 'https://ae70d54aca324d0480ca01934240c78ff.jpg',
+        },
+      ]
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+            <Attachments
+              patch={patch}
+              attachments={attachmentResultsMultiple}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.getAllByTitle('Openbaar maken')).toHaveLength(1)
+    })
+
     it('should open EditAttachment form and it should send a PATCH request', async () => {
       const preview = jest.fn()
       const add = jest.fn()
