@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
+import { useState } from 'react'
+
+import AttachmentViewer from 'components/AttachmentViewer'
 
 import { ExtraProperties } from './ExtraProperties'
 import {
@@ -30,6 +33,20 @@ export const IncidentsDetail = ({
 }: Props) => {
   const { _display, text, location, extra_properties, _links } = incidentsDetail
   const attachments = _links?.['sia:attachments']
+  const [selectedAttachment, setSelectedAttachment] = useState<string | null>(
+    null
+  )
+  const [selectedAttachmentEntity, setSelectedAttachmentEntity] =
+    useState<typeof attachments>()
+
+  const formattedAttachments =
+    selectedAttachmentEntity?.map((attachment) => ({
+      createdAt: attachment.created_at,
+      createdBy: attachment.created_by,
+      location: attachment.href,
+      stateShown: 'foto gemeente',
+      caption: attachment.caption,
+    })) || []
 
   const attachmentsUser = attachments?.filter(
     (attachment) => !attachment.created_by
@@ -62,7 +79,13 @@ export const IncidentsDetail = ({
 
             <ImagesWrapper>
               {attachmentsUser.map((attachment, index) => (
-                <ImageWrapper key={attachment.href + index}>
+                <ImageWrapper
+                  key={attachment.href + index}
+                  onClick={() => {
+                    setSelectedAttachment(attachment.href)
+                    setSelectedAttachmentEntity(attachmentsUser)
+                  }}
+                >
                   <StyledImage src={attachment.href} />
                 </ImageWrapper>
               ))}
@@ -79,7 +102,13 @@ export const IncidentsDetail = ({
 
             <ImagesWrapper>
               {attachmentsMunicipality.map((attachment, index) => (
-                <ImageWrapper key={attachment.href + index}>
+                <ImageWrapper
+                  key={attachment.href + index}
+                  onClick={() => {
+                    setSelectedAttachment(attachment.href)
+                    setSelectedAttachmentEntity(attachmentsMunicipality)
+                  }}
+                >
                   <StyledImage src={attachment.href} />
                   {attachment.caption && (
                     <StyledFigCaption>{attachment.caption}</StyledFigCaption>
@@ -104,6 +133,16 @@ export const IncidentsDetail = ({
           <ExtraProperties items={extra_properties} />
         </DescriptionWrapper>
       </dl>
+
+      {selectedAttachment && selectedAttachmentEntity && (
+        <AttachmentViewer
+          attachments={formattedAttachments}
+          href={selectedAttachment}
+          onClose={() => {
+            setSelectedAttachment(null)
+          }}
+        />
+      )}
     </ContentWrapper>
   )
 }

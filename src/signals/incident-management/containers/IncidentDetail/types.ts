@@ -65,7 +65,7 @@ export interface HistoryEntry {
 export interface Attachment {
   _display: string
   created_at: string
-  created_by: string
+  created_by: string | null
   is_image: boolean
   location: string
   caption: string

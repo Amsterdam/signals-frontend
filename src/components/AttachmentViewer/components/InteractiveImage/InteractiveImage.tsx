@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2022 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { useEffect, useState } from 'react'
 
 import { MAX_ZOOM_LEVEL } from './constants'
-import { ZoomedImage, Image } from './styled'
+import { ZoomedImage, Image, StyledFigCaption, Wrapper } from './styled'
 
 type InteractiveImageProps = {
   src: string
   alt: string
+  caption?: string
   className?: string
 }
 
@@ -20,6 +21,7 @@ const InteractiveImage = ({
   src,
   alt,
   className,
+  caption,
   ...rest
 }: InteractiveImageProps) => {
   const [zoomFactor, setZoomFactor] = useState(0)
@@ -55,15 +57,18 @@ const InteractiveImage = ({
       backgroundImage={src}
       data-testid="zoomed-interactive-image"
     >
-      <Image
-        className={className}
-        zoom={zoomFactor}
-        loading="lazy"
-        src={src}
-        alt={alt}
-        data-testid="interactive-image"
-        {...rest}
-      />
+      <Wrapper>
+        <Image
+          className={className}
+          zoom={zoomFactor}
+          loading="lazy"
+          src={src}
+          alt={alt}
+          data-testid="interactive-image"
+          {...rest}
+        />
+        {caption && <StyledFigCaption>{caption}</StyledFigCaption>}
+      </Wrapper>
     </ZoomedImage>
   )
 }

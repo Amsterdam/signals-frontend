@@ -46,6 +46,7 @@ export const ImageWrapper = styled.figure`
   margin-inline-end: 0;
   position: relative;
   display: inline-block;
+  cursor: pointer;
 
   > img {
     aspect-ratio: 4/3;

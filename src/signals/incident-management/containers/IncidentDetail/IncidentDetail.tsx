@@ -120,11 +120,18 @@ const IncidentDetail = () => {
 
   const subcategories = useSelector(makeSelectSubCategories)
   const closeDispatch = () => dispatch({ type: CLOSE_ALL })
+  const stateShownImage = (isPublic: boolean, isCreatedBy: string | null) => {
+    if (isCreatedBy === null) return 'melder'
+    return isPublic ? 'openbaar getoond' : isCreatedBy
+  }
+
   const formattedAttachments =
     state.attachments?.results.map((attachment) => ({
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.location,
+      stateShown: stateShownImage(attachment.public, attachment.created_by),
+      caption: attachment.caption,
     })) || []
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {

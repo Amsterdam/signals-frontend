@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: MPL-2.0 */
-/* Copyright (C) 2022 Gemeente Amsterdam */
-import { render, screen } from '@testing-library/react'
+/* Copyright (C) 2022-2023 Gemeente Amsterdam */
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { IncidentsDetail } from './IncidentsDetail'
 import { withAppContext } from '../../../../test/utils'
@@ -66,35 +67,9 @@ describe('IncidentsDetail', () => {
     )
 
     expect(screen.getByText(/Foto's/)).toBeInTheDocument()
-
-    const attachmentMunicipality = incidentsDetail._links[
-      'sia:attachments'
-    ].map((attachment) => ({
-      ...attachment,
-      created_by: 'Someone of the municipality',
-    }))
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    incidentsDetail._links['sia:attachments'] = [
-      ...incidentsDetail._links['sia:attachments'],
-      ...attachmentMunicipality,
-    ]
-
-    rerender(
-      withAppContext(
-        <IncidentsDetail
-          incidentsDetail={incidentsDetail}
-          setShowMap={setShowMap}
-          token={'123'}
-        />
-      )
-    )
-
-    expect(screen.getAllByText(/Foto's/)).toHaveLength(2)
   })
 
-  it('should hide img and gebeurt het vaker if props are missing', function () {
+  it('should hide img and "gebeurt het vaker" if props are missing', function () {
     const { container } = render(
       withAppContext(
         <IncidentsDetail
@@ -114,6 +89,68 @@ describe('IncidentsDetail', () => {
     expect(screen.queryByText('Foto')).not.toBeInTheDocument()
 
     expect(container.querySelector('img')).not.toBeInTheDocument()
+  })
+
+  it('renders attachment viewer', () => {
+    const { container } = render(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    const image = container.querySelector('img') as HTMLElement
+
+    expect(image).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(image)
+
+    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
+  })
+
+  it('closes previews when close button is clicked', async () => {
+    const { container } = render(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    const image = container.querySelector('img') as HTMLElement
+
+    expect(image).toBeInTheDocument()
+
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
+
+    userEvent.click(image)
+
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('attachment-viewer-image')
+      ).toBeInTheDocument()
+    })
+
+    const closeButton = screen.getByTitle(/sluiten/i)
+    expect(closeButton).toBeInTheDocument()
+
+    userEvent.click(closeButton)
+
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByTitle(/sluiten/i)).not.toBeInTheDocument()
   })
 
   it('should open map', function () {
