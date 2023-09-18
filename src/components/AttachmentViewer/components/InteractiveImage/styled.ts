@@ -3,7 +3,7 @@
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import { MAX_ZOOM_LEVEL } from './constants'
+import { FIGCAPTION_PADDING, MAX_ZOOM_LEVEL } from './constants'
 
 type Image = {
   zoom: number
@@ -48,7 +48,7 @@ export const StyledFigCaption = styled.figcaption`
   height: 100%;
   font-weight: 700;
   width: 0;
-  min-width: calc(100% - 40px);
+  min-width: calc(100% - ${FIGCAPTION_PADDING}px);
   overflow-wrap: break-word;
   padding: ${themeSpacing(5)};
   text-align: left;

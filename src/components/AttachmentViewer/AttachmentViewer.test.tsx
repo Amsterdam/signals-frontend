@@ -303,13 +303,13 @@ describe('<AttachmentViewer />', () => {
     })
   })
 
-  it('should show caption', async () => {
+  it('should show caption', () => {
     render(
       withAppContext(
         <AttachmentViewer {...props} href={props.attachments[1].location} />
       )
     )
 
-    expect(await screen.findByText('text shown')).toBeInTheDocument()
+    expect(screen.getByText('text shown')).toBeInTheDocument()
   })
 })
