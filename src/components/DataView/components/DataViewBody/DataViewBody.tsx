@@ -14,7 +14,7 @@ import onButtonPress from 'utils/on-button-press'
 export interface Props {
   data: Record<string, any>[]
   visibleColumns: string[]
-  primaryKeyColumn: number | undefined
+  primaryKeyColumn?: number
   numberOfColumns: number
   onItemClick?: (e: UIEvent) => void
 }
