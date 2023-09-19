@@ -125,14 +125,14 @@ const IncidentDetail = () => {
     if (isCreatedBy === null) return 'melder'
     return isPublic ? 'openbaar getoond' : isCreatedBy
   }
-  // TODO: Fix this type
-  const formattedAttachments =
+
+  const formattedAttachments: FormattedAttachment[] =
     state.attachments?.results.map((attachment) => ({
+      caption: attachment.caption,
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.location,
       stateShown: stateShownImage(attachment.public, attachment.created_by),
-      caption: attachment.caption,
     })) || []
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {

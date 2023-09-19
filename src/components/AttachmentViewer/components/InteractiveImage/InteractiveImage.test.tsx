@@ -5,7 +5,7 @@ import InteractiveImage from './InteractiveImage'
 
 describe('InteractiveImage', () => {
   it('sets visibility of main image when clicked', () => {
-    render(<InteractiveImage src="foo" alt="bar" />)
+    render(<InteractiveImage src="foo" alt="bar" caption={null} />)
     const image = screen.getByTestId('interactive-image')
     const zoomedImage = screen.getByTestId('zoomed-interactive-image')
 

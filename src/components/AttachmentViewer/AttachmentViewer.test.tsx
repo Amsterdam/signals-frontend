@@ -10,26 +10,32 @@ import type { FormattedAttachment } from './AttachmentViewer'
 
 const attachments: FormattedAttachment[] = [
   {
-    location: 'https://objectstore.eu/mock/image/1',
+    caption: 'text shown',
     createdAt: '2019-08-05T08:19:16.372476+02:00',
     createdBy: null,
-    caption: 'text shown',
+    location: 'https://objectstore.eu/mock/image/1',
+    stateShown: 'melder',
   },
   {
+    caption: 'text shown',
+    createdAt: '2019-08-05T08:19:17.205236+02:00',
+    createdBy: 'test@signalen.dev',
     location: 'https://objectstore.eu/mock/image/4/',
-    createdAt: '2019-08-05T08:19:17.205236+02:00',
-    createdBy: 'test@signalen.dev',
-    caption: 'text shown',
+    stateShown: 'melder',
   },
   {
+    caption: null,
+    createdAt: '2019-08-05T08:19:17.205236+02:00',
+    createdBy: 'test@signalen.dev',
     location: 'https://objectstore.eu/mock/image/2',
-    createdAt: '2019-08-05T08:19:17.205236+02:00',
-    createdBy: 'test@signalen.dev',
+    stateShown: 'melder',
   },
   {
-    location: 'https://objectstore.eu/mock/image/3',
+    caption: null,
     createdAt: '2019-08-05T08:19:18.389461+02:00',
     createdBy: 'employee@signalen.dev',
+    location: 'https://objectstore.eu/mock/image/3',
+    stateShown: 'melder',
   },
 ]
 

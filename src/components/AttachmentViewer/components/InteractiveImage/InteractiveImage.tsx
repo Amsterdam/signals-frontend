@@ -8,7 +8,7 @@ import { ZoomedImage, Image, StyledFigCaption, Wrapper } from './styled'
 type InteractiveImageProps = {
   src: string
   alt: string
-  caption?: string
+  caption: string | null
   className?: string
 }
 

@@ -27,11 +27,13 @@ import {
   Title,
   Wrapper,
 } from './styles'
-// TODO: add caption?
+
 export interface FormattedAttachment {
-  location: string
+  caption: string | null
   createdAt: string | null
   createdBy: string | null
+  location: string
+  stateShown: string
 }
 
 interface Props {
