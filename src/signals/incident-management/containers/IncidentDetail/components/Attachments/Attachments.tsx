@@ -220,7 +220,7 @@ const Attachments: FC<AttachmentsProps> = ({
                   </StyledDate>
                 </StyledDetails>
                 <StyledButtonsWrapper>
-                  {attachment.created_by && (
+                  {attachment.created_by && attachment.is_image && (
                     <StyledButton
                       icon={
                         <img
