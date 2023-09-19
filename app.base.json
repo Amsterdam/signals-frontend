@@ -179,6 +179,9 @@
   },
   "frontPageAlert": {
     "text":""
+  },
+  "additionalCode": {
+    "css": "",
+    "js": ""
   }
 }
-

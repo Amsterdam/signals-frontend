@@ -45,6 +45,8 @@ const placeholders = {
   $SIGNALS_PWA_TITLE: config.language.title,
   $SIGNALS_STATUS_BAR_STYLE: config.head.statusBarStyle,
   $SIGNALS_THEME_COLOR: config.head.themeColor,
+  $SIGNALS_ADDITIONAL_CODE_CSS: config.additionalCode.css,
+  $SIGNALS_ADDITIONAL_CODE_JS: config.additionalCode.js,
 }
 
 const inject = (files) =>
