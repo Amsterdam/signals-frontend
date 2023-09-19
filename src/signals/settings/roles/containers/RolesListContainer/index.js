@@ -9,11 +9,12 @@ import { Link } from 'react-router-dom'
 import { createStructuredSelector } from 'reselect'
 import styled from 'styled-components'
 
+import BackLink from 'components/BackLink'
 import LoadingIndicator from 'components/LoadingIndicator'
 import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { rolesModelSelector } from 'models/roles/selectors'
-import { ROLE_URL } from 'signals/settings/routes'
+import { BASE_URL, ROLE_URL } from 'signals/settings/routes'
 
 import RolesList from './components/RolesList'
 
@@ -29,7 +30,10 @@ export const RolesListContainer = ({
 }) => (
   <Fragment>
     <Row>
-      <PageHeader title="Rollen">
+      <PageHeader
+        title="Rollen"
+        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+      >
         {userCan('add_group') && (
           <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
             Rol toevoegen
