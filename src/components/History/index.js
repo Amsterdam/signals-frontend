@@ -8,11 +8,12 @@ import HistoryList from 'components/HistoryList'
 import { historyType } from 'shared/types'
 
 const Section = styled.section`
-  contain: centent;
+  contain: content;
+  margin-top: ${themeSpacing(8)};
 `
 
 const H2 = styled(Heading)`
-  ${styles.HeaderStyles} {
+  ${styles.HeaderStyle} {
     margin: ${themeSpacing(4, 0, 2)};
   }
 `

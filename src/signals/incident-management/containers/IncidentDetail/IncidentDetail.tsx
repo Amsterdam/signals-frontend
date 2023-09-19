@@ -57,7 +57,7 @@ const StyledRow = styled(Row)`
 `
 
 const StyledAttachments = styled(Attachments)`
-  margin-bottom: ${themeSpacing(4)};
+  margin-bottom: ${themeSpacing(2)};
 `
 
 const DetailContainer = styled(Column)`

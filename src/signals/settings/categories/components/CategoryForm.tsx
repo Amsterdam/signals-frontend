@@ -25,6 +25,7 @@ import {
   StyledHistory,
   StyledFormFooter,
   FormContainer,
+  StyledH2,
 } from './styled'
 import configuration from '../../../../shared/services/configuration/configuration'
 import type { CategoryFormValues } from '../types'
@@ -267,9 +268,9 @@ export const CategoryForm = ({
                       control={formMethods.control}
                       render={({ field: { onChange, name } }) => (
                         <FieldGroup>
-                          <StyledHeading>
+                          <StyledH2 forwardedAs="h2" styleAs="h5">
                             Standaardteksten per status
-                          </StyledHeading>
+                          </StyledH2>
                           <StandardTextsField onChange={onChange} name={name} />
                         </FieldGroup>
                       )}
