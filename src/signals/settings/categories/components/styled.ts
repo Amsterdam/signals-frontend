@@ -58,7 +58,7 @@ export const StyledLabel = styled(Label)`
 export const StyledH2 = styled(Heading)`
   margin-bottom: ${themeSpacing(2)};
   font-weight: bold;
-  line-height: 22px;
+  line-height: 1.375rem;
   font-size: 1rem;
 `
 
@@ -75,6 +75,6 @@ export const StyledDefinitionTerm = styled.dt`
 export const StyledHeading = styled.p`
   margin-bottom: ${themeSpacing(1)};
   font-weight: bold;
-  line-height: 22px;
+  line-height: 1.375rem;
   font-size: 1rem;
 `
