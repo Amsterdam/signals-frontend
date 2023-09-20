@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import AttachmentViewer from 'components/AttachmentViewer'
+import type { FormattedAttachment } from 'components/AttachmentViewer'
 import CloseButton from 'components/CloseButton'
 import History from 'components/History'
 import { showGlobalNotification } from 'containers/App/actions'
@@ -125,13 +126,13 @@ const IncidentDetail = () => {
     return isPublic ? 'openbaar getoond' : isCreatedBy
   }
 
-  const formattedAttachments =
+  const formattedAttachments: FormattedAttachment[] =
     state.attachments?.results.map((attachment) => ({
+      caption: attachment.caption,
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.location,
       stateShown: stateShownImage(attachment.public, attachment.created_by),
-      caption: attachment.caption,
     })) || []
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {

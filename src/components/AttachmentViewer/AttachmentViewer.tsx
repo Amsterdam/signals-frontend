@@ -28,17 +28,17 @@ import {
   Wrapper,
 } from './styles'
 
-export interface Attachment {
+export interface FormattedAttachment {
+  caption: string | null
+  createdAt: string | null
+  createdBy: string | null
   location: string
-  createdAt?: string
-  createdBy?: string | null
-  stateShown?: string
-  caption?: string
+  stateShown: string
 }
 
 interface Props {
   href: string
-  attachments: Attachment[]
+  attachments: FormattedAttachment[]
   onClose: () => void
 }
 

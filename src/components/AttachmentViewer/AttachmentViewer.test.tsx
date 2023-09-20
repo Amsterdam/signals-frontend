@@ -6,41 +6,42 @@ import userEvent from '@testing-library/user-event'
 import { withAppContext } from 'test/utils'
 
 import AttachmentViewer from '.'
+import type { FormattedAttachment } from './AttachmentViewer'
+
+const attachments: FormattedAttachment[] = [
+  {
+    caption: 'text shown',
+    createdAt: '2019-08-05T08:19:16.372476+02:00',
+    createdBy: null,
+    location: 'https://objectstore.eu/mock/image/1',
+    stateShown: 'melder',
+  },
+  {
+    caption: 'text shown',
+    createdAt: '2019-08-05T08:19:17.205236+02:00',
+    createdBy: 'test@signalen.dev',
+    location: 'https://objectstore.eu/mock/image/4/',
+    stateShown: 'melder',
+  },
+  {
+    caption: null,
+    createdAt: '2019-08-05T08:19:17.205236+02:00',
+    createdBy: 'test@signalen.dev',
+    location: 'https://objectstore.eu/mock/image/2',
+    stateShown: 'melder',
+  },
+  {
+    caption: null,
+    createdAt: '2019-08-05T08:19:18.389461+02:00',
+    createdBy: 'employee@signalen.dev',
+    location: 'https://objectstore.eu/mock/image/3',
+    stateShown: 'melder',
+  },
+]
 
 describe('<AttachmentViewer />', () => {
   const props = {
-    attachments: [
-      {
-        _display: 'Attachment object (678)',
-        location: 'https://objectstore.eu/mock/image/1',
-        is_image: true,
-        createdAt: '2019-08-05T08:19:16.372476+02:00',
-        createdBy: '',
-        caption: 'text shown',
-      },
-      {
-        _display: 'Attachment object (681)',
-        location: 'https://objectstore.eu/mock/image/4/',
-        is_image: true,
-        createdAt: '2019-08-05T08:19:17.205236+02:00',
-        createdBy: 'test@signalen.dev',
-        caption: 'text shown',
-      },
-      {
-        _display: 'Attachment object (679)',
-        location: 'https://objectstore.eu/mock/image/2',
-        is_image: true,
-        createdAt: '2019-08-05T08:19:17.205236+02:00',
-        createdBy: 'test@signalen.dev',
-      },
-      {
-        _display: 'Attachment object (680)',
-        location: 'https://objectstore.eu/mock/image/3',
-        is_image: true,
-        createdAt: '2019-08-05T08:19:18.389461+02:00',
-        createdBy: 'employee@signalen.dev',
-      },
-    ],
+    attachments,
     onClose: () => {},
   }
 

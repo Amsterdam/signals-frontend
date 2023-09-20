@@ -44,7 +44,7 @@ export default function EditAttachment({
   const { handleSubmit, formState, control, getValues } = useForm<FormValues>({
     defaultValues: {
       public: attachment.public,
-      caption: attachment.caption,
+      caption: attachment.caption ?? undefined,
     },
     resolver: yupResolver(schema),
   })
