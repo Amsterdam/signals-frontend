@@ -5,7 +5,10 @@ import userEvent from '@testing-library/user-event'
 
 import { IncidentsDetail } from './IncidentsDetail'
 import { withAppContext } from '../../../../test/utils'
-import { incidentsDetail } from '../../__test__/incidents-detail'
+import {
+  incidentsDetail,
+  incidentsDetail2,
+} from '../../__test__/incidents-detail'
 
 const setShowMap = jest.fn()
 
@@ -91,7 +94,7 @@ describe('IncidentsDetail', () => {
     expect(container.querySelector('img')).not.toBeInTheDocument()
   })
 
-  it('renders attachment viewer', () => {
+  it('renders attachment viewer with image created by the municipal official', () => {
     const { container } = render(
       withAppContext(
         <IncidentsDetail
@@ -112,6 +115,31 @@ describe('IncidentsDetail', () => {
     userEvent.click(image)
 
     expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
+    expect(screen.getByText('foto gemeente')).toBeInTheDocument()
+  })
+
+  it('renders attachment viewer with image created by the melder', () => {
+    const { container } = render(
+      withAppContext(
+        <IncidentsDetail
+          incidentsDetail={incidentsDetail2}
+          setShowMap={setShowMap}
+          token={'123'}
+        />
+      )
+    )
+
+    const image = container.querySelector('img') as HTMLElement
+
+    expect(image).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('attachment-viewer-image')
+    ).not.toBeInTheDocument()
+
+    userEvent.click(image)
+
+    expect(screen.queryByTestId('attachment-viewer-image')).toBeInTheDocument()
+    expect(screen.getByText('melder')).toBeInTheDocument()
   })
 
   it('closes previews when close button is clicked', async () => {

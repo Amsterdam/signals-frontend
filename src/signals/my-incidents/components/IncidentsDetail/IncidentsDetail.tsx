@@ -39,12 +39,17 @@ export const IncidentsDetail = ({
   const [selectedAttachmentEntity, setSelectedAttachmentEntity] =
     useState<typeof attachments>()
 
+  const stateShownImage = (isCreatedBy: string | null) => {
+    if (isCreatedBy === null) return 'melder'
+    return 'foto gemeente'
+  }
+
   const formattedAttachments =
     selectedAttachmentEntity?.map((attachment) => ({
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.href,
-      stateShown: 'foto gemeente',
+      stateShown: stateShownImage(attachment.created_by),
       caption: attachment.caption,
     })) || []
 
