@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { useParams, useLocation, Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import BackLink from 'components/BackLink'
 import DataView from 'components/DataView'
 import LoadingIndicator from 'components/LoadingIndicator'
 import PageHeader from 'components/PageHeader'
@@ -24,7 +25,7 @@ import { makeSelectUserCan } from 'containers/App/selectors'
 import useDebounce from 'hooks/useDebounce'
 import { inputSelectDepartmentsSelector } from 'models/departments/selectors'
 import { inputSelectRolesSelector } from 'models/roles/selectors'
-import { USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
+import { BASE_URL, USERS_PAGED_URL, USER_URL } from 'signals/settings/routes'
 
 import useFetchUsers from './hooks/useFetchUsers'
 
@@ -168,7 +169,10 @@ const UsersOverviewContainer = () => {
   return (
     <Fragment>
       <Row>
-        <PageHeader title={`Gebruikers${count ? ` (${count})` : ''}`}>
+        <PageHeader
+          title={`Gebruikers${count ? ` (${count})` : ''}`}
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        >
           {userCan('add_user') && (
             <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
               Gebruiker toevoegen

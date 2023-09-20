@@ -7,12 +7,13 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
+import BackLink from 'components/BackLink'
 import ListComponent from 'components/List'
 import LoadingIndicator from 'components/LoadingIndicator'
 import PageHeader from 'components/PageHeader'
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectDepartments } from 'models/departments/selectors'
-import { DEPARTMENT_URL } from 'signals/settings/routes'
+import { BASE_URL, DEPARTMENT_URL } from 'signals/settings/routes'
 
 import filterData from '../../utils/filterData'
 
@@ -67,6 +68,7 @@ const DepartmentOverview = () => {
           title={`Afdelingen${
             departments.count ? ` (${departments.count})` : ''
           }`}
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
         />
       </Row>
       <Row>
