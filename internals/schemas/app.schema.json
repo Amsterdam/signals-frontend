@@ -50,6 +50,9 @@
         },
         "piwik": {
           "$ref": "#/definitions/Piwik"
+        },
+        "additionalCode": {
+          "$ref": "#/definitions/AdditionalCode"
         }
       },
       "required": [
@@ -822,6 +825,17 @@
         }
       },
       "title": "Piwik"
+    },
+    "AdditionalCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "css": {
+          "type": "string",
+          "description": "Additional CSS code"
+        }
+      },
+      "title": "AdditionalCode"
     }
   }
 }
