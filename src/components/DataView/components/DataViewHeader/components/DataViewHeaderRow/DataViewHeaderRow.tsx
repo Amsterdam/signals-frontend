@@ -1,10 +1,21 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import PropTypes from 'prop-types'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+
+import type { ReactNode } from 'react'
 
 import { StyledTH, StyledTR } from 'components/DataView/styled'
 
-const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
+interface Props {
+  nodes: ReactNode[]
+  testId?: string
+  spacer?: number
+}
+
+const DataViewHeaderRow = ({
+  nodes,
+  testId = 'data-view-header-row',
+  spacer = 0,
+}: Props) => (
   <StyledTR data-testid={testId}>
     {nodes.map((node, idx) => (
       // eslint-disable-next-line react/no-array-index-key
@@ -15,16 +26,5 @@ const DataViewHeaderRow = ({ nodes, testId, spacer }) => (
     {spacer > 0 && <StyledTH colSpan={spacer > 1 ? spacer : undefined} />}
   </StyledTR>
 )
-
-DataViewHeaderRow.defaultProps = {
-  testId: 'data-view-header-row',
-  spacer: 0,
-}
-
-DataViewHeaderRow.propTypes = {
-  nodes: PropTypes.node.isRequired,
-  testId: PropTypes.string,
-  spacer: PropTypes.number,
-}
 
 export default DataViewHeaderRow

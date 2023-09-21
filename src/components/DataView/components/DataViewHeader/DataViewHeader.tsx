@@ -1,14 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { ReactNode } from 'react'
 import { useMemo } from 'react'
-
-import PropTypes from 'prop-types'
 
 import { StyledTHead } from 'components/DataView/styled'
 
 import DataViewHeaderRow from './components/DataViewHeaderRow'
 
-const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
+interface Props {
+  numberOfColumns: number
+  headers?: string[]
+  filters?: ReactNode[]
+}
+const DataViewHeader = ({
+  numberOfColumns,
+  headers = [],
+  filters = [],
+}: Props) => {
   const headersMissing = useMemo(
     () => numberOfColumns - headers.length,
     [numberOfColumns, headers.length]
@@ -36,17 +44,6 @@ const DataViewHeader = ({ numberOfColumns, headers, filters }) => {
       )}
     </StyledTHead>
   )
-}
-
-DataViewHeader.defaultProps = {
-  headers: [],
-  filters: [],
-}
-
-DataViewHeader.propTypes = {
-  numberOfColumns: PropTypes.number.isRequired,
-  headers: PropTypes.node,
-  filters: PropTypes.node,
 }
 
 export default DataViewHeader
