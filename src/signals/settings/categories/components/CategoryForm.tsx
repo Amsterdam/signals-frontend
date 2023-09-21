@@ -12,6 +12,7 @@ import RadioButtonList from 'components/RadioButtonList'
 import TextArea from 'components/TextArea'
 import type { History as HistoryType } from 'types/history'
 
+import { IconInput } from './IconInput'
 import StandardTextsField from './StandardTextsField'
 import {
   FieldGroup,
@@ -175,6 +176,8 @@ export const CategoryForm = ({
                   </>
                 )}
               </FieldGroup>
+
+              <IconInput formMethods={formMethods} icon={formValues.icon} />
 
               {formValues.is_public_accessible && (
                 <FieldGroup>

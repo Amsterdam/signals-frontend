@@ -81,6 +81,7 @@ export const CategoryDetail = ({
           ? DEFAULT_STATUS_OPTION
           : `${data.is_active}`,
       is_public_accessible: data.is_public_accessible ?? true,
+      icon: data.icon,
       name: data.name,
       public_name: data.public_name ?? data.name,
       note: data.note,

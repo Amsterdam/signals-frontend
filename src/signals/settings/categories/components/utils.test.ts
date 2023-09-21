@@ -18,6 +18,7 @@ const mockFormData: CategoryFormValues = {
   note: 'Test notitie',
   n_days: 5,
   use_calendar_days: 1,
+  icon: null,
 }
 
 const mockDirtyFields = {

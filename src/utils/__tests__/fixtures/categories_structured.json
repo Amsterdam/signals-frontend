@@ -24,6 +24,7 @@
         "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/openbaar-groen-en-water/status-message-templates"
       }
     },
+    "icon": null,
     "id": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water",
     "is_active": true,
     "description": null,
@@ -38,6 +39,7 @@
           "n_days": 5,
           "use_calendar_days": false
         },
+        "icon": null,
         "name": "Boom - boomstob",
         "slug": "boom-boomstob",
         "handling_message": "\nUw melding wordt ingepland: wij laten u binnen 5 werkdagen weten hoe en wanneer uw melding wordt afgehandeld. Dat doen we via e-mail.",
@@ -77,6 +79,7 @@
       "n_days": null,
       "use_calendar_days": null
     },
+    "icon": null,
     "name": "Afval",
     "slug": "afval",
     "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
@@ -107,6 +110,7 @@
           "n_days": 3,
           "use_calendar_days": false
         },
+        "icon": null,
         "name": "Container glas kapot",
         "slug": "container-glas-kapot",
         "handling_message": "\nWe laten u binnen 3 weken weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.",
@@ -178,6 +182,7 @@
       "n_days": null,
       "use_calendar_days": null
     },
+    "icon": null,
     "name": "Wegen, verkeer, straatmeubilair",
     "slug": "wegen-verkeer-straatmeubilair",
     "handling_message": "\nWij bekijken uw melding en zorgen dat het juiste onderdeel van de gemeente deze gaat behandelen. Heeft u contactgegevens achtergelaten? Dan nemen wij bij onduidelijkheid contact met u op.",
@@ -211,6 +216,7 @@
           "n_days": 21,
           "use_calendar_days": true
         },
+        "icon": null,
         "name": "Autom. Verzinkbare palen",
         "slug": "autom-verzinkbare-palen",
         "handling_message": "\nWij handelen uw melding binnen drie weken af. U ontvangt dan geen apart bericht meer.\nEn anders hoort u - via e-mail - wanneer wij uw melding kunnen oppakken.",

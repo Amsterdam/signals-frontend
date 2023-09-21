@@ -25,6 +25,7 @@ const mockFormValues = {
   n_days: 3,
   use_calendar_days: 1,
   show_children_in_filter: true,
+  icon: null,
 }
 
 const defaultProps: Omit<Props, 'formMethods'> = {

@@ -25,6 +25,7 @@ export interface Category {
   }
   id: number | string
   name: string
+  icon: string | null
   slug: string
   is_active: boolean
   description: string | null
