@@ -16,7 +16,7 @@ export const incidentsDetail: MyIncidentWithLocation = {
       href: 'https://acc.api.meldingen.amsterdam.nl/signals/v1/my/signals/a4ed990e-bb4e-4de4-bb5a-f2dd9b907fc4',
     },
     'sia:attachments': [
-      { created_at: '', created_by: '', href: '/', caption: '' },
+      { created_at: '', created_by: 'somebody', href: '/', caption: '' },
     ],
   },
   extra_properties: [
