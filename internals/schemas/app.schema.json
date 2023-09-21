@@ -833,10 +833,6 @@
         "css": {
           "type": "string",
           "description": "Additional CSS code"
-        },
-        "js": {
-          "type": "string",
-          "description": "Additional JS code"
         }
       },
       "title": "AdditionalCode"
