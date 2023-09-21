@@ -2,6 +2,7 @@
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { useState } from 'react'
 
+import type { FormattedAttachment } from 'components/AttachmentViewer'
 import AttachmentViewer from 'components/AttachmentViewer'
 
 import { ExtraProperties } from './ExtraProperties'
@@ -39,17 +40,12 @@ export const IncidentsDetail = ({
   const [selectedAttachmentEntity, setSelectedAttachmentEntity] =
     useState<typeof attachments>()
 
-  const stateShownImage = (isCreatedBy: string | null) => {
-    if (isCreatedBy === null) return 'melder'
-    return 'foto gemeente'
-  }
-
-  const formattedAttachments =
+  const formattedAttachments: FormattedAttachment[] =
     selectedAttachmentEntity?.map((attachment) => ({
       createdAt: attachment.created_at,
       createdBy: attachment.created_by,
       location: attachment.href,
-      stateShown: stateShownImage(attachment.created_by),
+      stateShown: attachment.created_by ? 'foto gemeente' : 'melder',
       caption: attachment.caption,
     })) || []
 
