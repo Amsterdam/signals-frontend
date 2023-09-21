@@ -17,13 +17,14 @@ export const Wrapper = styled.section`
   contain: content;
   position: relative;
   z-index: 0;
+  margin-top: ${themeSpacing(8, 0, 2)};
 `
 
 export const StyledButtonWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-top: ${themeSpacing(8)};
   gap: ${themeSpacing(2)};
+  margin: ${themeSpacing(8, 0, 0)};
 `
 
 export const Title = styled(Heading)`

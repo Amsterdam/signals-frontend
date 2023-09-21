@@ -2,7 +2,7 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { ElementType } from 'react'
 
-import { themeSpacing, Column, Select, Label } from '@amsterdam/asc-ui'
+import { themeSpacing, Column, Select, Heading, Label } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import FormFooter from 'components/FormFooter'
@@ -55,6 +55,13 @@ export const StyledLabel = styled(Label)`
   font-weight: 400;
 `
 
+export const StyledH2 = styled(Heading)`
+  margin-bottom: ${themeSpacing(2)};
+  font-weight: bold;
+  line-height: 1.375rem;
+  font-size: 1rem;
+`
+
 export const StyledHistory = styled(History as ElementType)`
   h2 {
     font-size: 1rem;
@@ -68,6 +75,6 @@ export const StyledDefinitionTerm = styled.dt`
 export const StyledHeading = styled.p`
   margin-bottom: ${themeSpacing(1)};
   font-weight: bold;
-  line-height: 22px;
+  line-height: 1.375rem;
   font-size: 1rem;
 `
