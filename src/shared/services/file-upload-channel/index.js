@@ -33,7 +33,7 @@ export default (endpoint, file, id, field = 'file', requestType = 'POST') =>
     /* istanbul ignore next */
     xhr.onload = () => {
       // upload success
-      if (xhr.readyState === 4 && xhr.status > 200 && xhr.status < 400) {
+      if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 400) {
         emitter({ success: true })
         emitter(END)
       } else {

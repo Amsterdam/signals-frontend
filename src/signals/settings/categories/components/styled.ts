@@ -3,7 +3,7 @@
 import type { ElementType } from 'react'
 
 import {
-  Alert,
+  Button,
   Column,
   Heading,
   Icon,
@@ -90,12 +90,28 @@ export const StyledHeading = styled.label`
 export const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: ${themeSpacing(2)};
 `
 
 export const StyledIcon = styled(Icon)`
-  margin: ${themeSpacing(2, 0)};
+  margin-bottom: ${themeSpacing(2)};
 `
 
-export const StyeldAlert = styled(Alert)`
+export const DeleteButton = styled(Button)`
+  margin-left: ${themeSpacing(2)};
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+`
+
+export const Wrapper = styled.div`
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin-left: ${themeSpacing(2)};
+  }
+`
+
+export const StyledSpan = styled.span`
   margin-bottom: ${themeSpacing(2)};
 `
