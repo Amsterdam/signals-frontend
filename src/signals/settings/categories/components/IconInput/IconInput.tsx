@@ -7,6 +7,7 @@ import Button from 'components/Button'
 import { useConfirm } from 'hooks/useConfirm'
 import configuration from 'shared/services/configuration/configuration'
 import FileInput from 'signals/incident-management/containers/IncidentDetail/components/FileInput'
+import useUpload from 'signals/incident-management/containers/IncidentDetail/hooks/useUpload'
 
 import {
   StyeldAlert as Alert,
@@ -25,8 +26,8 @@ export const IconInput = ({ formMethods, icon }: Props) => {
   const [file, setFile] = useState<File | null>(null)
   const [fileDataURL, setFileDataURL] = useState<string | null>(icon)
   const { isConfirmed } = useConfirm()
+  const { upload } = useUpload()
   const { categoryId } = useParams<{ categoryId: string }>()
-  const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}/icon`
   const label = icon ? 'Icoon wijzigen' : 'Icoon toevoegen'
   const handleOnChange = async (e: File[]) => {
     setFile(e[0])
@@ -37,8 +38,14 @@ export const IconInput = ({ formMethods, icon }: Props) => {
     )
 
     if (confirmed) {
-      categoryURL
-      // TODO: patch to categoryURL
+      categoryId &&
+        upload(
+          e,
+          Number(categoryId),
+          `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}/icon`,
+          'icon',
+          'PUT'
+        )
     }
   }
 

@@ -5,7 +5,11 @@ import {
   END as mockEnd,
 } from 'redux-saga'
 
+import configuration from 'shared/services/configuration/configuration'
+
 import useUpload from './useUpload'
+
+const id = 3
 
 const mockChannel = {
   fn: (emitter: (input: any) => void) => {
@@ -63,7 +67,8 @@ describe('hooks/useUpload', () => {
               text: (() => {}) as any,
             },
           ],
-          1
+          1,
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`
         )
       })
 
@@ -97,7 +102,8 @@ describe('hooks/useUpload', () => {
               text: (() => {}) as any,
             },
           ],
-          1
+          1,
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`
         )
       })
 
@@ -131,7 +137,8 @@ describe('hooks/useUpload', () => {
               text: (() => {}) as any,
             },
           ],
-          1
+          1,
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`
         )
       })
 

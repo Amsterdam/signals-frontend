@@ -4,7 +4,6 @@ import type { EventChannel } from 'redux-saga'
 import { runSaga, stdChannel } from 'redux-saga'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 
-import configuration from 'shared/services/configuration/configuration'
 import fileUploadChannel from 'shared/services/file-upload-channel'
 
 export type Files = Array<{
@@ -17,6 +16,9 @@ interface UploadAttachmentsAction {
   payload: {
     files: Files
     id: number
+    endpoint: string
+    field?: string
+    requestType?: string
   }
 }
 
@@ -27,6 +29,9 @@ function* uploadAttachments(action: UploadAttachmentsAction) {
         payload: {
           file,
           id: action.payload.id,
+          endpoint: action.payload.endpoint,
+          field: action.payload?.field,
+          requestType: action.payload?.requestType,
         },
       })
     ),
@@ -37,18 +42,22 @@ interface UploadFileAction {
   payload: {
     id?: number
     file?: { name: string }
+    endpoint: string
+    field?: string
+    requestType?: string
   }
 }
 
 function* uploadFile(action: UploadFileAction): any {
-  const id = action.payload.id
+  const { id, file, endpoint, field, requestType } = action.payload
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const channel: EventChannel<any> = yield call(
     fileUploadChannel,
-    `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`,
-    action.payload?.file,
-    id
+    endpoint,
+    file,
+    id,
+    field,
+    requestType
   )
 
   while (true) {
@@ -117,11 +126,17 @@ const useUpload = () => {
     }
   }, [])
 
-  const upload = (files: File[], id: number) => {
+  const upload = (
+    files: File[],
+    id: number,
+    endpoint: string,
+    field?: string,
+    requestType?: string
+  ) => {
     setSuccess(false)
     channel.put({
       type: 'upload',
-      payload: { files, id },
+      payload: { files, id, endpoint, field, requestType },
     })
   }
 
