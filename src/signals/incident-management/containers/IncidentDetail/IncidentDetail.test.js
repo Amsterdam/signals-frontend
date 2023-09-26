@@ -392,7 +392,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     fireEvent.change(fileInputElement, {
       target: { files },
     })
-    expect(mockUseUpload.upload).toHaveBeenCalledWith(files, 4440)
+    expect(mockUseUpload.upload).toHaveBeenCalledWith(
+      files,
+      4440,
+      'http://localhost:8000/signals/v1/private/signals/4440/attachments/'
+    )
   })
 
   it('should handle attachment deletion', async () => {
