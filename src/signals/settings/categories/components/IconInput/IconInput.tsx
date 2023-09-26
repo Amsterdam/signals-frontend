@@ -14,6 +14,7 @@ import FileInput from 'signals/incident-management/containers/IncidentDetail/com
 import useUpload from 'signals/incident-management/containers/IncidentDetail/hooks/useUpload'
 
 import useFetchResponseNotification from '../../../hooks/useFetchResponseNotification'
+import type { Props as CategoryFormProps } from '../CategoryForm'
 import {
   DeleteButton,
   FieldGroup,
@@ -26,7 +27,7 @@ import { StyledDiv } from '../styled'
 
 interface Props {
   icon: string | null
-  formMethods: any
+  formMethods: CategoryFormProps['formMethods']
 }
 
 export const IconInput = ({ formMethods, icon }: Props) => {
@@ -49,28 +50,31 @@ export const IconInput = ({ formMethods, icon }: Props) => {
     requestType: type || 'PUT',
   })
 
-  const handleOnChange = async (files: File[]) => {
-    const confirmed = await isConfirmed(
-      'Let op! Je veranderd een icoon. ',
-      'Er wordt geen back-up van het icoon gemaakt.'
-    )
+  const handleOnChange = useCallback(
+    async (files: File[]) => {
+      const confirmed = await isConfirmed(
+        'Let op! Je veranderd een icoon. ',
+        'Er wordt geen back-up van het icoon gemaakt.'
+      )
 
-    if (confirmed) {
-      setFile(files[0])
-      categoryId &&
-        upload(
-          files,
-          Number(categoryId),
-          `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}/icon`,
-          'icon',
-          'PUT'
-        )
-    }
+      if (confirmed) {
+        setFile(files[0])
+        categoryId &&
+          upload(
+            files,
+            Number(categoryId),
+            `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}/icon`,
+            'icon',
+            'PUT'
+          )
+      }
 
-    if (!confirmed) {
-      setFile(null)
-    }
-  }
+      if (!confirmed) {
+        setFile(null)
+      }
+    },
+    [categoryId, isConfirmed, upload]
+  )
 
   const handleOnDelete = useCallback(
     async (event) => {
@@ -93,13 +97,13 @@ export const IconInput = ({ formMethods, icon }: Props) => {
   )
 
   useEffect(() => {
-    let fileReader: any
+    let fileReader: FileReader
     let isCancel = false
 
     if (file) {
       fileReader = new FileReader()
-      fileReader.onload = (e: { target: { result: string } }) => {
-        const { result } = e.target
+      fileReader.onload = (e) => {
+        const result = e?.target?.result as string
         if (result && !isCancel) {
           setFileDataURL(result)
         }
@@ -127,7 +131,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
           <StyledDiv>
             {fileDataURL ? (
               <StyledIcon size={32}>
-                <img alt="Icoon" src={fileDataURL} />
+                <img width={32} height={32} alt="Icoon" src={fileDataURL} />
               </StyledIcon>
             ) : (
               <StyledSpan>Niet ingesteld</StyledSpan>
