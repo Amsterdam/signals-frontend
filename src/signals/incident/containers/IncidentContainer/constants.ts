@@ -68,4 +68,5 @@ export const INPUT_VALIDATOR_MAP = {
   pattern: 'pattern',
   required: 'required',
   required_true: 'requiredTrue',
+  isBlocking: 'isBlocking',
 }
