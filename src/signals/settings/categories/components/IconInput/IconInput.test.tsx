@@ -63,7 +63,7 @@ describe('IconInput', () => {
     ).toBeInTheDocument()
   })
 
-  it('should allow uploading a new icon', () => {
+  it('should allow uploading a new icon', async () => {
     const icon =
       'https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-25T15%3A16%3A27Z&sp=r&sv=2021-08-06&sr=b&sig=GtCGkYzJhlkzlRrVAShohBuCQ0mq%2BojItkjJvPRWFBY%3D'
 
@@ -86,6 +86,14 @@ describe('IconInput', () => {
     const inputTwo = screen.getByLabelText('Icoon wijzigen') as HTMLInputElement
 
     expect(inputTwo.files?.[0]?.name).toBe('test.svg')
+
+    const confirmButton = screen.getByText('Bevestig')
+
+    await waitFor(() => {
+      userEvent.click(confirmButton)
+    })
+
+    expect(mockUseUpload.upload).toHaveBeenCalled()
   })
 
   it('should allow deleting an icon', async () => {

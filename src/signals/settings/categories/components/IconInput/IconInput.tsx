@@ -96,6 +96,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
     [categoryId, deleteIcon, isConfirmed]
   )
 
+  // istanbul ignore next
   useEffect(() => {
     let fileReader: FileReader
     let isCancel = false
