@@ -54,7 +54,7 @@
     "immutable": "^4.0.0-rc.12",
     "invariant": "^2.2.4",
     "keycloak-js": "^20.0.3",
-    "leaflet": "^1.9.3",
+    "leaflet": "^1.9.4",
     "leaflet-gesture-handling": "^1.2.1",
     "leaflet.markercluster": "^1.5.0",
     "lodash": "^4.17.21",

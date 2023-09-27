@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints'
 
@@ -22,11 +22,16 @@ interface UseDeviceModeReturn {
 export function useDeviceMode(): UseDeviceModeReturn {
   const [deviceMode, setDeviceMode] = useState(getDeviceMode(window.innerWidth))
 
-  const isMobile = (mode: DeviceMode): mode is DeviceMode.Mobile =>
-    mode === DeviceMode.Mobile
+  const isMobile = useCallback(
+    (mode: DeviceMode): mode is DeviceMode.Mobile => mode === DeviceMode.Mobile,
+    []
+  )
 
-  const isDesktop = (mode: DeviceMode): mode is DeviceMode.Desktop =>
-    mode === DeviceMode.Desktop
+  const isDesktop = useCallback(
+    (mode: DeviceMode): mode is DeviceMode.Desktop =>
+      mode === DeviceMode.Desktop,
+    []
+  )
 
   useEffect(() => {
     const resizeW = () => setDeviceMode(getDeviceMode(window.innerWidth))
