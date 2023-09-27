@@ -25,7 +25,7 @@ import {
 } from '../styled'
 import { StyledDiv } from '../styled'
 
-interface Props {
+export interface Props {
   icon: string | null
   formMethods: CategoryFormProps['formMethods']
 }

@@ -315,8 +315,14 @@ const handlers = [
     res(ctx.status(200))
   ),
 
+  // DELETE
+
   rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
     res(ctx.status(204), ctx.json(null))
+  ),
+
+  rest.delete(API.CATEGORIES_PRIVATE_ENDPOINT_ICON, (_req, res, ctx) =>
+    res(ctx.status(204))
   ),
 
   // FALLBACK
