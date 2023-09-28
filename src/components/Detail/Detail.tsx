@@ -13,7 +13,7 @@ import {
 interface Props {
   header: string
   content: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const Detail = ({ header, content, children }: Props) => {
