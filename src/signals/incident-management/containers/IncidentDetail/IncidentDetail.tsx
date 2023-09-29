@@ -350,11 +350,11 @@ const IncidentDetail = () => {
         upload(
           files,
           incident.id,
-          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${id}/attachments/`
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incident.id}/attachments/`
         )
       }
     },
-    [id, incident, upload]
+    [incident, upload]
   )
 
   const removeAttachment = useCallback(

@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import Button from 'components/Button'
 import { useConfirm } from 'hooks/useConfirm'
 import useFetch from 'hooks/useFetch'
+import { RequestType } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import FileInput from 'signals/incident-management/containers/IncidentDetail/components/FileInput'
 import useUpload from 'signals/incident-management/containers/IncidentDetail/hooks/useUpload'
@@ -47,13 +48,13 @@ export const IconInput = ({ formMethods, icon }: Props) => {
     error: error || uploadError,
     isLoading,
     isSuccess: isSuccess || uploadSuccess,
-    requestType: type || 'PUT',
+    requestType: type || RequestType.PUT,
   })
 
   const handleOnChange = useCallback(
     async (files: File[]) => {
       const confirmed = await isConfirmed(
-        'Let op! Je veranderd een icoon. ',
+        'Let op! Je verander een icoon. ',
         'Er wordt geen back-up van het icoon gemaakt.'
       )
 
@@ -65,7 +66,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
             Number(categoryId),
             `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}/icon`,
             'icon',
-            'PUT'
+            RequestType.PUT
           )
       }
 

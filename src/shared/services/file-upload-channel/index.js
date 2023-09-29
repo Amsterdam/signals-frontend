@@ -2,9 +2,17 @@
 // Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { buffers, eventChannel, END } from 'redux-saga'
 
+import { RequestType } from 'hooks/useFetch'
+
 import { getAuthHeaders } from '../auth/auth'
 
-export default (endpoint, file, id, field = 'file', requestType = 'POST') =>
+export default (
+  endpoint,
+  file,
+  id,
+  field = 'file',
+  requestType = RequestType.POST
+) =>
   eventChannel((emitter) => {
     const formData = new window.FormData()
     formData.append('signal_id', id)

@@ -4,6 +4,7 @@ import type { EventChannel } from 'redux-saga'
 import { runSaga, stdChannel } from 'redux-saga'
 import { all, call, put, take, takeLatest } from 'redux-saga/effects'
 
+import type { RequestType } from 'hooks/useFetch'
 import fileUploadChannel from 'shared/services/file-upload-channel'
 
 export type Files = Array<{
@@ -18,7 +19,7 @@ interface UploadAttachmentsAction {
     id: number
     endpoint: string
     field?: string
-    requestType?: string
+    requestType?: RequestType
   }
 }
 
@@ -44,7 +45,7 @@ interface UploadFileAction {
     file?: { name: string }
     endpoint: string
     field?: string
-    requestType?: string
+    requestType?: RequestType
   }
 }
 
