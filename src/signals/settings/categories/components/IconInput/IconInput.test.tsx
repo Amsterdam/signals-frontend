@@ -43,11 +43,16 @@ const Wrapper = (props: Partial<Props>) => {
 }
 
 describe('IconInput', () => {
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
   it('should render without icon', () => {
     render(<Wrapper icon={null} />)
 
     expect(screen.getByText('Icoon')).toBeVisible()
-    expect(screen.getByText('Niet ingesteld')).toBeVisible()
+    expect(
+      screen.getByText('Het icoon wordt getoond op de openbare meldingenkaart.')
+    ).toBeVisible()
     expect(screen.getByText('Icoon toevoegen')).toBeVisible()
   })
 
@@ -56,7 +61,7 @@ describe('IconInput', () => {
       'https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-25T15%3A16%3A27Z&sp=r&sv=2021-08-06&sr=b&sig=GtCGkYzJhlkzlRrVAShohBuCQ0mq%2BojItkjJvPRWFBY%3D'
     render(<Wrapper icon={icon} />)
 
-    expect(screen.getByRole('img', { name: '' })).toBeInTheDocument()
+    expect(screen.getByAltText('Icoon')).toBeInTheDocument()
     expect(screen.getByText('Icoon wijzigen')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: 'Icoon verwijderen' })
@@ -64,6 +69,28 @@ describe('IconInput', () => {
   })
 
   it('should allow uploading a new icon', async () => {
+    render(<Wrapper icon={null} />)
+
+    const input = screen.getByLabelText('Icoon toevoegen') as HTMLInputElement
+
+    expect(input).toBeInTheDocument()
+
+    fireEvent.change(input, {
+      target: {
+        files: [
+          new File(['(⌐□_□)'], 'test.svg', {
+            type: 'image/svg+xml',
+          }),
+        ],
+      },
+    })
+    expect(screen.queryByText('Bevestig')).not.toBeInTheDocument()
+    expect(mockUseUpload.upload).toHaveBeenCalled()
+
+    screen.debug()
+  })
+
+  it('should allow changing an icon', async () => {
     const icon =
       'https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-25T15%3A16%3A27Z&sp=r&sv=2021-08-06&sr=b&sig=GtCGkYzJhlkzlRrVAShohBuCQ0mq%2BojItkjJvPRWFBY%3D'
 
@@ -94,6 +121,39 @@ describe('IconInput', () => {
     })
 
     expect(mockUseUpload.upload).toHaveBeenCalled()
+  })
+
+  it('should disallow changing an icon when cancelled', async () => {
+    const icon =
+      'https://siaweuaaks.blob.core.windows.net/files/icons/categories/0-hoofdcategorie-test/glas-icon.svg?se=2023-04-25T15%3A16%3A27Z&sp=r&sv=2021-08-06&sr=b&sig=GtCGkYzJhlkzlRrVAShohBuCQ0mq%2BojItkjJvPRWFBY%3D'
+
+    render(<Wrapper icon={icon} />)
+
+    const input = screen.getByLabelText('Icoon wijzigen') as HTMLInputElement
+
+    expect(input.files?.[0]?.name).not.toBe('test.svg')
+
+    fireEvent.change(input, {
+      target: {
+        files: [
+          new File(['(⌐□_□)'], 'test.svg', {
+            type: 'image/svg+xml',
+          }),
+        ],
+      },
+    })
+
+    const inputTwo = screen.getByLabelText('Icoon wijzigen') as HTMLInputElement
+
+    expect(inputTwo.files?.[0]?.name).toBe('test.svg')
+
+    const cancelButton = screen.getByText('Annuleer')
+
+    await waitFor(() => {
+      userEvent.click(cancelButton)
+    })
+
+    expect(mockUseUpload.upload).not.toHaveBeenCalled()
   })
 
   it('should allow deleting an icon', async () => {

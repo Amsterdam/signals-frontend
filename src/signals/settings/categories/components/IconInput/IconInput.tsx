@@ -14,14 +14,15 @@ import configuration from 'shared/services/configuration/configuration'
 import FileInput from 'signals/incident-management/containers/IncidentDetail/components/FileInput'
 import useUpload from 'signals/incident-management/containers/IncidentDetail/hooks/useUpload'
 
+import { Detail } from '../../../../../components/Detail'
 import useFetchResponseNotification from '../../../hooks/useFetchResponseNotification'
+import { ICONEXAMPLE } from '../../constants'
 import type { Props as CategoryFormProps } from '../CategoryForm'
 import {
   DeleteButton,
   FieldGroup,
   StyledHeading,
   StyledIcon,
-  StyledSpan,
   Wrapper,
 } from '../styled'
 import { StyledDiv } from '../styled'
@@ -53,10 +54,14 @@ export const IconInput = ({ formMethods, icon }: Props) => {
 
   const handleOnChange = useCallback(
     async (files: File[]) => {
-      const confirmed = await isConfirmed(
-        'Let op! Je verander een icoon. ',
-        'Er wordt geen back-up van het icoon gemaakt.'
-      )
+      let confirmed
+      if (!fileDataURL) confirmed = true
+      if (fileDataURL) {
+        confirmed = await isConfirmed(
+          'Let op, je verandert het icoon. ',
+          'Er wordt geen back-up van het icoon gemaakt.'
+        )
+      }
 
       if (confirmed) {
         setFile(files[0])
@@ -74,7 +79,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
         setFile(null)
       }
     },
-    [categoryId, isConfirmed, upload]
+    [categoryId, fileDataURL, isConfirmed, upload]
   )
 
   const handleOnDelete = useCallback(
@@ -82,7 +87,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
       event.preventDefault()
 
       const confirmed = await isConfirmed(
-        'Let op! Je verwijderd een icoon. ',
+        'Let op, je verwijdert het icoon. ',
         'Er wordt geen back-up van het icoon gemaakt.'
       )
 
@@ -123,20 +128,21 @@ export const IconInput = ({ formMethods, icon }: Props) => {
   return (
     <FieldGroup>
       <StyledHeading>Icoon</StyledHeading>
-
-      {/* Informatie */}
-
+      <Detail
+        header={'Het icoon wordt getoond op de openbare meldingenkaart.'}
+        content={'Zorg voor een circel en exporteer als SVG.'}
+      >
+        {ICONEXAMPLE}
+      </Detail>
       <Controller
         name="icon"
         control={formMethods.control}
         render={({ field: { name } }) => (
           <StyledDiv>
-            {fileDataURL ? (
+            {fileDataURL && (
               <StyledIcon size={32}>
                 <img width={32} height={32} alt="Icoon" src={fileDataURL} />
               </StyledIcon>
-            ) : (
-              <StyledSpan>Niet ingesteld</StyledSpan>
             )}
 
             <Wrapper>
