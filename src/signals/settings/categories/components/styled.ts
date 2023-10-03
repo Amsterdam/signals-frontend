@@ -11,7 +11,7 @@ import {
   Select,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import FormFooter from 'components/FormFooter'
 import History from 'components/History'
@@ -106,28 +106,6 @@ export const DeleteButton = styled(Button)`
 export const StyledInfo = styled.p`
   margin-top: ${themeSpacing(0)};
   margin-bottom: ${themeSpacing(1)};
-`
-
-export const InvisibleButton = styled.button<{ toggle: boolean }>`
-  text-decoration: none;
-  background-color: unset;
-  color: inherit;
-  border: none;
-  padding: 0;
-
-  > * {
-    transition: transform 0.25s;
-    ${({ toggle }) =>
-      toggle &&
-      css`
-        transform: rotate(180deg);
-      `}
-  }
-`
-export const StyledImg = styled.img`
-  max-height: ${themeSpacing(8)};
-  align-self: flex-start;
-  margin-top: ${themeSpacing(2.5)};
 `
 
 export const Wrapper = styled.div`

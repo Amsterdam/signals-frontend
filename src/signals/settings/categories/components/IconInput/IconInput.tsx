@@ -130,7 +130,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
       <StyledHeading>Icoon</StyledHeading>
       <Detail
         header={'Het icoon wordt getoond op de openbare meldingenkaart.'}
-        content={'Zorg voor een circel en exporteer als SVG.'}
+        content={'Zorg voor een cirkel en exporteer als SVG.'}
       >
         {ICONEXAMPLE}
       </Detail>

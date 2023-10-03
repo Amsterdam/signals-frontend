@@ -86,8 +86,6 @@ describe('IconInput', () => {
     })
     expect(screen.queryByText('Bevestig')).not.toBeInTheDocument()
     expect(mockUseUpload.upload).toHaveBeenCalled()
-
-    screen.debug()
   })
 
   it('should allow changing an icon', async () => {
