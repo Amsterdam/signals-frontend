@@ -210,6 +210,21 @@ describe('signals/incident-management/containers/IncidentDetail/components/Detai
     expect(screen.queryByTestId('detail-header-button-thor')).toBeNull()
   })
 
+  it('should render no thor button category main and subslug are overig', () => {
+    render(
+      renderWithContext({
+        ...incidentFixture,
+        category: {
+          ...incidentFixture.category,
+          main_slug: 'overig',
+          sub_slug: 'overig',
+        },
+      })
+    )
+
+    expect(screen.queryByTestId('detail-header-button-thor')).toBeNull()
+  })
+
   it('test clicking the thor button', () => {
     render(renderWithContext())
 

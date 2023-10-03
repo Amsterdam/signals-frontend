@@ -75,16 +75,13 @@ const DetailHeader = () => {
 
     return true
   }, [incident])
-
   const forwardToExternalIsAllowed = !isStatusClosed(incident.status?.state)
-  const thorIsAllowed = [
-    'm',
-    'i',
-    'b',
-    'h',
-    'send failed',
-    'reopened',
-  ].includes(incident.status?.state)
+  const thorIsAllowed =
+    ['m', 'i', 'b', 'h', 'send failed', 'reopened'].includes(
+      incident.status?.state
+    ) &&
+    incident.category?.main_slug !== 'overig' &&
+    incident.category?.sub_slug !== 'overig'
   const downloadLink = incident?._links?.['sia:pdf']?.href
 
   const referrer = location.referrer?.startsWith(MAP_URL)
