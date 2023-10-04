@@ -100,7 +100,7 @@ export function* fetchIncidents() {
 
 export function* searchIncidents() {
   try {
-    const q = yield select(makeSelectSearchQuery)
+    const q = encodeURIComponent(yield select(makeSelectSearchQuery))
 
     yield put(applyFilterRefreshStop())
 
