@@ -9,6 +9,7 @@ export interface CategoryFormValues {
   is_public_accessible: boolean
   n_days: number | null
   name: string
+  icon: string | null
   note: string | null
   public_name: string
   use_calendar_days: number

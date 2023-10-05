@@ -1,14 +1,22 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
+// Copyright (C) 2018 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { buffers, eventChannel, END } from 'redux-saga'
+
+import { RequestType } from 'hooks/useFetch'
 
 import { getAuthHeaders } from '../auth/auth'
 
-export default (endpoint, file, id) =>
+export default (
+  endpoint,
+  file,
+  id,
+  field = 'file',
+  requestType = RequestType.POST
+) =>
   eventChannel((emitter) => {
     const formData = new window.FormData()
     formData.append('signal_id', id)
-    formData.append('file', file)
+    formData.append(field, file)
 
     const xhr = new window.XMLHttpRequest()
 
@@ -33,7 +41,7 @@ export default (endpoint, file, id) =>
     /* istanbul ignore next */
     xhr.onload = () => {
       // upload success
-      if (xhr.readyState === 4 && xhr.status > 200 && xhr.status < 400) {
+      if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 400) {
         emitter({ success: true })
         emitter(END)
       } else {
@@ -41,7 +49,7 @@ export default (endpoint, file, id) =>
       }
     }
 
-    xhr.open('POST', endpoint, true)
+    xhr.open(requestType, endpoint, true)
     const authHeaders = getAuthHeaders()
     Object.entries(authHeaders).forEach(([header, value]) => {
       xhr.setRequestHeader(header, value)

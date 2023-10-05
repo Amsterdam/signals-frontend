@@ -53,7 +53,12 @@ const DataViewBody = ({
                   key={`${JSON.stringify(column)}${idx}`}
                   data-testid="data-view-body-row-value"
                 >
-                  <StyledImg alt="Icoon" src={row[column]} />
+                  <StyledImg
+                    alt="Icoon"
+                    src={row[column]}
+                    height={32}
+                    width={32}
+                  />
                 </StyledImageTD>
               )
             }

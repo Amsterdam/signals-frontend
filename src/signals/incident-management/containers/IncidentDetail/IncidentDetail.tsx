@@ -347,7 +347,11 @@ const IncidentDetail = () => {
   const addAttachment = useCallback(
     (files) => {
       if (incident) {
-        upload(files, incident.id)
+        upload(
+          files,
+          incident.id,
+          `${configuration.INCIDENT_PRIVATE_ENDPOINT}${incident.id}/attachments/`
+        )
       }
     },
     [incident, upload]

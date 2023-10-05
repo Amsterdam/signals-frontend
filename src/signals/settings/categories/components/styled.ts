@@ -2,7 +2,15 @@
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { ElementType } from 'react'
 
-import { themeSpacing, Column, Select, Heading, Label } from '@amsterdam/asc-ui'
+import {
+  Button,
+  Column,
+  Heading,
+  Icon,
+  Label,
+  Select,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import FormFooter from 'components/FormFooter'
@@ -72,9 +80,38 @@ export const StyledDefinitionTerm = styled.dt`
   margin-bottom: ${themeSpacing(1)};
 `
 
-export const StyledHeading = styled.p`
+export const StyledHeading = styled.label`
   margin-bottom: ${themeSpacing(1)};
   font-weight: bold;
   line-height: 1.375rem;
   font-size: 1rem;
+`
+
+export const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: ${themeSpacing(2)};
+`
+
+export const StyledIcon = styled(Icon)`
+  margin-bottom: ${themeSpacing(2)};
+`
+
+export const DeleteButton = styled(Button)`
+  margin-left: ${themeSpacing(2)};
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+`
+export const StyledInfo = styled.p`
+  margin-top: ${themeSpacing(0)};
+  margin-bottom: ${themeSpacing(1)};
+`
+
+export const Wrapper = styled.div`
+  display: flex;
+
+  & > *:not(:first-child) {
+    margin-left: ${themeSpacing(2)};
+  }
 `

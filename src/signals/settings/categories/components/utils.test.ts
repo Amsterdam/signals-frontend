@@ -13,10 +13,11 @@ const mockFormData: CategoryFormValues = {
     'We laten u binnen 5 dagen weten wat we hebben gedaan. En anders hoort u wanneer wij uw melding kunnen oppakken.\nWe houden u op de hoogte via e-mail.',
   is_active: 'true',
   is_public_accessible: false,
-  name: 'Bedrijfsafval',
-  public_name: 'Bedrijfsafval',
-  note: 'Test notitie',
   n_days: 5,
+  name: 'Bedrijfsafval',
+  icon: null,
+  note: 'Test notitie',
+  public_name: 'Bedrijfsafval',
   use_calendar_days: 1,
 }
 

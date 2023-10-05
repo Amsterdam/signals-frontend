@@ -29,6 +29,7 @@
           "href": "https://acc.api.data.amsterdam.nl/signals/v1/private/terms/categories/afval/status-message-templates"
         }
       },
+      "icon": null,
       "_display": "Afval",
       "id": 79,
       "name": "Afval",
@@ -66,6 +67,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/civiele-constructies"
         }
       },
+      "icon": null,
       "_display": "Afwatering brug (Civiele Constructies)",
       "id": 145,
       "name": "Afwatering brug",
@@ -171,6 +173,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
         }
       },
+      "icon": null,
       "_display": "Asbest / accu (Afval)",
       "id": 10,
       "name": "Asbest / accu",
@@ -289,6 +292,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-in-de-openbare-ruimte"
         }
       },
+      "icon": null,
       "_display": "Auto- / scooter- / bromfiets(wrak) (Overlast in de openbare ruimte)",
       "id": 34,
       "name": "Auto- / scooter- / bromfiets(wrak)",
@@ -407,6 +411,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
         }
       },
+      "icon": null,
       "_display": "Autom. Verzinkbare palen (Wegen, verkeer, straatmeubilair)",
       "id": 92,
       "name": "Autom. Verzinkbare palen",
@@ -517,6 +522,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/afval"
         }
       },
+      "icon": null,
       "_display": "Bedrijfsafval (Afval)",
       "id": 4,
       "name": "Bedrijfsafval",
@@ -563,6 +569,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
         }
       },
+      "icon": null,
       "_display": "Beplanting (Openbaar groen en water)",
       "id": 152,
       "name": "Beplanting",
@@ -785,6 +792,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/wegen-verkeer-straatmeubilair"
         }
       },
+      "icon": null,
       "_display": "Bewegwijzering (Wegen, verkeer, straatmeubilair)",
       "id": 93,
       "name": "Bewegwijzering",
@@ -895,6 +903,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/overlast-op-het-water"
         }
       },
+      "icon": null,
       "_display": "Blokkade van de vaarweg (Overlast op het water)",
       "id": 134,
       "name": "Blokkade van de vaarweg",
@@ -1093,6 +1102,7 @@
           "public": "https://acc.api.data.amsterdam.nl/signals/v1/public/terms/categories/openbaar-groen-en-water"
         }
       },
+      "icon": null,
       "_display": "Boom - aanvraag plaatsing (Openbaar groen en water)",
       "id": 113,
       "name": "Boom - aanvraag plaatsing",

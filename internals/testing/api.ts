@@ -26,6 +26,7 @@ export const INCIDENT_CONTEXT = `${INCIDENT}/context`
 export const INCIDENT_CONTEXT_GEOGRAPHY = `${INCIDENT}/context/near/geography`
 export const INCIDENT_CONTEXT_REPORTER = `${INCIDENT}/context/reporter`
 export const CATEGORIES_PRIVATE_ENDPOINT = `${API_BASE_URL}/private/categories/:categoryId`
+export const CATEGORIES_PRIVATE_ENDPOINT_ICON = `${API_BASE_URL}/private/categories/:categoryId/icon`
 export const CATEGORIES_PRIVATE_ENDPOINT_HISTORY = `${API_BASE_URL}/private/categories/:categoryId/history`
 export const EMAIL_VERIFICATION_ENDPOINT = `${API_BASE_URL}/public/reporter/verify-email`
 export const SIGNAL_REPORTER = `${INCIDENT}/reporters`
