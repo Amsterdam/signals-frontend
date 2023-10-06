@@ -12,8 +12,6 @@ const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(5)} 0;
 `
 
-export const DEFAULT_MESSAGE = 'Pagina niet gevonden'
-
 interface BasePageProps {
   documentTitle?: string
   pageTitle?: string
@@ -37,27 +35,29 @@ const BasePage = ({
   pageTitle,
   children,
   ...props
-}: BasePageProps) => (
-  <Row data-testid="base-page" {...props}>
-    <ContentWrapper>
-      <Helmet
-        defaultTitle={configuration.language.siteTitle}
-        titleTemplate={`${configuration.language.siteTitle} - %s`}
-      >
-        {documentTitle && <title>{documentTitle}</title>}
-      </Helmet>
+}: BasePageProps) => {
+  return (
+    <Row data-testid="base-page" {...props}>
+      <ContentWrapper>
+        <Helmet
+          defaultTitle={configuration.language.siteTitle}
+          titleTemplate={`${configuration.language.siteTitle} - %s`}
+        >
+          {documentTitle && <title>{documentTitle}</title>}
+        </Helmet>
 
-      <article>
-        {pageTitle && (
-          <header>
-            <StyledHeading>{pageTitle}</StyledHeading>
-          </header>
-        )}
+        <article>
+          {pageTitle && (
+            <header>
+              <StyledHeading>{pageTitle}</StyledHeading>
+            </header>
+          )}
 
-        {children}
-      </article>
-    </ContentWrapper>
-  </Row>
-)
+          {children}
+        </article>
+      </ContentWrapper>
+    </Row>
+  )
+}
 
 export default BasePage

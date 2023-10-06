@@ -3,7 +3,7 @@
 import { render, fireEvent } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
-import { ROLE_URL } from 'signals/settings/routes'
+import { BASE_URL, ROLE_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import rolesJson from 'utils/__tests__/fixtures/roles.json'
 
@@ -66,7 +66,7 @@ describe('signals/settings/roles/containers/RolesListContainer/components/RolesL
       event
     )
 
-    expect(navigateMock).toHaveBeenCalledWith(`${ROLE_URL}/2`)
+    expect(navigateMock).toHaveBeenCalledWith(`${BASE_URL}/${ROLE_URL}/2`)
   })
 
   it('should have disabled links', () => {

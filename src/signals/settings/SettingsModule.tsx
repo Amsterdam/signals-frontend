@@ -18,13 +18,7 @@ import {
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 
-import routes, {
-  USERS_PAGED_URL,
-  USER_URL,
-  ROLE_URL,
-  SUBCATEGORIES_PAGED_URL,
-  EXPORT_URL,
-} from './routes'
+import routes, { USER_URL, ROLE_URL, EXPORT_URL } from './routes'
 
 const OverviewContainer = lazy(() => import('./components/Overview'))
 const LoginPage = lazy(() => import('components/pages/LoginPage'))
@@ -74,13 +68,6 @@ const SettingsModule = () => {
     if (userCanAccess('settings') === false) {
       navigate('/manage/incidents')
     }
-    if (location.pathname === routes.users) {
-      navigate(`${USERS_PAGED_URL}/1`)
-    }
-
-    if (location.pathname === routes.subcategories) {
-      navigate(`${SUBCATEGORIES_PAGED_URL}/1`)
-    }
   }, [location, navigate, userCanAccess])
 
   if (!getIsAuthenticated()) {
@@ -90,6 +77,7 @@ const SettingsModule = () => {
       </Routes>
     )
   }
+
   return (
     <Suspense fallback={<LoadingIndicator />}>
       <Routes>
@@ -115,10 +103,7 @@ const SettingsModule = () => {
             <ProtectedRoute component={RoleFormContainer} role="add_group" />
           }
         />
-        <Route
-          path={routes.users}
-          element={<Navigate to={`${USERS_PAGED_URL}/1`} replace={true} />}
-        />
+        <Route path={routes.users} element={<Navigate to="page/1" replace />} />
         <Route
           path={routes.usersPaged}
           element={
@@ -161,6 +146,10 @@ const SettingsModule = () => {
               roleGroup="departmentForm"
             />
           }
+        />
+        <Route
+          path={routes.subcategories}
+          element={<Navigate to="page/1" replace />}
         />
         <Route
           path={routes.subcategoriesPaged}

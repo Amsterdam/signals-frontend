@@ -10,7 +10,7 @@ import * as useConfirm from 'hooks/useConfirm'
 import * as modelSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
 import configuration from 'shared/services/configuration/configuration'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import { departments } from 'utils/__tests__/fixtures'
 import historyFixture from 'utils/__tests__/fixtures/history.json'
@@ -93,7 +93,7 @@ describe('signals/settings/users/containers/Detail', () => {
 
     const backlink = await findByTestId('backlink')
 
-    expect(backlink.getAttribute('href')).toEqual(routes.users)
+    expect(backlink.getAttribute('href')).toEqual(`${BASE_URL}/${routes.users}`)
 
     jest
       .spyOn(reactRouterDom, 'useLocation')

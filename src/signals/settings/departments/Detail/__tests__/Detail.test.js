@@ -5,7 +5,7 @@ import * as reactRouterDom from 'react-router-dom'
 
 import useFetch from 'hooks/useFetch'
 import CONFIGURATION from 'shared/services/configuration/configuration'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 import departmentJson from 'utils/__tests__/fixtures/department.json'
@@ -68,7 +68,7 @@ describe('signals/settings/departments/Detail', () => {
     await findByTestId('settings-page-header')
 
     expect(container.querySelector('a').getAttribute('href')).toEqual(
-      routes.departments
+      `${BASE_URL}/${routes.departments}`
     )
   })
 

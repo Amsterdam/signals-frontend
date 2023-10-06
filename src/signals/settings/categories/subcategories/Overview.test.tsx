@@ -12,6 +12,7 @@ import { makeSelectAllSubCategories } from 'models/categories/selectors'
 import {
   SUBCATEGORY_URL,
   SUBCATEGORIES_PAGED_URL,
+  BASE_URL,
 } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
@@ -157,7 +158,9 @@ describe('signals/settings/categories/containers/Overview', () => {
     userEvent.click(pageButton)
 
     expect(navigateSpy).toHaveBeenCalledTimes(1)
-    expect(navigateSpy).toHaveBeenCalledWith(`${SUBCATEGORIES_PAGED_URL}/2`)
+    expect(navigateSpy).toHaveBeenCalledWith(
+      `${BASE_URL}/${SUBCATEGORIES_PAGED_URL}/2`
+    )
     expect(scrollTo).toHaveBeenCalledWith(0, 0)
   })
 
@@ -179,7 +182,9 @@ describe('signals/settings/categories/containers/Overview', () => {
     userEvent.click(row)
 
     expect(navigateSpy).toHaveBeenCalledTimes(1)
-    expect(navigateSpy).toHaveBeenCalledWith(`${SUBCATEGORY_URL}/${itemId}`)
+    expect(navigateSpy).toHaveBeenCalledWith(
+      `${BASE_URL}/${SUBCATEGORY_URL}/${itemId}`
+    )
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId

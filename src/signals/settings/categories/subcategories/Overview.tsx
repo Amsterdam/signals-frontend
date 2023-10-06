@@ -21,7 +21,7 @@ import {
 import { StyledDataView, StyledCompactPager } from './styled'
 import filterData from '../../utils/filterData'
 
-// name mapping from API values to human readable values
+// name mapping from API values to human-readable values
 export const colMap = {
   fk: 'fk',
   id: 'id',
@@ -79,7 +79,7 @@ export const OverviewContainer = () => {
       } = e
 
       if (itemId) {
-        navigate(`${SUBCATEGORY_URL}/${itemId}`)
+        navigate(`${BASE_URL}/${SUBCATEGORY_URL}/${itemId}`)
       }
     },
     [navigate, userCan]
@@ -88,7 +88,7 @@ export const OverviewContainer = () => {
   const onPaginationClick = useCallback(
     (pageToNavigateTo) => {
       global.window.scrollTo(0, 0)
-      navigate(`${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
+      navigate(`${BASE_URL}/${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
     },
     [navigate]
   )

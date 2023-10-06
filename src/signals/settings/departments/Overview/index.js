@@ -52,7 +52,7 @@ const DepartmentOverview = () => {
       } = event
 
       if (itemId) {
-        navigate(`${DEPARTMENT_URL}/${itemId}`)
+        navigate(`${BASE_URL}/${DEPARTMENT_URL}/${itemId}`)
       }
     },
     [navigate, userCan]

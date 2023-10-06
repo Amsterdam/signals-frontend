@@ -17,7 +17,7 @@ import { makeSelectUserCan } from 'containers/App/selectors'
 import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
 import { patchRole, saveRole, resetResponse } from 'models/roles/actions'
 import { rolesModelSelector } from 'models/roles/selectors'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 
 import RoleForm from './components/RoleForm'
 
@@ -41,7 +41,7 @@ export const RoleFormContainer = ({
   const location = useLocation()
   const role = list.find((item) => item.id === roleId * 1)
   const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`
-  const redirectURL = location.referrer || routes.roles
+  const redirectURL = location.referrer || `${BASE_URL}/${routes.roles}`
   useEffect(() => {
     let message
 

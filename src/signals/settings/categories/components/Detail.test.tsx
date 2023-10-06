@@ -123,7 +123,9 @@ describe('Detail', () => {
 
     const backLink = await screen.findByTestId('backlink')
 
-    expect(backLink.getAttribute('href')).toEqual('/subcategorieen')
+    expect(backLink.getAttribute('href')).toEqual(
+      '/instellingen/subcategorieen'
+    )
   })
 
   it('should render the correct page title for an existing category', async () => {

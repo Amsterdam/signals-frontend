@@ -5,7 +5,7 @@ import * as reactRouterDom from 'react-router-dom'
 
 import * as appSelectors from 'containers/App/selectors'
 import * as modelSelectors from 'models/departments/selectors'
-import { DEPARTMENT_URL } from 'signals/settings/routes'
+import { BASE_URL, DEPARTMENT_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import { departments } from 'utils/__tests__/fixtures'
 
@@ -109,7 +109,9 @@ describe('signals/settings/departments/Overview', () => {
     })
 
     expect(navigateMock).toHaveBeenCalledTimes(1)
-    expect(navigateMock).toHaveBeenCalledWith(`${DEPARTMENT_URL}/${id}`)
+    expect(navigateMock).toHaveBeenCalledWith(
+      `${BASE_URL}/${DEPARTMENT_URL}/${id}`
+    )
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId

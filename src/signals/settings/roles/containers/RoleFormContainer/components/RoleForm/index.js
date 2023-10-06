@@ -11,7 +11,7 @@ import Checkbox from 'components/Checkbox'
 import FormFooter, { FORM_FOOTER_HEIGHT } from 'components/FormFooter'
 import Input from 'components/Input'
 import useFormValidation from 'hooks/useFormValidation'
-import { ROLES_URL } from 'signals/settings/routes'
+import { BASE_URL, ROLES_URL } from 'signals/settings/routes'
 
 const StyledForm = styled.form`
   margin-bottom: ${FORM_FOOTER_HEIGHT}px;
@@ -93,7 +93,7 @@ export const RoleForm = ({
   }, [event, isValid, handleSubmit, errors, readOnly])
 
   const handleCancel = useCallback(() => {
-    navigate(ROLES_URL)
+    navigate(`${BASE_URL}/${ROLES_URL}`)
   }, [navigate])
 
   return (

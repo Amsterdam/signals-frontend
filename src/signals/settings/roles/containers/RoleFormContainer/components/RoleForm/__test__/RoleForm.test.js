@@ -3,7 +3,7 @@
 import { render, fireEvent, act } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
-import { ROLES_URL } from 'signals/settings/routes'
+import { BASE_URL, ROLES_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import permissionsJson from 'utils/__tests__/fixtures/permissions.json'
 import rolesJson from 'utils/__tests__/fixtures/roles.json'
@@ -247,6 +247,6 @@ describe('/signals/settings/roles/components/RoleForm', () => {
     })
 
     expect(props.onPatchRole).not.toHaveBeenCalled()
-    expect(navigateMock).toHaveBeenCalledWith(ROLES_URL)
+    expect(navigateMock).toHaveBeenCalledWith(`${BASE_URL}/${ROLES_URL}`)
   })
 })
