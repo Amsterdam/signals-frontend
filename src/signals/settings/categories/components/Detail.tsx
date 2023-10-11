@@ -131,7 +131,7 @@ export const CategoryDetail = ({
   useEffect(() => {
     get(categoryURL)
     historyGet(`${categoryURL}/history`)
-  }, [get, historyGet, categoryURL, isDirty])
+  }, [get, historyGet, categoryURL])
 
   const onCancel = useCallback(() => {
     confirmedCancel(!isDirty)
@@ -141,6 +141,8 @@ export const CategoryDetail = ({
     if (!isDirty) {
       navigate(redirectURL)
     }
+
+    dispatch(fetchCategories())
 
     const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
       (defaultText: StandardText, index): StatusMessagesCategory => ({
@@ -164,13 +166,14 @@ export const CategoryDetail = ({
     }
   }, [
     isDirty,
+    dispatch,
     formMethods,
-    patch,
-    categoryURL,
-    postStandardTextsCategory,
-    categoryId,
     navigate,
     redirectURL,
+    postStandardTextsCategory,
+    categoryId,
+    patch,
+    categoryURL,
   ])
 
   if (!data || !historyData) return null
