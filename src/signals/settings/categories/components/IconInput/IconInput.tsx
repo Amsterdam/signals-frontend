@@ -6,7 +6,6 @@ import { TrashBin } from '@amsterdam/asc-assets'
 import { Controller } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
-import Button from 'components/Button'
 import { useConfirm } from 'hooks/useConfirm'
 import useFetch from 'hooks/useFetch'
 import { RequestType } from 'hooks/useFetch'
@@ -21,6 +20,7 @@ import type { Props as CategoryFormProps } from '../CategoryForm'
 import {
   DeleteButton,
   FieldGroup,
+  StyledButton,
   StyledHeading,
   StyledIcon,
   Wrapper,
@@ -156,14 +156,14 @@ export const IconInput = ({ formMethods, icon }: Props) => {
                 onChange={handleOnChange}
                 multiple={false}
               >
-                <Button
+                <StyledButton
                   forwardedAs={'span'}
                   tabIndex={0}
                   variant="primaryInverted"
                   type="button"
                 >
                   {label}
-                </Button>
+                </StyledButton>
               </FileInput>
 
               {fileDataURL && (

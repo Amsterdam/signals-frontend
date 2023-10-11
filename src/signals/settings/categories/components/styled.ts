@@ -115,3 +115,9 @@ export const Wrapper = styled.div`
     margin-left: ${themeSpacing(2)};
   }
 `
+
+export const StyledButton = styled(Button)`
+  &:hover {
+    border-left-width: 2px;
+  }
+`
