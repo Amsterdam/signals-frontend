@@ -142,6 +142,8 @@ export const CategoryDetail = ({
       navigate(redirectURL)
     }
 
+    dispatch(fetchCategories())
+
     const payloadDefaultTexts = formMethods.getValues('standard_texts')?.map(
       (defaultText: StandardText, index): StatusMessagesCategory => ({
         position: index,
@@ -164,13 +166,14 @@ export const CategoryDetail = ({
     }
   }, [
     isDirty,
+    dispatch,
     formMethods,
-    patch,
-    categoryURL,
-    postStandardTextsCategory,
-    categoryId,
     navigate,
     redirectURL,
+    postStandardTextsCategory,
+    categoryId,
+    patch,
+    categoryURL,
   ])
 
   if (!data || !historyData) return null
