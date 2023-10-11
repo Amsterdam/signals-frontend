@@ -58,7 +58,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
       if (!fileDataURL) confirmed = true
       if (fileDataURL) {
         confirmed = await isConfirmed(
-          'Let op, je verandert het icoon. ',
+          'Let op, je wijzigt het icoon ',
           'Er wordt geen back-up van het icoon gemaakt.'
         )
       }
@@ -87,7 +87,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
       event.preventDefault()
 
       const confirmed = await isConfirmed(
-        'Let op, je verwijdert het icoon. ',
+        'Let op, je verwijdert het icoon ',
         'Er wordt geen back-up van het icoon gemaakt.'
       )
 
@@ -124,6 +124,10 @@ export const IconInput = ({ formMethods, icon }: Props) => {
       }
     }
   }, [file])
+
+  useEffect(() => {
+    setFileDataURL(icon)
+  }, [icon])
 
   return (
     <FieldGroup>

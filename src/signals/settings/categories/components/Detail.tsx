@@ -131,7 +131,7 @@ export const CategoryDetail = ({
   useEffect(() => {
     get(categoryURL)
     historyGet(`${categoryURL}/history`)
-  }, [get, historyGet, categoryURL])
+  }, [get, historyGet, categoryURL, isDirty])
 
   const onCancel = useCallback(() => {
     confirmedCancel(!isDirty)
