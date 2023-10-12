@@ -1,14 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useCallback, useState, useContext, useRef, useEffect } from 'react'
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+import { useCallback, useState, useContext } from 'react'
 import type { KeyboardEvent, ChangeEvent, FC } from 'react'
 
-import { ChevronLeft } from '@amsterdam/asc-assets'
 import {
   Label,
   Input,
   Checkbox,
-  Button,
   breakpoint,
   ascDefaultTheme,
 } from '@amsterdam/asc-ui'
@@ -21,50 +19,30 @@ import {
   selectionIsObject,
   selectionIsUndetermined,
   UNKNOWN_TYPE,
-  NEARBY_TYPE,
-  UNREGISTERED_TYPE,
 } from 'signals/incident/components/form/MapSelectors/constants'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import {
-  AddressPanel,
   Description,
-  LegendToggleButton,
-  OptionsList,
   PanelContent,
   StyledAssetList,
   StyledButton,
   StyledLabelPDOkAutoSuggest,
-  StyledLegendPanel,
-  StyledPDOKAutoSuggest,
 } from './styled'
 import AssetSelectContext from '../../context'
-import { ScrollWrapper, Title } from '../styled'
+import Legend from '../Legend'
+import { ScrollWrapper, Title, StyledPDOKAutoSuggest } from '../styled'
 
 export interface DetailPanelProps {
   language?: Record<string, string>
 }
 
-const nearbyLegendItem = {
-  label: 'Bestaande melding',
-  icon: {
-    iconUrl: '/assets/images/area-map/icon-pin.svg',
-    iconSize: [40, 40],
-  },
-  typeValue: NEARBY_TYPE,
-}
-
-const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
-  const shouldRenderAddressPanel = useMediaQuery({
+const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
+  const shouldRenderMobileVersion = useMediaQuery({
     // Set breakpoint to mobile instead of tablet since desktop will get the mobile version when zoom on 200% which is not accesible with keyboard.
     query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
   })
-  const [showLegendPanel, setShowLegendPanel] = useState(false)
-  const closeLegendRef = useRef<HTMLButtonElement>(null)
-  const legendButtonRef = useRef<HTMLButtonElement>(null)
-  const [optionsList, setOptionsList] = useState(null)
 
-  const [showAddressPanel, setShowAddressPanel] = useState(false)
   const dispatch = useDispatch()
   const { address, selection, removeItem, setItem, setLocation, meta } =
     useContext(AssetSelectContext)
@@ -89,15 +67,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
   )
 
   const unregisteredLabel =
-    language.unregistered || 'Het object staat niet op de kaart'
-
-  const legendItems = [...featureTypes, ...featureStatusTypes, nearbyLegendItem]
-    .filter(({ typeValue }) => typeValue !== UNREGISTERED_TYPE) // Filter the unknown icon from the legend
-    .map((featureType) => ({
-      label: featureType.label,
-      iconUrl: featureType.icon.iconUrl,
-      id: featureType.typeValue,
-    }))
+    language?.unregistered || 'Het object staat niet op de kaart'
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUnregisteredAssetValue(event.currentTarget.value)
@@ -140,59 +110,35 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
     [onSetUnregisteredItem, dispatch]
   )
 
-  const toggleLegend = useCallback(() => {
-    if (showLegendPanel && legendButtonRef.current) {
-      legendButtonRef.current.focus()
-    }
-    setShowLegendPanel(!showLegendPanel)
-  }, [showLegendPanel])
-
-  const closeAddressPanel = useCallback(() => {
-    setShowAddressPanel(false)
-    setOptionsList(null)
-  }, [])
-
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
-      closeAddressPanel()
     },
-    [closeAddressPanel, setLocation]
+    [setLocation]
   )
-
-  const clearInput = useCallback(() => {
-    removeItem()
-    setOptionsList(null)
-  }, [removeItem])
-
-  useEffect(() => {
-    if (closeLegendRef?.current && showLegendPanel) {
-      closeLegendRef.current.focus()
-    }
-  }, [closeLegendRef, showLegendPanel])
 
   return (
     <PanelContent
       data-testid="detail-panel"
-      smallViewport={showAddressPanel && shouldRenderAddressPanel}
+      $noFeatureTypes={featureTypes.length === 0}
+      $address={!!address}
     >
-      <Title>{language.title || 'Locatie'}</Title>
-
+      {!shouldRenderMobileVersion && (
+        <Title>{language?.title || 'Locatie'}</Title>
+      )}
       <ScrollWrapper>
-        <StyledLabelPDOkAutoSuggest htmlFor={'location'}>
-          {language.subTitle || 'U kunt maar een object kiezen'}
-          <Description>
-            {language.description ||
-              'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
-          </Description>
-        </StyledLabelPDOkAutoSuggest>
-
-        {!(showAddressPanel && shouldRenderAddressPanel) && (
+        {!shouldRenderMobileVersion && (
+          <StyledLabelPDOkAutoSuggest htmlFor={'location'}>
+            {language?.subTitle || 'U kunt maar een object kiezen'}
+            <Description>
+              {language?.description ||
+                'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
+            </Description>
+          </StyledLabelPDOkAutoSuggest>
+        )}
+        {!shouldRenderMobileVersion && (
           <StyledPDOKAutoSuggest
-            onFocus={() => {
-              setShowAddressPanel(true)
-            }}
             id={'location'}
             onClear={removeItem}
             onSelect={onAddressSelect}
@@ -223,13 +169,13 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
               label={unregisteredLabel}
             />
 
-            {showObjectIdInput && language.unregisteredId && (
+            {showObjectIdInput && language?.unregisteredId && (
               <>
                 <Label
                   htmlFor="unregisteredAssetInput"
                   label={
                     <>
-                      <strong>{language.unregisteredId}</strong> (niet
+                      <strong>{language?.unregisteredId}</strong> (niet
                       verplicht)
                     </>
                   }
@@ -254,57 +200,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
           data-testid="asset-select-submit-button"
           tabIndex={0}
         >
-          {language.submit || 'Meld dit object'}
+          {language?.submit || 'Meld dit object'}
         </StyledButton>
       </ScrollWrapper>
 
-      {legendItems.length > 0 && (
-        <>
-          <StyledLegendPanel
-            onClose={toggleLegend}
-            slide={showLegendPanel ? 'in' : 'out'}
-            items={legendItems}
-            buttonRef={closeLegendRef}
-          />
-
-          <LegendToggleButton
-            onClick={toggleLegend}
-            isOpen={showLegendPanel}
-            legendButtonRef={legendButtonRef}
-          />
-        </>
-      )}
-
-      {showAddressPanel && shouldRenderAddressPanel && (
-        <AddressPanel data-testid="address-panel" id="addressPanel">
-          <header>
-            <Button
-              aria-label="Terug"
-              aria-expanded={showAddressPanel}
-              aria-controls="addressPanel"
-              icon={<ChevronLeft />}
-              iconSize={16}
-              onClick={closeAddressPanel}
-              size={24}
-              title="Terug"
-              variant="blank"
-            />
-            <StyledPDOKAutoSuggest
-              onClear={clearInput}
-              onData={setOptionsList}
-              onSelect={onAddressSelect}
-              showInlineList={false}
-              value={addressValue}
-              placeholder="Zoek naar adres"
-              autoFocus={true}
-            />
-          </header>
-
-          {optionsList && (
-            <OptionsList data-testid="options-list">{optionsList}</OptionsList>
-          )}
-        </AddressPanel>
-      )}
+      <Legend />
     </PanelContent>
   )
 }

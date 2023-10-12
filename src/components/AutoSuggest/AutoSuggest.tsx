@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 
-import { Close } from '@amsterdam/asc-assets'
+import { Close, Search } from '@amsterdam/asc-assets'
 import { useDispatch } from 'react-redux'
 
 import { showGlobalNotification } from 'containers/App/actions'
@@ -38,6 +38,7 @@ export interface AutoSuggestProps {
   showInlineList?: boolean
   tabIndex?: number
   url: string
+  showListChanged?: (value: boolean) => void
   value?: string
 }
 
@@ -70,6 +71,7 @@ const AutoSuggest = ({
   showInlineList = true,
   url,
   value = '',
+  showListChanged,
   ...rest
 }: AutoSuggestProps) => {
   const [defaultValue, setDefaultValue] = useState(value)
@@ -83,6 +85,11 @@ const AutoSuggest = ({
     () => data && formatResponse(data),
     [data, formatResponse]
   )
+
+  useEffect(() => {
+    showListChanged && setTimeout(() => showListChanged(showList), 0)
+  }, [showList, showListChanged])
+
   const activeId = options?.[activeIndex]?.id || ''
   const dispatch = useDispatch()
   const handleInputKeyDown = useCallback((event) => {
@@ -363,7 +370,7 @@ const AutoSuggest = ({
           ref={inputRef}
           {...rest}
         />
-        {(defaultValue || value) && (
+        {defaultValue || value ? (
           <ClearInput
             aria-label="Input verwijderen"
             title="Verwijderen"
@@ -371,6 +378,17 @@ const AutoSuggest = ({
             icon={<Close />}
             iconSize={20}
             onClick={clearInput}
+            size={24}
+            variant="blank"
+          />
+        ) : (
+          <ClearInput
+            aria-label="Zoeken"
+            title="Zoeken"
+            data-testid="search-input"
+            icon={<Search />}
+            iconSize={20}
+            onClick={() => inputRef.current?.focus()}
             size={24}
             variant="blank"
           />
