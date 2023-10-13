@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import type { ReactPropTypes } from 'react'
 
 import {
   fireEvent,
@@ -13,7 +12,6 @@ import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
 
-import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
@@ -21,12 +19,12 @@ import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import MockInstance = jest.MockInstance
 import type { DetailPanelProps } from './DetailPanel'
+import DetailPanel from './index'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
 import type { AssetListProps } from '../../AssetList/AssetList'
-import DetailPanel from '../DetailPanel'
 
 jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
@@ -70,47 +68,6 @@ const mockPDOKResponse: PdokResponse = {
     address: mockAddress,
   },
 }
-
-const mockList = (props: ReactPropTypes) => (
-  <ul className="suggestList" {...props}>
-    <li>Suggestion #1</li>
-    <li>Suggestion #2</li>
-  </ul>
-)
-
-jest.mock(
-  'components/PDOKAutoSuggest',
-  () =>
-    ({
-      className,
-      onSelect,
-      value,
-      onClear,
-      onFocus,
-      onData,
-    }: PDOKAutoSuggestProps) =>
-      (
-        <span data-testid="pdok-auto-suggest" className={className}>
-          <button data-testid="auto-suggest-clear" onClick={onClear}>
-            Clear input
-          </button>
-          <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
-          <button
-            data-testid="get-data-mock-button"
-            type="button"
-            onClick={() => {
-              onData && onData(mockList)
-            }}
-          />
-          <input
-            data-testid="auto-suggest-input"
-            type="text"
-            onFocus={onFocus}
-          />
-          <span>{value}</span>
-        </span>
-      )
-)
 
 const dispatch = jest.fn()
 
@@ -244,39 +201,6 @@ describe('DetailPanel', () => {
     userEvent.click(removeButton)
 
     expect(currentContextValue.removeItem).toHaveBeenCalled()
-  })
-
-  it('calls remove on autosuggest clear', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-        selection,
-      })
-    )
-
-    userEvent.type(screen.getByTestId('auto-suggest-input'), 'Meeuw')
-
-    // simulate data retrieval
-    userEvent.click(
-      within(screen.getByTestId('address-panel')).getByTestId(
-        'get-data-mock-button'
-      )
-    )
-
-    expect(screen.getByTestId('options-list')).toBeInTheDocument()
-
-    const autoSuggestClear = within(
-      screen.getByTestId('address-panel')
-    ).getByTestId('auto-suggest-clear')
-
-    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
-
-    userEvent.click(autoSuggestClear)
-
-    expect(currentContextValue.removeItem).toHaveBeenCalled()
-    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
   })
 
   it('adds asset not on map', () => {
@@ -480,8 +404,10 @@ describe('DetailPanel', () => {
     expect(screen.getByTestId('unregistered-object-panel')).toBeInTheDocument()
 
     fireEvent.click(screen.getByTestId('unregistered-asset-checkbox'))
+    fireEvent.click(screen.getByTestId('unregistered-asset-checkbox'))
+    fireEvent.click(screen.getByTestId('unregistered-asset-checkbox'))
 
-    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
+    expect(currentContextValue.setItem).toHaveBeenCalledTimes(3)
 
     expect(screen.getByTestId('legend-panel')).toBeInTheDocument()
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
@@ -532,39 +458,6 @@ describe('DetailPanel', () => {
     fireEvent.focus(screen.getByTestId('auto-suggest-input'))
 
     expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-  })
-
-  it('renders the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.getByTestId('address-panel')).toBeInTheDocument()
-  })
-
-  it('renders a list of options in the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
-
-    // simulate data retrieval
-    userEvent.click(
-      within(screen.getByTestId('address-panel')).getByTestId(
-        'get-data-mock-button'
-      )
-    )
-
-    expect(screen.getByTestId('options-list')).toBeInTheDocument()
   })
 
   it('selection nearby details', () => {

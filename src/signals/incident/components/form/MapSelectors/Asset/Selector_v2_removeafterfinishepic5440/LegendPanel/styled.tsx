@@ -32,19 +32,6 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
           transition-timing-function: ease-in;
         `}
 
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    bottom: 0;
-    flex: 0 0 50vh;
-    order: 1;
-    transform: translate3d(
-      0,
-      ${({ slide }) => (slide === 'out' ? '200%' : 0)},
-      0
-    );
-    width: 100vw;
-    max-height: 50vh;
-  }
-
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
     height: 100vh;
     flex: 0 0 ${DETAIL_PANEL_WIDTH}px;
@@ -53,6 +40,20 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
       0,
       0
     );
+  }
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    bottom: 0;
+    flex: 0 0 50vh;
+    order: 1;
+    position: fixed;
+    transform: translate3d(
+      0,
+      ${({ slide }) => (slide === 'out' ? '200%' : '50vh')},
+      0
+    );
+    width: 100vw;
+    max-height: 50vh;
   }
 `
 
