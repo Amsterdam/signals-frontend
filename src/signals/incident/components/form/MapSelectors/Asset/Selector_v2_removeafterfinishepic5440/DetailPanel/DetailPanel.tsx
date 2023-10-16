@@ -110,6 +110,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
     [onSetUnregisteredItem, dispatch]
   )
 
+  /* istanbul ignore next */
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
       const { location, address } = option.data

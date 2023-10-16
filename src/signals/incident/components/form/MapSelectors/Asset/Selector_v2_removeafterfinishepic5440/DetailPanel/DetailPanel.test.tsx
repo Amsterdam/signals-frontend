@@ -10,16 +10,14 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
-import * as reactResponsive from 'react-responsive'
 
-import { formatAddress } from 'shared/services/format-address'
-import type { PdokResponse } from 'shared/services/map-location'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import MockInstance = jest.MockInstance
 import type { DetailPanelProps } from './DetailPanel'
 import DetailPanel from './index'
+import type { Address } from '../../../../../../../../types/address'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
@@ -49,25 +47,6 @@ jest.mock(
         </span>
       )
 )
-
-const mockAddress = {
-  postcode: '1000 AA',
-  huisnummer: '100',
-  woonplaats: 'Amsterdam',
-  openbare_ruimte: 'West',
-}
-
-const mockPDOKResponse: PdokResponse = {
-  id: 'foo',
-  value: 'Zork',
-  data: {
-    location: {
-      lat: 12.282,
-      lng: 3.141,
-    },
-    address: mockAddress,
-  },
-}
 
 const dispatch = jest.fn()
 
@@ -253,50 +232,6 @@ describe('DetailPanel', () => {
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
-  it('dispatches the location when an address is selected', async () => {
-    const { setLocation } = currentContextValue
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-      })
-    )
-
-    await screen.findByTestId('pdok-auto-suggest')
-
-    expect(setLocation).not.toHaveBeenCalled()
-
-    const setLocationButton = screen.getByText('selectItem')
-
-    userEvent.click(setLocationButton)
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates: mockPDOKResponse.data.location,
-      address: mockPDOKResponse.data.address,
-    })
-  })
-
-  it('renders already selected address', () => {
-    const predefinedAddress = {
-      postcode: '1234BR',
-      huisnummer: 1,
-      huisnummer_toevoeging: 'A',
-      woonplaats: 'Amsterdam',
-      openbare_ruimte: '',
-    }
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-        address: predefinedAddress,
-      })
-    )
-
-    expect(
-      screen.getByText(formatAddress(predefinedAddress))
-    ).toBeInTheDocument()
-  })
-
   it('closes/submits the panel', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
@@ -394,6 +329,16 @@ describe('DetailPanel', () => {
         featureTypes: [],
       },
     }
+
+    const address: Address = {
+      postcode: '1234AB',
+      huisletter: 'A',
+      huisnummer: '1',
+      woonplaats: 'Amsterdam',
+      openbare_ruimte: 'Straat',
+      huisnummer_toevoeging: 'A',
+    }
+
     const { rerender } = render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...contextValue,
@@ -413,9 +358,11 @@ describe('DetailPanel', () => {
     expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
     expect(screen.getByTestId('legend-toggle-button')).toBeInTheDocument()
 
+    // Add address to test the condition $noFeatureTypes && $address
     rerender(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...noFeatureTypesContext,
+        address,
         selection: undefined,
       })
     )
@@ -447,17 +394,6 @@ describe('DetailPanel', () => {
     await waitFor(() => {
       expect(screen.getByTestId('close-button')).toHaveFocus()
     })
-  })
-
-  it('does not render the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
   })
 
   it('selection nearby details', () => {

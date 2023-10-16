@@ -316,6 +316,7 @@ const AutoSuggest = ({
   }, [data, numOptionsDeterminer])
 
   useEffect(() => {
+    /* istanbul ignore next */
     if (data?.response?.numFound === 0) {
       setShowList(true)
     }

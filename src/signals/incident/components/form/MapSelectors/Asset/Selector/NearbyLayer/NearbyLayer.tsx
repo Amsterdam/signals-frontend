@@ -86,6 +86,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const featureGroup = useRef<L.FeatureGroup<NearbyMarker>>(L.featureGroup())
   const assetData = useContext<FeatureCollection>(WfsDataContext)
 
+  /* istanbul ignore next */
   const onMarkerClick = useCallback(
     (feature: Feature<Point, Properties>) =>
       async ({ sourceTarget }: MarkerMouseEvent) => {

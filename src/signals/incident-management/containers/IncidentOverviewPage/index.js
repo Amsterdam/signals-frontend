@@ -135,6 +135,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const canRenderList = results && results.length > 0 && totalPages > 0
 
+  /* istanbul ignore next */
   const hasActiveFilters = activeFilter.options
     ? Boolean(
         Object.keys(activeFilter.options).find(

@@ -42,8 +42,7 @@ export const PanelContent = styled.div<{
   z-index: 1;
   position: relative;
 
-  // version with adress, and without if small panel then adjust padding, remove margin top inner button and add height
-
+  // version with address and without if small panel then adjust padding, remove margin top inner button and add height
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
     box-shadow: 2px 0 2px rgba(0, 0, 0, 0.1);
     flex: 0 0 ${DETAIL_PANEL_WIDTH}px;

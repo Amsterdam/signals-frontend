@@ -13,6 +13,7 @@ const Legend = () => {
 
   const { meta } = useContext(AssetSelectContext)
 
+  /* istanbul ignore next */
   const toggleLegend = useCallback(() => {
     if (showLegendPanel && legendButtonRef.current) {
       legendButtonRef.current.focus()

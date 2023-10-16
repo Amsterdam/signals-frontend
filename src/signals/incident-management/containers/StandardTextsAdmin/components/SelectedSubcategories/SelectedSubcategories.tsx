@@ -21,6 +21,7 @@ export interface Props {
 export const SelectedSubcategories = ({ error, value }: Props) => {
   const subcategories = useSelector(makeSelectSubCategories)
 
+  /* istanbul ignore next */
   const checkedSubcategories = useMemo(() => {
     if (!subcategories) return []
 

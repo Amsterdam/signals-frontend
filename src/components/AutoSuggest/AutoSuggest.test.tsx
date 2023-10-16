@@ -80,6 +80,20 @@ describe('src/components/AutoSuggest', () => {
     expect(input.hasAttribute('disabled')).toBe(false)
   })
 
+  it('should render a combobox with input field with search-input', () => {
+    render(withAppContext(<AutoSuggest {...props} />))
+
+    expect(screen.getByTestId('search-input')).toBeInTheDocument()
+
+    const searchInput = screen.getByTestId('search-input')
+
+    expect(searchInput).toBeInTheDocument()
+
+    userEvent.click(searchInput)
+
+    expect(screen.getByRole('textbox')).toHaveFocus()
+  })
+
   it('should set an id on the input field', () => {
     const id = 'id'
     render(withAppContext(<AutoSuggest {...{ ...props, id }} />))

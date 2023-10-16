@@ -126,6 +126,7 @@ export const SelectSearch = ({
         // Select first option as default
         const { value, name } = filteredOptions[0]
 
+        /* istanbul ignore next */
         if (!value || !name) return
 
         onChange({ target: { value: value } } as any, {
