@@ -37,6 +37,7 @@ export const Wrapper = styled.div`
 `
 export const StyledLabel = styled.label`
   font-weight: 700;
+  line-height: 1.5rem;
 `
 
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
@@ -62,7 +63,7 @@ export const AddressPanel = styled.article`
 
 export const StyledHeader = styled.header<{ $smallView: boolean }>`
   position: relative;
-  padding: ${themeSpacing(4)};
+  padding: ${themeSpacing(4, 4, 4, 2.5)};
   display: flex;
 
   ${({ $smallView }) =>
@@ -73,7 +74,7 @@ export const StyledHeader = styled.header<{ $smallView: boolean }>`
   `}
 
   ${StyledPDOKAutoSuggest} {
-    margin: ${themeSpacing(3, 0, 0, 0)};
+    margin: ${themeSpacing(1.5, 0, 0, 0)};
 
     ${({ $smallView }) =>
       $smallView &&
