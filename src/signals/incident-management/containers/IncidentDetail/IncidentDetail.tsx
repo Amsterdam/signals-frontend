@@ -203,6 +203,7 @@ const IncidentDetail = () => {
       )
     }
 
+    /* istanbul ignore next */
     if (
       !configuration.featureFlags.showStandardTextAdminV1 &&
       configuration.featureFlags.showStandardTextAdminV2

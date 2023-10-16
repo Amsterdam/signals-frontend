@@ -25,7 +25,8 @@
     "showStandardTextAdminV1": true,
     "showStandardTextAdminV2": false,
     "disableClosingCategoryOverigOverig": false,
-    "showContactEdit": false
+    "showContactEdit": false,
+    "showSelectorV2removeafterfinishepic5440": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

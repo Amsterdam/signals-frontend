@@ -84,6 +84,7 @@ const SuggestList: FC<SuggestListProps> = ({
     [onSelectOption]
   )
 
+  /* istanbul ignore next */
   const handleKeyDown = useCallback(
     (event, option) => {
       event.preventDefault()

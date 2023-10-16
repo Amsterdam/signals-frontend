@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
@@ -15,6 +15,8 @@ import type { Incident, Location } from 'types/incident'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
+import SelectorV2 from './Selector_v2_removeafterfinishepic5440'
+import configuration from '../../../../../../shared/services/configuration/configuration'
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
 
@@ -211,7 +213,9 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     >
       {!mapActive && !hasSelection && <Intro />}
 
-      {mapActive && <Selector />}
+      {configuration.featureFlags.showSelectorV2removeafterfinishepic5440
+        ? mapActive && <SelectorV2 />
+        : mapActive && <Selector />}
 
       {!mapActive && hasSelection && (
         <Summary

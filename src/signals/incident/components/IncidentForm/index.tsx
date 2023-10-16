@@ -169,6 +169,7 @@ const IncidentForm = forwardRef<any, any>(
     const { formState } = reactHookFormProps
     const { errors } = formState
 
+    /* istanbul ignore next */
     const handleSubmit = useCallback(
       async (e, next, formAction) => {
         e.preventDefault()

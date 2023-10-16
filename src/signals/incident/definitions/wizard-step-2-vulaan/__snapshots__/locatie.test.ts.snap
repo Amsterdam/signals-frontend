@@ -8,7 +8,7 @@ Object {
     "language": Object {
       "description": "Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik \\"Mijn locatie\\"",
       "subTitle": "Waar is het?",
-      "submit": "Gebruik deze locatie",
+      "submit": "Bevestigen",
       "title": "Locatie",
     },
     "shortLabel": "Waar is het?",

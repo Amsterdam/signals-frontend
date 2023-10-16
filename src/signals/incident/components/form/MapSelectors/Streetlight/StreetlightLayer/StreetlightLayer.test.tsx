@@ -8,7 +8,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector_v2_removeafterfinishepic5440/WfsLayer/context'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import straatverlichtingKlokken from 'signals/incident/definitions/wizard-step-2-vulaan/straatverlichting-klokken'
 import streetlightsJson from 'utils/__tests__/fixtures/streetlights.json'

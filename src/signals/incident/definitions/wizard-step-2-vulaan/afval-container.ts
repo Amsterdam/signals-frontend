@@ -28,7 +28,9 @@ export const controls = {
         unregisteredId: 'Nummer van de container',
         objectTypeSingular: 'container',
         objectTypePlural: 'containers',
-        submit: 'Gebruik deze locatie',
+        pdokLabel: 'Zoek op adres of containernummer',
+        pdokInput: 'Adres of containernummer',
+        submit: 'Bevestigen',
         description:
           'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"',
       },

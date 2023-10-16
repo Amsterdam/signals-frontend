@@ -19,7 +19,7 @@ import { makeSelectCategory } from 'signals/incident/containers/IncidentContaine
 import { selectionIsNearby, selectionIsObject } from '../../constants'
 import { FeatureStatus } from '../../types'
 import type { FeatureStatusType, FeatureType, Item } from '../../types'
-import { formattedDate } from '../Selector/utils'
+import { formattedDate } from '../Selector_v2_removeafterfinishepic5440/utils'
 
 const StyledButton = styled(Button).attrs(() => ({
   type: 'button',

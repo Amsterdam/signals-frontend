@@ -167,6 +167,10 @@
         "showContactEdit": {
           "description": "Shows the contact edit and cancel button and form in the backoffice.",
           "type": "boolean"
+        },
+        "showSelectorV2removeafterfinishepic5440":{
+          "description": "Shows the newly designed selector. Should remove this schema file and featureflag stuff when epic 5440 is ready.",
+          "type": "boolean"
         }
       },
       "required": [
