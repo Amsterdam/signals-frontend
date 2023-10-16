@@ -305,7 +305,7 @@ const Selector: FC = () => {
                   aria-label="Terug"
                   aria-controls="addressPanel"
                   icon={<ChevronLeft />}
-                  iconSize={16}
+                  iconSize={20}
                   onClick={() => dispatch(closeMap())}
                   size={24}
                   title="Terug"
