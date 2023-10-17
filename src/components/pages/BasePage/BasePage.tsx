@@ -12,8 +12,6 @@ const StyledHeading = styled(Heading)`
   margin: ${themeSpacing(5)} 0;
 `
 
-export const DEFAULT_MESSAGE = 'Pagina niet gevonden'
-
 interface BasePageProps {
   documentTitle?: string
   pageTitle?: string

@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 import ListComponent from 'components/List'
 import formatRoles from 'signals/settings/roles/services/formatRoles'
-import { ROLE_URL } from 'signals/settings/routes'
+import { BASE_URL, ROLE_URL } from 'signals/settings/routes'
 
 const StyledListComponent = styled(ListComponent)`
   th:nth-child(1),
@@ -30,7 +30,7 @@ export const RolesList = ({ linksEnabled, list }) => {
       const roleId = e.currentTarget.getAttribute('data-item-id')
       /* istanbul ignore else */
       if (roleId > -1) {
-        navigate(`${ROLE_URL}/${roleId}`)
+        navigate(`${BASE_URL}/${ROLE_URL}/${roleId}`)
       }
     },
     [navigate, linksEnabled]

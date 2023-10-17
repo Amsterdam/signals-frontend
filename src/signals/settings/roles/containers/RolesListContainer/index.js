@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment } from 'react'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 
 import { Row, Column, Button } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
@@ -27,34 +26,40 @@ const HeaderButton = styled(Button)`
 export const RolesListContainer = ({
   roles: { list, loading, loadingPermissions },
   userCan,
-}) => (
-  <Fragment>
-    <Row>
-      <PageHeader
-        title="Rollen"
-        BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
-      >
-        {userCan('add_group') && (
-          <HeaderButton variant="primary" forwardedAs={Link} to={ROLE_URL}>
-            Rol toevoegen
-          </HeaderButton>
-        )}
-      </PageHeader>
-    </Row>
-    <Row>
-      <Column span={12}>
-        {loading || loadingPermissions ? (
-          <LoadingIndicator />
-        ) : (
-          <RolesList
-            list={list}
-            linksEnabled={Boolean(userCan('change_group'))}
-          />
-        )}
-      </Column>
-    </Row>
-  </Fragment>
-)
+}) => {
+  return (
+    <>
+      <Row>
+        <PageHeader
+          title="Rollen"
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        >
+          {userCan('add_group') && (
+            <HeaderButton
+              variant="primary"
+              forwardedAs={Link}
+              to={`${BASE_URL}/${ROLE_URL}`}
+            >
+              Rol toevoegen
+            </HeaderButton>
+          )}
+        </PageHeader>
+      </Row>
+      <Row>
+        <Column span={12}>
+          {loading || loadingPermissions ? (
+            <LoadingIndicator />
+          ) : (
+            <RolesList
+              list={list}
+              linksEnabled={Boolean(userCan('change_group'))}
+            />
+          )}
+        </Column>
+      </Row>
+    </>
+  )
+}
 
 RolesListContainer.defaultProps = {
   roles: {

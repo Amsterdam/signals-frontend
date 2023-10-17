@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { Fragment, useCallback, useEffect } from 'react'
 
 import { Row } from '@amsterdam/asc-ui'
@@ -16,7 +16,7 @@ import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import useConfirmedCancel from 'signals/settings/hooks/useConfirmedCancel'
 import useFetchResponseNotification from 'signals/settings/hooks/useFetchResponseNotification'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 
 import UserForm from './components/UserForm'
 
@@ -44,7 +44,7 @@ const UserDetail = () => {
   } = useFetch()
   const { get: historyGet, data: historyData } = useFetch()
   const shouldRenderForm = !isExistingUser || (isExistingUser && Boolean(data))
-  const redirectURL = location.referrer || routes.users
+  const redirectURL = location.referrer || `${BASE_URL}/${routes.users}`
   const userCanSubmitForm =
     (isExistingUser && userCan('change_user')) ||
     (!isExistingUser && userCan('add_user'))

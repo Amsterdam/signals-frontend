@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import { useEffect, useCallback, Fragment, useMemo } from 'react'
 
 import { Row, Column, Heading, Paragraph } from '@amsterdam/asc-ui'
@@ -20,7 +20,7 @@ import {
 } from 'models/categories/selectors'
 import CONFIGURATION from 'shared/services/configuration/configuration'
 import * as types from 'shared/types'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 
 import CategoryLists from './components/CategoryLists'
 import DepartmentDetailContext from './context'
@@ -35,7 +35,8 @@ export const DepartmentDetailContainer = ({
   const { departmentId } = useParams()
   const isExistingDepartment = departmentId !== undefined
   const { isLoading, isSuccess, data, error, get, patch, type } = useFetch()
-  const confirmedCancel = useConfirmedCancel(routes.departments)
+  const redirectURL = location.referrer || `${BASE_URL}/${routes.departments}`
+  const confirmedCancel = useConfirmedCancel(redirectURL)
   const entityName = `Afdeling${data ? ` '${data.name}'` : ''}`
   const title = `${entityName} ${
     isExistingDepartment ? 'wijzigen' : 'toevoegen'
@@ -47,7 +48,7 @@ export const DepartmentDetailContainer = ({
     requestType: type,
     isLoading,
     isSuccess,
-    redirectURL: routes.departments,
+    redirectURL: redirectURL,
   })
 
   const onSubmit = useCallback(
@@ -73,7 +74,9 @@ export const DepartmentDetailContainer = ({
           dataTestId={'settings-page-header'}
           title={title}
           BackLink={
-            <BackLink to={routes.departments}>Terug naar overzicht</BackLink>
+            <BackLink to={`${BASE_URL}/${routes.departments}`}>
+              Terug naar overzicht
+            </BackLink>
           }
         />
       </Row>

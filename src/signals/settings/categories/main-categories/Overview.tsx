@@ -50,7 +50,7 @@ export const OverviewContainer = () => {
       } = e
 
       if (itemId) {
-        navigate(`${MAIN_CATEGORY_URL}/${itemId}`)
+        navigate(`${BASE_URL}/${MAIN_CATEGORY_URL}/${itemId}`)
       }
     },
     [navigate, userCan]

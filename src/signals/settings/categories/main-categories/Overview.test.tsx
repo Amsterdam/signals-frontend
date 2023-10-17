@@ -8,7 +8,7 @@ import * as reactRouterDom from 'react-router-dom'
 
 import { makeSelectUserCan } from 'containers/App/selectors'
 import { makeSelectMainCategories } from 'models/categories/selectors'
-import { MAIN_CATEGORY_URL } from 'signals/settings/routes'
+import { BASE_URL, MAIN_CATEGORY_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
@@ -98,7 +98,9 @@ describe('OverviewContainer', () => {
     userEvent.click(row)
 
     expect(navigateSpy).toHaveBeenCalledTimes(1)
-    expect(navigateSpy).toHaveBeenCalledWith(`${MAIN_CATEGORY_URL}/80`)
+    expect(navigateSpy).toHaveBeenCalledWith(
+      `${BASE_URL}/${MAIN_CATEGORY_URL}/80`
+    )
   })
 
   it('should not push on list item click when permissions are insufficient', async () => {

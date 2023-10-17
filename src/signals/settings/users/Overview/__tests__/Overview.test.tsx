@@ -14,7 +14,7 @@ import * as constants from 'containers/App/constants'
 import * as appSelectors from 'containers/App/selectors'
 import * as departmenstSelectors from 'models/departments/selectors'
 import * as rolesSelectors from 'models/roles/selectors'
-import { USER_URL, USERS_PAGED_URL } from 'signals/settings/routes'
+import { BASE_URL, USER_URL, USERS_PAGED_URL } from 'signals/settings/routes'
 import { history as memoryHistory, withAppContext } from 'test/utils'
 import inputSelectDepartmentsSelectorFixture from 'utils/__tests__/fixtures/inputSelectDepartmentsSelector.json'
 import inputSelectRolesSelectorFixture from 'utils/__tests__/fixtures/inputSelectRolesSelector.json'
@@ -306,7 +306,9 @@ describe('signals/settings/users/containers/Overview', () => {
 
     userEvent.click(username)
 
-    expect(mockNavigate).toHaveBeenLastCalledWith(`${USER_URL}/${itemId}`)
+    expect(mockNavigate).toHaveBeenLastCalledWith(
+      `${BASE_URL}/${USER_URL}/${itemId}`
+    )
 
     // Remove 'itemId' and fire click event again.
     delete row.dataset.itemId

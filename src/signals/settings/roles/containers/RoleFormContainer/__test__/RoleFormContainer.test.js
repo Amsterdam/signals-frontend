@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
 import { VARIANT_SUCCESS, TYPE_LOCAL } from 'containers/Notification/constants'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 import { withAppContext } from 'test/utils'
 import rolesJson from 'utils/__tests__/fixtures/roles.json'
 
@@ -131,7 +131,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     })
     expect(props.onResetResponse).toHaveBeenCalled()
-    expect(navigateMock).toHaveBeenCalledWith(routes.roles)
+    expect(navigateMock).toHaveBeenCalledWith(`${BASE_URL}/${routes.roles}`)
   })
 
   it('should show success notication and navigate to role list page with existing role', () => {
@@ -158,7 +158,7 @@ describe('signals/settings/roles/containers/RoleFormContainer', () => {
       variant: VARIANT_SUCCESS,
     })
     expect(props.onResetResponse).toHaveBeenCalled()
-    expect(navigateMock).toHaveBeenCalledWith(routes.roles)
+    expect(navigateMock).toHaveBeenCalledWith(`${BASE_URL}/${routes.roles}`)
   })
 
   it('should show error notication and not navigate to role list page', () => {

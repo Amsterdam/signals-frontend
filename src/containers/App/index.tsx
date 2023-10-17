@@ -26,6 +26,7 @@ import IncidentReplyContainer from 'signals/incident/containers/IncidentReplyCon
 import { getSources } from './actions'
 import AppContext from './context'
 import { makeSelectLoading, makeSelectSources } from './selectors'
+import NotFoundPage from '../../components/pages/NotFoundPage'
 import VerificationPage from '../../components/pages/VerificationPage'
 import useDefaultHeader from '../../hooks/useDefaultHeader'
 import useTallHeader from '../../hooks/useTallHeader'
@@ -181,7 +182,7 @@ export const AppContainer = () => {
                     path="/verify_email/:token"
                     element={<VerificationPage />}
                   />
-                  <Route path={'*'} element={<SettingsModule />} />
+                  <Route path={'*'} element={<NotFoundPage />} />
                 </Routes>
               </Suspense>
             </ContentContainer>

@@ -109,7 +109,7 @@ const UsersOverviewContainer = () => {
   const setUsernameFilter = useCallback(
     (value: string) => {
       filters.set('username', value)
-      navigate(`${USERS_PAGED_URL}/1?${filters.toString()}`)
+      navigate(`${BASE_URL}/${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
     [filters, navigate]
   )
@@ -132,7 +132,7 @@ const UsersOverviewContainer = () => {
       event.preventDefault()
       const { name, value } = event.currentTarget
       filters.set(name, value)
-      navigate(`${USERS_PAGED_URL}/1?${filters.toString()}`)
+      navigate(`${BASE_URL}/${USERS_PAGED_URL}/1?${filters.toString()}`)
     },
     [filters, navigate]
   )
@@ -151,7 +151,7 @@ const UsersOverviewContainer = () => {
       } = event
 
       if (itemId) {
-        navigate(`${USER_URL}/${itemId}`)
+        navigate(`${BASE_URL}/${USER_URL}/${itemId}`)
       }
     },
     [navigate, userCan]
@@ -160,7 +160,9 @@ const UsersOverviewContainer = () => {
   const onPaginationClick = useCallback(
     (pageToNavigateTo: number) => {
       global.window.scrollTo(0, 0)
-      navigate(`${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`)
+      navigate(
+        `${BASE_URL}/${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`
+      )
     },
     [filters, navigate]
   )
@@ -174,7 +176,11 @@ const UsersOverviewContainer = () => {
           BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
         >
           {userCan('add_user') && (
-            <HeaderButton variant="primary" forwardedAs={Link} to={USER_URL}>
+            <HeaderButton
+              variant="primary"
+              forwardedAs={Link}
+              to={`${BASE_URL}/${USER_URL}`}
+            >
               Gebruiker toevoegen
             </HeaderButton>
           )}

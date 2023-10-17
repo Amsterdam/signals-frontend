@@ -15,7 +15,7 @@ import useFetch from 'hooks/useFetch'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { fetchCategories } from 'models/categories/actions'
 import configuration from 'shared/services/configuration/configuration'
-import routes from 'signals/settings/routes'
+import routes, { BASE_URL } from 'signals/settings/routes'
 import type { StandardText } from 'types/api/standard-texts'
 import type { StatusMessagesCategory } from 'types/api/status-messages'
 import type { Category } from 'types/category'
@@ -48,7 +48,9 @@ export const CategoryDetail = ({
 
   const redirectURL =
     location.referrer ||
-    (isMainCategory ? routes.mainCategories : routes.subcategories)
+    (isMainCategory
+      ? `${BASE_URL}/${routes.mainCategories}`
+      : `${BASE_URL}/${routes.subcategories}`)
   const confirmedCancel = useConfirmedCancel(redirectURL)
 
   const { categoryId } = useParams<{ categoryId: string }>()
