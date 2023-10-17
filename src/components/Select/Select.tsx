@@ -47,9 +47,9 @@ const SelectOptions: FC<SelectOptionsProps> = ({
   optionName = 'name',
 }) => (
   <>
-    {options.map((option) => (
+    {options.map((option, index) => (
       <option
-        key={`${name}-${option[optionKey]}`}
+        key={`${name}-${option[optionKey]}-${index}`}
         value={option[optionValue]?.toString()}
       >
         {option[optionName]}
