@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
-import { Fragment } from 'react'
 
 import { Row, Column, Button } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
@@ -29,7 +28,7 @@ export const RolesListContainer = ({
   userCan,
 }) => {
   return (
-    <Fragment>
+    <>
       <Row>
         <PageHeader
           title="Rollen"
@@ -58,7 +57,7 @@ export const RolesListContainer = ({
           )}
         </Column>
       </Row>
-    </Fragment>
+    </>
   )
 }
 
