@@ -101,7 +101,6 @@ export const CategoryDetail = ({
     defaultValues: { ...defaultValues },
   })
   const isDirty = formMethods.formState.isDirty
-  const formValues = formMethods.getValues()
 
   const categoryURL = `${configuration.CATEGORIES_PRIVATE_ENDPOINT}${categoryId}`
 
@@ -195,7 +194,6 @@ export const CategoryDetail = ({
       <CategoryForm
         isMainCategory={isMainCategory}
         formMethods={formMethods}
-        formValues={formValues}
         history={historyData}
         onCancel={onCancel}
         onSubmit={formMethods.handleSubmit(onSubmit)}

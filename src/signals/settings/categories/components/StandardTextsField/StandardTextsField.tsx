@@ -20,14 +20,16 @@ import {
 } from './styled'
 import { changeStatusOptionList } from '../../../../incident-management/definitions/statusList'
 import { Direction } from '../../types'
+import type { StatusOption } from '../CategoryForm'
 import { orderStandardTexts } from '../utils'
 
 type Props = {
   name: string
   onChange: (standardTexts: StandardText[]) => void
+  statusOption?: StatusOption['key']
 }
 
-export const StandardTextsField = ({ name, onChange }: Props) => {
+export const StandardTextsField = ({ name, onChange, statusOption }: Props) => {
   const params = useParams<{ categoryId: string }>()
   const { get, data } = useFetch<{ results: StandardText[] }>()
   const [selectedStatus, setSelectedStatus] = useState<string>(
@@ -64,12 +66,15 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
         (status) => status.value === selectedStatus
       )?.key
 
-      const orderedStandardTexts = data.results.filter(
-        (result) => result.state === state
-      )
+      const orderedStandardTexts = data.results
+        .filter((result) => result.state === state)
+        .filter(
+          (item) => !statusOption || item.active.toString() === statusOption
+        )
+
       setOrderedStandardTexts(orderedStandardTexts)
     }
-  }, [data, selectedStatus])
+  }, [data, selectedStatus, statusOption])
 
   const options = changeStatusOptionList.map((status) => ({
     name: status.value,

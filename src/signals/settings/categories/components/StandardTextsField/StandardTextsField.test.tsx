@@ -23,6 +23,43 @@ describe('StandardTextsField', () => {
     })
   })
 
+  it('should show only active texts', async () => {
+    act(() => {
+      render(
+        withAppContext(
+          <StandardTextsField
+            name="test1"
+            onChange={() => {}}
+            statusOption={'true'}
+          />
+        )
+      )
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('Titel #7')).toBeInTheDocument()
+      expect(screen.queryByText('Titel #12')).not.toBeInTheDocument()
+    })
+  })
+  it('should show only inactive texts', async () => {
+    act(() => {
+      render(
+        withAppContext(
+          <StandardTextsField
+            name="test2"
+            onChange={() => {}}
+            statusOption={'false'}
+          />
+        )
+      )
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Titel #7')).not.toBeInTheDocument()
+      expect(screen.getByText('Titel #12')).toBeInTheDocument()
+    })
+  })
+
   it('should move text and call onChange', async () => {
     const onchangeMock = jest.fn()
 
