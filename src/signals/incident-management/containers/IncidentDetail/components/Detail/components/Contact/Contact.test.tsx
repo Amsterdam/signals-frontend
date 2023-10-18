@@ -14,6 +14,7 @@ import {
   fetchMock,
   mockRequestHandler,
 } from '../../../../../../../../../internals/testing/msw-server'
+import * as appSelectors from '../../../../../../../../containers/App/selectors'
 jest.mock('shared/services/configuration/configuration')
 const incidentFixture = incidentJSON as unknown as any
 
@@ -29,6 +30,9 @@ describe('Contact', () => {
     jest
       .spyOn(reactRouterDom, 'useParams')
       .mockImplementation(() => ({ id: '7740' }))
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true)
   })
 
   it('should render the component', async () => {
@@ -230,5 +234,16 @@ describe('Contact', () => {
         screen.queryByText(/Verificatie annuleren/)
       ).not.toBeInTheDocument()
     })
+  })
+  it('should not show the edit contact button when user does not have permission', async () => {
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => false)
+
+    await act(async () => {
+      render(withAppContext(<Contact showPhone incident={incidentFixture} />))
+    })
+
+    expect(screen.queryByTestId('edit-contact-button')).not.toBeInTheDocument()
   })
 })
