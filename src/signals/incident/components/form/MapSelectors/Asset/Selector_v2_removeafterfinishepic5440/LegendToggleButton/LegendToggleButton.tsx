@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 
+import { Info } from '@amsterdam/asc-assets'
 import { themeColor } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
@@ -37,12 +38,13 @@ const LegendToggleButton: FC<LegendToggleButtonProps> = ({
     className={className}
     data-testid="legend-toggle-button"
     onClick={onClick}
+    iconLeft={<Info />}
     tabIndex={0}
     type="button"
     variant="blank"
     ref={legendButtonRef}
   >
-    Uitleg
+    Legenda
   </StyledButton>
 )
 

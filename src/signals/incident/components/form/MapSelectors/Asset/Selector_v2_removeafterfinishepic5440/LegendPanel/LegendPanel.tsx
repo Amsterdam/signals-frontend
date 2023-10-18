@@ -28,13 +28,13 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
     id="legendPanel"
     slide={slide}
   >
-    <Title>Uitleg</Title>
+    <Title>Legenda</Title>
 
     <CloseBtn
       data-testid="close-button"
       ref={buttonRef}
       tabIndex={-1}
-      title="Sluit uitleg"
+      title="Sluit legenda"
       onClick={onClose}
     />
 
