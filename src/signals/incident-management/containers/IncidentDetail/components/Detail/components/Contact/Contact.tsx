@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react'
 
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { useFetch } from 'hooks'
@@ -19,6 +20,7 @@ import type { Incident } from 'types/incident'
 import Cancel from './Cancel'
 import Edit from './Edit'
 import { StyledDD, StyledEditButton, StyledLink } from './styled'
+import { makeSelectUserCan } from '../../../../../../../../containers/App/selectors'
 import IncidentDetailContext from '../../../../context'
 import type { Result, SignalReporter } from '../../../../types'
 
@@ -27,10 +29,15 @@ type Props = {
   showPhone: boolean
 }
 
+const SIA_CAN_VIEW_CONTACT_DETAILS = 'sia_can_view_contact_details'
+
 export const Contact = ({ incident, showPhone }: Props) => {
+  const userCan = useSelector(makeSelectUserCan)
+
   const [activeComponent, setActiveComponent] = useState<
     'edit' | 'cancel' | null
   >(null)
+
   const {
     post,
     get,
@@ -120,9 +127,13 @@ export const Contact = ({ incident, showPhone }: Props) => {
     get(`${configuration.INCIDENT_PRIVATE_ENDPOINT}${params.id}/reporters`)
   }, [get, params.id])
 
+  /**
+   * If the user is not allowed to view the contact details, we don't want to show the error. There is no need cause
+   * the user can't do anything with it.
+   */
   useFetchResponseNotification({
     entityName: 'Contactgegevens',
-    error,
+    error: userCan(SIA_CAN_VIEW_CONTACT_DETAILS) ? error : undefined,
     isLoading: false,
     isSuccess: false,
     redirectURL: '',
@@ -151,18 +162,19 @@ export const Contact = ({ incident, showPhone }: Props) => {
       )}
       {!activeComponent && (
         <StyledDD data-testid="detail-phone-value">
-          {configuration.featureFlags.showContactEdit && (
-            <StyledEditButton
-              data-testid="edit-contact-button"
-              icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
-              iconSize={18}
-              onClick={() => {
-                setActiveComponent('edit')
-              }}
-              type="button"
-              variant="application"
-            />
-          )}
+          {configuration.featureFlags.showContactEdit &&
+            userCan(SIA_CAN_VIEW_CONTACT_DETAILS) && (
+              <StyledEditButton
+                data-testid="edit-contact-button"
+                icon={<img src="/assets/images/icon-edit.svg" alt="Bewerken" />}
+                iconSize={18}
+                onClick={() => {
+                  setActiveComponent('edit')
+                }}
+                type="button"
+                variant="application"
+              />
+            )}
           {showPhone && incident.reporter.phone ? (
             <StyledLink
               data-testid="detail-phone-link"
