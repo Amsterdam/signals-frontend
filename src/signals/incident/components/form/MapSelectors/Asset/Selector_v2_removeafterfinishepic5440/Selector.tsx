@@ -180,8 +180,9 @@ const Selector: FC = () => {
   }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const shouldRenderMobileVersion = useMediaQuery({
+    // todo might remove following line
     // Set breakpoint to mobile instead of tablet since desktop will get the mobile version when zoom on 200% which is not accesible with keyboard.
-    query: breakpoint('max-width', 'mobileL')({ theme: ascDefaultTheme }),
+    query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
 
   const addressValue = address ? formatAddress(address) : ''
