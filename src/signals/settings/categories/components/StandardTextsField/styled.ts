@@ -24,6 +24,7 @@ export const DefaultTextBody = styled.div`
 
 export const TextWrapper = styled.div`
   display: flex;
+  min-width: 0;
 
   span {
     font-weight: 700;
@@ -38,4 +39,9 @@ export const StyledButton = styled(Button)`
   & + button:not([disabled]) {
     margin-top: -1px;
   }
+`
+
+export const StyledWrapper = styled.div`
+  min-width: 0;
+  overflow: hidden;
 `
