@@ -29,6 +29,7 @@ const mockFormValues = {
 }
 
 const defaultProps: Omit<Props, 'formMethods'> = {
+  formValues: mockFormValues,
   history: [
     {
       identifier: 'UPDATED_CATEGORY_217043',
@@ -56,13 +57,8 @@ const defaultProps: Omit<Props, 'formMethods'> = {
     'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
 }
 
-const Wrapper = ({
-  formValues = mockFormValues,
-  ...props
-}: Partial<Props> & { formValues?: CategoryFormValues }) => {
-  const methods = useForm<CategoryFormValues>({
-    defaultValues: formValues,
-  })
+const Wrapper = (props: Partial<Props>) => {
+  const methods = useForm<CategoryFormValues>()
   return withAppContext(
     <CategoryForm {...defaultProps} formMethods={methods} {...props} />
   )
