@@ -38,3 +38,10 @@ export const PREVIEW =
 export const EDIT = 'sia/incidentManagement/containers/IncidentDetail/EDIT'
 export const EXTERNAL =
   'sia/incidentManagement/containers/IncidentDetail/EXTERNAL'
+
+export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
+export const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
+export const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
+export const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
+export const CHANGE_ATTACHMENT = 'sia_change_attachment'
+export const ADD_ATTACHMENT = 'sia_add_attachment'

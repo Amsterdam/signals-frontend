@@ -43,16 +43,19 @@ import {
   StyledButtonsWrapper,
 } from './styled'
 import StyledUploadProgress from './UploadProgress'
+import {
+  DELETE_CHILD,
+  DELETE_NORMAL,
+  DELETE_OTHER,
+  DELETE_PARENT,
+  CHANGE_ATTACHMENT,
+  ADD_ATTACHMENT,
+} from '../../constants'
 import IncidentDetailContext from '../../context'
 import type { Files } from '../../hooks/useUpload'
 import type { Attachment } from '../../types'
 import { isPdf } from '../../utils/isPdf'
 import FileInput from '../FileInput'
-
-export const DELETE_CHILD = 'sia_delete_attachment_of_child_signal'
-export const DELETE_NORMAL = 'sia_delete_attachment_of_normal_signal'
-export const DELETE_OTHER = 'sia_delete_attachment_of_other_user'
-export const DELETE_PARENT = 'sia_delete_attachment_of_parent_signal'
 
 const MIN = 30 * 2 ** 10 // 30 KiB
 const MAX = 20 * 2 ** 20 // 20 MiB
@@ -220,24 +223,26 @@ const Attachments: FC<AttachmentsProps> = ({
                   </StyledDate>
                 </StyledDetails>
                 <StyledButtonsWrapper>
-                  {attachment.created_by && attachment.is_image && (
-                    <StyledButton
-                      icon={
-                        <img
-                          src="/assets/images/icon-edit.svg"
-                          alt="Bewerken"
-                        />
-                      }
-                      iconSize={18}
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        setSelectedEditAttachment(attachment.location)
-                      }}
-                      title="Openbaar maken"
-                      variant="application"
-                      disabled={isRemoving || !!selectedEditAttachment}
-                    />
-                  )}
+                  {userCan(CHANGE_ATTACHMENT) &&
+                    attachment.created_by &&
+                    attachment.is_image && (
+                      <StyledButton
+                        icon={
+                          <img
+                            src="/assets/images/icon-edit.svg"
+                            alt="Bewerken"
+                          />
+                        }
+                        iconSize={18}
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          setSelectedEditAttachment(attachment.location)
+                        }}
+                        title="Openbaar maken"
+                        variant="application"
+                        disabled={isRemoving || !!selectedEditAttachment}
+                      />
+                    )}
                   {canDeleteAttachment(attachment) && (
                     <StyledButton
                       icon={<DeleteIcon />}
@@ -304,22 +309,24 @@ const Attachments: FC<AttachmentsProps> = ({
       )}
       {error && <ErrorMessage message={error} />}
       <StyledButtonWrapper>
-        <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
-          {files.length > 0 && !uploadError ? (
-            <Button variant="application" disabled={true} type="button">
-              Bestand toevoegen
-            </Button>
-          ) : (
-            <Button
-              forwardedAs={'span'}
-              tabIndex={0}
-              variant="application"
-              type="button"
-            >
-              Bestand toevoegen
-            </Button>
-          )}
-        </FileInput>
+        {userCan(ADD_ATTACHMENT) && (
+          <FileInput multiple={false} name="addPhoto" onChange={handleChange}>
+            {files.length > 0 && !uploadError ? (
+              <Button variant="application" disabled={true} type="button">
+                Bestand toevoegen
+              </Button>
+            ) : (
+              <Button
+                forwardedAs={'span'}
+                tabIndex={0}
+                variant="application"
+                type="button"
+              >
+                Bestand toevoegen
+              </Button>
+            )}
+          </FileInput>
+        )}
         <Button
           type="button"
           variant="application"

@@ -6,14 +6,15 @@ import userEvent from '@testing-library/user-event'
 import * as appSelectors from 'containers/App/selectors'
 import { withAppContext } from 'test/utils'
 
-import Attachments, {
+import Attachments from './Attachments'
+import attachments from '../../../../../../../internals/mocks/fixtures/attachments.json'
+import userFixture from '../../../../../../utils/__tests__/fixtures/user.json'
+import {
   DELETE_CHILD,
   DELETE_NORMAL,
   DELETE_OTHER,
   DELETE_PARENT,
-} from './Attachments'
-import attachments from '../../../../../../../internals/mocks/fixtures/attachments.json'
-import userFixture from '../../../../../../utils/__tests__/fixtures/user.json'
+} from '../../constants'
 import IncidentDetailContext from '../../context'
 
 jest.mock('./UploadProgress', () => ({ progress }: { progress: number }) => (
@@ -21,15 +22,22 @@ jest.mock('./UploadProgress', () => ({ progress }: { progress: number }) => (
 ))
 
 const patch = jest.fn()
+const preview = jest.fn()
+const add = jest.fn()
+const remove = jest.fn()
 
 describe('Attachments', () => {
   beforeEach(() => {
     patch.mockClear()
+    jest
+      .spyOn(appSelectors, 'makeSelectUserCan')
+      .mockImplementation(() => () => true)
+  })
+  afterEach(() => {
+    jest.resetAllMocks()
   })
 
   it('renders the Attachments component', () => {
-    const add = jest.fn()
-    const remove = jest.fn()
     const fileName = 'ae70d54aca324d0480ca01934240c78f.jpg'
 
     render(
@@ -56,9 +64,6 @@ describe('Attachments', () => {
   })
 
   it('works without location', () => {
-    const add = jest.fn()
-    const remove = jest.fn()
-
     render(
       withAppContext(
         <Attachments
@@ -79,9 +84,6 @@ describe('Attachments', () => {
   })
 
   it('works without attachments', () => {
-    const add = jest.fn()
-    const remove = jest.fn()
-
     render(
       withAppContext(
         <Attachments
@@ -103,8 +105,6 @@ describe('Attachments', () => {
   })
 
   it('shows the creator', () => {
-    const add = jest.fn()
-    const remove = jest.fn()
     const employee = 'employee@signalen.dev'
 
     const newAttachments = [
@@ -138,8 +138,6 @@ describe('Attachments', () => {
       patch.mockClear()
     })
     it('calls add and shows the file', async () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const files = [
         {
           name: 'bloem.jpeg',
@@ -181,8 +179,6 @@ describe('Attachments', () => {
     })
 
     it('shows the upload progress', async () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const files = [
         {
           name: 'bloem.jpeg',
@@ -276,8 +272,6 @@ describe('Attachments', () => {
     })
 
     it('handles upload error', async () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const files = [
         {
           name: 'bloem.jpeg',
@@ -358,8 +352,6 @@ describe('Attachments', () => {
     })
 
     it('handles too large files', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const files = [
         {
           name: 'bloem.jpeg',
@@ -396,8 +388,6 @@ describe('Attachments', () => {
     })
 
     it('handles too small files', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const files = [
         {
           name: 'bloem.jpeg',
@@ -435,9 +425,6 @@ describe('Attachments', () => {
   })
 
   it('can toggle the note form', () => {
-    const add = jest.fn()
-    const remove = jest.fn()
-
     render(
       withAppContext(
         <Attachments
@@ -470,8 +457,6 @@ describe('Attachments', () => {
       patch.mockClear()
     })
     it('does not show the delete button when not allowed', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(() => () => false)
@@ -498,8 +483,6 @@ describe('Attachments', () => {
     })
 
     it('shows the delete button when allowed', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(() => () => true)
@@ -524,8 +507,6 @@ describe('Attachments', () => {
     })
 
     it('shows the delete button when allowed from others and for normal incidents', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(
@@ -552,8 +533,6 @@ describe('Attachments', () => {
     })
 
     it('shows the delete button when allowed from others and for child incidents', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(
@@ -580,8 +559,6 @@ describe('Attachments', () => {
     })
 
     it('shows the delete button when allowed from others and for parent incidents', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(
@@ -608,8 +585,6 @@ describe('Attachments', () => {
     })
 
     it('shows the delete button when its your own attachment and allowed for normal incidents', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
       const employee = 'employee@signalen.dev'
 
       const newAttachments = [
@@ -646,9 +621,6 @@ describe('Attachments', () => {
     })
 
     it('calls remove', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
-
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(() => () => true)
@@ -679,9 +651,6 @@ describe('Attachments', () => {
     })
 
     it('does not call remove without confirmation', () => {
-      const add = jest.fn()
-      const remove = jest.fn()
-
       jest
         .spyOn(appSelectors, 'makeSelectUserCan')
         .mockImplementation(() => () => true)
@@ -725,13 +694,18 @@ describe('Attachments', () => {
     })
 
     it('should open EditAttachment form and the form should be interactive', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
+      jest
+        .spyOn(appSelectors, 'makeSelectUserCan')
+        .mockImplementation(() => () => true)
 
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={publicAttachmentResults}
@@ -763,12 +737,38 @@ describe('Attachments', () => {
 
       expect(screen.getByText(/Onderschrift/)).toBeInTheDocument()
     })
+    it('should not open EditAttachment form', async () => {
+      jest
+        .spyOn(appSelectors, 'makeSelectUserCan')
+        .mockImplementation(() => () => false)
+
+      render(
+        withAppContext(
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
+            <Attachments
+              patch={patch}
+              attachments={publicAttachmentResults}
+              add={add}
+              remove={remove}
+              isChildIncident={false}
+              isParentIncident={false}
+              isRemoving={false}
+              uploadProgress={0}
+              uploadError={false}
+            />
+          </IncidentDetailContext.Provider>
+        )
+      )
+
+      expect(screen.queryByTitle('Openbaar maken')).not.toBeInTheDocument()
+    })
 
     it('should show public and non public attachments with and without edit button', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
-
       const attachmentResultsMultiple = [
         {
           ...attachments.results[0],
@@ -783,7 +783,12 @@ describe('Attachments', () => {
 
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={attachmentResultsMultiple}
@@ -816,10 +821,6 @@ describe('Attachments', () => {
     })
 
     it('should not be able to make pdf public available', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
-
       const attachmentResultsMultiple = [
         {
           ...attachments.results[0],
@@ -836,7 +837,12 @@ describe('Attachments', () => {
 
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={attachmentResultsMultiple}
@@ -856,13 +862,14 @@ describe('Attachments', () => {
     })
 
     it('should open EditAttachment form and it should send a PATCH request', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
-
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={publicAttachmentResults}
@@ -910,10 +917,6 @@ describe('Attachments', () => {
     })
 
     it('should open EditAttachment form and it should send a PATCH request with caption null', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
-
       const publicAttachmentResultsWithCaption = [
         {
           ...attachments.results[0],
@@ -924,7 +927,12 @@ describe('Attachments', () => {
 
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={publicAttachmentResultsWithCaption}
@@ -959,13 +967,14 @@ describe('Attachments', () => {
     })
 
     it('should open EditAttachment form, fill it and press cancel button', async () => {
-      const preview = jest.fn()
-      const add = jest.fn()
-      const remove = jest.fn()
-
       render(
         withAppContext(
-          <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+          <IncidentDetailContext.Provider
+            value={{
+              update: () => {},
+              preview,
+            }}
+          >
             <Attachments
               patch={patch}
               attachments={publicAttachmentResults}
@@ -996,14 +1005,16 @@ describe('Attachments', () => {
   })
 
   it('shows the preview', () => {
-    const preview = jest.fn()
-    const add = jest.fn()
-    const remove = jest.fn()
     const fileName = 'ae70d54aca324d0480ca01934240c78f.jpg'
 
     render(
       withAppContext(
-        <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+        <IncidentDetailContext.Provider
+          value={{
+            update: () => {},
+            preview,
+          }}
+        >
           <Attachments
             patch={patch}
             attachments={attachments.results}
@@ -1026,9 +1037,6 @@ describe('Attachments', () => {
   })
 
   it('shows a pdf in a new tab', () => {
-    const preview = jest.fn()
-    const add = jest.fn()
-    const remove = jest.fn()
     const fileName = 'ae70d54aca324d0480ca01934240c78f.pdf'
 
     const mockOpen = jest.fn()
@@ -1039,7 +1047,12 @@ describe('Attachments', () => {
 
     render(
       withAppContext(
-        <IncidentDetailContext.Provider value={{ update: () => {}, preview }}>
+        <IncidentDetailContext.Provider
+          value={{
+            update: () => {},
+            preview,
+          }}
+        >
           <Attachments
             patch={patch}
             attachments={attachments.results}
