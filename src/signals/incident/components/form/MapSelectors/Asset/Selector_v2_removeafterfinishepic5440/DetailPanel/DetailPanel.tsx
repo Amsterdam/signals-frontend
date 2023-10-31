@@ -84,7 +84,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
               </Description>
             </StyledParagraphPDOkAutoSuggest>
             <StyledLabelPDOkAutoSuggest htmlFor="location">
-              Zoek op adres of postcode
+              {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
             </StyledLabelPDOkAutoSuggest>
             <StyledPDOKAutoSuggest
               id={'location'}
