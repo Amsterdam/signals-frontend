@@ -135,6 +135,22 @@ describe('DetailPanel', () => {
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
   })
 
+  it('should render the pdok label if available', () => {
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        meta: {
+          ...currentContextValue.meta,
+          language: {
+            pdokLabel: 'selecteer een lamp',
+          },
+        },
+      })
+    )
+
+    expect(screen.getByText('selecteer een lamp')).toBeInTheDocument()
+  })
+
   it('renders selected asset', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
