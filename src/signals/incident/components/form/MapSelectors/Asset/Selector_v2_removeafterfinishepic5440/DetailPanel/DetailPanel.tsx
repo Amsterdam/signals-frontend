@@ -31,7 +31,6 @@ export interface DetailPanelProps {
 
 const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
   const shouldRenderMobileVersion = useMediaQuery({
-    // Set breakpoint to mobile instead of tablet since desktop will get the mobile version when zoom on 200% which is not accesible with keyboard.
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
 
