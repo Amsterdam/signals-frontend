@@ -38,7 +38,6 @@ import { parseToAPIData } from 'signals/shared/filter/parse'
 
 import List from './components/List'
 import QuickFilter from './components/QuickFilter'
-import Sort from './components/Sort'
 import SubNav from './components/SubNav'
 import {
   TitleRow,
@@ -223,15 +222,7 @@ export const IncidentOverviewPageContainerComponent = ({
         </Column>
 
         <NavWrapper>
-          {!showsMap && (
-            <>
-              {pagination}
-              <Sort
-                activeOrdering={ordering}
-                onChangeOrdering={orderingChangedAction}
-              />
-            </>
-          )}
+          {!showsMap && <>{pagination}</>}
           <SubNav showsMap={showsMap} />
         </NavWrapper>
       </Row>
@@ -256,6 +247,8 @@ export const IncidentOverviewPageContainerComponent = ({
 
             {canRenderList && (
               <List
+                ordering={ordering}
+                orderingChangedAction={orderingChangedAction}
                 incidents={incidents.results}
                 incidentsCount={count}
                 isLoading={loadingIncidents}
