@@ -91,7 +91,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
               onClear={removeItem}
               onSelect={onAddressSelect}
               value={addressValue}
-              placeholder="Zoek naar adres"
+              placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
             />
           </>
         )}

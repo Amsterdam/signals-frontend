@@ -9,7 +9,7 @@ Object {
       "description": "Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik \\"Mijn locatie\\"",
       "subTitle": "Waar is het?",
       "submit": "Bevestigen",
-      "title": "Locatie",
+      "title": "Selecteer de locatie",
     },
     "shortLabel": "Waar is het?",
   },

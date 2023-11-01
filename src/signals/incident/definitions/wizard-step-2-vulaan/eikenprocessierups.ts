@@ -24,7 +24,7 @@ export const controls = {
     meta: {
       label: 'Waar is het?',
       language: {
-        title: 'Locatie',
+        title: 'Selecteer de boom',
         subTitle: 'Kies een boom op de kaart',
         unregistered: 'De boom staat niet op de kaart',
         unregisteredId: undefined,
