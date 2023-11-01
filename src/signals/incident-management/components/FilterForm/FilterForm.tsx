@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
 import {
   Fragment,
   useCallback,
@@ -15,7 +15,6 @@ import {
 import { Label as AscLabel } from '@amsterdam/asc-ui'
 import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import AutoSuggest from 'components/AutoSuggest'
@@ -29,7 +28,6 @@ import {
 } from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
 import { dateToISOString } from 'shared/services/date-utils'
-import { filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
 import { parseOutputFormData } from 'signals/shared/filter/parse'
 
@@ -52,6 +50,7 @@ import {
   RadioGroup,
 } from './components'
 import reducer, { init } from './reducer'
+import type { KeyValue } from './reducer'
 import {
   ControlsWrapper,
   DatesWrapper,
@@ -60,22 +59,36 @@ import {
   Form,
   FormFooterWrapper,
 } from './styled'
+import type { FilterFormData } from './types'
 import { hasTooManyFiltersSelected } from './utils'
 import CheckboxList from '../../../../components/CheckboxList'
 import AppContext from '../../../../containers/App/context'
 import RefreshIcon from '../../../../images/icon-refresh.svg'
 import { useIncidentManagementContext } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
+import type { SaveFilterAction, UpdateFilterAction } from '../../types'
 import CalendarInput from '../CalendarInput'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
-const getUserOptions = (data) =>
-  data.results?.map((user) => ({
+
+const getUserOptions = (data: any) =>
+  data.results?.map((user: any) => ({
     id: user.username,
     value: user.username,
   }))
 
-const getUserCount = (data) => data?.count
+const getUserCount = (data: any) => data?.count
+
+interface Props {
+  filter: any
+  onCancel?: () => void
+  onClearFilter: () => {
+    type: string
+  }
+  onSaveFilter: (payload: any) => SaveFilterAction
+  onSubmit: (event: Event, formData: FilterFormData) => void
+  onUpdateFilter?: (payload: any) => UpdateFilterAction
+}
 
 /**
  * Component that renders the incident filter form
@@ -87,7 +100,7 @@ const FilterForm = ({
   onSaveFilter,
   onSubmit,
   onUpdateFilter,
-}) => {
+}: Props) => {
   const { sources } = useContext(AppContext)
   const { districts } = useIncidentManagementContext()
   const categories = useSelector(makeSelectStructuredCategories)
@@ -104,8 +117,10 @@ const FilterForm = ({
   const isNewFilter = !filter.name
 
   const [showNotification, setShowNotification] = useState(false)
-  const [assignedSelectValue, setAssignedSelectValue] = useState('')
-  const [routedFilterValue, setRoutedFilterValue] = useState([])
+  const [assignedSelectValue, setAssignedSelectValue] = useState<string | null>(
+    null
+  )
+  const [routedFilterValue, setRoutedFilterValue] = useState<KeyValue[]>([])
   const [controlledTextInput, setControlledTextInput] = useState({
     name: state.filter.name,
     address: state.options.address_text,
@@ -143,15 +158,17 @@ const FilterForm = ({
 
   const valuesHaveChanged =
     ((!isNewFilter && !isEqual(currentState, initialState)) || isNewFilter) &&
+    state?.filter.name &&
     state.filter.name.trim().length > 0
 
   // state update handler; if the form values have changed compared with
   // the initial state, the form's submit button label will change accordingly
   useLayoutEffect(() => {
-    dispatch(setSaveButtonLabel(valuesHaveChanged))
+    valuesHaveChanged && dispatch(setSaveButtonLabel(valuesHaveChanged))
   }, [state.filter.name, valuesHaveChanged, isNewFilter])
 
   useEffect(() => {
+    // console.log('currentState.options', currentState.options)
     const hasTooManyFilters = hasTooManyFiltersSelected(
       params,
       currentState.options
@@ -165,27 +182,32 @@ const FilterForm = ({
     state.options.category_slug
   )
 
-  const dateFrom =
-    state.options.created_after && new Date(state.options.created_after)
-  const dateBefore =
-    state.options.created_before && new Date(state.options.created_before)
+  const dateFrom = state.options.created_after
+    ? new Date(state.options.created_after)
+    : undefined
+
+  const dateBefore = state.options.created_before
+    ? new Date(state.options.created_before)
+    : undefined
 
   const onSubmitForm = useCallback(
     (event) => {
       event.preventDefault()
       const options = parseOutputFormData(state.options)
       const formData = { ...state.filter, options }
-      const hasName = formData.name.trim() !== ''
+
+      const hasName = formData.name?.trim() !== ''
 
       if (showNotification) {
         return
       }
+
       if (isNewFilter && hasName) {
-        onSaveFilter(formData)
+        dispatch(onSaveFilter(formData))
       }
 
-      if (!isNewFilter && valuesHaveChanged) {
-        onUpdateFilter(formData)
+      if (onUpdateFilter && !isNewFilter && valuesHaveChanged) {
+        dispatch(onUpdateFilter(formData))
       }
 
       onSubmit(event, formData)
@@ -225,12 +247,13 @@ const FilterForm = ({
   // category checkbox groups
   const onMainCategoryToggle = useCallback(
     (slug, isToggled) => {
-      dispatch(
-        setMainCategory({
-          category: categories[slug],
-          isToggled,
-        })
-      )
+      categories &&
+        dispatch(
+          setMainCategory({
+            category: categories[slug],
+            isToggled,
+          })
+        )
     },
     [categories, dispatch]
   )
@@ -324,7 +347,9 @@ const FilterForm = ({
   // group that is not one of the category checkbox groups
   const onGroupToggle = useCallback(
     (groupName, isToggled) => {
-      const options = isToggled ? dataListValues[groupName] : []
+      const options = isToggled
+        ? dataListValues[groupName as keyof typeof dataListValues]
+        : []
       dispatch(setGroupOptions({ [groupName]: options }))
     },
     [dispatch, dataListValues]
@@ -338,7 +363,7 @@ const FilterForm = ({
   )
 
   const onAssignedClear = useCallback(() => {
-    dispatch(setGroupOptions({ assigned_user_email: '' }))
+    dispatch(setGroupOptions({ assigned_user_email: null }))
   }, [dispatch])
 
   const onNotAssignedChange = useCallback(
@@ -347,7 +372,7 @@ const FilterForm = ({
       const newAssignedSelectValue = checked
         ? state.options.assigned_user_email
         : ''
-      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue
+      const newAssignedFilterValue = checked ? null : assignedSelectValue
       setAssignedSelectValue(newAssignedSelectValue)
       dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }))
     },
@@ -377,14 +402,9 @@ const FilterForm = ({
 
   return (
     <Fragment>
-      {showNotification && (
-        <Notification reference={notificationRef}>
-          Helaas is de combinatie van deze filters te groot. Maak een kleinere
-          selectie.
-        </Notification>
-      )}
+      {showNotification && <Notification reference={notificationRef} />}
 
-      <Form action="" novalidate>
+      <Form action="" noValidate>
         <ControlsWrapper>
           {filter.id && <input type="hidden" name="id" value={filter.id} />}
           <Fieldset isSection>
@@ -629,7 +649,7 @@ const FilterForm = ({
                   >
                     <Checkbox
                       data-testid="filter-not-assigned"
-                      checked={state.options.assigned_user_email === 'null'}
+                      checked={state.options.assigned_user_email === null}
                       id="filter_not_assigned"
                       name="notAssigned"
                       onClick={onNotAssignedChange}
@@ -639,33 +659,34 @@ const FilterForm = ({
 
                 <AutoSuggest
                   value={
-                    state.options.assigned_user_email === 'null'
+                    state.options.assigned_user_email === null
                       ? ''
                       : state.options.assigned_user_email
                   }
                   id="filter_assigned_user_email"
                   includeAuthHeaders={true}
-                  name="assigned_user_email"
                   onSelect={onAssignedSelect}
                   onClear={onAssignedClear}
                   placeholder="medewerker@example.com"
                   url={USERS_AUTO_SUGGEST_URL}
                   formatResponse={getUserOptions}
                   numOptionsDeterminer={getUserCount}
-                  disabled={state.options.assigned_user_email === 'null'}
+                  disabled={state.options.assigned_user_email === null}
                 />
               </FilterGroup>
             )}
 
-            <CheckboxGroup
-              defaultValue={state.options.source}
-              label="Bron"
-              name="source"
-              onChange={onGroupChange}
-              onToggle={onGroupToggle}
-              onSubmit={onSubmitForm}
-              options={sources}
-            />
+            {sources && (
+              <CheckboxGroup
+                defaultValue={state.options.source}
+                label="Bron"
+                name="source"
+                onChange={onGroupChange}
+                onToggle={onGroupToggle}
+                onSubmit={onSubmitForm}
+                options={sources}
+              />
+            )}
 
             {configuration.featureFlags.assignSignalToDepartment && (
               <FilterGroup data-testid="filter-routing-department">
@@ -733,31 +754,6 @@ const FilterForm = ({
       </Form>
     </Fragment>
   )
-}
-
-FilterForm.defaultProps = {
-  filter: {
-    name: '',
-    options: {},
-  },
-}
-
-FilterForm.propTypes = {
-  filter: filterType,
-  /** Callback handler for when filter settings should not be applied */
-  onCancel: PropTypes.func,
-  /** Callback handler to reset filter */
-  onClearFilter: PropTypes.func.isRequired,
-  /** Callback handler for new filter settings */
-  onSaveFilter: PropTypes.func.isRequired,
-  /**
-   * Callback handler called whenever form is submitted
-   * @param {Event} event
-   * @param {FormData} formData
-   */
-  onSubmit: PropTypes.func.isRequired,
-  /** Callback handler for handling filter settings updates */
-  onUpdateFilter: PropTypes.func,
 }
 
 export default FilterForm
