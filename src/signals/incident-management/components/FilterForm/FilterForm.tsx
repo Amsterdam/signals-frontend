@@ -363,7 +363,7 @@ const FilterForm = ({
   )
 
   const onAssignedClear = useCallback(() => {
-    dispatch(setGroupOptions({ assigned_user_email: null }))
+    dispatch(setGroupOptions({ assigned_user_email: '' }))
   }, [dispatch])
 
   const onNotAssignedChange = useCallback(
@@ -372,7 +372,7 @@ const FilterForm = ({
       const newAssignedSelectValue = checked
         ? state.options.assigned_user_email
         : ''
-      const newAssignedFilterValue = checked ? null : assignedSelectValue
+      const newAssignedFilterValue = checked ? 'null' : assignedSelectValue
       setAssignedSelectValue(newAssignedSelectValue)
       dispatch(setGroupOptions({ assigned_user_email: newAssignedFilterValue }))
     },
@@ -649,7 +649,7 @@ const FilterForm = ({
                   >
                     <Checkbox
                       data-testid="filter-not-assigned"
-                      checked={state.options.assigned_user_email === null}
+                      checked={state.options.assigned_user_email === 'null'}
                       id="filter_not_assigned"
                       name="notAssigned"
                       onClick={onNotAssignedChange}
@@ -659,6 +659,7 @@ const FilterForm = ({
 
                 <AutoSuggest
                   value={
+                    state.options.assigned_user_email === 'null' ||
                     state.options.assigned_user_email === null
                       ? ''
                       : state.options.assigned_user_email
@@ -671,7 +672,7 @@ const FilterForm = ({
                   url={USERS_AUTO_SUGGEST_URL}
                   formatResponse={getUserOptions}
                   numOptionsDeterminer={getUserCount}
-                  disabled={state.options.assigned_user_email === null}
+                  disabled={state.options.assigned_user_email === 'null'}
                 />
               </FilterGroup>
             )}

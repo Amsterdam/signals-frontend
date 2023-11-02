@@ -44,7 +44,7 @@ type Priority = {
 type Options = {
   address_text: string
   area: []
-  assigned_user_email: null
+  assigned_user_email: string | null
   category_slug: ExtendedCategory[]
   created_after?: string
   created_before?: string

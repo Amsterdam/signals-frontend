@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2022 Gemeente Amsterdam
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import type { ReactElement } from 'react'
+
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import * as appSelectors from 'containers/App/selectors'
+import type { KeyValuePair } from 'containers/App/types'
 import * as departmentsSelectors from 'models/departments/selectors'
 import configuration from 'shared/services/configuration/configuration'
+import { filterSaved, filterUpdated } from 'signals/incident-management/actions'
 import dataLists from 'signals/incident-management/definitions'
 import kindList from 'signals/incident-management/definitions/kindList'
 import priorityList from 'signals/incident-management/definitions/priorityList'
@@ -63,34 +67,65 @@ const makeSelectUserCanSpy = jest.spyOn(appSelectors, 'makeSelectUserCan')
 const mockResponse = JSON.stringify(autocompleteUsernames)
 
 const formProps = {
-  onClearFilter: () => {},
-  onSaveFilter: () => {},
+  onClearFilter: jest.fn(),
+  onSaveFilter: jest.fn(),
   categories,
-  onSubmit: () => {},
+  onSubmit: jest.fn(),
+  filter: { id: 1234, name: 'FooBar', options: {} },
 }
 
-const withContext = (Component, actualDistricts = null, actualUsers = null) =>
-  withAppContext(
-    <AppContext.Provider value={{ sources }}>
+const defaultValue = {
+  standardTexts: {
+    page: 1,
+    setPage: () => {},
+    statusFilter: null,
+    setStatusFilter: () => {},
+    activeFilter: null,
+    setActiveFilter: () => {},
+    searchQuery: '',
+    setSearchQuery: () => {},
+  },
+}
+
+const withContext = (
+  Component: ReactElement,
+  actualDistricts?: KeyValuePair<string>[],
+  actualUsers = null
+) => {
+  return withAppContext(
+    <AppContext.Provider value={{ sources, loading: false }}>
       <IncidentManagementContext.Provider
-        value={{ districts: actualDistricts, users: actualUsers }}
+        value={{
+          ...defaultValue,
+          districts: actualDistricts,
+          users: actualUsers,
+        }}
       >
         {Component}
       </IncidentManagementContext.Provider>
     </AppContext.Provider>
   )
+}
 
 describe('signals/incident-management/components/FilterForm', () => {
   beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     fetch.mockResponse(mockResponse)
   })
 
   afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     fetch.resetMocks()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     configuration.__reset()
   })
 
   afterAll(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     fetch.mockRestore()
     dispatchSpy.mockRestore()
     makeSelectDirectingDepartmentsSpy.mockRestore()
@@ -109,7 +144,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     )
 
     expect(getByTestId('filter-name')).toBeInTheDocument()
-    expect(getByTestId('filter-name').value).toEqual('FooBar')
+    expect(getByTestId('filter-name')).toHaveValue('FooBar')
   })
 
   it('should render filter fields', () => {
@@ -131,7 +166,7 @@ describe('signals/incident-management/components/FilterForm', () => {
     const refreshCheckbox = await findByTestId('filter-refresh')
 
     expect(refreshCheckbox).toBeInTheDocument()
-    expect(refreshCheckbox.checked).toBe(false)
+    expect(refreshCheckbox).not.toBeChecked()
 
     unmount()
 
@@ -143,11 +178,11 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     const refreshCb = await findByTestId('filter-refresh')
 
-    expect(refreshCb.checked).toBe(true)
+    expect(refreshCb).toBeChecked()
   })
 
   it('should handle checking the refresh box', () => {
-    const { container } = render(
+    render(
       withContext(
         <FilterForm
           {...formProps}
@@ -156,25 +191,29 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    act(() => {
-      fireEvent.click(
-        container.querySelector('input[type="checkbox"][name="refresh"]')
-      )
-    })
+    userEvent.click(
+      screen.getByRole('checkbox', {
+        name: 'Automatisch verversen Automatisch verversen',
+      })
+    )
 
     expect(
-      container.querySelector('input[type="checkbox"][name="refresh"]').checked
-    ).toBeTruthy()
+      screen.getByRole('checkbox', {
+        name: 'Automatisch verversen Automatisch verversen',
+      })
+    ).toBeChecked()
 
-    act(() => {
-      fireEvent.click(
-        container.querySelector('input[type="checkbox"][name="refresh"]')
-      )
-    })
+    userEvent.click(
+      screen.getByRole('checkbox', {
+        name: 'Automatisch verversen Automatisch verversen',
+      })
+    )
 
     expect(
-      container.querySelector('input[type="checkbox"][name="refresh"]').checked
-    ).toBeFalsy()
+      screen.getByRole('checkbox', {
+        name: 'Automatisch verversen Automatisch verversen',
+      })
+    ).not.toBeChecked()
   })
 
   it('should render a hidden id field', () => {
@@ -192,8 +231,8 @@ describe('signals/incident-management/components/FilterForm', () => {
     ).toHaveLength(1)
 
     expect(
-      container.querySelector('input[type="hidden"][name="id"]').value
-    ).toEqual('1234')
+      container.querySelector('input[type="hidden"][name="id"]')
+    ).toHaveValue('1234')
   })
 
   it('should render groups of category checkboxes', () => {
@@ -211,17 +250,17 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} />)
     )
 
-    const firstRenderId = queryByTestId('priority-checkbox-group').dataset
+    const firstRenderId = queryByTestId('priority-checkbox-group')?.dataset
       .renderId
 
     rerender(withContext(<FilterForm {...formProps} />))
 
-    const secondRenderId = queryByTestId('priority-checkbox-group').dataset
+    const secondRenderId = queryByTestId('priority-checkbox-group')?.dataset
       .renderId
 
     rerender(withContext(<FilterForm {...formProps} />))
 
-    const thirdRenderId = queryByTestId('priority-checkbox-group').dataset
+    const thirdRenderId = queryByTestId('priority-checkbox-group')?.dataset
       .renderId
 
     expect(firstRenderId).toEqual(secondRenderId)
@@ -351,7 +390,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of source options with feature flag enabled', async () => {
     const { container, findByTestId } = render(
-      withContext(<FilterForm {...formProps} />, null)
+      withContext(<FilterForm {...formProps} />)
     )
     await findByTestId('source-checkbox-group')
 
@@ -527,10 +566,14 @@ describe('signals/incident-management/components/FilterForm', () => {
     const submitLabel = 'Filter'
     const username = autocompleteUsernames.results[0].username
 
-    const selectUser = (input) => {
+    const selectUser = async (input: any) => {
+      // console.log('---  input:', input)
       return act(async () => {
         userEvent.type(input, 'asc')
+        // console.log('username', username)
+        // screen.debug()
         const userNameListElement = await screen.findByText(username)
+        // console.log('---  userNameListElement:', userNameListElement)
         userEvent.click(userNameListElement)
       })
     }
@@ -542,6 +585,8 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     it('should fail silently when users request returns without results', async () => {
       jest.useFakeTimers()
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       fetch.mockResponse(JSON.stringify({}))
       configuration.featureFlags.assignSignalToEmployee = true
       const onSubmit = jest.fn()
@@ -736,17 +781,16 @@ describe('signals/incident-management/components/FilterForm', () => {
     render(withContext(<FilterForm {...formProps} />))
 
     const value = '18-12-2018'
-    const inputElement = document.getElementById('filter_created_before')
 
-    expect(document.querySelector('input[name=created_before]').value).toEqual(
-      ''
-    )
+    const inputElement = screen.getByRole('textbox', { name: 'Tot en met' })
+
+    expect(document.querySelector('input[name=created_before]')).toHaveValue('')
 
     act(() => {
       fireEvent.change(inputElement, { target: { value } })
     })
 
-    expect(document.querySelector('input[name=created_before]').value).toEqual(
+    expect(document.querySelector('input[name=created_before]')).toHaveValue(
       value
     )
   })
@@ -755,17 +799,15 @@ describe('signals/incident-management/components/FilterForm', () => {
     render(withContext(<FilterForm {...formProps} />))
 
     const value = '23-12-2018'
-    const inputElement = document.getElementById('filter_created_after')
+    const inputElement = screen.getByRole('textbox', { name: 'Vanaf' })
 
-    expect(document.querySelector('input[name=created_after]').value).toEqual(
-      ''
-    )
+    expect(document.querySelector('input[name=created_after]')).toHaveValue('')
 
     act(() => {
       fireEvent.change(inputElement, { target: { value } })
     })
 
-    expect(document.querySelector('input[name=created_after]').value).toEqual(
+    expect(document.querySelector('input[name=created_after]')).toHaveValue(
       value
     )
   })
@@ -797,18 +839,18 @@ describe('signals/incident-management/components/FilterForm', () => {
       const addressField = screen.getByRole('textbox', { name: 'Adres' })
       const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' })
 
-      expect(addressField.value).toEqual('Initial address')
-      expect(nameField.value).toEqual('Initial name')
-      expect(noteField.value).toEqual('Initial note')
+      expect(addressField).toHaveValue('Initial address')
+      expect(nameField).toHaveValue('Initial name')
+      expect(noteField).toHaveValue('Initial note')
 
       await act(async () => {
         fireEvent.click(screen.getByRole('button', { name: 'Nieuw filter' }))
       })
 
       expect(onClearFilter).toHaveBeenCalled()
-      expect(addressField.value).toEqual('')
-      expect(nameField.value).toEqual('')
-      expect(noteField.value).toEqual('')
+      expect(addressField).toHaveValue('')
+      expect(nameField).toHaveValue('')
+      expect(noteField).toHaveValue('')
     })
 
     it('should clear previous user input', async () => {
@@ -824,6 +866,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       const afvalToggle = container.querySelector(
         'input[type="checkbox"][value="afval"]'
       )
+      // const afvalToggle = screen.getByRole('checkbox', { name: '' })
 
       act(() => {
         fireEvent.change(nameField, { target: { value: 'My filter' } })
@@ -840,33 +883,37 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.change(noteField, { target: { value: 'test123' } })
       })
       act(() => {
-        fireEvent.click(afvalToggle, new MouseEvent({ bubbles: true }))
+        afvalToggle && fireEvent.click(afvalToggle)
       })
 
       await screen.findByTestId('filter-name')
 
-      expect(nameField.value).toEqual('My filter')
-      expect(dateField.value).toEqual('01-01-1970')
-      expect(addressField.value).not.toBeFalsy()
-      expect(afvalToggle.checked).toEqual(true)
-      expect(noteField.value).toEqual('test123')
+      expect(nameField).toHaveValue('My filter')
+      expect(dateField).toHaveValue('01-01-1970')
+      expect(addressField).toHaveValue()
+      expect(afvalToggle).toBeChecked()
+      expect(noteField).toHaveValue('test123')
       expect(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         screen.getAllByRole('checkbox').filter(({ checked }) => checked).length
       ).toBeGreaterThan(1)
 
       await act(async () => {
-        fireEvent.click(container.querySelector('button[type="reset"]'))
+        fireEvent.click(screen.getByRole('button', { name: 'Nieuw filter' }))
       })
 
       expect(onClearFilter).toHaveBeenCalled()
 
       // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
       // expect(dateField.value).toEqual('');
-      expect(addressField.value).toEqual('')
-      expect(nameField.value).toEqual('')
-      expect(noteField.value).toEqual('')
-      expect(afvalToggle.checked).toEqual(false)
+      expect(addressField).toHaveValue('')
+      expect(nameField).toHaveValue('')
+      expect(noteField).toHaveValue('')
+      expect(afvalToggle).not.toBeChecked()
       expect(
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         screen.getAllByRole('checkbox').filter(({ checked }) => checked).length
       ).toEqual(0)
     })
@@ -878,16 +925,13 @@ describe('signals/incident-management/components/FilterForm', () => {
       withContext(<FilterForm {...formProps} onCancel={onCancel} />)
     )
 
-    fireEvent.click(
-      getByTestId('cancel-btn'),
-      new MouseEvent({ bubbles: true })
-    )
+    fireEvent.click(getByTestId('cancel-btn'))
 
     expect(onCancel).toHaveBeenCalled()
   })
 
   it('should watch for changes in name field value', () => {
-    const { container } = render(
+    render(
       withContext(
         <FilterForm
           {...formProps}
@@ -896,8 +940,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    const submitButton = container.querySelector('button[type="submit"]')
-    const nameField = container.querySelector('input[type="text"][name="name"]')
+    const submitButton = screen.getByRole('button', { name: 'Filter' })
+    const nameField = screen.getByTestId('filter-name')
 
     expect(submitButton.textContent).toEqual(DEFAULT_SUBMIT_BUTTON_LABEL)
 
@@ -915,7 +959,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 
   it('should watch for changes in address_text field value', async () => {
-    const { container, findByTestId } = render(
+    const { findByTestId } = render(
       withContext(
         <FilterForm
           {...formProps}
@@ -927,9 +971,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    const addressField = container.querySelector(
-      'input[type="text"][name="address_text"]'
-    )
+    const addressField = screen.getByRole('textbox', { name: 'Adres' })
 
     await act(async () => {
       fireEvent.change(addressField, {
@@ -943,13 +985,13 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     await findByTestId('filter-address')
 
-    expect(
-      container.querySelector('input[type="text"][name="address_text"]').value
-    ).toEqual('Weesperstraat 113/117')
+    expect(screen.getByRole('textbox', { name: 'Adres' })).toHaveValue(
+      'Weesperstraat 113/117'
+    )
   })
 
   it('should watch for changes in note_keyword field value', () => {
-    const { container } = render(
+    render(
       withContext(
         <FilterForm
           {...formProps}
@@ -961,17 +1003,15 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
     )
 
-    const noteField = container.querySelector(
-      'input[type="text"][name="note_keyword"]'
-    )
+    const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' })
 
     act(() => {
       fireEvent.blur(noteField, { target: { value: 'test123' } })
     })
 
     expect(
-      container.querySelector('input[type="text"][name="note_keyword"]').value
-    ).toEqual('test123')
+      screen.getByRole('textbox', { name: 'Zoek in notitie' })
+    ).toHaveValue('test123')
   })
 
   it('should watch for changes in radio button lists', async () => {
@@ -990,7 +1030,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     await findByTestId('feedback-radio-group')
 
-    expect(buttonInList.checked).toEqual(true)
+    expect(buttonInList).toBeChecked()
   })
 
   it('should watch for changes in checkbox lists', async () => {
@@ -1009,7 +1049,7 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     await findByTestId('source-checkbox-group')
 
-    expect(boxInList.checked).toEqual(true)
+    expect(boxInList).toBeChecked()
   })
 
   describe('checkbox list toggle', () => {
@@ -1019,16 +1059,16 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
 
       const sourceCheckboxGroup = await findByTestId('source-checkbox-group')
-      const toggle = sourceCheckboxGroup.querySelector('label').firstChild
+      const toggle = sourceCheckboxGroup.querySelector('label')?.firstChild
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(false)
+          expect(element).not.toBeChecked()
         })
 
       act(() => {
-        fireEvent.click(toggle)
+        toggle && fireEvent.click(toggle)
       })
 
       await findByTestId('source-checkbox-group')
@@ -1036,11 +1076,11 @@ describe('signals/incident-management/components/FilterForm', () => {
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(true)
+          expect(element).toBeChecked()
         })
 
       act(() => {
-        fireEvent.click(toggle)
+        toggle && fireEvent.click(toggle)
       })
 
       await findByTestId('source-checkbox-group')
@@ -1048,25 +1088,25 @@ describe('signals/incident-management/components/FilterForm', () => {
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(false)
+          expect(element).not.toBeChecked()
         })
     })
 
     it('should watch for changes ', async () => {
       const { container, findByTestId } = render(
-        withContext(<FilterForm {...formProps} />, null)
+        withContext(<FilterForm {...formProps} />)
       )
       const sourceCheckboxGroup = await findByTestId('source-checkbox-group')
-      const toggle = sourceCheckboxGroup.querySelector('label').firstChild
+      const toggle = sourceCheckboxGroup.querySelector('label')?.firstChild
 
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(false)
+          expect(element).not.toBeChecked()
         })
 
       act(() => {
-        fireEvent.click(toggle)
+        toggle && fireEvent.click(toggle)
       })
 
       await findByTestId('source-checkbox-group')
@@ -1074,11 +1114,11 @@ describe('signals/incident-management/components/FilterForm', () => {
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(true)
+          expect(element).toBeChecked()
         })
 
       act(() => {
-        fireEvent.click(toggle)
+        toggle && fireEvent.click(toggle)
       })
 
       await findByTestId('source-checkbox-group')
@@ -1086,7 +1126,7 @@ describe('signals/incident-management/components/FilterForm', () => {
       container
         .querySelectorAll('input[type="checkbox"][name="source"]')
         .forEach((element) => {
-          expect(element.checked).toEqual(false)
+          expect(element).not.toBeChecked()
         })
     })
   })
@@ -1101,6 +1141,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       `input[name="${mainCategorySlug}_category_slug"]`
     )
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     expect([...checkboxes].every((element) => !element.checked)).toEqual(true)
 
     await act(async () => {
@@ -1109,33 +1151,43 @@ describe('signals/incident-management/components/FilterForm', () => {
 
     await findByTestId('source-checkbox-group')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     expect([...checkboxes].every((element) => !element.checked)).toEqual(false)
-    expect(checkboxes[1].checked).toEqual(true)
+    expect(checkboxes[1]).toBeChecked()
   })
 
   describe('submit', () => {
-    let emit
+    let emit: any
 
     beforeAll(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       ;({ emit } = window._virtualConsole)
     })
 
     beforeEach(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       window._virtualConsole.emit = jest.fn()
     })
 
     afterAll(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       window._virtualConsole.emit = emit
     })
 
     it('should handle submit for new filter', () => {
       const handlers = {
         onSubmit: jest.fn(),
-        onSaveFilter: jest.fn(),
+        onSaveFilter: jest.fn(() => filterSaved),
       }
 
       const { container } = render(
         withContext(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           <FilterForm
             {...{ ...formProps, ...handlers }}
             filter={{
@@ -1153,32 +1205,36 @@ describe('signals/incident-management/components/FilterForm', () => {
         'input[type="text"][name="name"]'
       )
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
-      })
+      const submitButton = screen.getByRole('button', { name: 'Filter' })
+
+      userEvent.click(submitButton)
 
       expect(handlers.onSubmit).toHaveBeenCalled()
       expect(handlers.onSaveFilter).not.toHaveBeenCalled() // name field is empty
 
       act(() => {
-        fireEvent.blur(nameField, { target: { value: 'New name' } })
+        nameField &&
+          fireEvent.blur(nameField, { target: { value: 'New name' } })
       })
 
-      act(() => {
-        fireEvent.click(container.querySelector('button[type="submit"]'))
+      const submitButtonSave = screen.getByRole('button', {
+        name: 'Opslaan en filter',
       })
+      userEvent.click(submitButtonSave)
 
       expect(handlers.onSaveFilter).toHaveBeenCalledTimes(1)
     })
 
     it('should handle submit for existing filter', () => {
       const handlers = {
-        onUpdateFilter: jest.fn(),
+        onUpdateFilter: jest.fn(() => filterUpdated),
         onSubmit: jest.fn(),
       }
 
       render(
         withContext(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           <FilterForm
             {...{ ...formProps, ...handlers }}
             filter={{
@@ -1231,6 +1287,8 @@ describe('Notification', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     // Set threshold low so it fails with a single filter.
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     constants.MAX_FILTER_LENGTH = 104
   })
 
