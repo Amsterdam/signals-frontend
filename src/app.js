@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
+
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
 import * as Sentry from '@sentry/browser'
 import ReactDOM from 'react-dom'
@@ -25,6 +26,8 @@ const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
 const connectionString = configuration?.azure?.connectionString
 const release = process.env.FRONTEND_TAG
+
+__webpack_nonce__ = window.__webpack_nonce__
 
 if (dsn) {
   Sentry.init({

@@ -21,7 +21,7 @@ const extendedConfig = fs.existsSync(extendedConfigFile)
 const config = merge({}, baseConfig, extendedConfig)
 
 const piwik = config?.piwik?.id
-  ? `<script type="text/javascript">
+  ? `<script type="text/javascript" nonce="random-csp-nonce">
 (function(window, document, dataLayerName, id) {
   window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
 function stgCreateCookie(a,b,c){var d="";if(c){var e=new Date;e.setTime(e.getTime()+24*c*60*60*1e3),d="; expires="+e.toUTCString()}document.cookie=a+"="+b+d+"; path=/"}
@@ -34,7 +34,7 @@ tags.async=!0,tags.src="https://dap.amsterdam.nl/containers/"+id+".js"+qPString,
   : ''
 
 const additionalCodeCss = config?.additionalCode?.css
-  ? `<style>${config.additionalCode.css}</style>`
+  ? `<style nonce="random-csp-nonce">${config.additionalCode.css}</style>`
   : ''
 
 const placeholders = {

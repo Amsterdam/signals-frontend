@@ -13,8 +13,11 @@
   <!-- webpackIgnore: true -->
   <link rel="manifest" href="/manifest.json" />
   <title>$SIGNALS_SITE_TITLE</title>
-  <script>
-    window.CONFIG = $SIGNALS_CONFIG
+  <script nonce="random-csp-nonce">
+    window.__webpack_nonce__ = "random-csp-nonce";
+  </script>
+  <script nonce="random-csp-nonce">
+    window.CONFIG = $SIGNALS_CONFIG;
   </script>
 </head>
 
@@ -34,9 +37,9 @@
       </p>
     </noscript>
   </div>
-  <script>
+  <script nonce="random-csp-nonce">
     var spinner = document.getElementById('spinner')
-    spinner.style.fill =  window.CONFIG.head.themeColor;
+    spinner.style.fill = window.CONFIG.head.themeColor;
   </script>
   $SIGNALS_ADDITIONAL_CODE_CSS
 </body>
