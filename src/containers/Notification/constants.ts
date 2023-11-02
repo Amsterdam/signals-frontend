@@ -7,5 +7,5 @@ export const VARIANT_SUCCESS = 'success'
 export const TYPE_GLOBAL = 'global'
 export const TYPE_LOCAL = 'local'
 
-export const SLIDEUP_TIMEOUT = 8000
+export const SLIDEUP_TIMEOUT = 3000
 export const ONCLOSE_TIMEOUT = 200
