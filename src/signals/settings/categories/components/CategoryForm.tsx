@@ -3,7 +3,7 @@
 import type { FormEventHandler } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
-import { Controller, FormProvider, useWatch } from 'react-hook-form'
+import { Controller, FormProvider } from 'react-hook-form'
 import type { UseFormReturn } from 'react-hook-form'
 
 import Checkbox from 'components/Checkbox'
@@ -62,10 +62,6 @@ export const CategoryForm = ({
   isMainCategory,
   isPublicAccessibleLabel,
 }: Props) => {
-  const watchIsPublicAccessible = useWatch({
-    name: 'is_public_accessible',
-    control: formMethods.control,
-  })
   return (
     <FormProvider {...formMethods}>
       <FormContainer>
@@ -187,7 +183,7 @@ export const CategoryForm = ({
                   icon={formMethods.getValues('icon')}
                 />
 
-                {watchIsPublicAccessible && (
+                {formMethods.watch('is_public_accessible') && (
                   <FieldGroup>
                     <Input
                       {...formMethods.register('public_name')}
