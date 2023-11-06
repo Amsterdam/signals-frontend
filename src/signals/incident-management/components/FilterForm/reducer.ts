@@ -41,7 +41,7 @@ type Priority = {
   icon: string
 } & KeyValue
 
-type Options = {
+export type Options = {
   address_text: string
   area: []
   assigned_user_email: string | null
@@ -64,7 +64,7 @@ type Options = {
   kind?: KeyValue[]
 }
 
-type FilterState = {
+export type FilterState = {
   submitBtnLabel:
     | typeof DEFAULT_SUBMIT_BUTTON_LABEL
     | typeof SAVE_SUBMIT_BUTTON_LABEL

@@ -471,10 +471,12 @@ const FilterForm = ({
               defaultValue={state.options.status}
               label="Status"
               name="status"
+              state={state}
               onChange={onGroupChange}
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.status}
+              hasAccordion
             />
 
             {configuration.featureFlags.fetchDistrictsFromBackend &&
@@ -487,6 +489,7 @@ const FilterForm = ({
                   onToggle={onGroupToggle}
                   onSubmit={onSubmitForm}
                   options={districts}
+                  state={state}
                 />
               )}
 
@@ -499,6 +502,8 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={dataLists.stadsdeel}
+                state={state}
+                hasAccordion
               />
             )}
 
@@ -511,6 +516,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.priority}
+              state={state}
+              hasAccordion
             />
 
             <CheckboxGroup
@@ -522,6 +529,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.type}
+              state={state}
+              hasAccordion
             />
 
             <CheckboxGroup
@@ -533,6 +542,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.contact_details}
+              state={state}
+              hasAccordion
             />
 
             <RadioGroup
@@ -552,6 +563,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.kind}
+              state={state}
+              hasAccordion
             />
 
             <Fieldset isSection>
@@ -564,6 +577,7 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={directingDepartments}
+                state={state}
               />
 
               <CheckboxGroup
@@ -575,6 +589,7 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={dataLists.has_changed_children}
+                state={state}
               />
             </Fieldset>
 
@@ -685,6 +700,8 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={sources}
+                state={state}
+                hasAccordion
               />
             )}
 
