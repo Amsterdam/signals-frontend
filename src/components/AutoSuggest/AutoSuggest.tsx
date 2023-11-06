@@ -26,10 +26,10 @@ export interface AutoSuggestProps {
   autoFocus?: boolean
   className?: string
   disabled?: boolean
-  formatResponse: (data?: RevGeo) => Array<PdokResponse>
+  formatResponse: (data?: any) => Array<any>
   id?: string
   includeAuthHeaders?: boolean
-  numOptionsDeterminer: (data?: RevGeo) => number
+  numOptionsDeterminer: (data: any) => number
   onClear?: () => void
   onData?: (optionsList: any) => void
   onFocus?: () => void
@@ -310,7 +310,7 @@ const AutoSuggest = ({
    * Subscribe to changes in fetched data
    */
   useEffect(() => {
-    const hasResults = numOptionsDeterminer(data) > 0
+    const hasResults = data ? numOptionsDeterminer(data) > 0 : false
 
     setShowList(hasResults)
   }, [data, numOptionsDeterminer])

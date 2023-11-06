@@ -34,7 +34,7 @@ export type SetSaveButtonLabelAction = {
 
 type SetCategoriesActionPayload = {
   slug: string
-  subCategories: Array<SubCategory>
+  subCategories: Array<ExtendedCategory>
 }
 export type SetCategoriesAction = {
   type: typeof SET_CATEGORIES

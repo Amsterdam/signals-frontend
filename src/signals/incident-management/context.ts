@@ -2,11 +2,14 @@
 // Copyright (C) 2020 - 2023 Vereniging van Nederlandse Gemeenten, Gemeente Amsterdam
 import { createContext, useContext } from 'react'
 
+import type { User } from 'containers/App/types'
+
 import type { StandardTextsAdminValue } from './containers/StandardTextsAdmin/types'
 import type { Definition } from './definitions/types'
 
 const initialContext = {
   districts: undefined,
+  users: null,
   standardTexts: {
     page: 1,
     setPage: () => {},
@@ -22,6 +25,7 @@ const initialContext = {
 interface IncidentManagementContext {
   districts?: Definition[]
   standardTexts: StandardTextsAdminValue
+  users?: User | null
 }
 
 export const IncidentManagementContext =

@@ -75,13 +75,15 @@ type Option = {
   value: string
   topic?: string | null
   open_answer?: boolean
-}
+} & Record<string, any>
 
 export type CheckboxListProps<T = Option> = {
   boxWrapperKeyPrefix?: string
   className?: string
   /** List of keys for elements that need to be checked by default */
   defaultValue?: Array<T>
+  /** Id as reference for the label */
+  id?: string
   /**
    * Unique group identifier. Is used to match against the values of the `prop` attribute in the `options` prop.
    * If a match is found, the entire group is checked. Do note that, despite the name, this prop is not used as
@@ -130,19 +132,20 @@ const CheckboxList = <T extends Option>({
   boxWrapperKeyPrefix,
   className,
   defaultValue,
+  formValidation,
   groupId,
   groupName,
   groupValue,
   hasToggle,
+  id,
   name,
   onChange,
-  onToggle,
   onSubmit,
+  onToggle,
   options,
   title,
   toggleAllLabel,
   toggleNothingLabel,
-  formValidation,
 }: CheckboxListProps<T>) => {
   /**
    * Tracking of boxes that have been checked
@@ -328,7 +331,7 @@ const CheckboxList = <T extends Option>({
   )
 
   return (
-    <FilterGroup className={className} data-testid="checkbox-list">
+    <FilterGroup className={className} data-testid="checkbox-list" id={id}>
       {title}
 
       {hasToggle && (

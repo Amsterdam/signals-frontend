@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2022 Gemeente Amsterdam
+/* istanbul ignore file */
 import {
   Fragment,
   useCallback,

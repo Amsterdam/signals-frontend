@@ -1,7 +1,7 @@
 {
   "openbaar-groen-en-water": {
     "_display": "Openbaar groen en water",
-    "fk": 82,
+    "fk":"82",
     "sla": {
       "n_days": null,
       "use_calendar_days": null
@@ -34,7 +34,7 @@
     "sub": [
       {
         "_display": "Boom - boomstob (Openbaar groen en water)",
-        "fk": 131,
+        "fk": "131",
         "sla": {
           "n_days": 5,
           "use_calendar_days": false
@@ -74,7 +74,7 @@
   "afval": {
     "_display": "Afval",
     "public_name": null,
-    "fk": 79,
+    "fk":"79",
     "sla": {
       "n_days": null,
       "use_calendar_days": null
@@ -105,7 +105,7 @@
     "sub": [
       {
         "_display": "Container glas kapot (Afval)",
-        "fk": 132,
+        "fk": "132",
         "sla": {
           "n_days": 3,
           "use_calendar_days": false
@@ -140,7 +140,7 @@
       },
       {
         "_display": "Container glas vol (Afval)",
-        "fk": 133,
+        "fk": "133",
         "sla": {
           "n_days": 3,
           "use_calendar_days": false
@@ -177,7 +177,7 @@
   "wegen-verkeer-straatmeubilair": {
     "_display": "Wegen, verkeer, straatmeubilair",
     "public_name": "Wegen, verkeer, straatmeubilair - publiek",
-    "fk": 80,
+    "fk":"80",
     "sla": {
       "n_days": null,
       "use_calendar_days": null
@@ -211,7 +211,7 @@
     "sub": [
       {
         "_display": "Autom. Verzinkbare palen (Wegen, verkeer, straatmeubilair)",
-        "fk": 92,
+        "fk":"92",
         "sla": {
           "n_days": 21,
           "use_calendar_days": true

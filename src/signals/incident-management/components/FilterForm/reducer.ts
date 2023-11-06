@@ -3,7 +3,7 @@
 import type { ExtendedCategory } from 'models/categories/selectors'
 import type { Feedback } from 'signals/incident-management/definitions/feedbackList'
 import type { Punctuality } from 'signals/incident-management/definitions/punctualityList'
-import type SubCategory from 'types/api/sub-category'
+import type { PageActions } from 'signals/incident-management/types'
 
 import type { Actions } from './actions'
 import {
@@ -24,30 +24,44 @@ import {
 type Filter = {
   name?: string
   refresh: boolean
-  id?: string
+  id?: number
 }
 
-type CategoryOption = {
+export type KeyValue = {
   key: string
   value: string
 }
 
+type Type = {
+  info: string
+} & KeyValue
+
+type Priority = {
+  info: string
+  icon: string
+} & KeyValue
+
 type Options = {
   address_text: string
   area: []
-  assigned_user_email: ''
-  category_slug: Array<SubCategory>
-  directing_department: Array<string>
+  assigned_user_email: string | null
+  category_slug: ExtendedCategory[]
+  created_after?: string
+  created_before?: string
+  directing_department: KeyValue[]
   feedback?: Feedback['key']
   has_changed_children: []
-  maincategory_slug: Array<ExtendedCategory>
+  maincategory_slug: ExtendedCategory[]
   note_keyword: string
-  priority: Array<string>
+  priority: Priority[]
   punctuality?: Punctuality['key']
-  routing_department: Array<string>
-  source: Array<CategoryOption>
-  stadsdeel: Array<CategoryOption>
-  status: Array<CategoryOption>
+  routing_department: KeyValue[]
+  source: KeyValue[]
+  stadsdeel: KeyValue[]
+  status: KeyValue[]
+  type?: Type[]
+  contact_details?: KeyValue[]
+  kind?: KeyValue[]
 }
 
 type FilterState = {
@@ -68,7 +82,7 @@ export const initialState: FilterState = {
   options: {
     address_text: '',
     area: [],
-    assigned_user_email: '',
+    assigned_user_email: null,
     category_slug: [],
     directing_department: [],
     feedback: undefined,
@@ -84,7 +98,7 @@ export const initialState: FilterState = {
   },
 }
 
-type InitParams = {
+export type InitParams = {
   options: Options
   filter: Array<Record<keyof Filter, Filter[keyof Filter]>>
 }
@@ -106,7 +120,10 @@ export const init = ({ options, ...filter }: InitParams): FilterState => ({
   },
 })
 
-export default (state: FilterState, action: Actions): FilterState => {
+export default (
+  state: FilterState,
+  action: Actions | PageActions
+): FilterState => {
   switch (action.type) {
     case RESET:
       return initialState
@@ -202,5 +219,7 @@ export default (state: FilterState, action: Actions): FilterState => {
           ),
         },
       }
+    default:
+      return state
   }
 }

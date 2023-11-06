@@ -61,7 +61,7 @@ export interface Source {
 export interface KeyValuePair<Value> {
   key: string
   value: Value
-  can_be_selected: boolean
+  can_be_selected?: boolean
 }
 
 export interface Upload {

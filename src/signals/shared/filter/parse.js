@@ -44,7 +44,7 @@ export const parseDate = (dateString, timeString) => {
  * so that the API can read them.
  *
  * @param   {Object} options - Filter options data
- * @returns {Object}
+ * @returns {Record<string, any>}
  */
 export const parseOutputFormData = (options) =>
   Object.entries(options).reduce((acc, [key, value]) => {
