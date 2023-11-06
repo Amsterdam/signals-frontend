@@ -14,7 +14,7 @@ export const StyledAssetList = styled(AssetList)`
 `
 
 export const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(6)};
+  margin-top: ${themeSpacing(5)};
   font-family: inherit;
 `
 
@@ -47,6 +47,7 @@ export const PanelContent = styled.div<{
     box-shadow: 2px 0 2px rgba(0, 0, 0, 0.1);
     flex: 0 0 ${DETAIL_PANEL_WIDTH}px;
     height: 100vh;
+    padding: ${themeSpacing(5)};
   }
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
@@ -97,7 +98,15 @@ export const Description = styled.span`
   font-weight: 400;
 `
 
+export const StyledParagraphPDOkAutoSuggest = styled.p`
+  font-size: 1.125rem;
+  display: block;
+  font-weight: 700;
+  margin: ${themeSpacing(5, 0, 0, 0)};
+`
+
 export const StyledLabelPDOkAutoSuggest = styled.label`
   display: block;
   font-weight: 700;
+  margin-top: ${themeSpacing(5)};
 `

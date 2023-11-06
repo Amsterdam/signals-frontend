@@ -22,7 +22,7 @@ export const controls = {
   extra_container: {
     meta: {
       language: {
-        title: 'Locatie',
+        title: 'Selecteer de container',
         subTitle: 'Kies een container op de kaart',
         unregistered: 'De container staat niet op de kaart',
         unregisteredId: 'Nummer van de container',

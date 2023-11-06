@@ -5,7 +5,7 @@ const locatie = {
     featureTypes: [],
     label: 'Waar is het?',
     language: {
-      title: 'Locatie',
+      title: 'Selecteer de locatie',
       subTitle: 'Waar is het?',
       description:
         'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"',

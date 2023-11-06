@@ -37,6 +37,12 @@ export const contextValue: AssetSelectValue = {
       label: 'Plastic container - PL734',
     },
   ],
+  address: {
+    openbare_ruimte: 'Nieuwezijds Voorburgwal',
+    huisnummer: '147',
+    postcode: '1012RJ',
+    woonplaats: 'Amsterdam',
+  },
   setItem: jest.fn(),
   fetchLocation: jest.fn(),
   setLocation: jest.fn(),

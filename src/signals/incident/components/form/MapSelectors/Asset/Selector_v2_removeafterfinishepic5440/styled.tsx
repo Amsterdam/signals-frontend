@@ -41,7 +41,7 @@ export const StyledLabel = styled.label`
 `
 
 export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  margin: ${themeSpacing(4, 0)};
+  margin: ${themeSpacing(2, 0, 0, 0)};
   width: 100%;
 `
 
@@ -124,8 +124,6 @@ export const ScrollWrapper = styled.div.attrs({
   -webkit-overflow-scrolling: touch;
   height: 100%;
   overflow-y: auto;
-  padding: ${themeSpacing(4, 4, 10)};
-  margin: ${themeSpacing(0, -4)};
 `
 
 export const Title = styled(Heading)`
