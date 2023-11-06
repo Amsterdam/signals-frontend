@@ -524,7 +524,7 @@ describe('<IncidentForm />', () => {
       await waitFor(() => {
         expect(
           screen.getByText(
-            'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.'
+            'U kunt dit formulier niet verder invullen. Lees onder de antwoorden waar u uw melding wel kunt doen.'
           )
         ).toBeInTheDocument()
       })

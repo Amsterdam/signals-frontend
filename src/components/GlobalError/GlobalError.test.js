@@ -80,7 +80,7 @@ describe('Form component <GlobalError />', () => {
           extra_dieren_waar_dode_dieren: {
             message: {
               globalMessage:
-                'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.',
+                'U kunt dit formulier niet verder invullen. Lees onder de antwoorden waar u uw melding wel kunt doen.',
             },
           },
         },
@@ -94,7 +94,7 @@ describe('Form component <GlobalError />', () => {
 
     expect(
       screen.getByText(
-        'U kunt dit formulier niet verder invullen. Lees in de rode tekst hieronder waar u uw melding wél kunt doen.'
+        'U kunt dit formulier niet verder invullen. Lees onder de antwoorden waar u uw melding wel kunt doen.'
       )
     ).toBeInTheDocument()
   })
