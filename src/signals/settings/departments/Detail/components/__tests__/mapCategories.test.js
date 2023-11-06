@@ -22,7 +22,7 @@ describe('signals/settings/departments/Detail/components', () => {
           },
         },
         _display: 'Boom - boomstob (Openbaar groen en water)',
-        id: 131,
+        id: '131',
         name: 'Boom - boomstob',
         slug: 'boom-boomstob',
         handling: 'I5DMC',
@@ -54,7 +54,7 @@ describe('signals/settings/departments/Detail/components', () => {
           },
         },
         _display: 'Container glas kapot (Afval)',
-        id: 132,
+        id: '132',
         name: 'Container glas kapot',
         slug: 'container-glas-kapot',
         handling: 'A3WMC',
@@ -86,7 +86,7 @@ describe('signals/settings/departments/Detail/components', () => {
           },
         },
         _display: 'Container glas vol (Afval)',
-        id: 133,
+        id: '133',
         name: 'Container glas vol',
         slug: 'container-glas-vol',
         handling: 'A3WMC',
@@ -154,16 +154,16 @@ describe('signals/settings/departments/Detail/components', () => {
     const expectedOutgoing = {
       categories: [
         {
-          category_id: 132,
+          category_id: '132',
           is_responsible: true,
         },
         {
           can_view: true,
-          category_id: 131,
+          category_id: '131',
         },
         {
           can_view: true,
-          category_id: 133,
+          category_id: '133',
           is_responsible: true,
         },
       ],
