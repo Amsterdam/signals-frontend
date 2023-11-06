@@ -25,7 +25,7 @@ const mockResponse = JSON.stringify(JSONResponse)
 const numOptionsDeterminer: AutoSuggestProps['numOptionsDeterminer'] = (data) =>
   data?.response?.docs?.length || 0
 const formatResponse: AutoSuggestProps['formatResponse'] = (requestData) =>
-  requestData?.response?.docs.map((result) => {
+  requestData?.response?.docs.map((result: any) => {
     const { id, weergavenaam } = result
     return {
       id,

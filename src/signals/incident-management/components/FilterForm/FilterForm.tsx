@@ -59,7 +59,7 @@ import {
   Form,
   FormFooterWrapper,
 } from './styled'
-import type { FilterFormData } from './types'
+import type { FilterFormData, UserOptions } from './types'
 import { hasTooManyFiltersSelected } from './utils'
 import CheckboxList from '../../../../components/CheckboxList'
 import AppContext from '../../../../containers/App/context'
@@ -71,13 +71,13 @@ import CalendarInput from '../CalendarInput'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
 
-const getUserOptions = (data: any) =>
-  data.results?.map((user: any) => ({
+const getUserOptions = (data: UserOptions) =>
+  data.results?.map((user) => ({
     id: user.username,
     value: user.username,
   }))
 
-const getUserCount = (data: any) => data?.count
+const getUserCount = (data: UserOptions) => data.count
 
 interface Props {
   filter: any
@@ -168,7 +168,6 @@ const FilterForm = ({
   }, [state.filter.name, valuesHaveChanged, isNewFilter])
 
   useEffect(() => {
-    // console.log('currentState.options', currentState.options)
     const hasTooManyFilters = hasTooManyFiltersSelected(
       params,
       currentState.options

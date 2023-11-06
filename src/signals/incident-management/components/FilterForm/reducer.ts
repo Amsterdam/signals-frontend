@@ -24,7 +24,7 @@ import {
 type Filter = {
   name?: string
   refresh: boolean
-  id?: string
+  id?: number
 }
 
 export type KeyValue = {
@@ -98,7 +98,7 @@ export const initialState: FilterState = {
   },
 }
 
-type InitParams = {
+export type InitParams = {
   options: Options
   filter: Array<Record<keyof Filter, Filter[keyof Filter]>>
 }
