@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type { ExtendedSubCategory } from 'models/categories/selectors'
 import categories from 'utils/__tests__/fixtures/categories.json'
 import structuredCategories from 'utils/__tests__/fixtures/categories_structured.json'
 
@@ -69,7 +70,8 @@ describe('signals/incident-management/components/FilterForm/actions', () => {
 
   it('should create an action to set categories', () => {
     const slug = 'foo-bar'
-    const subCategories = structuredCategories['openbaar-groen-en-water'].sub
+    const subCategories = structuredCategories['openbaar-groen-en-water']
+      .sub as unknown as ExtendedSubCategory[]
     const payload = {
       slug,
       subCategories,

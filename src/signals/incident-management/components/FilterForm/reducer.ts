@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { ExtendedCategory } from 'models/categories/selectors'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type {
+  ExtendedCategory,
+  ExtendedSubCategory,
+} from 'models/categories/selectors'
 import type { Feedback } from 'signals/incident-management/definitions/feedbackList'
 import type { Punctuality } from 'signals/incident-management/definitions/punctualityList'
 import type { PageActions } from 'signals/incident-management/types'
@@ -45,7 +48,7 @@ export type Options = {
   address_text: string
   area: []
   assigned_user_email: string | null
-  category_slug: ExtendedCategory[]
+  category_slug: ExtendedSubCategory[]
   created_after?: string
   created_before?: string
   directing_department: KeyValue[]

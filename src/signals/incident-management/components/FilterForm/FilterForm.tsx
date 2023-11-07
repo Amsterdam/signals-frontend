@@ -68,6 +68,7 @@ import { useIncidentManagementContext } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import type { SaveFilterAction, UpdateFilterAction } from '../../types'
 import CalendarInput from '../CalendarInput'
+import { Accordion } from 'components/Accordion'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
 
@@ -546,13 +547,18 @@ const FilterForm = ({
               hasAccordion
             />
 
-            <RadioGroup
-              defaultValue={state.options.feedback}
-              label="Feedback"
-              name="feedback"
-              onChange={onRadioChange}
-              options={dataLists.feedback}
-            />
+            <Accordion
+              id="feedback"
+              title="Feedback"
+              count={state.options.feedback?.length ?? ''}
+            >
+              <RadioGroup
+                defaultValue={state.options.feedback}
+                name="feedback"
+                onChange={onRadioChange}
+                options={dataLists.feedback}
+              />
+            </Accordion>
 
             <CheckboxGroup
               defaultValue={state.options.kind}
@@ -566,6 +572,34 @@ const FilterForm = ({
               state={state}
               hasAccordion
             />
+
+            {sources && (
+              <CheckboxGroup
+                defaultValue={state.options.source}
+                label="Bron"
+                name="source"
+                onChange={onGroupChange}
+                onToggle={onGroupToggle}
+                onSubmit={onSubmitForm}
+                options={sources}
+                state={state}
+                hasAccordion
+              />
+            )}
+
+            <Accordion
+              id="punctuality"
+              title="Doorlooptijd"
+              count={state.options.punctuality?.length ?? ''}
+            >
+              <RadioGroup
+                defaultValue={state.options.punctuality}
+                label="Doorlooptijd"
+                name="punctuality"
+                onChange={onRadioChange}
+                options={dataLists.punctuality}
+              />
+            </Accordion>
 
             <Fieldset isSection>
               <CheckboxGroup
@@ -592,14 +626,6 @@ const FilterForm = ({
                 state={state}
               />
             </Fieldset>
-
-            <RadioGroup
-              defaultValue={state.options.punctuality}
-              label="Doorlooptijd"
-              name="punctuality"
-              onChange={onRadioChange}
-              options={dataLists.punctuality}
-            />
 
             <FilterGroup>
               <Label htmlFor="filter_date" isGroupHeader>
@@ -691,20 +717,6 @@ const FilterForm = ({
               </FilterGroup>
             )}
 
-            {sources && (
-              <CheckboxGroup
-                defaultValue={state.options.source}
-                label="Bron"
-                name="source"
-                onChange={onGroupChange}
-                onToggle={onGroupToggle}
-                onSubmit={onSubmitForm}
-                options={sources}
-                state={state}
-                hasAccordion
-              />
-            )}
-
             {configuration.featureFlags.assignSignalToDepartment && (
               <FilterGroup data-testid="filter-routing-department">
                 <Label htmlFor="filter_routing_department" isGroupHeader>
@@ -755,6 +767,7 @@ const FilterForm = ({
                 onChange={onChangeCategories}
                 onToggle={onMainCategoryToggle}
                 onSubmit={onSubmitForm}
+                state={state}
               />
             )}
           </Fieldset>

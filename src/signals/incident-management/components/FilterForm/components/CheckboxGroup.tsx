@@ -15,11 +15,11 @@ const renderId = 0
 type CheckboxGroupProps = Partial<CheckboxListProps> & {
   label: string
   name: keyof Options
-  state?: any
+  state?: FilterState
   hasAccordion?: boolean
 }
 
-const getCount = (name: keyof Options, state: FilterState) =>
+const getCount = (name: keyof Options, state?: FilterState) =>
   state?.options[name]?.length ?? ''
 
 export const CheckboxGroup: FC<CheckboxGroupProps> = ({
