@@ -197,6 +197,36 @@ export const CategoryForm = ({
                 )}
                 {!isMainCategory && (
                   <>
+                    <Controller
+                      name="is_active"
+                      control={formMethods.control}
+                      render={({ field: { name, value, onChange } }) => {
+                        /* istanbul ignore next */
+                        const handleOnChange = (
+                          _groupName: string,
+                          option: StatusOption
+                        ) => {
+                          const value = statusOptions.find(
+                            (status) => status.value === option.value
+                          )?.key
+                          onChange(value)
+                        }
+
+                        return (
+                          <FieldGroup>
+                            <StyledHeading>Status</StyledHeading>
+                            <RadioButtonList
+                              defaultValue={value}
+                              disabled={readOnly}
+                              groupName={name}
+                              hasEmptySelectionButton={false}
+                              onChange={handleOnChange}
+                              options={statusOptions}
+                            />
+                          </FieldGroup>
+                        )
+                      }}
+                    />
                     <FieldGroup>
                       <StyledHeading>Afhandeltermijn</StyledHeading>
                       <CombinedFields>
@@ -239,36 +269,6 @@ export const CategoryForm = ({
                       )}
                     />
 
-                    <Controller
-                      name="is_active"
-                      control={formMethods.control}
-                      render={({ field: { name, value, onChange } }) => {
-                        /* istanbul ignore next */
-                        const handleOnChange = (
-                          _groupName: string,
-                          option: StatusOption
-                        ) => {
-                          const value = statusOptions.find(
-                            (status) => status.value === option.value
-                          )?.key
-                          onChange(value)
-                        }
-
-                        return (
-                          <FieldGroup>
-                            <StyledHeading>Status</StyledHeading>
-                            <RadioButtonList
-                              defaultValue={value}
-                              disabled={readOnly}
-                              groupName={name}
-                              hasEmptySelectionButton={false}
-                              onChange={handleOnChange}
-                              options={statusOptions}
-                            />
-                          </FieldGroup>
-                        )
-                      }}
-                    />
                     {configuration.featureFlags.showStandardTextAdminV2 && (
                       <Controller
                         name="standard_texts"
@@ -276,7 +276,7 @@ export const CategoryForm = ({
                         render={({ field: { onChange, name } }) => (
                           <FieldGroup>
                             <StyledH2 forwardedAs="h2" styleAs="h5">
-                              Standaardteksten per status
+                              Standaardteksten volgorde
                             </StyledH2>
                             <StandardTextsField
                               onChange={onChange}
