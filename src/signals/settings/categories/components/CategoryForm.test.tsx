@@ -171,9 +171,7 @@ describe('CategoryForm', () => {
     render(<Wrapper />)
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Standaardteksten per status')
-      ).toBeInTheDocument()
+      expect(screen.getByText('Standaardteksten volgorde')).toBeInTheDocument()
     })
   })
 })
