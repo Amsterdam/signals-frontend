@@ -48,7 +48,12 @@ export const CategoryGroups: FC<CategoryGroupsProps> = ({
       )
 
       return (
-        <Accordion count={getCount(state, key, slug)} id={name} title={name}>
+        <Accordion
+          count={getCount(state, key, slug)}
+          id={name}
+          title={name}
+          key={key}
+        >
           <CheckboxList
             defaultValue={defaultValue}
             groupId={key}
