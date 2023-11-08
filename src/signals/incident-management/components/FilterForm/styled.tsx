@@ -17,6 +17,10 @@ export const Form = styled.form`
   @media (max-width: 600px) {
     column-count: 1;
   }
+
+  label {
+    color: ${themeColor('tint', 'level7')};
+  }
 `
 
 export const ControlsWrapper = styled.div`

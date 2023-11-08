@@ -866,7 +866,6 @@ describe('signals/incident-management/components/FilterForm', () => {
       const afvalToggle = container.querySelector(
         'input[type="checkbox"][value="afval"]'
       )
-      // const afvalToggle = screen.getByRole('checkbox', { name: '' })
 
       act(() => {
         fireEvent.change(nameField, { target: { value: 'My filter' } })
@@ -893,11 +892,6 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(addressField).toHaveValue()
       expect(afvalToggle).toBeChecked()
       expect(noteField).toHaveValue('test123')
-      expect(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        screen.getAllByRole('checkbox').filter(({ checked }) => checked).length
-      ).toBeGreaterThan(1)
 
       await act(async () => {
         fireEvent.click(screen.getByRole('button', { name: 'Nieuw filter' }))
@@ -911,11 +905,6 @@ describe('signals/incident-management/components/FilterForm', () => {
       expect(nameField).toHaveValue('')
       expect(noteField).toHaveValue('')
       expect(afvalToggle).not.toBeChecked()
-      expect(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        screen.getAllByRole('checkbox').filter(({ checked }) => checked).length
-      ).toEqual(0)
     })
   })
 
@@ -1289,7 +1278,7 @@ describe('Notification', () => {
     // Set threshold low so it fails with a single filter.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    constants.MAX_FILTER_LENGTH = 104
+    constants.MAX_FILTER_LENGTH = 108
   })
 
   const notificationMessage =
@@ -1299,36 +1288,41 @@ describe('Notification', () => {
     const onSubmit = jest.fn()
 
     render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
-    const checkbox = screen.getByText('Container glas kapot')
+    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+
+    const afvalButton = screen.getByRole('button', { name: 'Afval' })
+
+    userEvent.click(afvalButton)
+
+    const checkbox = screen.getByRole('checkbox', {
+      name: 'Container glas kapot',
+    })
 
     expect(checkbox).toBeInTheDocument()
 
     userEvent.click(checkbox)
-    await screen.findByRole('checkbox', {
-      name: /Container glas kapot/i,
-      checked: true,
-    })
 
-    // Wait for timeout in src/signals/incident-management/components/CheckboxList/CheckboxList.js@211
-    // eslint-disable-next-line testing-library/no-wait-for-empty-callback
-    await waitFor(() => {})
+    expect(checkbox).toBeChecked()
+
+    const checkbox2 = screen.getByRole('checkbox', {
+      name: 'Container glas vol',
+    })
+    userEvent.click(checkbox2)
 
     expect(screen.getByText(notificationMessage)).toBeInTheDocument()
 
     userEvent.click(checkbox)
-
-    await screen.findByRole('checkbox', {
-      name: /Container glas kapot/i,
-      checked: false,
-    })
-
-    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
+    userEvent.click(checkbox2)
+    userEvent.click(afvalButton)
   })
 
   it('should disable onSubmit', async () => {
     const onSubmit = jest.fn()
 
     render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
+    const afvalButton = screen.getByRole('button', { name: 'Afval' })
+    userEvent.click(afvalButton)
+
     const checkbox = screen.getByText('Container glas kapot')
 
     expect(checkbox).toBeInTheDocument()

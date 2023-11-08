@@ -115,7 +115,7 @@ describe('signals/incident-management/containers/Filter', () => {
         )
       )
 
-      tree.find('button[type="button"]').simulate('click')
+      tree.find('button[data-testid="cancel-btn"]').simulate('click')
 
       expect(onCancel).toHaveBeenCalled()
       expect(onFilterEditCancel).toHaveBeenCalled()
