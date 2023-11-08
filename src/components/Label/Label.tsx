@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
-import { themeSpacing, themeColor } from '@amsterdam/asc-ui'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import { themeSpacing } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 interface LabelProps {
@@ -21,7 +21,6 @@ const Label = styled.label<LabelProps>`
     isGroupHeader &&
     css`
       font-size: 1.125rem;
-      color: ${themeColor('secondary')};
     `}
 `
 

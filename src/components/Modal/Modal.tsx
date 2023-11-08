@@ -8,7 +8,6 @@ import {
   Row,
   Column,
   Modal as ASCModal,
-  Heading,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
@@ -34,7 +33,7 @@ const StyledModal = styled(ASCModal)`
 const ModalInner = styled.div`
   height: calc(100vh - (60px + 40px));
   max-width: 1800px;
-  padding: ${themeSpacing(4)}
+  padding: ${themeSpacing(4, 4, 4, 11)};
   overflow: hidden;
   overflow-y: auto;
 
@@ -56,17 +55,16 @@ const ModalInner = styled.div`
 const HeaderRow = styled(Row)`
   position: relative;
   flex-wrap: nowrap;
-  padding: ${themeSpacing(4)};
 `
 
 const Header = styled.header`
   background: ${themeColor('bright', 'main')};
-  padding: ${themeSpacing(4)}
+  padding: ${themeSpacing(2, 0)};
   border-bottom: 2px solid #e6e6e6;
 `
 
-const StyledRow = styled(Row)`
-  padding: ${themeSpacing(4)};
+const H2 = styled.h2`
+  margin: 0;
 `
 
 const StyledColumn = styled(Column)`
@@ -85,9 +83,7 @@ const Modal = ({ children, title, onClose, ...rest }: ModalProps) => (
     <StyledModal data-testid="modal" open backdropOpacity={1} {...rest}>
       <Header>
         <HeaderRow>
-          <Column span={12}>
-            <Heading forwardedAs="h2">{title}</Heading>
-          </Column>
+          <H2>{title}</H2>
 
           <Button
             data-testid="close-btn"
@@ -102,9 +98,7 @@ const Modal = ({ children, title, onClose, ...rest }: ModalProps) => (
       </Header>
 
       <ModalInner data-scroll-lock-scrollable>
-        <StyledRow>
-          <StyledColumn span={12}>{children}</StyledColumn>
-        </StyledRow>
+        <StyledColumn span={12}>{children}</StyledColumn>
       </ModalInner>
     </StyledModal>
   </ModalWrapper>

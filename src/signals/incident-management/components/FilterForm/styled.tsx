@@ -11,10 +11,9 @@ export const Form = styled.form`
   width: 100%;
   padding-bottom: 86px;
 
-  column-fill: auto @media (max-width: 1020px) {
+  @media (max-width: 1020px) {
     column-gap: 60px;
   }
-
   @media (max-width: 600px) {
     column-count: 1;
   }
@@ -52,8 +51,12 @@ export const Fieldset = styled.fieldset<{ isSection?: boolean }>`
     width: 1px;
   }
 
-  .invoer + .Label {
-    margin-top: 20px;
+  .invoer {
+    margin-bottom: ${themeSpacing(8)};
+
+    &.Label {
+      margin-top: 20px;
+    }
   }
 
   svg {
