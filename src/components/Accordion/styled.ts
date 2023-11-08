@@ -3,17 +3,18 @@
 import { Button as AscButton, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+const darkBlue = '#102e62'
 export interface Props {
   isOpen?: boolean
 }
 
 export const Wrapper = styled.div<Props>`
   border: ${({ isOpen }) =>
-    isOpen ? '1px solid #102e62' : '1px solid transparent'};
+    isOpen ? `1px solid ${darkBlue}` : '1px solid transparent'};
   margin-bottom: 4px;
 
   &:hover {
-    border: 1px solid #102e62;
+    border: 1px solid ${darkBlue};
   }
 `
 
@@ -21,21 +22,22 @@ export const Border = styled.div<Props>`
   border: 1px solid transparent;
 
   &:hover {
-    border: ${({ isOpen }) =>
-      isOpen ? '1px solid #102e62' : '1px solid #102e62'};
+    border: 1px solid ${darkBlue};
   }
 `
 
 export const Button = styled(AscButton)<Props>`
   width: 100%;
   box-sizing: border-box;
+  font-size: 1.125rem;
+  font-family: 'Amsterdam Sans', sans-serif;
   svg {
     transform: rotate(${({ isOpen }) => (isOpen ? '180deg' : '0deg')});
     transition: transform 0.3s ease;
   }
 
   &:hover {
-    color: #102e62;
+    color: ${darkBlue};
   }
 `
 
@@ -50,7 +52,7 @@ export const ButtonContent = styled.div`
 
   &:hover {
     svg path {
-      fill: #102e62;
+      fill: ${darkBlue};
     }
   }
 `

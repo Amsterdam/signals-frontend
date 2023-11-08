@@ -55,7 +55,7 @@ export const Fieldset = styled.fieldset<{ isSection?: boolean }>`
     margin-bottom: ${themeSpacing(8)};
 
     &.Label {
-      margin-top: 20px;
+      margin-top: ${themeSpacing(5)};
     }
   }
 

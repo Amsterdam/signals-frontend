@@ -1,10 +1,9 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 /* Copyright (C) 2023 Gemeente Amsterdam */
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { ChevronDown } from '@amsterdam/asc-assets'
 
-import type { Props as StyleProps } from './styled'
 import { Button, ButtonContent, Content, Wrapper, Border } from './styled'
 
 type Props = {
@@ -13,30 +12,16 @@ type Props = {
   count: number | string
   onToggle?: (open: boolean) => void
   children: React.ReactNode
-} & StyleProps
+}
 
-export const Accordion = ({
-  children,
-  count,
-  title,
-  isOpen,
-  id,
-  onToggle,
-}: Props) => {
-  const [open, setOpen] = useState(isOpen ?? false)
-
-  useEffect(() => {
-    if (isOpen !== undefined && isOpen !== open) {
-      setOpen(isOpen)
-    }
-  }, [isOpen, open])
+export const Accordion = ({ children, count, title, id, onToggle }: Props) => {
+  const [open, setOpen] = useState(false)
 
   const handleClick = useCallback(() => {
-    const newOpenState = !open
     if (onToggle) {
-      onToggle(newOpenState)
+      onToggle(!open)
     }
-    setOpen(newOpenState)
+    setOpen(!open)
   }, [open, onToggle])
 
   return (
