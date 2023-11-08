@@ -31,6 +31,10 @@ jest
   .spyOn(categoriesSelectors, 'makeSelectSubCategories')
   .mockImplementation(() => subCategories)
 
+jest
+  .spyOn(appSelectors, 'makeSelectUserCan')
+  .mockImplementation(() => () => true)
+
 const mockUseUpload = {
   upload: jest.fn(),
   uploadSuccess: jest.fn(),
@@ -404,9 +408,7 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     jest.spyOn(window, 'confirm').mockImplementation(() => {
       return true
     })
-    jest
-      .spyOn(appSelectors, 'makeSelectUserCan')
-      .mockImplementation(() => () => true)
+
     server.use(
       rest.delete(
         'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
