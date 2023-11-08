@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import type { ExtendedCategory } from 'models/categories/selectors'
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+import type {
+  ExtendedCategory,
+  ExtendedSubCategory,
+} from 'models/categories/selectors'
 import type SubCategory from 'types/api/sub-category'
 
 import {
@@ -34,7 +37,7 @@ export type SetSaveButtonLabelAction = {
 
 type SetCategoriesActionPayload = {
   slug: string
-  subCategories: Array<ExtendedCategory>
+  subCategories: Array<ExtendedSubCategory>
 }
 export type SetCategoriesAction = {
   type: typeof SET_CATEGORIES

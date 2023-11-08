@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { render } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 import { mainCategories, subCategories } from 'utils/__tests__/fixtures'
 import categories from 'utils/__tests__/fixtures/categories_structured.json'
 
+import { initialState } from '../../reducer'
 import { CategoryGroups } from '../CategoryGroups'
 
 describe('signals/incident-management/components/FilterForm/components/CategoryGroups', () => {
   const mainCatSlug = 'afval'
-  const mainCategory = mainCategories.filter(({ slug }) => slug === mainCatSlug)
-  const subsByMain = subCategories.filter(({ _links }) =>
+  const mainCategory = mainCategories?.filter(
+    ({ slug }) => slug === mainCatSlug
+  )
+  const subsByMain = subCategories?.filter(({ _links }) =>
     _links['sia:parent'].public.endsWith('wegen-verkeer-straatmeubilair')
   )
 
@@ -23,7 +26,11 @@ describe('signals/incident-management/components/FilterForm/components/CategoryG
 
     const { getAllByTestId } = render(
       withAppContext(
-        <CategoryGroups categories={categories} filterSlugs={filterSlugs} />
+        <CategoryGroups
+          categories={categories}
+          state={initialState}
+          filterSlugs={filterSlugs}
+        />
       )
     )
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 
 import Label from 'components/Label'
@@ -9,7 +9,7 @@ import type { RadioButtonListProps } from 'components/RadioButtonList'
 import { FilterGroup } from '../styled'
 
 type RadioGroupProps = Partial<RadioButtonListProps> & {
-  label: string
+  label?: string
   name: string
 }
 
@@ -22,9 +22,11 @@ export const RadioGroup: FC<RadioGroupProps> = ({
 }) =>
   Array.isArray(options) && options.length > 0 ? (
     <FilterGroup data-testid={`${name}-radio-group`}>
-      <Label as="span" isGroupHeader>
-        {label}
-      </Label>
+      {label && (
+        <Label as="span" isGroupHeader>
+          {label}
+        </Label>
+      )}
       <RadioButtonList
         defaultValue={defaultValue}
         groupName={name}

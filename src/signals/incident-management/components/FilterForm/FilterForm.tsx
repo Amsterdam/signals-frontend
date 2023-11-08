@@ -17,6 +17,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 
+import { Accordion } from 'components/Accordion'
 import AutoSuggest from 'components/AutoSuggest'
 import Checkbox from 'components/Checkbox'
 import Input from 'components/Input'
@@ -406,12 +407,13 @@ const FilterForm = ({
       <Form action="" noValidate>
         <ControlsWrapper>
           {filter.id && <input type="hidden" name="id" value={filter.id} />}
-          <Fieldset isSection>
+          <Fieldset>
             <legend className="hiddenvisually">Naam van het filter</legend>
 
             <Label htmlFor="filter_name" isGroupHeader>
               Filternaam
             </Label>
+
             <div className="invoer">
               <Input
                 data-testid="filter-name"
@@ -454,12 +456,13 @@ const FilterForm = ({
               </Label>
               <Input
                 data-testid="filter-notes"
-                name="note_keyword"
                 id="filter_notes"
+                name="note_keyword"
                 onBlur={onNoteBlur}
                 onChange={onNoteChange}
-                value={controlledTextInput.note}
+                placeholder="Zoek adres of postcode"
                 type="text"
+                value={controlledTextInput.note}
               />
             </FilterGroup>
           </Fieldset>
@@ -471,10 +474,12 @@ const FilterForm = ({
               defaultValue={state.options.status}
               label="Status"
               name="status"
+              state={state}
               onChange={onGroupChange}
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.status}
+              hasAccordion
             />
 
             {configuration.featureFlags.fetchDistrictsFromBackend &&
@@ -487,6 +492,7 @@ const FilterForm = ({
                   onToggle={onGroupToggle}
                   onSubmit={onSubmitForm}
                   options={districts}
+                  state={state}
                 />
               )}
 
@@ -499,6 +505,8 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={dataLists.stadsdeel}
+                state={state}
+                hasAccordion
               />
             )}
 
@@ -511,6 +519,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.priority}
+              state={state}
+              hasAccordion
             />
 
             <CheckboxGroup
@@ -522,6 +532,8 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.type}
+              state={state}
+              hasAccordion
             />
 
             <CheckboxGroup
@@ -533,15 +545,22 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.contact_details}
+              state={state}
+              hasAccordion
             />
 
-            <RadioGroup
-              defaultValue={state.options.feedback}
-              label="Feedback"
-              name="feedback"
-              onChange={onRadioChange}
-              options={dataLists.feedback}
-            />
+            <Accordion
+              id="feedback"
+              title="Feedback"
+              count={state.options.feedback?.length ?? ''}
+            >
+              <RadioGroup
+                defaultValue={state.options.feedback}
+                name="feedback"
+                onChange={onRadioChange}
+                options={dataLists.feedback}
+              />
+            </Accordion>
 
             <CheckboxGroup
               defaultValue={state.options.kind}
@@ -552,129 +571,9 @@ const FilterForm = ({
               onToggle={onGroupToggle}
               onSubmit={onSubmitForm}
               options={dataLists.kind}
+              state={state}
+              hasAccordion
             />
-
-            <Fieldset isSection>
-              <CheckboxGroup
-                defaultValue={state.options.directing_department}
-                hasToggle={false}
-                label="Regie hoofdmelding"
-                name="directing_department"
-                onChange={onGroupChange}
-                onToggle={onGroupToggle}
-                onSubmit={onSubmitForm}
-                options={directingDepartments}
-              />
-
-              <CheckboxGroup
-                defaultValue={state.options.has_changed_children}
-                hasToggle={false}
-                label="Wijziging"
-                name="has_changed_children"
-                onChange={onGroupChange}
-                onToggle={onGroupToggle}
-                onSubmit={onSubmitForm}
-                options={dataLists.has_changed_children}
-              />
-            </Fieldset>
-
-            <RadioGroup
-              defaultValue={state.options.punctuality}
-              label="Doorlooptijd"
-              name="punctuality"
-              onChange={onRadioChange}
-              options={dataLists.punctuality}
-            />
-
-            <FilterGroup>
-              <Label htmlFor="filter_date" isGroupHeader>
-                Datum
-              </Label>
-
-              <DatesWrapper>
-                <CalendarInput
-                  id="filter_created_after"
-                  onSelect={(dateValue) => {
-                    updateFilterDate(
-                      'created_after',
-                      dateValue && dateToISOString(dateValue)
-                    )
-                  }}
-                  selectedDate={dateFrom}
-                  label="Vanaf"
-                  name="created_after"
-                />
-
-                <CalendarInput
-                  id="filter_created_before"
-                  onSelect={(dateValue) => {
-                    updateFilterDate(
-                      'created_before',
-                      dateValue && dateToISOString(dateValue)
-                    )
-                  }}
-                  selectedDate={dateBefore}
-                  label="Tot en met"
-                  name="created_before"
-                />
-              </DatesWrapper>
-            </FilterGroup>
-
-            <FilterGroup>
-              <Label htmlFor="filter_address" isGroupHeader>
-                Adres
-              </Label>
-              <Input
-                data-testid="filter-address"
-                name="address_text"
-                id="filter_address"
-                onBlur={onAddressBlur}
-                onChange={onAddressChange}
-                value={controlledTextInput.address}
-                type="text"
-              />
-            </FilterGroup>
-
-            {configuration.featureFlags.assignSignalToEmployee && (
-              <FilterGroup data-testid="filter-assigned-user-email">
-                <Label htmlFor="filter_assigned_user_email" isGroupHeader>
-                  Toegewezen aan
-                </Label>
-                <div>
-                  <AscLabel
-                    htmlFor="filter_not_assigned"
-                    label="Niet toegewezen"
-                    noActiveState
-                  >
-                    <Checkbox
-                      data-testid="filter-not-assigned"
-                      checked={state.options.assigned_user_email === 'null'}
-                      id="filter_not_assigned"
-                      name="notAssigned"
-                      onClick={onNotAssignedChange}
-                    />
-                  </AscLabel>
-                </div>
-
-                <AutoSuggest
-                  value={
-                    state.options.assigned_user_email === 'null' ||
-                    state.options.assigned_user_email === null
-                      ? ''
-                      : state.options.assigned_user_email
-                  }
-                  id="filter_assigned_user_email"
-                  includeAuthHeaders={true}
-                  onSelect={onAssignedSelect}
-                  onClear={onAssignedClear}
-                  placeholder="medewerker@example.com"
-                  url={USERS_AUTO_SUGGEST_URL}
-                  formatResponse={getUserOptions}
-                  numOptionsDeterminer={getUserCount}
-                  disabled={state.options.assigned_user_email === 'null'}
-                />
-              </FilterGroup>
-            )}
 
             {sources && (
               <CheckboxGroup
@@ -685,42 +584,149 @@ const FilterForm = ({
                 onToggle={onGroupToggle}
                 onSubmit={onSubmitForm}
                 options={sources}
+                state={state}
+                hasAccordion
               />
             )}
 
-            {configuration.featureFlags.assignSignalToDepartment && (
-              <FilterGroup data-testid="filter-routing-department">
-                <Label htmlFor="filter_routing_department" isGroupHeader>
-                  Afdeling
-                </Label>
-                <div>
-                  <AscLabel
-                    htmlFor="filter_not_routed"
-                    label={notRoutedOption.value}
-                    noActiveState
-                  >
-                    <Checkbox
-                      data-testid="filter-not-routed"
-                      checked={isNotRoutedChecked()}
-                      id="filter_not_routed"
-                      name="notRouted"
-                      onClick={onNotRoutedChange}
-                    />
-                  </AscLabel>
-                </div>
-                <CheckboxList
-                  defaultValue={
-                    isNotRoutedChecked() ? [] : state.options.routing_department
-                  }
-                  id="filter_routing_department"
-                  name="routing_department"
-                  onChange={onGroupChange}
-                  onSubmit={onSubmitForm}
-                  options={otherRoutingDepartments}
-                />
-              </FilterGroup>
-            )}
+            <Accordion
+              id="punctuality"
+              title="Doorlooptijd"
+              count={state.options.punctuality?.length ?? ''}
+            >
+              <RadioGroup
+                defaultValue={state.options.punctuality}
+                name="punctuality"
+                onChange={onRadioChange}
+                options={dataLists.punctuality}
+              />
+            </Accordion>
           </Fieldset>
+
+          <FilterGroup>
+            <Label htmlFor="filter_date" isGroupHeader>
+              Datum
+            </Label>
+
+            <DatesWrapper>
+              <CalendarInput
+                id="filter_created_after"
+                onSelect={(dateValue) => {
+                  updateFilterDate(
+                    'created_after',
+                    dateValue && dateToISOString(dateValue)
+                  )
+                }}
+                selectedDate={dateFrom}
+                label="Vanaf"
+                name="created_after"
+              />
+
+              <CalendarInput
+                id="filter_created_before"
+                onSelect={(dateValue) => {
+                  updateFilterDate(
+                    'created_before',
+                    dateValue && dateToISOString(dateValue)
+                  )
+                }}
+                selectedDate={dateBefore}
+                label="Tot en met"
+                name="created_before"
+              />
+            </DatesWrapper>
+          </FilterGroup>
+
+          <FilterGroup>
+            <Label htmlFor="filter_address" isGroupHeader>
+              Adres
+            </Label>
+            <Input
+              data-testid="filter-address"
+              id="filter_address"
+              name="address_text"
+              onBlur={onAddressBlur}
+              onChange={onAddressChange}
+              placeholder="Zoek adres of postcode"
+              type="text"
+              value={controlledTextInput.address}
+            />
+          </FilterGroup>
+
+          {configuration.featureFlags.assignSignalToEmployee && (
+            <FilterGroup data-testid="filter-assigned-user-email">
+              <Label htmlFor="filter_assigned_user_email" isGroupHeader>
+                Toegewezen aan
+              </Label>
+              <div>
+                <AscLabel
+                  htmlFor="filter_not_assigned"
+                  label="Niet toegewezen"
+                  noActiveState
+                >
+                  <Checkbox
+                    data-testid="filter-not-assigned"
+                    checked={state.options.assigned_user_email === 'null'}
+                    id="filter_not_assigned"
+                    name="notAssigned"
+                    onClick={onNotAssignedChange}
+                  />
+                </AscLabel>
+              </div>
+
+              <AutoSuggest
+                value={
+                  state.options.assigned_user_email === 'null' ||
+                  state.options.assigned_user_email === null
+                    ? ''
+                    : state.options.assigned_user_email
+                }
+                id="filter_assigned_user_email"
+                includeAuthHeaders={true}
+                onSelect={onAssignedSelect}
+                onClear={onAssignedClear}
+                placeholder="medewerker@example.com"
+                url={USERS_AUTO_SUGGEST_URL}
+                formatResponse={getUserOptions}
+                numOptionsDeterminer={getUserCount}
+                disabled={state.options.assigned_user_email === 'null'}
+              />
+            </FilterGroup>
+          )}
+
+          {configuration.featureFlags.assignSignalToDepartment && (
+            <FilterGroup data-testid="filter-routing-department">
+              <Label htmlFor="filter_routing_department" isGroupHeader>
+                Afdeling
+              </Label>
+              <div>
+                <AscLabel
+                  htmlFor="filter_not_routed"
+                  label={notRoutedOption.value}
+                  noActiveState
+                >
+                  <Checkbox
+                    data-testid="filter-not-routed"
+                    checked={isNotRoutedChecked()}
+                    id="filter_not_routed"
+                    name="notRouted"
+                    onClick={onNotRoutedChange}
+                  />
+                </AscLabel>
+              </div>
+              <CheckboxList
+                defaultValue={
+                  isNotRoutedChecked() ? [] : state.options.routing_department
+                }
+                id="filter_routing_department"
+                name="routing_department"
+                onChange={onGroupChange}
+                onSubmit={onSubmitForm}
+                options={otherRoutingDepartments}
+              />
+            </FilterGroup>
+          )}
+          {/* </Fieldset> */}
         </ControlsWrapper>
 
         <ControlsWrapper>
@@ -738,8 +744,35 @@ const FilterForm = ({
                 onChange={onChangeCategories}
                 onToggle={onMainCategoryToggle}
                 onSubmit={onSubmitForm}
+                state={state}
               />
             )}
+          </Fieldset>
+
+          <Fieldset>
+            <CheckboxGroup
+              defaultValue={state.options.directing_department}
+              hasToggle={false}
+              label="Regie hoofdmelding"
+              name="directing_department"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
+              options={directingDepartments}
+              state={state}
+            />
+
+            <CheckboxGroup
+              defaultValue={state.options.has_changed_children}
+              hasToggle={false}
+              label="Wijziging"
+              name="has_changed_children"
+              onChange={onGroupChange}
+              onToggle={onGroupToggle}
+              onSubmit={onSubmitForm}
+              options={dataLists.has_changed_children}
+              state={state}
+            />
           </Fieldset>
         </ControlsWrapper>
 
