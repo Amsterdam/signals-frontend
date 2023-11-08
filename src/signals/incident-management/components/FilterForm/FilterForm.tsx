@@ -17,6 +17,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 
+import { Accordion } from 'components/Accordion'
 import AutoSuggest from 'components/AutoSuggest'
 import Checkbox from 'components/Checkbox'
 import Input from 'components/Input'
@@ -68,7 +69,6 @@ import { useIncidentManagementContext } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import type { SaveFilterAction, UpdateFilterAction } from '../../types'
 import CalendarInput from '../CalendarInput'
-import { Accordion } from 'components/Accordion'
 
 const USERS_AUTO_SUGGEST_URL = `${configuration.AUTOCOMPLETE_USERNAME_ENDPOINT}?is_active=true&username=`
 

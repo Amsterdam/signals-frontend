@@ -3,11 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { ChevronDown } from '@amsterdam/asc-assets'
 
 import type { Props as StyleProps } from './styled'
-import {
-  AccordionButton,
-  AccordionButtonContent,
-  AccordionContent,
-} from './styled'
+import { Button, ButtonContent, Content, Wrapper, Border } from './styled'
 
 type Props = {
   id: string
@@ -42,25 +38,26 @@ export const Accordion = ({
   }, [open, onToggle])
 
   return (
-    <>
-      <AccordionButton
-        aria-controls={id}
-        aria-expanded={open}
-        type="button"
-        variant="tertiary"
-        iconRight={<ChevronDown />}
-        isOpen={open}
-        title={title}
-        onClick={handleClick}
-      >
-        <AccordionButtonContent>
-          {title}
-          {count ? ` (${count})` : ''}
-        </AccordionButtonContent>
-      </AccordionButton>
-      <AccordionContent isOpen={open} aria-labelledby={`label-${id}`} id={id}>
-        {children}
-      </AccordionContent>
-    </>
+    <Wrapper isOpen={open}>
+      <Border isOpen={open}>
+        <Button
+          aria-controls={id}
+          aria-expanded={open}
+          type="button"
+          variant="textButton"
+          isOpen={open}
+          onClick={handleClick}
+        >
+          <ButtonContent>
+            {title}
+            {count ? ` (${count})` : ''}
+            <ChevronDown width={20} height={20} />
+          </ButtonContent>
+        </Button>
+        <Content isOpen={open} aria-labelledby={`label-${id}`} id={id}>
+          {children}
+        </Content>
+      </Border>
+    </Wrapper>
   )
 }
