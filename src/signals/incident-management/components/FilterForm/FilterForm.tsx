@@ -596,7 +596,6 @@ const FilterForm = ({
             >
               <RadioGroup
                 defaultValue={state.options.punctuality}
-                label="Doorlooptijd"
                 name="punctuality"
                 onChange={onRadioChange}
                 options={dataLists.punctuality}
