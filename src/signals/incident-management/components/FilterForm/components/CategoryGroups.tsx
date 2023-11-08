@@ -19,18 +19,21 @@ type CategoryGroupsProps = Partial<CheckboxListProps> & {
   state: FilterState
 }
 
-const getCount = (state: FilterState, key: string, slug: string) => {
+const getCount = (
+  state: FilterState,
+  key: string,
+  slug: string,
+  sub: SubCategory[]
+) => {
   const mainCategory = state.options.maincategory_slug.find(
     (mainCategory) => mainCategory.key === key
   ) as ExtendedCategory & { sub: Array<SubCategory> }
-
-  const mainCategoryCount = mainCategory?.sub?.length ?? ''
 
   const individualCount = state.options.category_slug.filter(
     (category) => category.category_slug === slug
   ).length
 
-  return mainCategoryCount || individualCount
+  return mainCategory ? sub.length : individualCount
 }
 
 export const CategoryGroups: FC<CategoryGroupsProps> = ({
@@ -49,7 +52,7 @@ export const CategoryGroups: FC<CategoryGroupsProps> = ({
 
       return (
         <Accordion
-          count={getCount(state, key, slug)}
+          count={getCount(state, key, slug, sub)}
           id={name}
           title={name}
           key={key}
