@@ -54,7 +54,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = ({
         id={name}
         title={
           !hasAccordion && (
-            <Label as="span" isGroupHeader>
+            <Label as="span" isGroupHeader isNewDesignSystem>
               {label}
             </Label>
           )
