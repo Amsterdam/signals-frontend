@@ -42,11 +42,16 @@ describe('signals/incident-management/components/Label', () => {
           <Label isGroupHeader>Label 1</Label>
 
           <Label>Label 2</Label>
+
+          <Label isGroupHeader isNewDesignSystem>
+            Label 3
+          </Label>
         </Fragment>
       )
     )
 
     expect(screen.getByText('Label 1')).not.toHaveStyleRule('color', 'inherit')
     expect(screen.getByText('Label 2')).toHaveStyleRule('color', 'inherit')
+    expect(screen.getByText('Label 3')).toHaveStyleRule('color', 'inherit')
   })
 })
