@@ -8,7 +8,7 @@ interface LabelProps {
   inline?: boolean
   /** When false, the Label component will render as an inline-block element without the red header colour */
   isGroupHeader?: boolean
-  /** when true, a label is also black when rendered as group header */
+  /** when true, a label is also black when rendered as group header. Reference: https://www.amsterdam.nl/digitalservices/design-system/?vkurl=designsystem */
   isNewDesignSystem?: boolean
 }
 

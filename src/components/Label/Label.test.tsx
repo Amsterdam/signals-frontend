@@ -52,6 +52,6 @@ describe('signals/incident-management/components/Label', () => {
 
     expect(screen.getByText('Label 1')).not.toHaveStyleRule('color', 'inherit')
     expect(screen.getByText('Label 2')).toHaveStyleRule('color', 'inherit')
-    expect(screen.getByText('Label 2')).toHaveStyleRule('color', 'inherit')
+    expect(screen.getByText('Label 3')).toHaveStyleRule('color', 'inherit')
   })
 })
