@@ -39,7 +39,7 @@ const DefaultTextsContainer = ({
 
   if (!defaultTexts) return null
 
-  const activeDefaultTexts = defaultTexts?.map((defaultText) => {
+  const activeDefaultTexts = defaultTexts.map((defaultText) => {
     const templates = defaultText.templates.filter(
       (template) => template.is_active
     )
