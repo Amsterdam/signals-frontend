@@ -11,7 +11,7 @@ export interface Props {
   modalStandardTextIsOpen: boolean
   openStandardTextModal: (event: SyntheticEvent) => void
   status: StatusCode
-  standardTexts: {
+  standardTexts?: {
     results: StandardTextType[]
   }
   useStandardText: (event: SyntheticEvent, text: string) => void
@@ -25,6 +25,8 @@ const StandardTextsContainer = ({
   closeStandardTextModal,
   standardTexts,
 }: Props) => {
+  if (!standardTexts) return null
+
   const activeTexts = standardTexts.results.filter((text) => text.active)
 
   const textsByStatus = activeTexts.filter((text) => text.state === status)
