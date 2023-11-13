@@ -19,6 +19,7 @@
     "reporterMailHandledNegativeContactEnabled": true,
     "showMainCategories": true,
     "showStandardTextAdminV2": true,
+    "showStandardTextAdminV1": false,
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,

@@ -47,7 +47,7 @@ export interface StandardTextsResponse {
   results: StandardTextType[]
 }
 export interface StatusFormProps {
-  defaultTexts: DefaultTextsType | StandardTextsResponse
+  defaultTexts?: DefaultTextsType | StandardTextsResponse
   childIncidents: IncidentChild[]
   onClose: () => void
 }

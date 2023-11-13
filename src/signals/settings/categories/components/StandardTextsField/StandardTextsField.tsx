@@ -40,7 +40,7 @@ export const StandardTextsField = ({ name, onChange }: Props) => {
 
   useEffect(() => {
     get(
-      `${configuration.STANDARD_TEXTS_ENDPOINT}?ordering=statusmessagecategory__position&category_id=10&category_id=${params.categoryId}`
+      `${configuration.STANDARD_TEXTS_ENDPOINT}?ordering=statusmessagecategory__position&category_id=${params.categoryId}`
     )
   }, [get, params.categoryId])
 

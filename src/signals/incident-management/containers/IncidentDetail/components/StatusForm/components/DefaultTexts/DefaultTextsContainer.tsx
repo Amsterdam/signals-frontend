@@ -9,7 +9,7 @@ import { StandardTextsButton } from '../../styled'
 
 export interface Props {
   closeDefaultTextModal: () => void
-  defaultTexts: DefaultTextsType
+  defaultTexts?: DefaultTextsType
   modalDefaultTextIsOpen: boolean
   openDefaultTextModal: (event: SyntheticEvent) => void
   status: StatusCode
@@ -24,16 +24,6 @@ const DefaultTextsContainer = ({
   status,
   useDefaultText,
 }: Props) => {
-  const activeDefaultTexts = defaultTexts?.map((defaultText) => {
-    const templates = defaultText.templates.filter(
-      (template) => template.is_active
-    )
-    return {
-      ...defaultText,
-      templates,
-    }
-  })
-
   const defaultTextTemplatesLength = useCallback(
     (defaultTexts: DefaultTextsType) => {
       if (!defaultTexts || defaultTexts.length === 0) {
@@ -46,6 +36,18 @@ const DefaultTextsContainer = ({
     },
     [status]
   )
+
+  if (!defaultTexts) return null
+
+  const activeDefaultTexts = defaultTexts.map((defaultText) => {
+    const templates = defaultText.templates.filter(
+      (template) => template.is_active
+    )
+    return {
+      ...defaultText,
+      templates,
+    }
+  })
 
   return (
     <>

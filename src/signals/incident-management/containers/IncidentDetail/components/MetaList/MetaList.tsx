@@ -358,7 +358,7 @@ const MetaList: FC<MetaListProps> = ({ defaultTexts, childIncidents }) => {
       </Highlight>
       {showEditStatus && (
         <StatusForm
-          defaultTexts={defaultTexts || []}
+          defaultTexts={defaultTexts}
           childIncidents={childIncidents || []}
           onClose={() => setShowEditStatus(false)}
         />
