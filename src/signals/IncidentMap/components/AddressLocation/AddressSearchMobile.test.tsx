@@ -73,7 +73,7 @@ jest.mock(
 
 const defaultProps: Props = {
   setCoordinates: jest.fn(),
-  setShowAddressSearchMobile: jest.fn(),
+  onFocus: jest.fn(),
 }
 
 describe('AddresLocation', () => {
@@ -118,15 +118,5 @@ describe('AddresLocation', () => {
     const input = screen.getByRole('textbox')
 
     expect(input).toHaveValue('')
-  })
-
-  it('should close overlay on back button', () => {
-    render(<AddressSearchMobile {...defaultProps} />)
-
-    const button = screen.getByRole('button', { name: 'Terug' })
-
-    userEvent.click(button)
-
-    expect(defaultProps.setShowAddressSearchMobile).toHaveBeenCalledWith(false)
   })
 })
