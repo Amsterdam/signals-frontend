@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { breakpoint, themeSpacing, Paragraph } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Map from 'components/Map'
 
@@ -37,6 +37,25 @@ export const StyledMap = styled(Map)`
 `
 
 export const StyledParagraph = styled(Paragraph)`
-  margin-bottom: ${themeSpacing(5)};
+  margin: ${themeSpacing(2, 0, 5, 0)};
   line-height: inherit;
+`
+
+export const WrapperMessage = styled.div<{ $isMobile: boolean }>`
+  ${($isMobile) => {
+    if ($isMobile)
+      return css`
+        position: absolute;
+        top: 124px;
+        width: 100%;
+      `
+  }}
+`
+
+export const TopLeftWrapper = styled.div`
+  align-items: left;
+
+  > :first-child {
+    margin-bottom: ${themeSpacing(2)};
+  }
 `

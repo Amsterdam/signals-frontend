@@ -2,7 +2,6 @@
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { ViewerContainer } from '@amsterdam/arm-core'
 import type { LatLngLiteral, Map as MapType } from 'leaflet'
 import { throttle, isEqual } from 'lodash'
 
@@ -17,15 +16,15 @@ import { MapMessage } from 'signals/incident/components/form/MapSelectors/compon
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
 import { Pin } from './Pin'
-import { StyledMap, StyledParagraph, Wrapper } from './styled'
+import { StyledMap, StyledParagraph, Wrapper, TopLeftWrapper } from './styled'
 import usePaginatedIncidents from './usePaginatedIncidents'
 import { getFlyToZoom } from './utils'
 import type { Filter, Incident, Properties } from '../../types'
-import { AddressLocation } from '../AddressLocation'
-import { AddressSearchMobile } from '../AddressLocation'
+import { AddressLocation, AddressSearchMobile } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
+import { StyledViewerContainer } from '../GPSLocation/styled'
 import { IncidentLayer } from '../IncidentLayer'
 import {
   countIncidentsPerFilter,
@@ -42,7 +41,6 @@ export const IncidentMap = () => {
   const [address, setAddress] = useState<string>()
 
   const [showMessage, setShowMessage] = useState<boolean>(false)
-  const [showAddressSearchMobile, setShowAddressSearchMobile] = useState(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()
@@ -185,6 +183,14 @@ export const IncidentMap = () => {
           attributionControl: false,
         }}
       >
+        {isMobile(deviceMode) && (
+          <AddressSearchMobile
+            address={address}
+            setCoordinates={setCoordinates}
+            onFocus={() => setDrawerState(DrawerState.Closed)}
+          />
+        )}
+
         <IncidentLayer
           selectedIncident={selectedIncident}
           handleIncidentSelect={handleIncidentSelect}
@@ -204,14 +210,6 @@ export const IncidentMap = () => {
           />
         )}
 
-        {map && (
-          <GPSLocation
-            setNotification={setNotification}
-            setCoordinates={setCoordinates}
-            panelIsOpen={drawerState}
-          />
-        )}
-
         <DrawerOverlay
           onStateChange={setDrawerState}
           state={drawerState}
@@ -223,11 +221,14 @@ export const IncidentMap = () => {
             het werk zijn. Vanwege privacy staat een klein deel van de meldingen
             niet op de kaart.
           </StyledParagraph>
-          <AddressLocation
-            setCoordinates={setCoordinates}
-            address={address}
-            setShowAddressSearchMobile={setShowAddressSearchMobile}
-          />
+
+          {!isMobile(deviceMode) && (
+            <AddressLocation
+              setCoordinates={setCoordinates}
+              address={address}
+            />
+          )}
+
           <FilterPanel
             filters={filters}
             setFilters={setFilters}
@@ -235,23 +236,28 @@ export const IncidentMap = () => {
           />
         </DrawerOverlay>
 
-        {isMobile(deviceMode) && showAddressSearchMobile && (
-          <AddressSearchMobile
-            address={address}
-            setCoordinates={setCoordinates}
-            setShowAddressSearchMobile={setShowAddressSearchMobile}
-          />
-        )}
-
-        {mapMessage && showMessage && (
-          <ViewerContainer
-            topLeft={
-              <MapMessage onClick={() => setShowMessage(false)}>
-                {mapMessage}
-              </MapMessage>
-            }
-          />
-        )}
+        <StyledViewerContainer
+          $hasPanel={drawerState}
+          topLeft={
+            <TopLeftWrapper>
+              {map && (
+                <GPSLocation
+                  setNotification={setNotification}
+                  setCoordinates={setCoordinates}
+                />
+              )}
+              {showMessage && mapMessage && (
+                <MapMessage
+                  onClick={() => {
+                    setShowMessage(false)
+                  }}
+                >
+                  {mapMessage}
+                </MapMessage>
+              )}
+            </TopLeftWrapper>
+          }
+        />
       </StyledMap>
     </Wrapper>
   )

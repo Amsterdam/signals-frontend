@@ -13,7 +13,6 @@ export const HeaderWrapper = styled.div`
   height: ${themeSpacing(HEADER_HEIGHT_DESKTOP)};
   width: 100%;
   background-color: ${themeColor('tint', 'level1')};
-  box-shadow: ${themeSpacing(0, 0, 0, 1)} rgba(0, 0, 0, 0.1);
   // z-index relative to map
   z-index: 1;
 
@@ -28,16 +27,11 @@ export const Title = styled.div`
   height: 100%;
   margin-left: ${themeSpacing(4)};
 
-  img,
-  a {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: ${themeSpacing(HEADER_HEIGHT_MOBILE - 2.5)};
+  h1 {
+    font-size: 1rem;
 
     @media screen and (${breakpoint('min-width', 'tabletM')}) {
-      max-height: ${themeSpacing(HEADER_HEIGHT_DESKTOP - 5)};
-      max-width: unset;
+      font-size: 2rem;
     }
   }
 `
