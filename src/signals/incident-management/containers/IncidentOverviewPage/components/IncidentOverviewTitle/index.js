@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { Fragment, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -34,14 +34,14 @@ export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
     title += hasCount ? ` (${incidentsCount.toLocaleString('nl-NL')})` : ''
 
     return filter.refresh ? (
-      <Fragment>
+      <div>
         <RefreshIcon
           data-testid="refresh-icon"
           role="img"
           aria-label="Ververst automatisch"
         />{' '}
         {title}
-      </Fragment>
+      </div>
     ) : (
       title
     )
