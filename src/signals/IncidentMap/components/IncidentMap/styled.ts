@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { breakpoint, themeSpacing, Paragraph } from '@amsterdam/asc-ui'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Map from 'components/Map'
 import ViewerContainer from 'components/ViewerContainer'
@@ -44,17 +44,6 @@ export const StyledParagraph = styled(Paragraph)`
   line-height: inherit;
 `
 
-export const WrapperMessage = styled.div<{ $isMobile: boolean }>`
-  ${($isMobile) => {
-    if ($isMobile)
-      return css`
-        position: absolute;
-        top: 124px;
-        width: 100%;
-      `
-  }}
-`
-
 export const TopLeftWrapper = styled.div`
   align-items: left;
 
@@ -73,6 +62,6 @@ export const StyledViewerContainer = styled(ViewerContainer)<{
     transition: left 0.25s ease-in-out;
     left: ${({ $hasPanel }) =>
       $hasPanel === DrawerState.Open ? `${MENU_WIDTH}px` : 0};
-    margin-left: 16px;
+    margin-left: ${themeSpacing(4)};
   }
 `
