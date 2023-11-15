@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { SortOptions } from '../../contants'
-import compareSortOptions from '../../utils'
 import SortIcon from '../SortIcon'
 
 const ThComponent = ({
@@ -18,10 +17,7 @@ const ThComponent = ({
   StyledComponent: any
 }) => {
   return (
-    <StyledComponent
-      $underline={ordering && compareSortOptions(ordering, sortOption)}
-      onClick={() => changeOrder(sortOption)}
-    >
+    <StyledComponent onClick={() => changeOrder(sortOption)}>
       {headerText}
       <SortIcon ordering={ordering} sortOption={sortOption} />
     </StyledComponent>

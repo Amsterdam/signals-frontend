@@ -23,6 +23,10 @@ export const Table = styled.table`
   tr > th:not(:nth-child(4)) {
     cursor: pointer;
     color: ${themeColor('primary')};
+
+    &:hover {
+      color: ${themeColor('primary', 'dark')};
+    }
   }
 
   tr > th > svg {
@@ -43,8 +47,10 @@ export const Tr = styled.tr`
   }
 `
 
-const BaseTh = styled(Th)<{ $underline?: boolean }>`
-  ${({ $underline }) => $underline && 'text-decoration: underline;'}
+const BaseTh = styled(Th)`
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export const ThParent = styled(Th)`
