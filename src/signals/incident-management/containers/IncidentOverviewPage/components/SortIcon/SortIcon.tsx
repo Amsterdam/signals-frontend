@@ -21,7 +21,7 @@ export default function SortIcon({
     ordering === SortOptions.CREATED_AT_DESC ? (
       <StyledChevronUp data-testid={'chevron-up'} $rotated={false} />
     ) : (
-      <StyledChevronUp data-testid={'chevron-up'} $rotated />
+      <StyledChevronUp data-testid={'chevron-down'} $rotated />
     )
   ) : null
 }
