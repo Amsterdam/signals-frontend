@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type { SortOptions } from '../contants'
+import type { SortOptions } from '../../contants'
+import compareSortOptions from '../../utils'
 import SortIcon from '../SortIcon'
 
 const ThComponent = ({
@@ -18,9 +19,7 @@ const ThComponent = ({
 }) => {
   return (
     <StyledComponent
-      $underline={
-        ordering && ordering.replace('-', '') === sortOption.replace('-', '')
-      }
+      $underline={ordering && compareSortOptions(ordering, sortOption)}
       onClick={() => changeOrder(sortOption)}
     >
       {headerText}

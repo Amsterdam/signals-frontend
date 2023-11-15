@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { ChevronDown, ChevronUp } from '@amsterdam/asc-assets'
-
-import { SortOptions } from '../contants'
+import { StyledChevronUp } from './styled'
+import { SortOptions } from '../../contants'
+import compareSortOptions from '../../utils'
 
 export default function SortIcon({
   ordering,
@@ -11,13 +11,17 @@ export default function SortIcon({
   sortOption: SortOptions
   ordering?: SortOptions
 }) {
-  return ordering &&
-    ordering.replace('-', '') === sortOption.replace('-', '') ? (
+  /**
+   * The sorting for created at differs from the other columns because the dates
+   * are sorted from newest to oldest by default. The other columns are sorted
+   * alphabetically by from A to Z by default.
+   */
+  return ordering && compareSortOptions(ordering, sortOption) ? (
     (ordering.startsWith('-') && ordering !== SortOptions.CREATED_AT_ASC) ||
     ordering === SortOptions.CREATED_AT_DESC ? (
-      <ChevronUp data-testid={'chevron-up'} />
+      <StyledChevronUp data-testid={'chevron-up'} $rotated={false} />
     ) : (
-      <ChevronDown data-testid={'chevron-down'} />
+      <StyledChevronUp data-testid={'chevron-up'} $rotated />
     )
   ) : null
 }

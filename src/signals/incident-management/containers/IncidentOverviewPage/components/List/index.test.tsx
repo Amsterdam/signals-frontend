@@ -22,7 +22,7 @@ import users from 'utils/__tests__/fixtures/users.json'
 
 import List, { getDaysOpen } from '.'
 import { IncidentManagementContext } from '../../../../context'
-import { SortOptions } from '../contants'
+import { SortOptions } from '../../contants'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,

@@ -43,7 +43,8 @@ import {
   Tr,
 } from './styles'
 import { useIncidentManagementContext } from '../../../../context'
-import { SortOptions } from '../contants'
+import { SortOptions } from '../../contants'
+import compareSortOptions from '../../utils'
 import ThSort from '../Th'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
@@ -110,8 +111,13 @@ const List: FunctionComponent<ListProps> = ({
     navigate(`../${INCIDENT_URL}/${id}`)
   }
 
+  /**
+   * This method reverses the ordering if the column is already ordered
+   * otherwise it will order the new column ascending
+   * @param column
+   */
   const changeOrder = (column: SortOptions) => {
-    if (ordering && ordering.replace('-', '') === column.replace('-', '')) {
+    if (ordering && compareSortOptions(ordering, column)) {
       if (ordering.startsWith('-')) {
         orderingChangedAction(ordering.replace('-', ''))
       } else {

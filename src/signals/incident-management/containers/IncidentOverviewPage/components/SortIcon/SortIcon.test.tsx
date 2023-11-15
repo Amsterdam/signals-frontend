@@ -4,7 +4,7 @@ import { screen } from '@testing-library/react'
 import { render } from '@testing-library/react'
 
 import SortIcon from './SortIcon'
-import { SortOptions } from '../contants'
+import { SortOptions } from '../../contants'
 
 describe('SortIcon', () => {
   it('should render a sort icon for created at asc when its desc', () => {
