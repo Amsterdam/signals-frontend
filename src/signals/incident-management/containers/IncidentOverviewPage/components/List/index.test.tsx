@@ -8,8 +8,8 @@ import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 import {
   priorityList,
-  statusList,
   stadsdeelList,
+  statusList,
 } from 'signals/incident-management/definitions'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
 import { withAppContext } from 'test/utils'
@@ -22,6 +22,7 @@ import users from 'utils/__tests__/fixtures/users.json'
 
 import List, { getDaysOpen } from '.'
 import { IncidentManagementContext } from '../../../../context'
+import { SortOptions } from '../../contants'
 
 jest.mock('react-router-dom', () => ({
   __esModule: true,
@@ -53,15 +54,22 @@ const withContext = (Component: JSX.Element) =>
     </IncidentManagementContext.Provider>
   )
 
+const orderingChangedActionMock = jest.fn()
+
 const props = {
   incidents: incidents as unknown as IncidentList,
   priority: priorityList,
   status: statusList,
   stadsdeel: stadsdeelList,
   sort: '-created_at',
+  orderingChangedAction: orderingChangedActionMock,
 }
 
 describe('List', () => {
+  beforeEach(() => {
+    orderingChangedActionMock.mockClear()
+  })
+
   afterEach(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -72,11 +80,11 @@ describe('List', () => {
     render(withContext(<List {...props} />))
 
     const expectedHeaders = [
-      '', // Split incident column
-      '', // Urgency column
+      '',
+      'Urgentie',
       'Id',
       'Dag',
-      'Datum en tijd',
+      'Datum',
       'Subcategorie',
       'Status',
       'Stadsdeel',
@@ -85,9 +93,10 @@ describe('List', () => {
 
     const headers = screen.getAllByRole('columnheader')
 
-    headers.forEach((header, index) => {
-      expect(header).toHaveTextContent(expectedHeaders[index])
-    })
+    headers &&
+      headers.forEach((header, index) => {
+        expect(header).toHaveTextContent(expectedHeaders[index])
+      })
   })
 
   it('should render rows correctly', () => {
@@ -310,5 +319,39 @@ describe('List', () => {
     expect(navigateSpy).toHaveBeenCalledWith(
       `../${INCIDENT_URL}/${props.incidents[0].id}`
     )
+  })
+
+  it('should sort by clicking on the column header', () => {
+    render(withContext(<List {...props} />))
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
+
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('-created_at')
+
+    orderingChangedActionMock.mockClear()
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Subcategorie' }))
+
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('sub_category')
+  })
+
+  it('should sort by clicking on the column header and pick the opposite', () => {
+    render(
+      withContext(<List {...props} ordering={SortOptions.CREATED_AT_ASC} />)
+    )
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
+
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('created_at')
+  })
+
+  it('should sort by clicking on the column header and pick the opposite reversed', () => {
+    render(
+      withContext(<List {...props} ordering={SortOptions.CREATED_AT_DESC} />)
+    )
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
+
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('-created_at')
   })
 })

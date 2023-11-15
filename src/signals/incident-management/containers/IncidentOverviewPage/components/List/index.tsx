@@ -11,38 +11,41 @@ import ParentIncidentIcon from 'components/ParentIncidentIcon'
 import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 import {
-  getListValueByKey,
   getListIconByKey,
+  getListValueByKey,
 } from 'shared/services/list-helpers/list-helpers'
 import { string2date, string2time } from 'shared/services/string-parser'
 import { statusList } from 'signals/incident-management/definitions'
 import type {
-  Status,
-  Priority,
   Definition,
+  Priority,
+  Status,
 } from 'signals/incident-management/definitions/types'
 import { INCIDENT_URL } from 'signals/incident-management/routes'
-import type { IncidentListItem, IncidentList } from 'types/api/incident-list'
+import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import onButtonPress from 'utils/on-button-press'
 
 import {
   ContentSpan,
-  Th,
-  ThId,
-  ThDay,
+  StyledIcon,
+  StyledList,
+  Table,
   TdStyle,
+  Th,
   ThArea,
   ThDate,
+  ThDay,
+  ThId,
   ThParent,
   ThPriority,
   ThStatus,
   ThSubcategory,
   Tr,
-  StyledList,
-  Table,
-  StyledIcon,
 } from './styles'
 import { useIncidentManagementContext } from '../../../../context'
+import { SortOptions } from '../../contants'
+import compareSortOptions from '../../utils'
+import ThSort from '../Th'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList
@@ -87,6 +90,8 @@ interface ListProps {
   priority: Priority[]
   stadsdeel: Definition[]
   status: Status[]
+  orderingChangedAction: (ordering: string) => void
+  ordering?: SortOptions
 }
 
 const List: FunctionComponent<ListProps> = ({
@@ -96,12 +101,31 @@ const List: FunctionComponent<ListProps> = ({
   priority,
   stadsdeel,
   status,
+  ordering,
+  orderingChangedAction,
 }) => {
   const { districts } = useIncidentManagementContext()
   const navigate = useNavigate()
 
   const navigateToIncident = (id: number) => {
     navigate(`../${INCIDENT_URL}/${id}`)
+  }
+
+  /**
+   * This method reverses the ordering if the column is already ordered
+   * otherwise it will order the new column ascending
+   * @param column
+   */
+  const changeOrder = (column: SortOptions) => {
+    if (ordering && compareSortOptions(ordering, column)) {
+      if (ordering.startsWith('-')) {
+        orderingChangedAction(ordering.replace('-', ''))
+      } else {
+        orderingChangedAction(`-${ordering}`)
+      }
+    } else {
+      orderingChangedAction(column)
+    }
   }
 
   return (
@@ -114,21 +138,60 @@ const List: FunctionComponent<ListProps> = ({
         <thead>
           <tr>
             <ThParent />
-            <ThPriority />
-            <ThId>Id</ThId>
+            <ThSort
+              StyledComponent={ThPriority}
+              sortOption={SortOptions.PRIORITY_ASC}
+              headerText={'Urgentie'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
+            <ThSort
+              StyledComponent={ThId}
+              sortOption={SortOptions.ID_ASC}
+              headerText={'Id'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
             <ThDay>Dag</ThDay>
-            <ThDate>Datum en tijd</ThDate>
-            <ThSubcategory>Subcategorie</ThSubcategory>
-            <ThStatus>Status</ThStatus>
-
-            {configuration.featureFlags.fetchDistrictsFromBackend ? (
-              <ThArea>{configuration.language.district}</ThArea>
-            ) : (
-              <ThArea>Stadsdeel</ThArea>
-            )}
-
-            <Th>Adres</Th>
-
+            <ThSort
+              StyledComponent={ThDate}
+              sortOption={SortOptions.CREATED_AT_ASC}
+              headerText={'Datum'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
+            <ThSort
+              StyledComponent={ThSubcategory}
+              sortOption={SortOptions.SUBCATEGORY_ASC}
+              headerText={'Subcategorie'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
+            <ThSort
+              StyledComponent={ThStatus}
+              sortOption={SortOptions.STATUS_ASC}
+              headerText={'Status'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
+            <ThSort
+              StyledComponent={ThArea}
+              sortOption={SortOptions.BUROUGH_ASC}
+              headerText={
+                configuration.featureFlags.fetchDistrictsFromBackend
+                  ? configuration.language.district
+                  : 'Stadsdeel'
+              }
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
+            <ThSort
+              StyledComponent={Th}
+              sortOption={SortOptions.ADDRESS_ASC}
+              headerText={'Adres'}
+              ordering={ordering}
+              changeOrder={changeOrder}
+            />
             {configuration.featureFlags.assignSignalToEmployee && (
               <Th>Toegewezen aan</Th>
             )}
