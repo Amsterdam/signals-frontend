@@ -4,7 +4,10 @@ import { breakpoint, themeSpacing, Paragraph } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
 
 import Map from 'components/Map'
+import ViewerContainer from 'components/ViewerContainer'
 
+import { DrawerState } from '../DrawerOverlay'
+import { MENU_WIDTH } from '../DrawerOverlay/styled'
 import {
   HEADER_HEIGHT_DESKTOP,
   HEADER_HEIGHT_MOBILE,
@@ -57,5 +60,19 @@ export const TopLeftWrapper = styled.div`
 
   > :first-child {
     margin-bottom: ${themeSpacing(2)};
+  }
+`
+
+export const StyledViewerContainer = styled(ViewerContainer)<{
+  $hasPanel: DrawerState
+}>`
+  position: relative;
+  z-index: 0;
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    transition: left 0.25s ease-in-out;
+    left: ${({ $hasPanel }) =>
+      $hasPanel === DrawerState.Open ? `${MENU_WIDTH}px` : 0};
+    margin-left: 16px;
   }
 `

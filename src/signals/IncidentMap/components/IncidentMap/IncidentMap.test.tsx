@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 -2023 Gemeente Amsterdam
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import { resizeWindow } from '__tests__/utils'
 import { formatAddress } from 'shared/services/format-address'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { withAppContext } from 'test/utils'
@@ -150,5 +151,33 @@ describe('IncidentMap', () => {
     expect(
       screen.queryByText('Er konden geen meldingen worden opgehaald.')
     ).not.toBeInTheDocument()
+  })
+
+  it('should close the overlay when clicked on toggle', () => {
+    render(withAppContext(<IncidentMap />))
+
+    const toggleState1 = screen.getByRole('button', { name: 'Paneel sluiten' })
+
+    userEvent.click(toggleState1)
+
+    const toggleState2 = screen.getByRole('button', { name: 'Paneel openen' })
+    const toggleState3 = screen.queryByRole('button', {
+      name: 'Paneel sluiten',
+    })
+
+    expect(toggleState2).toBeInTheDocument()
+    expect(toggleState3).not.toBeInTheDocument()
+  })
+
+  it('should render correct searchbar when on mobile', () => {
+    resizeWindow(400, 1200)
+
+    render(withAppContext(<IncidentMap />))
+
+    const mobile = screen.getByTestId('search-address-bar-mobile')
+    const desktop = screen.queryByTestId('search-address-bar')
+
+    expect(mobile).toBeInTheDocument()
+    expect(desktop).not.toBeInTheDocument()
   })
 })

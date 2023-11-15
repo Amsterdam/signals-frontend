@@ -41,6 +41,7 @@ export const AddressSearchMobile = ({
   return (
     <Wrapper>
       <PDOKAutoSuggest
+        data-testid="search-address-bar-mobile"
         aria-label="veld zoek naar adres"
         onClear={onClear}
         onData={setOptionsList}

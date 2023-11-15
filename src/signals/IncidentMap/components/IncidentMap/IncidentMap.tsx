@@ -16,7 +16,13 @@ import { MapMessage } from 'signals/incident/components/form/MapSelectors/compon
 import type { Bbox } from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 
 import { Pin } from './Pin'
-import { StyledMap, StyledParagraph, Wrapper, TopLeftWrapper } from './styled'
+import {
+  StyledMap,
+  StyledParagraph,
+  StyledViewerContainer,
+  TopLeftWrapper,
+  Wrapper,
+} from './styled'
 import usePaginatedIncidents from './usePaginatedIncidents'
 import { getFlyToZoom } from './utils'
 import type { Filter, Incident, Properties } from '../../types'
@@ -24,7 +30,6 @@ import { AddressLocation, AddressSearchMobile } from '../AddressLocation'
 import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
-import { StyledViewerContainer } from '../GPSLocation/styled'
 import { IncidentLayer } from '../IncidentLayer'
 import {
   countIncidentsPerFilter,
