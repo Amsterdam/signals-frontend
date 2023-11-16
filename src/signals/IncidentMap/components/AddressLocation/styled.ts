@@ -23,7 +23,7 @@ export const AddressLocationWrapper = styled.div`
 export const AddressSearchWrapper = styled.div`
   padding: ${themeSpacing(2, 4, 4, 4)};
   background-color: white;
-  z-index: 1;
+  z-index: 0;
   width: 100%;
 `
 

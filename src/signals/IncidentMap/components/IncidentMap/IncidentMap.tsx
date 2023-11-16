@@ -41,11 +41,11 @@ import {
 export const IncidentMap = () => {
   const [bbox, setBbox] = useState<Bbox | undefined>()
   const [map, setMap] = useState<MapType>()
-  const [mapMessage, setMapMessage] = useState<JSX.Element | string>('wrvsfdg')
+  const [mapMessage, setMapMessage] = useState<JSX.Element | string>('')
   const [coordinates, setCoordinates] = useState<LatLngLiteral>()
   const [address, setAddress] = useState<string>()
 
-  const [showMessage, setShowMessage] = useState<boolean>(true)
+  const [showMessage, setShowMessage] = useState<boolean>(false)
 
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [selectedIncident, setSelectedIncident] = useState<Incident>()

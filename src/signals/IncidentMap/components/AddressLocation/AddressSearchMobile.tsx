@@ -12,8 +12,7 @@ import { AddressSearchWrapper as Wrapper, OptionsList } from './styled'
 export interface Props {
   address?: string
   setCoordinates: (coordinates?: LatLngLiteral) => void
-
-  onFocus: any
+  onFocus: () => void
 }
 
 export const AddressSearchMobile = ({
