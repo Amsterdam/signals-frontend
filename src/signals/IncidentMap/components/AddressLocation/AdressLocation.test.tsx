@@ -69,7 +69,6 @@ jest.mock(
 
 const defaultProps: Props = {
   setCoordinates: jest.fn(),
-  setShowAddressSearchMobile: jest.fn(),
 }
 
 describe('AddresLocation', () => {

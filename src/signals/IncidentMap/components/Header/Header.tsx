@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import {
   MenuButton as Button,
   MenuItem as Item,
@@ -43,7 +43,7 @@ export const Header = () => {
   return (
     <HeaderWrapper>
       <Title>
-        <Logo tall={true} />
+        <Logo tall={false} />
         <Heading>Meldingenkaart</Heading>
       </Title>
       <Navigation />
