@@ -36,6 +36,7 @@ export const RoleForm = ({
 }) => {
   const formRef = useRef(null)
   const { isValid, validate, errors, event } = useFormValidation(formRef)
+
   const [rolePermissions, setRolePermissions] = useState(role.permissions)
 
   const handleChange = useCallback(
@@ -90,7 +91,8 @@ export const RoleForm = ({
     if (isValid && !readOnly) {
       handleSubmit(event)
     }
-  }, [event, isValid, handleSubmit, errors, readOnly])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isValid, readOnly, event])
 
   const handleCancel = useCallback(() => {
     navigate(`${BASE_URL}/${ROLES_URL}`)
