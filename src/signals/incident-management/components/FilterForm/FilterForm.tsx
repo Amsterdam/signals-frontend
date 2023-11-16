@@ -34,15 +34,15 @@ import { parseOutputFormData } from 'signals/shared/filter/parse'
 
 import {
   reset,
-  setAddress,
   setSaveButtonLabel,
   setCategories,
   setDate,
   setGroupOptions,
   setMainCategory,
   setName,
-  setNoteKeyword,
   setRefresh,
+  setNoteKeyword,
+  setAddress,
 } from './actions'
 import {
   CategoryGroups,
@@ -63,8 +63,10 @@ import {
 import type { FilterFormData, UserOptions } from './types'
 import { hasTooManyFiltersSelected } from './utils'
 import CheckboxList from '../../../../components/CheckboxList'
+import PDOKAutoSuggest from '../../../../components/PDOKAutoSuggest'
 import AppContext from '../../../../containers/App/context'
 import RefreshIcon from '../../../../images/icon-refresh.svg'
+import type { PdokResponse } from '../../../../shared/services/map-location'
 import { useIncidentManagementContext } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import type { SaveFilterAction, UpdateFilterAction } from '../../types'
@@ -77,6 +79,12 @@ const getUserOptions = (data: UserOptions) =>
     id: user.username,
     value: user.username,
   }))
+
+const serviceParams = [
+  ['fq', 'bron:BAG'],
+  ['fq', 'type:weg'],
+  ['q', ''],
+]
 
 const getUserCount = (data: UserOptions) => data.count
 
@@ -283,14 +291,6 @@ const FilterForm = ({
       }),
     [controlledTextInput]
   )
-  const onAddressChange = useCallback(
-    (event) =>
-      setControlledTextInput({
-        ...controlledTextInput,
-        address: event.target?.value,
-      }),
-    [controlledTextInput]
-  )
 
   const onRefreshChange = useCallback(
     (event) => {
@@ -311,9 +311,9 @@ const FilterForm = ({
     [dispatch]
   )
 
-  const onAddressBlur = useCallback(
-    (event) => {
-      dispatch(setAddress(event.target.value))
+  const onAddressSelect = useCallback(
+    (response: PdokResponse) => {
+      dispatch(setAddress(response.data.address.openbare_ruimte))
     },
     [dispatch]
   )
@@ -404,7 +404,7 @@ const FilterForm = ({
     <Fragment>
       {showNotification && <Notification reference={notificationRef} />}
 
-      <Form action="" noValidate>
+      <Form action="" noValidate data-testid="filter-form">
         <ControlsWrapper>
           {filter.id && <input type="hidden" name="id" value={filter.id} />}
           <Fieldset>
@@ -641,15 +641,13 @@ const FilterForm = ({
             <Label htmlFor="filter_address" isGroupHeader>
               Adres
             </Label>
-            <Input
-              data-testid="filter-address"
+            <PDOKAutoSuggest
               id="filter_address"
-              name="address_text"
-              onBlur={onAddressBlur}
-              onChange={onAddressChange}
-              placeholder="Zoek adres of postcode"
-              type="text"
-              value={controlledTextInput.address}
+              municipality={configuration.map?.municipality}
+              serviceParams={serviceParams}
+              onSelect={onAddressSelect}
+              placeholder="Zoek op straatnaam"
+              value={state.options.address_text}
             />
           </FilterGroup>
 

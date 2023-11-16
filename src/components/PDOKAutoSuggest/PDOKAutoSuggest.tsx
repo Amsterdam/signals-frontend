@@ -12,12 +12,6 @@ import {
 import type { RevGeo } from 'types/pdok/revgeo'
 
 const municipalityFilterName = 'gemeentenaam'
-const serviceParams = [
-  ['fq', 'bron:BAG'],
-  ['fq', 'type:adres'],
-  ['q', ''],
-]
-
 const numOptionsDeterminer = (data?: RevGeo) =>
   data?.response?.docs?.length || 0
 
@@ -26,6 +20,7 @@ export interface PDOKAutoSuggestProps
     AutoSuggestProps,
     'url' | 'formatResponse' | 'numOptionsDeterminer'
   > {
+  serviceParams?: string[][]
   fieldList?: Array<string>
   municipality?: string
 }
@@ -38,6 +33,11 @@ export interface PDOKAutoSuggestProps
 const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   fieldList = [],
   municipality = configuration.map.municipality,
+  serviceParams = [
+    ['fq', 'bron:BAG'],
+    ['fq', 'type:adres'],
+    ['q', ''],
+  ],
   ...rest
 }) => {
   const fq = municipality

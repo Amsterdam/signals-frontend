@@ -392,6 +392,7 @@ const AutoSuggest = ({
             onClick={() => inputRef.current?.focus()}
             size={24}
             variant="blank"
+            type="button"
           />
         )}
       </div>

@@ -4,6 +4,7 @@ import type { ReactElement } from 'react'
 
 import { fireEvent, render, screen, act, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import fetch from 'jest-fetch-mock'
 
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import * as appSelectors from 'containers/App/selectors'
@@ -147,15 +148,15 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(getByTestId('filter-name')).toHaveValue('FooBar')
   })
 
-  it('should render filter fields', () => {
-    const { container } = render(withContext(<FilterForm {...formProps} />))
+  it('should render filter fields', async () => {
+    const { container, findAllByPlaceholderText } = render(
+      withContext(<FilterForm {...formProps} />)
+    )
 
     expect(
       container.querySelectorAll('input[type="text"][name="name"]')
     ).toHaveLength(1)
-    expect(
-      container.querySelectorAll('input[type="text"][name="address_text"]')
-    ).toHaveLength(1)
+    expect(await findAllByPlaceholderText('Zoek op straatnaam')).toHaveLength(1)
   })
 
   it('should render a refresh checkbox', async () => {
@@ -567,13 +568,9 @@ describe('signals/incident-management/components/FilterForm', () => {
     const username = autocompleteUsernames.results[0].username
 
     const selectUser = async (input: any) => {
-      // console.log('---  input:', input)
       return act(async () => {
         userEvent.type(input, 'asc')
-        // console.log('username', username)
-        // screen.debug()
         const userNameListElement = await screen.findByText(username)
-        // console.log('---  userNameListElement:', userNameListElement)
         userEvent.click(userNameListElement)
       })
     }
@@ -836,10 +833,8 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
 
       const nameField = screen.getByRole('textbox', { name: 'Filternaam' })
-      const addressField = screen.getByRole('textbox', { name: 'Adres' })
       const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' })
 
-      expect(addressField).toHaveValue('Initial address')
       expect(nameField).toHaveValue('Initial name')
       expect(noteField).toHaveValue('Initial note')
 
@@ -848,7 +843,6 @@ describe('signals/incident-management/components/FilterForm', () => {
       })
 
       expect(onClearFilter).toHaveBeenCalled()
-      expect(addressField).toHaveValue('')
       expect(nameField).toHaveValue('')
       expect(noteField).toHaveValue('')
     })
@@ -860,7 +854,6 @@ describe('signals/incident-management/components/FilterForm', () => {
       )
 
       const nameField = screen.getByRole('textbox', { name: 'Filternaam' })
-      const addressField = screen.getByRole('textbox', { name: 'Adres' })
       const noteField = screen.getByRole('textbox', { name: 'Zoek in notitie' })
       const dateField = screen.getByRole('textbox', { name: 'Tot en met' })
       const afvalToggle = container.querySelector(
@@ -874,11 +867,6 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.change(dateField, { target: { value: '1970-01-01' } })
       })
       act(() => {
-        fireEvent.change(addressField, {
-          target: { value: 'Weesperstraat 113' },
-        })
-      })
-      act(() => {
         fireEvent.change(noteField, { target: { value: 'test123' } })
       })
       act(() => {
@@ -889,7 +877,6 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       expect(nameField).toHaveValue('My filter')
       expect(dateField).toHaveValue('01-01-1970')
-      expect(addressField).toHaveValue()
       expect(afvalToggle).toBeChecked()
       expect(noteField).toHaveValue('test123')
 
@@ -899,9 +886,6 @@ describe('signals/incident-management/components/FilterForm', () => {
 
       expect(onClearFilter).toHaveBeenCalled()
 
-      // skip testing dateField; handled by react-datepicker and not possible to verify until package has been updated
-      // expect(dateField.value).toEqual('');
-      expect(addressField).toHaveValue('')
       expect(nameField).toHaveValue('')
       expect(noteField).toHaveValue('')
       expect(afvalToggle).not.toBeChecked()
@@ -945,38 +929,6 @@ describe('signals/incident-management/components/FilterForm', () => {
     })
 
     expect(submitButton.textContent).toEqual(SAVE_SUBMIT_BUTTON_LABEL)
-  })
-
-  it('should watch for changes in address_text field value', async () => {
-    const { findByTestId } = render(
-      withContext(
-        <FilterForm
-          {...formProps}
-          filter={{
-            name: 'My saved filter',
-            options: { address_text: 'Weesperstraat 113' },
-          }}
-        />
-      )
-    )
-
-    const addressField = screen.getByRole('textbox', { name: 'Adres' })
-
-    await act(async () => {
-      fireEvent.change(addressField, {
-        target: { value: 'Weesperstraat 113/117' },
-      })
-    })
-
-    await act(async () => {
-      fireEvent.blur(addressField)
-    })
-
-    await findByTestId('filter-address')
-
-    expect(screen.getByRole('textbox', { name: 'Adres' })).toHaveValue(
-      'Weesperstraat 113/117'
-    )
   })
 
   it('should watch for changes in note_keyword field value', () => {
