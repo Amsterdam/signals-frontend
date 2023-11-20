@@ -42,14 +42,17 @@ export const RoleFormContainer = ({
   const role = list.find((item) => item.id === roleId * 1)
   const title = `Rol ${roleId ? 'wijzigen' : 'toevoegen'}`
   const redirectURL = location.referrer || `${BASE_URL}/${routes.roles}`
+
+  useEffect(() => {
+    onResetResponse()
+  }, [onResetResponse, responseError])
+
   useEffect(() => {
     let message
 
     if (responseSuccess) {
       message = roleId ? 'Gegevens opgeslagen' : 'Rol toegevoegd'
     }
-
-    onResetResponse()
 
     if (!message) return
 
@@ -58,13 +61,12 @@ export const RoleFormContainer = ({
       title: message,
       type: TYPE_LOCAL,
     })
-
+    onResetResponse()
     navigate(redirectURL)
   }, [
     navigate,
     onResetResponse,
     redirectURL,
-    responseError,
     responseSuccess,
     roleId,
     showGlobalNotification,
