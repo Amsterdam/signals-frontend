@@ -15,7 +15,7 @@ import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MockInstance = jest.MockInstance
 import type { AssetListProps } from './AssetList'
 import AssetList from './AssetList'
-import { AssetListItem } from './AssetList'
+import { AssetListItem } from './AssetListItem'
 import type configurationType from '../../../../../../../shared/services/configuration/__mocks__/configuration'
 import type { Item } from '../../types'
 import { FeatureStatus } from '../../types'
