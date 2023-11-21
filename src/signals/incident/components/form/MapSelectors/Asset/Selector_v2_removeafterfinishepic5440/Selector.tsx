@@ -145,8 +145,10 @@ const Selector: FC = () => {
       ? Math.max(map.getZoom(), mapOptions.zoom)
       : map.getZoom()
 
-    map.flyTo(coordinates, zoomLevel)
-  }, [coordinates, map, mapOptions.zoom])
+    if (!selection) {
+      map.flyTo(coordinates, zoomLevel)
+    }
+  }, [coordinates, map, mapOptions.zoom, selection])
 
   useEffect(() => {
     global.window.scrollTo(0, 0)

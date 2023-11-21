@@ -89,7 +89,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     (selectedItem: Item, itemLocation?: Location) => {
       const payload = {
         selection: [selectedItem],
-        location: itemLocation || location,
+        location: location || itemLocation,
         maxNumberOfAssets: maxNumberOfAssets || 1,
       }
       parent.meta.addToSelection({
