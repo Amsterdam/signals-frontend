@@ -141,7 +141,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
           >
             {selection
               ? language?.submit || 'Meld dit object'
-              : 'Ga verder zonder ' + language?.objectTypeSingular || 'object'}
+              : 'Ga verder zonder ' +
+                (language?.objectTypeSingular || 'object')}
           </StyledButton>
         </StyledButtonWrapper>
       )}
