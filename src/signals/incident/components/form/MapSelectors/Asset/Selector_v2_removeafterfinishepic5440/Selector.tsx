@@ -174,7 +174,7 @@ const Selector: FC = () => {
   ])
 
   useEffect(() => {
-    if (!maxAssetWarning || !selection || selection.length === 0) {
+    if (!maxAssetWarning && selection && selection.length !== 0) {
       setMaxAssetWarningActive(true)
     }
   }, [maxAssetWarningActive, maxAssetWarning, selection])
