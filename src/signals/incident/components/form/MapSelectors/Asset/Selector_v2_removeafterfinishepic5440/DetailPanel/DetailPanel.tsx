@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useCallback, useContext } from 'react'
 import type { FC } from 'react'
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+import { useCallback, useContext, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
-import { breakpoint, ascDefaultTheme, Button } from '@amsterdam/asc-ui'
+import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
@@ -18,9 +18,14 @@ import {
   PanelContent,
   StyledAssetList,
   StyledButton,
+  StyledButtonWrapper,
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
+import {
+  DrawerOverlay,
+  DrawerState,
+} from '../../../../../../../../components/DrawerOverlay'
 import AssetSelectContext from '../../context'
 import Legend from '../Legend'
 import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
@@ -30,16 +35,23 @@ export interface DetailPanelProps {
 }
 
 const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
+
   const shouldRenderMobileVersion = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
 
   const dispatch = useDispatch()
-  const { address, selection, removeItem, setLocation, meta } =
-    useContext(AssetSelectContext)
+  const {
+    address,
+    selection,
+    removeItem,
+    setLocation,
+    meta,
+    selectableFeatures,
+  } = useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
-
   const addressValue = address ? formatAddress(address) : ''
 
   const selectionOnMap =
@@ -55,69 +67,85 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
   )
 
   return (
-    <PanelContent
-      data-testid="detail-panel"
-      $noFeatureTypes={featureTypes.length === 0}
-      $address={!!address}
+    <DrawerOverlay
+      state={drawerState}
+      onStateChange={setDrawerState}
+      disableDrawerHandleDesktop
+      topPositionDrawer={60}
     >
-      {!shouldRenderMobileVersion && (
-        <Button
-          aria-label="Terug"
-          aria-controls="addressPanel"
-          icon={<ChevronLeft />}
-          iconSize={20}
-          onClick={() => dispatch(closeMap())}
-          size={24}
-          title="Terug"
-          variant="blank"
-        />
-      )}
-      <ScrollWrapper>
+      <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
-          <>
-            <StyledParagraphPDOkAutoSuggest>
-              {language?.title || 'Selecteer de locatie'}
-              <Description>
-                {language?.description ||
-                  'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
-              </Description>
-            </StyledParagraphPDOkAutoSuggest>
-            <StyledLabelPDOkAutoSuggest htmlFor="location">
-              {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-            </StyledLabelPDOkAutoSuggest>
-            <StyledPDOKAutoSuggest
-              id={'location'}
-              onClear={removeItem}
-              onSelect={onAddressSelect}
-              value={addressValue}
-              placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
-            />
-          </>
-        )}
-
-        {selection && selectionOnMap && (
-          <StyledAssetList
-            selection={selection}
-            onRemove={removeItem}
-            featureTypes={featureTypes}
-            featureStatusTypes={featureStatusTypes}
+          <Button
+            aria-label="Terug"
+            aria-controls="addressPanel"
+            icon={<ChevronLeft />}
+            iconSize={20}
+            onClick={() => dispatch(closeMap())}
+            size={24}
+            title="Terug"
+            variant="blank"
           />
         )}
-
-        {address && (
+        <ScrollWrapper>
+          {!shouldRenderMobileVersion && (
+            <>
+              <StyledParagraphPDOkAutoSuggest>
+                {language?.title || 'Selecteer de locatie'}
+                <Description>
+                  {language?.description ||
+                    'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
+                </Description>
+              </StyledParagraphPDOkAutoSuggest>
+              <StyledLabelPDOkAutoSuggest htmlFor="location">
+                {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+              </StyledLabelPDOkAutoSuggest>
+              <StyledPDOKAutoSuggest
+                id={'location'}
+                onClear={removeItem}
+                onSelect={onAddressSelect}
+                value={addressValue}
+                placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
+              />
+            </>
+          )}
+          {((selection && selectionOnMap) || selectableFeatures) && (
+            <StyledAssetList
+              selection={selection}
+              remove={removeItem}
+              featureTypes={featureTypes}
+              featureStatusTypes={featureStatusTypes}
+              selectableFeatures={selectableFeatures}
+              objectTypePlural={meta?.language?.objectTypePlural}
+            />
+          )}
+          {address && !shouldRenderMobileVersion && (
+            <StyledButton
+              onClick={() => dispatch(closeMap())}
+              variant="primary"
+              data-testid="asset-select-submit-button"
+              tabIndex={0}
+            >
+              {language?.submit || 'Meld dit object'}
+            </StyledButton>
+          )}
+        </ScrollWrapper>
+      </PanelContent>
+      <Legend onLegendOpen={() => setDrawerState(DrawerState.Open)} />
+      {shouldRenderMobileVersion && (
+        <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}
           >
-            {language?.submit || 'Meld dit object'}
+            {selection
+              ? language?.submit || 'Meld dit object'
+              : 'Ga verder zonder ' + language?.objectTypeSingular || 'object'}
           </StyledButton>
-        )}
-      </ScrollWrapper>
-
-      <Legend />
-    </PanelContent>
+        </StyledButtonWrapper>
+      )}
+    </DrawerOverlay>
   )
 }
 

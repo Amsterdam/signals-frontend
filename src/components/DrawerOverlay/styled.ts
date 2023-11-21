@@ -13,18 +13,20 @@ import styled, { css } from 'styled-components'
 import type { DeviceMode } from 'types/device'
 
 export const HANDLE_SIZE_MOBILE = 40
-export const MENU_WIDTH = 420
+export const MENU_WIDTH = 400
 
 export const MapOverlay = styled('div')<{
   $mode: DeviceMode
   $isDesktop: (mode: DeviceMode) => boolean
+  $top?: number
 }>`
   display: flex;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  top: ${({ $mode, $isDesktop }) => ($isDesktop($mode) ? 0 : '50%')};
+  top: ${({ $mode, $isDesktop, $top }) =>
+    $isDesktop($mode) ? 0 : ($top ?? 50) + '%'};
   pointer-events: none;
   @media print {
     position: relative;
@@ -33,6 +35,7 @@ export const MapOverlay = styled('div')<{
 
 export const DrawerMapOverlay = styled(MapOverlay)`
   flex-direction: column;
+  z-index: 1;
 `
 
 export const DrawerHandleMobile = styled(Button)`
@@ -79,7 +82,6 @@ export const DrawerHandleMiniDesktop = styled.div`
 `
 
 export const DrawerHandleDesktop = styled(Button)`
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
   width: 0;
   height: 100%;
@@ -171,74 +173,9 @@ export const DrawerContent = styled.div`
   max-width: 100%;
   min-height: 0;
   overflow-y: auto;
-  position: relative;
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: ${MENU_WIDTH}px;
-  }
-`
-
-/**
- * Detail Panel
- * */
-
-export const CloseButton = styled(Button)`
-  position: absolute;
-  top: 14px;
-  right: 20px;
-  min-width: inherit;
-  // Needs z-index else content blocks the onClick
-  z-index: 1;
-  background-color: transparent;
-
-  > span {
-    margin-right: 0;
-  }
-`
-
-export const DetailsWrapper = styled.section`
-  position: absolute;
-  background-color: ${themeColor('tint', 'level1')};
-  bottom: 0;
-  left: 0;
-  max-width: 100%;
-  padding: 20px;
-  right: 0;
-  top: 0;
-  width: calc(${MENU_WIDTH}px - 16px);
-  z-index: 2;
-
-  @media screen and ${breakpoint('max-width', 'tabletM')} {
-    width: 100vh;
-    overflow-y: scroll;
-    top: unset;
-    height: calc(100% - ${HANDLE_SIZE_MOBILE}px);
-  }
-`
-
-export const StyledList = styled.dl`
-  margin: 0;
-
-  dt {
-    color: ${themeColor('tint', 'level5')};
-    margin-bottom: ${themeSpacing(1)};
-    margin-top: ${themeSpacing(5)};
-    position: relative;
-    font-weight: 400;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
-  dd {
-    font-weight: 500;
-    &:not(:last-child) {
-      margin-bottom: ${themeSpacing(2)};
-    }
-
-    &.alert {
-      color: ${themeColor('secondary')};
-    }
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
   }
 `

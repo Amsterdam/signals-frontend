@@ -64,7 +64,7 @@ describe('LegendPanel', () => {
 
     expect(screen.getByTestId('legend-panel')).toHaveStyleRule(
       'transform',
-      'translate3d( 0,50vh,0 )',
+      'translate3d( 0,0,0 )',
       { media: 'only screen and (max-width:767px)' }
     )
 

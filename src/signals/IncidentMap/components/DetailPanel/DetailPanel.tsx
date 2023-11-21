@@ -11,8 +11,7 @@ import styled from 'styled-components'
 import { capitalize } from 'shared/services/date-utils'
 import type { PdokAddress } from 'shared/services/map-location'
 
-import { StyledList } from './styled'
-import { CloseButton, DetailsWrapper } from './styled'
+import { CloseButton, DetailsWrapper, StyledList } from './styled'
 import { getAddress } from './utils'
 import type { Incident } from '../../types'
 

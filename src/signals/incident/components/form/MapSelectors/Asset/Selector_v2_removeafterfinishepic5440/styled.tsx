@@ -97,7 +97,7 @@ export const StyledMap = styled(Map)`
   z-index: 0;
 `
 
-export const TopLeftWrapper = styled.div`
+export const TopLeftWrapper = styled.div<{ maxAssets: boolean }>`
   display: flex;
   flex-direction: column;
   margin-right: ${themeSpacing(4)};
@@ -109,21 +109,29 @@ export const TopLeftWrapper = styled.div`
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     position: absolute;
     top: unset;
-    left: 16px;
-    bottom: -64px;
+    left: ${themeSpacing(4)};
+    bottom: -${themeSpacing(16)};
 
     > * {
       margin-bottom: unset;
+      height: 44px;
     }
-  }
+
+    ${({ maxAssets }) =>
+      maxAssets &&
+      css`
+        bottom: -${themeSpacing(31)};
+
+        > *:first-child {
+          margin-bottom: ${themeSpacing(4)};
+        }
+      `}
 `
 
 export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
 })`
   -webkit-overflow-scrolling: touch;
-  height: 100%;
-  overflow-y: auto;
 `
 
 export const Title = styled(Heading)`

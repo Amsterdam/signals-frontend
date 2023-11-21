@@ -207,7 +207,7 @@ const Selector: FC = () => {
   }, [removeItem])
 
   const topLeft = (
-    <TopLeftWrapper>
+    <TopLeftWrapper maxAssets={!!mapMessage}>
       <GPSButton
         tabIndex={0}
         onLocationSuccess={(location: LocationResult) => {
@@ -263,7 +263,7 @@ const Selector: FC = () => {
   const mapWrapper = (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
-        <DetailPanel language={meta.language} />
+        {!showList && <DetailPanel language={meta.language} />}
         <StyledMap
           hasZoomControls={desktopView}
           mapOptions={mapOptions}

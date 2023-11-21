@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
-import type { CSSProperties, ReactNode } from 'react'
+// Copyright (C) 2022-2023 Gemeente Amsterdam
+import type { CSSProperties, ElementType, ReactNode } from 'react'
 import { useCallback } from 'react'
 
 import { Icon } from '@amsterdam/asc-ui'
 
 import { useDeviceMode } from 'hooks/useDeviceMode'
 
-import { DetailPanel } from './DetailPanel'
 import {
   Drawer,
   DrawerContainer,
@@ -20,16 +19,19 @@ import {
   HandleIcon,
 } from './styled'
 import { DrawerState } from './types'
-import type { Incident } from '../../types'
+import type { Incident } from '../../signals/IncidentMap/types'
 
 const CONTROLS_PADDING = 32
 
 export interface Props {
+  children: ReactNode
+  onCloseDetailPanel?: () => void
   incident?: Incident
-  onCloseDetailPanel: () => void
+  DetailPanel?: ElementType
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
-  children: ReactNode
+  disableDrawerHandleDesktop?: boolean
+  topPositionDrawer?: number
 }
 
 export const DrawerOverlay = ({
@@ -38,6 +40,9 @@ export const DrawerOverlay = ({
   onCloseDetailPanel,
   onStateChange,
   state = DrawerState.Closed,
+  DetailPanel,
+  disableDrawerHandleDesktop = false,
+  topPositionDrawer,
 }: Props) => {
   const { deviceMode, isDesktop, isMobile } = useDeviceMode()
 
@@ -70,7 +75,11 @@ export const DrawerOverlay = ({
   }, [onStateChange, state])
 
   return (
-    <DrawerMapOverlay $mode={deviceMode} $isDesktop={isDesktop}>
+    <DrawerMapOverlay
+      $mode={deviceMode}
+      $isDesktop={isDesktop}
+      $top={topPositionDrawer}
+    >
       <DrawerContainer
         $mode={deviceMode}
         $isDesktop={isDesktop}
@@ -88,7 +97,7 @@ export const DrawerOverlay = ({
             }
             onClick={drawerClick}
           >
-            {isDesktop(deviceMode) ? (
+            {isDesktop(deviceMode) && !disableDrawerHandleDesktop ? (
               <DrawerHandleMiniDesktop>
                 <Icon size={20}>
                   <HandleIcon $isOpen={state === DrawerState.Open} />
@@ -97,7 +106,7 @@ export const DrawerOverlay = ({
             ) : null}
           </DrawerHandle>
 
-          {incident && (
+          {incident && DetailPanel && (
             <DetailPanel onClose={onCloseDetailPanel} incident={incident} />
           )}
 

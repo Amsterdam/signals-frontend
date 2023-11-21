@@ -41,7 +41,7 @@ jest.mock(
       selection,
       ...props
     }: AssetListProps) =>
-      (
+      selection && (
         <span data-testid="mock-asset-list" {...props}>
           {`${selection[0].description} - ${selection[0].label}`}
           <input

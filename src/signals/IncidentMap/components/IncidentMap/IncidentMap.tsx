@@ -25,9 +25,14 @@ import {
 } from './styled'
 import usePaginatedIncidents from './usePaginatedIncidents'
 import { getFlyToZoom } from './utils'
+import {
+  DrawerOverlay,
+  DrawerState,
+} from '../../../../components/DrawerOverlay'
 import type { Filter, Incident, Properties } from '../../types'
-import { AddressLocation, AddressSearchMobile } from '../AddressLocation'
-import { DrawerOverlay, DrawerState } from '../DrawerOverlay'
+import { AddressLocation } from '../AddressLocation'
+import { AddressSearchMobile } from '../AddressLocation'
+import { DetailPanel } from '../DetailPanel/DetailPanel'
 import { FilterPanel } from '../FilterPanel'
 import { GPSLocation } from '../GPSLocation'
 import { IncidentLayer } from '../IncidentLayer'
@@ -220,6 +225,7 @@ export const IncidentMap = () => {
           state={drawerState}
           onCloseDetailPanel={resetSelectedMarker}
           incident={selectedIncident}
+          DetailPanel={DetailPanel}
         >
           <StyledParagraph>
             Op deze kaart staan meldingen in de openbare ruimte waarmee we aan

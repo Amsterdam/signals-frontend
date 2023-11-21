@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 
+import type { FeatureCollection } from 'geojson'
 import type { LatLngLiteral } from 'leaflet'
 import { useSelector } from 'react-redux'
 
@@ -62,12 +63,14 @@ export interface AssetSelectProps {
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
+  const [selectableFeatures, setSelectableFeatures] = useState<
+    FeatureCollection | undefined
+  >(undefined)
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])
   const { coordinates, address } = location || {}
   const hasSelection = selection || coordinates
   const { maxNumberOfAssets } = meta
-
   const updateIncident = useCallback(
     (payload?: UpdatePayload) => {
       parent.meta.updateIncident({
@@ -199,6 +202,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         coordinates,
         layer,
         message,
+        selectableFeatures,
         meta: {
           ...meta,
           featureTypes,
@@ -209,6 +213,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         setItem,
         fetchLocation,
         setMessage,
+        setSelectableFeatures,
       }}
     >
       {!mapActive && !hasSelection && <Intro />}

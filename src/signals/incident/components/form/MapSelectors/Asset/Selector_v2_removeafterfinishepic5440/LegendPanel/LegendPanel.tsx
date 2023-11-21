@@ -45,6 +45,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
             id={`legendPanelListItem-${item.id}`}
             key={item.id}
             iconUrl={item.iconUrl}
+            checkboxDisabled
           >
             {item.label}
           </IconListItem>

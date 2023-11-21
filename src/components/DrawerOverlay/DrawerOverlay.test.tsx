@@ -8,13 +8,15 @@ import userEvent from '@testing-library/user-event'
 import { DrawerOverlay } from './DrawerOverlay'
 import type { Props } from './DrawerOverlay'
 import { DrawerState } from './types'
-import { mockIncidentsLong } from '../__test__'
+import { mockIncidentsLong } from '../../signals/IncidentMap/components/__test__'
+import { DetailPanel } from '../../signals/IncidentMap/components/DetailPanel/DetailPanel'
 
 const defaultProps: PropsWithChildren<Props> = {
   onCloseDetailPanel: jest.fn(),
   onStateChange: jest.fn(),
   state: DrawerState.Open,
   children: <div>[ChildrenComponent]</div>,
+  DetailPanel: DetailPanel,
 }
 
 const renderComponent = (props?: Partial<Props>) =>

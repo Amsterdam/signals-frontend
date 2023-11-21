@@ -24,11 +24,11 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
   ${({ slide }) =>
     slide === 'in'
       ? css`
-          transition: transform 0.275s -0.275s, transform 0.275s 0s;
+          transition: transform 0.25s -0.25s, transform 0.25s 0s;
           transition-timing-function: ease-out;
         `
       : css`
-          transition: transform 0.275s 0s;
+          transition: transform 0.25s 0s;
           transition-timing-function: ease-in;
         `}
 
@@ -47,9 +47,10 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
     flex: 0 0 50vh;
     order: 1;
     position: fixed;
+    overflow-y: auto;
     transform: translate3d(
       0,
-      ${({ slide }) => (slide === 'out' ? '200%' : '50vh')},
+      ${({ slide }) => (slide === 'out' ? '200%' : '0')},
       0
     );
     width: 100vw;
