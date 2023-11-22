@@ -35,6 +35,11 @@ export const SelectionNearby = styled.div`
 
 export const ListHeading = styled.p`
   font-weight: 700;
+  margin-bottom: ${themeSpacing(2)};
+`
+
+export const ListDescription = styled.p`
+  margin-top: ${themeSpacing(2)};
 `
 
 export const ListItem = styled.div`

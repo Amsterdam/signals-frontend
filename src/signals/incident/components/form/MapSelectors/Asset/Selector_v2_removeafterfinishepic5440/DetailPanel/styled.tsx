@@ -16,7 +16,7 @@ export const StyledAssetList = styled(AssetList)`
 `
 
 export const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(5)};
+  margin-top: ${themeSpacing(4)};
   font-family: inherit;
 `
 

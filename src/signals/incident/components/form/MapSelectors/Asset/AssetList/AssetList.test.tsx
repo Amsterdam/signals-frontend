@@ -131,6 +131,7 @@ describe('AssetList', () => {
         },
       ],
     },
+    objectTypePlural: 'objecten',
   }
 
   const reportedProps: AssetListProps = {
@@ -220,20 +221,23 @@ describe('AssetList', () => {
     it('should not render selectable items when the features are not correct', () => {
       mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
         true
-      const propsCurrent = { ...props }
+      const propsCurrent = { ...props, zoomLevel: 14 }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      propsCurrent.selectableFeatures.features[0].properties.fractie_omschrijving =
-        'rest_b'
+      propsCurrent.selectableFeatures = []
+      propsCurrent.selection = []
 
       render(withAppContext(<AssetList {...propsCurrent} />))
-
-      expect(screen.getByTestId('asset-list')).toBeInTheDocument()
-      expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
 
       expect(
         screen.queryByTestId('asset-list-item-selectable')
       ).not.toBeInTheDocument()
+
+      expect(
+        screen.getByText(
+          'Er zijn geen objecten in de buurt. Versleep de kaart om de objecten te zien.'
+        )
+      ).toBeInTheDocument()
     })
 
     it('shows reported items', () => {

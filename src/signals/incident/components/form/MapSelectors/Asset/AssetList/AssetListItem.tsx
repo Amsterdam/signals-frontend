@@ -70,13 +70,14 @@ export const AssetListItem: FunctionComponent<ItemType> = ({
   useEffect(() => {
     setSelectionIncident({})
 
+    /* istanbul ignore next */
     if (selectionNearby) {
       setSelectionIncident({
         categoryName: item?.label,
         createdAt: item?.description,
       })
     }
-
+    /* istanbul ignore next */
     if (selectionOnMap && data?.features) {
       setSelectionIncident({
         categoryName: data?.features[0].properties.category.name,

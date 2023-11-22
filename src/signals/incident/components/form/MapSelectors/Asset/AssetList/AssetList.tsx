@@ -9,7 +9,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import { AssetListItem } from './AssetListItem'
 import { AssetListItemSelectable } from './AssetListItemSelectable'
-import { ListHeading } from './styled'
+import { ListDescription, ListHeading } from './styled'
 import type { Feature } from '../../types'
 import type { FeatureStatusType, FeatureType, Item } from '../../types'
 
@@ -21,6 +21,7 @@ export interface AssetListProps {
   remove?: (item: Item) => void
   selection?: Item[]
   selectableFeatures?: FeatureCollection
+  zoomLevel?: number
 }
 
 const AssetList: FunctionComponent<AssetListProps> = ({
@@ -31,6 +32,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   featureStatusTypes,
   selectableFeatures,
   objectTypePlural,
+  zoomLevel,
 }) => {
   const selectableComponents =
     configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
@@ -47,10 +49,30 @@ const AssetList: FunctionComponent<AssetListProps> = ({
         />
       )
     })
+  const renderAssetListHeading =
+    (configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
+      zoomLevel &&
+      zoomLevel >= 13) ||
+    (selection && selection.length > 0)
+
   return (
     <div>
-      {configuration.featureFlags.showSelectorV2removeafterfinishepic5440 && (
-        <ListHeading>{objectTypePlural || 'Objecten'}</ListHeading>
+      {renderAssetListHeading && (
+        <>
+          <ListHeading>{objectTypePlural || 'Objecten'}</ListHeading>
+          {!(
+            (selectableComponents && selectableComponents?.length > 0) ||
+            (selection && selection.length > 0)
+          ) && (
+            <ListDescription>
+              {`Er zijn geen ${
+                objectTypePlural || 'Objecten'
+              } in de buurt. Versleep de kaart om de ${
+                objectTypePlural || 'Objecten'
+              }  te zien.`}
+            </ListDescription>
+          )}
+        </>
       )}
       <IconList data-testid="asset-list" className={className}>
         {selection &&
@@ -67,14 +89,8 @@ const AssetList: FunctionComponent<AssetListProps> = ({
               />
             ))}
         {Array.isArray(selectableComponents) &&
-        selectableComponents.length > 0 ? (
-          selectableComponents
-        ) : (
-          <p>
-            Er zijn geen containers in de buurt. Versleep de kaart om de
-            containers te zien.
-          </p>
-        )}
+          selectableComponents.length > 0 &&
+          selectableComponents}
       </IconList>
     </div>
   )

@@ -7,10 +7,10 @@ import AssetSelectContext from '../../context'
 import { LegendToggleButton, StyledLegendPanel } from '../DetailPanel/styled'
 
 type Props = {
-  onLegendOpen: () => void
+  onLegendToggle: () => void
 }
 
-const Legend = ({ onLegendOpen }: Props) => {
+const Legend = ({ onLegendToggle }: Props) => {
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const closeLegendRef = useRef<HTMLButtonElement>(null)
   const legendButtonRef = useRef<HTMLButtonElement>(null)
@@ -24,8 +24,8 @@ const Legend = ({ onLegendOpen }: Props) => {
     }
     setShowLegendPanel(!showLegendPanel)
 
-    onLegendOpen()
-  }, [onLegendOpen, showLegendPanel])
+    onLegendToggle()
+  }, [onLegendToggle, showLegendPanel])
   const featureStatusTypes = meta.featureStatusTypes || []
 
   const nearbyLegendItem = {

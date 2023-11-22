@@ -29,7 +29,7 @@ export const controls = {
         objectTypeSingular: 'container',
         objectTypePlural: 'containers',
         pdokLabel: 'Zoek op adres',
-        pdokInput: 'Adres of containernummer',
+        pdokInput: 'Adres',
         submit: 'Bevestigen',
         description:
           'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"',

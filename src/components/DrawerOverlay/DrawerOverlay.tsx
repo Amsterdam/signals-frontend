@@ -20,6 +20,7 @@ import {
 } from './styled'
 import { DrawerState } from './types'
 import type { Incident } from '../../signals/IncidentMap/types'
+import type { Address } from '../../types/address'
 
 const CONTROLS_PADDING = 32
 
@@ -31,7 +32,8 @@ export interface Props {
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
   disableDrawerHandleDesktop?: boolean
-  topPositionDrawer?: number
+  topPositionMoDrawerMobile?: number
+  address?: Address
 }
 
 export const DrawerOverlay = ({
@@ -42,7 +44,8 @@ export const DrawerOverlay = ({
   state = DrawerState.Closed,
   DetailPanel,
   disableDrawerHandleDesktop = false,
-  topPositionDrawer,
+  topPositionMoDrawerMobile,
+  address,
 }: Props) => {
   const { deviceMode, isDesktop, isMobile } = useDeviceMode()
 
@@ -78,7 +81,8 @@ export const DrawerOverlay = ({
     <DrawerMapOverlay
       $mode={deviceMode}
       $isDesktop={isDesktop}
-      $top={topPositionDrawer}
+      $topMobile={topPositionMoDrawerMobile}
+      $address={address}
     >
       <DrawerContainer
         $mode={deviceMode}

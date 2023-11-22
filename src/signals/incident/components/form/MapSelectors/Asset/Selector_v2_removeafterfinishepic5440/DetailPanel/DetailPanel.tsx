@@ -37,7 +37,7 @@ export interface DetailPanelProps {
 
 const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
-
+  const [legendOpen, setLegendOpen] = useState(false)
   const shouldRenderMobileVersion = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
@@ -67,14 +67,16 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     [setLocation]
   )
 
-  if (zoomLevel && zoomLevel < 13 && shouldRenderMobileVersion) return null
+  const topPositionMoDrawerMobile =
+    selection || (zoomLevel && zoomLevel >= 13) || legendOpen ? 60 : 100
 
   return (
     <DrawerOverlay
       state={drawerState}
       onStateChange={setDrawerState}
       disableDrawerHandleDesktop
-      topPositionDrawer={60}
+      topPositionMoDrawerMobile={topPositionMoDrawerMobile}
+      address={address}
     >
       <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
@@ -119,6 +121,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               featureStatusTypes={featureStatusTypes}
               selectableFeatures={selectableFeatures}
               objectTypePlural={meta?.language?.objectTypePlural}
+              zoomLevel={zoomLevel}
             />
           )}
           {address && !shouldRenderMobileVersion && (
@@ -128,13 +131,21 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               data-testid="asset-select-submit-button"
               tabIndex={0}
             >
-              {language?.submit || 'Meld dit object'}
+              {selection
+                ? language?.submit || 'Meld dit object'
+                : 'Ga verder zonder ' +
+                  (language?.objectTypeSingular || 'object')}
             </StyledButton>
           )}
         </ScrollWrapper>
       </PanelContent>
-      <Legend onLegendOpen={() => setDrawerState(DrawerState.Open)} />
-      {shouldRenderMobileVersion && (
+      <Legend
+        onLegendToggle={() => {
+          setDrawerState(DrawerState.Open)
+          setLegendOpen(!legendOpen)
+        }}
+      />
+      {shouldRenderMobileVersion && address && (
         <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}

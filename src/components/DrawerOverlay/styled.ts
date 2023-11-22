@@ -12,22 +12,34 @@ import styled, { css } from 'styled-components'
 
 import type { DeviceMode } from 'types/device'
 
+import type { Address } from '../../types/address'
+
 export const HANDLE_SIZE_MOBILE = 40
 export const MENU_WIDTH = 400
 
 export const MapOverlay = styled('div')<{
   $mode: DeviceMode
   $isDesktop: (mode: DeviceMode) => boolean
-  $top?: number
+  $topMobile?: number
+  $address?: Address
 }>`
   display: flex;
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  top: ${({ $mode, $isDesktop, $top }) =>
-    $isDesktop($mode) ? 0 : ($top ?? 50) + '%'};
+  top: ${({ $mode, $isDesktop, $topMobile, $address }) =>
+    $isDesktop($mode)
+      ? 0
+      : $topMobile
+      ? $topMobile === 100
+        ? $address
+          ? css`calc(100% - 84px)`
+          : `100%`
+        : css`calc(${Number($topMobile)}%)`
+      : '50%'};
   pointer-events: none;
+  // calc
   @media print {
     position: relative;
   }
