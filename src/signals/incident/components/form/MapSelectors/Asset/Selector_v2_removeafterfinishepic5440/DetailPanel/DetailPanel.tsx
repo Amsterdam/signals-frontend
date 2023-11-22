@@ -32,9 +32,10 @@ import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
 
 export interface DetailPanelProps {
   language?: Record<string, string>
+  zoomLevel?: number
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
+const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
 
   const shouldRenderMobileVersion = useMediaQuery({
@@ -65,6 +66,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
     },
     [setLocation]
   )
+
+  if (zoomLevel && zoomLevel < 13 && shouldRenderMobileVersion) return null
 
   return (
     <DrawerOverlay

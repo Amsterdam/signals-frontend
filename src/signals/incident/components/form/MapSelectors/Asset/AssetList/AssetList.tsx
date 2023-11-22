@@ -32,6 +32,21 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   selectableFeatures,
   objectTypePlural,
 }) => {
+  const selectableComponents =
+    configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
+    selectableFeatures &&
+    selectableFeatures?.features?.map((feat: any) => {
+      const feature = feat as Feature
+      return (
+        <AssetListItemSelectable
+          key={feature.id}
+          selection={selection}
+          feature={feature}
+          featureTypes={featureTypes}
+          featureStatusTypes={featureStatusTypes}
+        />
+      )
+    })
   return (
     <div>
       {configuration.featureFlags.showSelectorV2removeafterfinishepic5440 && (
@@ -51,20 +66,15 @@ const AssetList: FunctionComponent<AssetListProps> = ({
                 remove={() => remove && remove(item)}
               />
             ))}
-        {configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
-          selectableFeatures &&
-          selectableFeatures?.features?.map((feat: any) => {
-            const feature = feat as Feature
-            return (
-              <AssetListItemSelectable
-                key={feature.id}
-                selection={selection}
-                feature={feature}
-                featureTypes={featureTypes}
-                featureStatusTypes={featureStatusTypes}
-              />
-            )
-          })}
+        {Array.isArray(selectableComponents) &&
+        selectableComponents.length > 0 ? (
+          selectableComponents
+        ) : (
+          <p>
+            Er zijn geen containers in de buurt. Versleep de kaart om de
+            containers te zien.
+          </p>
+        )}
       </IconList>
     </div>
   )

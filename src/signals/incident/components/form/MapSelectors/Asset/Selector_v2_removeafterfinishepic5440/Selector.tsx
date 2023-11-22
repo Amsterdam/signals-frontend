@@ -265,7 +265,9 @@ const Selector: FC = () => {
   const mapWrapper = (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
-        {!showList && <DetailPanel language={meta.language} />}
+        {!showList && (
+          <DetailPanel language={meta.language} zoomLevel={map?.getZoom()} />
+        )}
         <StyledMap
           hasZoomControls={desktopView}
           mapOptions={mapOptions}

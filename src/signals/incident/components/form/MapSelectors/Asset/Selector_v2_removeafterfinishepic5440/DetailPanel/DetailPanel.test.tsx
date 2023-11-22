@@ -228,6 +228,19 @@ describe('DetailPanel', () => {
     expect(screen.getByText('Ga verder zonder object')).toBeInTheDocument()
   })
 
+  it("It doesn't display the DetailPanel unless the zoomLevel meets the required threshold", () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} zoomLevel={1} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.queryByTestId('detail-panel')).not.toBeInTheDocument()
+  })
+
   it('it renders the mobile submit button with a default text when there is no selection', () => {
     jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
