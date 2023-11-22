@@ -28,7 +28,7 @@ export const controls = {
         unregisteredId: 'Nummer van de container',
         objectTypeSingular: 'container',
         objectTypePlural: 'containers',
-        pdokLabel: 'Zoek op adres of containernummer',
+        pdokLabel: 'Zoek op adres',
         pdokInput: 'Adres of containernummer',
         submit: 'Bevestigen',
         description:

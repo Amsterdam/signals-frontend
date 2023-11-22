@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (C) 2023 Gemeente Amsterdam
 import { useContext } from 'react'
 
 import { featureToCoordinates } from '../../../../../../../../shared/services/map-location'
@@ -26,7 +28,7 @@ export const useSelectionProps = ({
   feature,
   selection,
 }: Props) => {
-  const { setItem, removeItem } = useContext(AssetSelectContext)
+  const { setItem } = useContext(AssetSelectContext)
 
   const coordinates = featureToCoordinates(feature.geometry as Geometrie)
 
@@ -35,7 +37,6 @@ export const useSelectionProps = ({
 
   const { description, typeValue, idField } = featureType
   const id = feature.properties[idField] || ''
-  const isSelected = Boolean(selection?.find((item) => item.id === id))
 
   const featureStatusType = featureStatusTypes.find(
     ({ typeValue }) => typeValue === status
@@ -69,11 +70,6 @@ export const useSelectionProps = ({
         status: featureStatusType?.typeValue,
         label,
         coordinates,
-      }
-
-      if (isSelected) {
-        removeItem(item)
-        return
       }
 
       setItem(item, location)

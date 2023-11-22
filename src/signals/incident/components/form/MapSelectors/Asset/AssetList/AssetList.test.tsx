@@ -56,11 +56,13 @@ jest.mock('components/IconList/IconList', () => ({
     featureStatusType,
     id,
     ...props
-  }: PropsWithChildren<IconListItemProps>) => (
-    <li data-testid={id} {...props}>
-      {children}
-    </li>
-  ),
+  }: PropsWithChildren<IconListItemProps>) => {
+    return (
+      <li data-testid={id} {...props}>
+        {children}
+      </li>
+    )
+  },
 }))
 
 const mockConfiguration = configuration as typeof configurationType
@@ -213,6 +215,25 @@ describe('AssetList', () => {
           screen.getByTestId(`asset-list-item-${props.selection[0].id}`)
         ).toBeInTheDocument()
       }
+    })
+
+    it('should not render selectable items when the features are not correct', () => {
+      mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
+        true
+      const propsCurrent = { ...props }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      propsCurrent.selectableFeatures.features[0].properties.fractie_omschrijving =
+        'rest_b'
+
+      render(withAppContext(<AssetList {...propsCurrent} />))
+
+      expect(screen.getByTestId('asset-list')).toBeInTheDocument()
+      expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
+
+      expect(
+        screen.queryByTestId('asset-list-item-selectable')
+      ).not.toBeInTheDocument()
     })
 
     it('shows reported items', () => {
