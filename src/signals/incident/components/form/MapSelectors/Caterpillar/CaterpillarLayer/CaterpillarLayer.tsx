@@ -10,7 +10,7 @@ import L from 'leaflet'
 import { featureToCoordinates } from 'shared/services/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import SelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector_v2_removeafterfinishepic5440/WfsLayer/context'
+import WfsDataContext from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type {
   Feature,
   Item,
@@ -18,8 +18,8 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 import type { Geometrie, Location } from 'types/incident'
 
-import StatusLayer from '../../Asset/Selector_v2_removeafterfinishepic5440/StatusLayer'
-import { getFeatureStatusType } from '../../Asset/Selector_v2_removeafterfinishepic5440/StatusLayer/utils'
+import StatusLayer from '../../Asset/Selector/StatusLayer'
+import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
 
 /* istanbul ignore next */
 export const CaterpillarLayer: FC = () => {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import {
   useMemo,
   useContext,
@@ -11,6 +11,8 @@ import {
 import type { ReactElement, FC } from 'react'
 
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
+import { ChevronLeft } from '@amsterdam/asc-assets'
+import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
 import { useMatchMedia } from '@amsterdam/asc-ui/lib/utils/hooks'
 import { Marker } from '@amsterdam/react-maps'
 import FocusTrap from 'focus-trap-react'
@@ -23,10 +25,10 @@ import type {
 } from 'leaflet'
 import ReactDOM from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMediaQuery } from 'react-responsive'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 
 import GPSButton from 'components/GPSButton'
-import MapCloseButton from 'components/MapCloseButton'
 import useDelayedDoubleClick from 'hooks/useDelayedDoubleClick'
 import { useDeviceMode } from 'hooks/useDeviceMode'
 import configuration from 'shared/services/configuration/configuration'
@@ -40,14 +42,21 @@ import type { LocationResult } from 'types/location'
 import DetailPanel from './DetailPanel'
 import NearbyLayer from './NearbyLayer'
 import {
+  AddressPanel,
+  StyledHeader,
+  StyledPDOKAutoSuggest,
   StyledMap,
   StyledViewerContainer,
   TopLeftWrapper,
-  TopRightWrapper,
   Wrapper,
+  StyledLabel,
+  InputGroup,
+  OptionsList,
 } from './styled'
 import WfsLayer from './WfsLayer'
 import AssetLayer from './WfsLayer/AssetLayer'
+import { formatAddress } from '../../../../../../../shared/services/format-address'
+import type { PdokResponse } from '../../../../../../../shared/services/map-location'
 import { MapMessage, ZoomMessage } from '../../components/MapMessage'
 import { selectionIsUndetermined } from '../../constants'
 
@@ -64,8 +73,16 @@ const Selector: FC = () => {
   const appHtmlElement = document.getElementById('app')!
   const { deviceMode, isMobile } = useDeviceMode()
 
-  const { coordinates, layer, meta, selection, fetchLocation } =
-    useContext(AssetSelectContext)
+  const {
+    coordinates,
+    layer,
+    setLocation,
+    meta,
+    selection,
+    removeItem,
+    fetchLocation,
+    address,
+  } = useContext(AssetSelectContext)
   const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
   const maxNumberOfAssets = meta?.maxNumberOfAssets || 1
   const [desktopView] = useMatchMedia({ minBreakpoint: 'laptop' })
@@ -101,7 +118,6 @@ const Selector: FC = () => {
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const hasFeatureTypes = meta.featureTypes.length > 0
-
   const showMarker =
     coordinates && (!selection || selectionIsUndetermined(selection[0]))
 
@@ -163,11 +179,91 @@ const Selector: FC = () => {
     }
   }, [maxAssetWarningActive, maxAssetWarning, selection])
 
+  const shouldRenderMobileVersion = useMediaQuery({
+    query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
+  })
+
+  const addressValue = address ? formatAddress(address) : ''
+
+  const [optionsList, setOptionsList] = useState(null)
+  const [showList, setShowList] = useState(false)
+
+  // the following is thoroughly tested in the PDOKAutoSuggest component
+  /* istanbul ignore next */
+  const onAddressSelect = useCallback(
+    (option: PdokResponse) => {
+      const { location, address } = option.data
+      setLocation({ coordinates: location, address })
+      setOptionsList(null)
+    },
+    [setLocation]
+  )
+
+  // the following is thoroughly tested in the PDOKAutoSuggest component
+  /* istanbul ignore next */
+  const clearInput = useCallback(() => {
+    removeItem()
+    setOptionsList(null)
+  }, [removeItem])
+
+  const topLeft = (
+    <TopLeftWrapper>
+      <GPSButton
+        tabIndex={0}
+        onLocationSuccess={(location: LocationResult) => {
+          const coordinates = {
+            lat: location.latitude,
+            lng: location.longitude,
+          }
+          fetchLocation(coordinates)
+        }}
+        onLocationError={() => {
+          setMapMessage(
+            <>
+              <strong>
+                {`${configuration.language.siteAddress} heeft geen
+                            toestemming om uw locatie te gebruiken.`}
+              </strong>
+              <p>
+                Dit kunt u wijzigen in de voorkeuren of instellingen van uw
+                browser of systeem.
+              </p>
+            </>
+          )
+        }}
+        onLocationOutOfBounds={() => {
+          setMapMessage(
+            'Uw locatie valt buiten de kaart en is daardoor niet te zien'
+          )
+        }}
+      />
+
+      {hasFeatureTypes && !shouldRenderMobileVersion && (
+        <ZoomMessage
+          data-testid="zoom-message"
+          zoomLevel={MAP_ASSETS_ZOOM_LEVEL}
+        >
+          Zoom in om de {meta?.language?.objectTypePlural || 'objecten'} te zien
+        </ZoomMessage>
+      )}
+
+      {mapMessage && (
+        <MapMessage
+          data-testid="map-message"
+          onClick={() => {
+            setMapMessage('')
+            setMaxAssetWarningActive(false)
+          }}
+        >
+          {mapMessage}
+        </MapMessage>
+      )}
+    </TopLeftWrapper>
+  )
   const mapWrapper = (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
         <DetailPanel language={meta.language} />
-
         <StyledMap
           hasZoomControls={desktopView}
           mapOptions={mapOptions}
@@ -176,66 +272,7 @@ const Selector: FC = () => {
           hasGPSControl
         >
           <StyledViewerContainer
-            topLeft={
-              <TopLeftWrapper>
-                <GPSButton
-                  tabIndex={0}
-                  onLocationSuccess={(location: LocationResult) => {
-                    const coordinates = {
-                      lat: location.latitude,
-                      lng: location.longitude,
-                    }
-                    fetchLocation(coordinates)
-                  }}
-                  onLocationError={() => {
-                    setMapMessage(
-                      <>
-                        <strong>
-                          {`${configuration.language.siteAddress} heeft geen
-                            toestemming om uw locatie te gebruiken.`}
-                        </strong>
-                        <p>
-                          Dit kunt u wijzigen in de voorkeuren of instellingen
-                          van uw browser of systeem.
-                        </p>
-                      </>
-                    )
-                  }}
-                  onLocationOutOfBounds={() => {
-                    setMapMessage(
-                      'Uw locatie valt buiten de kaart en is daardoor niet te zien'
-                    )
-                  }}
-                />
-
-                {hasFeatureTypes && (
-                  <ZoomMessage
-                    data-testid="zoom-message"
-                    zoomLevel={MAP_ASSETS_ZOOM_LEVEL}
-                  >
-                    Zoom in om de{' '}
-                    {meta?.language?.objectTypePlural || 'objecten'} te zien
-                  </ZoomMessage>
-                )}
-
-                {mapMessage && (
-                  <MapMessage
-                    data-testid="map-message"
-                    onClick={() => {
-                      setMapMessage('')
-                      setMaxAssetWarningActive(false)
-                    }}
-                  >
-                    {mapMessage}
-                  </MapMessage>
-                )}
-              </TopLeftWrapper>
-            }
-            topRight={
-              <TopRightWrapper>
-                <MapCloseButton onClick={() => dispatch(closeMap())} />
-              </TopRightWrapper>
-            }
+            topLeft={shouldRenderMobileVersion ? null : topLeft}
           />
 
           <WfsLayer zoomLevel={MAP_ASSETS_ZOOM_LEVEL}>
@@ -257,6 +294,53 @@ const Selector: FC = () => {
                 }}
               />
             </span>
+          )}
+
+          {shouldRenderMobileVersion && (
+            <AddressPanel data-testid="address-panel" id="addressPanel">
+              <StyledHeader $smallView={showList}>
+                {topLeft}
+                <Button
+                  aria-label="Terug"
+                  aria-controls="addressPanel"
+                  icon={<ChevronLeft />}
+                  iconSize={20}
+                  onClick={() => dispatch(closeMap())}
+                  size={24}
+                  title="Terug"
+                  variant="blank"
+                />
+                <InputGroup>
+                  {!showList && (
+                    <StyledLabel htmlFor="pdokautosuggest">
+                      {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+                    </StyledLabel>
+                  )}
+
+                  <StyledPDOKAutoSuggest
+                    id={'pdokautosuggest'}
+                    onClear={clearInput}
+                    onData={(data) => {
+                      setOptionsList(data)
+                    }}
+                    showListChanged={(changed) => setShowList(changed)}
+                    showInlineList={false}
+                    onSelect={onAddressSelect}
+                    value={addressValue}
+                    placeholder={
+                      meta?.language?.pdokInput || 'Adres of postcode'
+                    }
+                    autoFocus={true}
+                  />
+                </InputGroup>
+              </StyledHeader>
+
+              {optionsList && showList && (
+                <OptionsList data-testid="options-list">
+                  {optionsList}
+                </OptionsList>
+              )}
+            </AddressPanel>
           )}
         </StyledMap>
       </Wrapper>

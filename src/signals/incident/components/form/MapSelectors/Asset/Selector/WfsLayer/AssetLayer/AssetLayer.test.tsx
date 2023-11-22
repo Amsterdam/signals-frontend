@@ -16,7 +16,7 @@ import type { AssetSelectValue } from 'signals/incident/components/form/MapSelec
 import type { Geometrie } from 'types/incident'
 import containerJson from 'utils/__tests__/fixtures/assets.json'
 
-import AssetLayer from '.'
+import AssetLayer from './index'
 import { WfsDataProvider } from '../context'
 
 const assetSelectProviderValue: AssetSelectValue = {

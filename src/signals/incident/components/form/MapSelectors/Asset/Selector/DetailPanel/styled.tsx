@@ -1,21 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022-2023 Gemeente Amsterdam
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
-
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
 import AssetList from '../../AssetList'
 import LegendPanel from '../LegendPanel'
 import LegendToggle from '../LegendToggleButton'
+import { ScrollWrapper } from '../styled'
 
 export const StyledAssetList = styled(AssetList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
 `
 
 export const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(6)};
+  margin-top: ${themeSpacing(5)};
   font-family: inherit;
 `
 
@@ -34,33 +33,57 @@ export const LegendToggleButton = styled(LegendToggle)`
   }
 `
 
-export const PanelContent = styled.div<{ smallViewport?: boolean }>`
+export const PanelContent = styled.div<{
+  $noFeatureTypes?: boolean
+  $address?: boolean
+}>`
   background-color: white;
   padding: ${themeSpacing(4)};
   z-index: 1;
   position: relative;
-  ${({ smallViewport }) =>
-    smallViewport &&
-    css`
-      top: 0;
-      left: 0;
-      position: absolute;
-      height: 100%;
-    `}
 
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    bottom: 0;
-    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
-    flex: 0 0 50%;
-    max-height: 50%;
-    order: 1;
-    width: 100vw;
-  }
-
+  // version with address and without if small panel then adjust padding, remove margin top inner button and add height
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
     box-shadow: 2px 0 2px rgba(0, 0, 0, 0.1);
     flex: 0 0 ${DETAIL_PANEL_WIDTH}px;
     height: 100vh;
+    padding: ${themeSpacing(5)};
+  }
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    bottom: 0;
+    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
+    flex: 0 0 40%;
+    max-height: 40%;
+    order: 1;
+    width: 100vw;
+
+    ${({ $noFeatureTypes, $address }) => {
+      if (!$address) {
+        return css`
+          padding: 0;
+          flex: 0 0 0;
+          height: 0;
+        `
+      }
+
+      // when no noFeatureTypes
+      if ($noFeatureTypes && $address) {
+        return css`
+          flex: 0 0 0;
+          padding: ${themeSpacing(4)};
+
+          ${ScrollWrapper} {
+            padding: 0;
+            margin: 0;
+
+            ${StyledButton} {
+              margin: 0;
+            }
+          }
+        `
+      }
+    }}
   }
 `
 
@@ -75,61 +98,15 @@ export const Description = styled.span`
   font-weight: 400;
 `
 
+export const StyledParagraphPDOkAutoSuggest = styled.p`
+  font-size: 1.125rem;
+  display: block;
+  font-weight: 700;
+  margin: ${themeSpacing(5, 0, 0, 0)};
+`
+
 export const StyledLabelPDOkAutoSuggest = styled.label`
   display: block;
   font-weight: 700;
-`
-
-export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  margin: ${themeSpacing(4, 0)};
-  width: 100%;
-`
-
-export const AddressPanel = styled.article`
-  background-color: white;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-  left: 0;
-  top: 0;
-
-  header {
-    border-bottom: 5px solid rgba(0, 0, 0, 0.1);
-    padding: ${themeSpacing(4)};
-    display: flex;
-    align-items: center;
-
-    > * {
-      margin: 0;
-    }
-
-    > button {
-      border: 0;
-      margin-right: ${themeSpacing(4)};
-    }
-  }
-
-  .instruction {
-    color: ${themeColor('tint', 'level4')};
-    font-size: 1.125rem;
-    margin-top: ${themeSpacing(6)};
-    text-align: center;
-  }
-`
-
-export const OptionsList = styled.div`
-  ul {
-    border: 0;
-    margin: ${themeSpacing(2, 0)};
-
-    li {
-      line-height: 22px;
-      padding: ${themeSpacing(2, 4)};
-    }
-  }
-
-  .chrevronIcon {
-    display: none;
-  }
+  margin-top: ${themeSpacing(5)};
 `
