@@ -238,7 +238,7 @@ const Selector: FC = () => {
         }}
       />
 
-      {hasFeatureTypes && !shouldRenderMobileVersion && (
+      {hasFeatureTypes && (
         <ZoomMessage
           data-testid="zoom-message"
           zoomLevel={MAP_ASSETS_ZOOM_LEVEL}

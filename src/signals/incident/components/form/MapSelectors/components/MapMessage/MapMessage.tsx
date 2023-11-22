@@ -18,10 +18,9 @@ import useLayerVisible from '../../hooks/useLayerVisible'
 
 export const MessageStyle = styled.div<{ leftOffset?: string }>`
   height: auto;
-  margin: ${themeSpacing(0, 4, 0, 0)};
+  margin: ${themeSpacing(0, 4, 2, 0)};
   min-height: ${themeSpacing(11)};
   padding: ${themeSpacing(3, 4, 3, 4)};
-  z-index: 400;
   align-self: flex-start;
   position: relative;
 `

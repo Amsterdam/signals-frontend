@@ -108,13 +108,8 @@ export const TopLeftWrapper = styled.div`
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     position: absolute;
-    top: unset;
+    top: 116px;
     left: 16px;
-    bottom: -64px;
-
-    > * {
-      margin-bottom: unset;
-    }
   }
 `
 
