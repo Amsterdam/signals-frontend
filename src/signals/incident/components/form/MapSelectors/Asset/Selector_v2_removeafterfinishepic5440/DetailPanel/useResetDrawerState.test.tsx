@@ -8,6 +8,9 @@ import { DrawerState } from '../../../../../../../../components/DrawerOverlay'
 
 const setDrawerStateMock = jest.fn()
 describe('useResetDrawerState', () => {
+  beforeEach(() => {
+    setDrawerStateMock.mockReset()
+  })
   it('should call setDrawerStateMock', () => {
     renderHook(() =>
       useResetDrawerState(DrawerState.Closed, setDrawerStateMock, 10)
