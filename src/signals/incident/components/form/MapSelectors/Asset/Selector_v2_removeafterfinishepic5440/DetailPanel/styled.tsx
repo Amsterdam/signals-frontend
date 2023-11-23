@@ -117,3 +117,12 @@ export const StyledErrorPDOkAutoSuggest = styled.p`
   color: #ec0000;
   margin-top: ${themeSpacing(0)};
 `
+
+type StyledErrorBorderPDOkAutoSuggestProps = {
+  error?: string | null
+}
+
+export const StyledErrorBorderPDOkAutoSuggest = styled.div<StyledErrorBorderPDOkAutoSuggestProps>`
+  border-left: ${({ error }) => (error ? '2px solid #ec0000' : 'none')};
+  padding-left: ${({ error }) => (error ? '12px' : '0')};
+`

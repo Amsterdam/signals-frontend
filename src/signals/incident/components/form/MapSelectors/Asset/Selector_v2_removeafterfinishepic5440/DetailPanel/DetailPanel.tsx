@@ -16,6 +16,7 @@ import {
   PanelContent,
   StyledAssetList,
   StyledButton,
+  StyledErrorBorderPDOkAutoSuggest,
   StyledErrorPDOkAutoSuggest,
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
@@ -86,21 +87,23 @@ const DetailPanel: FC<DetailPanelProps> = ({
                   'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
               </Description>
             </StyledParagraphPDOkAutoSuggest>
-            <StyledLabelPDOkAutoSuggest htmlFor="location">
-              {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-            </StyledLabelPDOkAutoSuggest>
-            {addressFieldError && (
-              <StyledErrorPDOkAutoSuggest>
-                {addressFieldError}
-              </StyledErrorPDOkAutoSuggest>
-            )}
-            <StyledPDOKAutoSuggest
-              id={'location'}
-              onClear={removeItem}
-              onSelect={onAddressSelect}
-              value={addressValue}
-              placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
-            />
+            <StyledErrorBorderPDOkAutoSuggest error={addressFieldError}>
+              <StyledLabelPDOkAutoSuggest htmlFor="location">
+                {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+              </StyledLabelPDOkAutoSuggest>
+              {addressFieldError && (
+                <StyledErrorPDOkAutoSuggest>
+                  {addressFieldError}
+                </StyledErrorPDOkAutoSuggest>
+              )}
+              <StyledPDOKAutoSuggest
+                id={'location'}
+                onClear={removeItem}
+                onSelect={onAddressSelect}
+                value={addressValue}
+                placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
+              />
+            </StyledErrorBorderPDOkAutoSuggest>
           </>
         )}
 
