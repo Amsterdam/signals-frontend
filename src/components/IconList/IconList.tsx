@@ -2,7 +2,7 @@
 // Copyright (C) 2021-2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
-import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
+import { List } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import type {
@@ -10,27 +10,9 @@ import type {
   Item,
 } from 'signals/incident/components/form/MapSelectors/types'
 
+import { StyledListItem, StyledImg, StatusIcon } from './styled'
 import configuration from '../../shared/services/configuration/configuration'
 import Checkbox from '../Checkbox'
-
-export const StyledListItem = styled(ListItem)`
-  display: flex;
-  align-items: center;
-  min-height: ${themeSpacing(13)};
-  flex: 1;
-  margin: 0;
-  padding: 0;
-`
-
-const StyledImg = styled.img`
-  margin-right: ${themeSpacing(2)};
-  flex-shrink: 0;
-`
-
-const StatusIcon = styled.img`
-  margin-left: -20px;
-  margin-top: -30px;
-`
 
 export interface IconListItemProps {
   iconUrl?: string

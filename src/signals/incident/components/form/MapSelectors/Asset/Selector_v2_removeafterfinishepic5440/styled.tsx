@@ -108,20 +108,16 @@ export const TopLeftWrapper = styled.div<{ maxAssets: boolean }>`
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     position: absolute;
-    top: unset;
     left: ${themeSpacing(4)};
-    bottom: -${themeSpacing(16)};
+    top: ${themeSpacing(32)};
 
     > * {
       margin-bottom: unset;
-      height: 44px;
     }
 
     ${({ maxAssets }) =>
       maxAssets &&
       css`
-        bottom: -${themeSpacing(31)};
-
         > *:first-child {
           margin-bottom: ${themeSpacing(4)};
         }

@@ -60,18 +60,19 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       {renderAssetListHeading && (
         <>
           <ListHeading>{objectTypePlural || 'Objecten'}</ListHeading>
-          {!(
-            (selectableComponents && selectableComponents?.length > 0) ||
-            (selection && selection.length > 0)
-          ) && (
-            <ListDescription>
-              {`Er zijn geen ${
-                objectTypePlural || 'Objecten'
-              } in de buurt. Versleep de kaart om de ${
-                objectTypePlural || 'Objecten'
-              }  te zien.`}
-            </ListDescription>
-          )}
+          {featureTypes.length > 0 &&
+            !(
+              (selectableComponents && selectableComponents?.length > 0) ||
+              (selection && selection.length > 0)
+            ) && (
+              <ListDescription>
+                {`Er zijn geen ${
+                  objectTypePlural || 'Objecten'
+                } in de buurt. Versleep de kaart om de ${
+                  objectTypePlural || 'Objecten'
+                }  te zien.`}
+              </ListDescription>
+            )}
         </>
       )}
       <IconList data-testid="asset-list" className={className}>
