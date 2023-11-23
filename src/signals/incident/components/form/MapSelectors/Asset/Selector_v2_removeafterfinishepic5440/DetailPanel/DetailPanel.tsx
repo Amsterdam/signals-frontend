@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import type { FC } from 'react'
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
@@ -22,6 +22,7 @@ import {
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
+import { useResetDrawerState } from './useResetDrawerState'
 import {
   DrawerOverlay,
   DrawerState,
@@ -67,11 +68,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     [setLocation]
   )
 
-  useEffect(() => {
-    if (zoomLevel && zoomLevel < 13 && drawerState === DrawerState.Closed) {
-      setDrawerState(DrawerState.Open)
-    }
-  }, [zoomLevel, setDrawerState, drawerState])
+  useResetDrawerState(drawerState, setDrawerState, zoomLevel)
 
   const topPositionDrawerMobile =
     selection || (zoomLevel && zoomLevel >= 13) || legendOpen ? 60 : 100
