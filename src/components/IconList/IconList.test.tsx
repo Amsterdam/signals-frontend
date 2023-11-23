@@ -31,7 +31,7 @@ describe('IconList', () => {
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.getAllByRole('listitem').length).toBe(1)
 
-    expect(screen.queryByRole('checkbox')).not.toBeInTheDocument()
+    expect(screen.queryByRole('checkbox')).toBeInTheDocument()
   })
 
   it('renders an empty list', () => {
@@ -39,20 +39,5 @@ describe('IconList', () => {
 
     expect(screen.getByRole('list')).toBeInTheDocument()
     expect(screen.queryAllByRole('listitem').length).toBe(0)
-  })
-
-  it('renders a list with a checkbox', () => {
-    mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
-      true
-
-    render(
-      withAppContext(
-        <IconList>
-          <IconListItem iconUrl="">Icon</IconListItem>
-        </IconList>
-      )
-    )
-
-    expect(screen.getByRole('checkbox')).toBeInTheDocument()
   })
 })

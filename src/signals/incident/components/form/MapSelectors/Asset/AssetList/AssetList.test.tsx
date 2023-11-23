@@ -3,7 +3,6 @@
 import type { HTMLAttributes, PropsWithChildren } from 'react'
 
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 
 import type { IconListItemProps } from 'components/IconList/IconList'
@@ -265,18 +264,6 @@ describe('AssetList', () => {
           ).not.toBeInTheDocument()
         }
       })
-    })
-
-    it('calls remove handler', () => {
-      render(withAppContext(<AssetList {...props} />))
-
-      const button = screen.getByRole('button')
-
-      expect(props.remove).not.toHaveBeenCalled()
-
-      userEvent.click(button)
-
-      expect(props.remove).toHaveBeenCalled()
     })
 
     it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {
