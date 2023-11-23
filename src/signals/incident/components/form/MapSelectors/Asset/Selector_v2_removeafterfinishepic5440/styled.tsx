@@ -97,7 +97,7 @@ export const StyledMap = styled(Map)`
   z-index: 0;
 `
 
-export const TopLeftWrapper = styled.div<{ maxAssets: boolean }>`
+export const TopLeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-right: ${themeSpacing(4)};
@@ -114,14 +114,6 @@ export const TopLeftWrapper = styled.div<{ maxAssets: boolean }>`
     > * {
       margin-bottom: unset;
     }
-
-    ${({ maxAssets }) =>
-      maxAssets &&
-      css`
-        > *:first-child {
-          margin-bottom: ${themeSpacing(4)};
-        }
-      `}
 `
 
 export const ScrollWrapper = styled.div.attrs({

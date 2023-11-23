@@ -209,7 +209,7 @@ const Selector: FC = () => {
   }, [removeItem])
 
   const topLeft = (
-    <TopLeftWrapper maxAssets={!!mapMessage}>
+    <TopLeftWrapper>
       <GPSButton
         tabIndex={0}
         onLocationSuccess={(location: LocationResult) => {
