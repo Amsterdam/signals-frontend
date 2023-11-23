@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { HTMLAttributes, PropsWithChildren } from 'react'
 
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 
 import type { IconListItemProps } from 'components/IconList/IconList'
@@ -15,7 +14,8 @@ import { selection } from 'utils/__tests__/fixtures/caterpillarsSelection'
 import MockInstance = jest.MockInstance
 import type { AssetListProps } from './AssetList'
 import AssetList from './AssetList'
-import { AssetListItem } from './AssetList'
+import { AssetListItem } from './AssetListItem'
+import type configurationType from '../../../../../../../shared/services/configuration/__mocks__/configuration'
 import type { Item } from '../../types'
 import { FeatureStatus } from '../../types'
 import withAssetSelectContext, {
@@ -41,6 +41,9 @@ const useFetchResponse = {
   isSuccess: false,
 }
 jest.mock('hooks/useFetch')
+
+jest.mock('shared/services/configuration/configuration')
+
 jest.mock('components/IconList/IconList', () => ({
   __esModule: true,
   default: ({ children, ...props }: HTMLAttributes<HTMLUListElement>) => (
@@ -52,12 +55,16 @@ jest.mock('components/IconList/IconList', () => ({
     featureStatusType,
     id,
     ...props
-  }: PropsWithChildren<IconListItemProps>) => (
-    <li data-testid={id} {...props}>
-      {children}
-    </li>
-  ),
+  }: PropsWithChildren<IconListItemProps>) => {
+    return (
+      <li data-testid={id} {...props}>
+        {children}
+      </li>
+    )
+  },
 }))
+
+const mockConfiguration = configuration as typeof configurationType
 
 describe('AssetList', () => {
   const featureTypes = [
@@ -90,7 +97,7 @@ describe('AssetList', () => {
     },
   ]
   const props: AssetListProps = {
-    onRemove: jest.fn(),
+    remove: jest.fn(),
     featureTypes: featureTypes,
     featureStatusTypes,
     selection: [
@@ -103,10 +110,31 @@ describe('AssetList', () => {
         coordinates: { lat: 1, lng: 2 },
       },
     ],
+    selectableFeatures: {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          id: '123',
+          properties: {
+            fractie_omschrijving: 'Rest',
+            id: '123',
+            type: 'Rest',
+            status: FeatureStatus.REPORTED,
+            label: 'Rest container - 123',
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [1, 2],
+          },
+        },
+      ],
+    },
+    objectTypePlural: 'objecten',
   }
 
   const reportedProps: AssetListProps = {
-    onRemove: jest.fn(),
+    remove: jest.fn(),
     featureTypes: featureTypes,
     featureStatusTypes,
     selection,
@@ -122,6 +150,7 @@ describe('AssetList', () => {
         global.document,
         'dispatchEvent'
       )
+
       dispatch.mockReset()
       dispatchEventSpy.mockReset()
 
@@ -133,6 +162,8 @@ describe('AssetList', () => {
 
     afterEach(() => {
       jest.resetAllMocks()
+
+      mockConfiguration.__reset()
     })
 
     it('does not render with empty selection props', () => {
@@ -167,12 +198,44 @@ describe('AssetList', () => {
       expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
     })
 
-    it('renders a selection', () => {
+    it('renders a selection and selectable items', () => {
+      mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
+        true
       render(withAppContext(<AssetList {...props} />))
 
       expect(screen.getByTestId('asset-list')).toBeInTheDocument()
+      expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
+
       expect(
-        screen.getByTestId(`asset-list-item-${props.selection[0].id}`)
+        screen.getByTestId('asset-list-item-selectable')
+      ).toBeInTheDocument()
+
+      if (props.selection) {
+        expect(
+          screen.getByTestId(`asset-list-item-${props.selection[0].id}`)
+        ).toBeInTheDocument()
+      }
+    })
+
+    it('should not render selectable items when the features are not correct', () => {
+      mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
+        true
+      const propsCurrent = { ...props, zoomLevel: 14 }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      propsCurrent.selectableFeatures = []
+      propsCurrent.selection = []
+
+      render(withAppContext(<AssetList {...propsCurrent} />))
+
+      expect(
+        screen.queryByTestId('asset-list-item-selectable')
+      ).not.toBeInTheDocument()
+
+      expect(
+        screen.getByText(
+          'Er zijn geen objecten in de buurt. Versleep de kaart om de objecten te zien.'
+        )
       ).toBeInTheDocument()
     })
 
@@ -201,18 +264,6 @@ describe('AssetList', () => {
           ).not.toBeInTheDocument()
         }
       })
-    })
-
-    it('calls onRemove handler', () => {
-      render(withAppContext(<AssetList {...props} />))
-
-      const button = screen.getByRole('button')
-
-      expect(props.onRemove).not.toHaveBeenCalled()
-
-      userEvent.click(button)
-
-      expect(props.onRemove).toHaveBeenCalled()
     })
 
     it('sends an API request, when an object is selected on the map, to get incidents with equal coordinates', async () => {

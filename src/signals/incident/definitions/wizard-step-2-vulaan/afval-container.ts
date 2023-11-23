@@ -28,8 +28,8 @@ export const controls = {
         unregisteredId: 'Nummer van de container',
         objectTypeSingular: 'container',
         objectTypePlural: 'containers',
-        pdokLabel: 'Zoek op adres of containernummer',
-        pdokInput: 'Adres of containernummer',
+        pdokLabel: 'Zoek op adres',
+        pdokInput: 'Adres',
         submit: 'Bevestigen',
         description:
           'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"',

@@ -4,6 +4,7 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
+import * as reactResponsive from 'react-responsive'
 
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
@@ -24,19 +25,16 @@ jest.mock(
   '../../AssetList',
   () =>
     ({
-      onRemove,
+      remove,
       featureTypes,
       featureStatusTypes,
       selection,
       ...props
     }: AssetListProps) =>
-      (
+      selection && (
         <span data-testid="mock-asset-list" {...props}>
           {`${selection[0].description} - ${selection[0].label}`}
-          <input
-            type="button"
-            onClick={() => onRemove && onRemove(selection[0])}
-          />
+          <input type="button" onClick={() => remove && remove(selection[0])} />
         </span>
       )
 )
@@ -198,6 +196,57 @@ describe('DetailPanel', () => {
     userEvent.click(screen.getByTestId('asset-select-submit-button'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
+  })
+
+  it('submits an asset on mobile', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('asset-select-submit-button'))
+
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
+  })
+
+  it('it renders the mobile submit button when there is no selection', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.getByText('Ga verder zonder object')).toBeInTheDocument()
+  })
+
+  it('it renders the mobile submit button with a default text when there is no selection', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    const thisProps = {
+      ...props,
+      language: {
+        ...props.language,
+        objectTypeSingular: 'container',
+      },
+    }
+
+    render(
+      withAssetSelectContext(<DetailPanel {...thisProps} />, {
+        ...currentContextValue,
+        selection: undefined,
+      })
+    )
+
+    expect(screen.getByText('Ga verder zonder container')).toBeInTheDocument()
   })
 
   it('toggles the position of the legend panel', () => {

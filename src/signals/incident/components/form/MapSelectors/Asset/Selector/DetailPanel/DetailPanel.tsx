@@ -205,7 +205,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language = {} }) => {
         {selection && selectionOnMap && (
           <StyledAssetList
             selection={selection}
-            onRemove={removeItem}
+            remove={removeItem}
             featureTypes={featureTypes}
             featureStatusTypes={featureStatusTypes}
           />

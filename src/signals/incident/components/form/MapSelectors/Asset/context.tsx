@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { createContext } from 'react'
 import type { ReactNode } from 'react'
 
@@ -16,11 +16,13 @@ export const initialValue: AssetSelectValue = {
     maxNumberOfAssets: undefined,
   },
   selection: undefined,
+  selectableFeatures: undefined,
   fetchLocation: /* istanbul ignore next */ () => {},
   setLocation: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},
   removeItem: /* istanbul ignore next */ () => {},
+  setSelectableFeatures: /* istanbul ignore next */ () => {},
 }
 
 const AssetSelectContext = createContext(initialValue)

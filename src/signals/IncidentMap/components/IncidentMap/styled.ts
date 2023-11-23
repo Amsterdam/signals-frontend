@@ -3,11 +3,11 @@
 import { breakpoint, themeSpacing, Paragraph } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import { DrawerState } from 'components/DrawerOverlay'
+import { MENU_WIDTH } from 'components/DrawerOverlay/styled'
 import Map from 'components/Map'
 import ViewerContainer from 'components/ViewerContainer'
 
-import { DrawerState } from '../DrawerOverlay'
-import { MENU_WIDTH } from '../DrawerOverlay/styled'
 import {
   HEADER_HEIGHT_DESKTOP,
   HEADER_HEIGHT_MOBILE,

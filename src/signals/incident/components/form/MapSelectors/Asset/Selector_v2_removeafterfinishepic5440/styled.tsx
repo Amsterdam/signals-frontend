@@ -108,22 +108,15 @@ export const TopLeftWrapper = styled.div`
 
   @media screen and ${breakpoint('max-width', 'tabletM')} {
     position: absolute;
-    top: unset;
-    left: 16px;
-    bottom: -64px;
+    left: ${themeSpacing(4)};
+    top: ${themeSpacing(32)};
 
-    > * {
-      margin-bottom: unset;
-    }
-  }
 `
 
 export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
 })`
   -webkit-overflow-scrolling: touch;
-  height: 100%;
-  overflow-y: auto;
 `
 
 export const Title = styled(Heading)`

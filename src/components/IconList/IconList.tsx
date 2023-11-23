@@ -1,27 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021-2022 Gemeente Amsterdam
+// Copyright (C) 2021-2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
-import { List, themeSpacing, ListItem } from '@amsterdam/asc-ui'
+import { List } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import type { FeatureStatusType } from 'signals/incident/components/form/MapSelectors/types'
+import type {
+  FeatureStatusType,
+  Item,
+} from 'signals/incident/components/form/MapSelectors/types'
 
-const StyledListItem = styled(ListItem)`
-  display: flex;
-  align-items: center;
-  margin: ${themeSpacing(3, 0, 0)};
-`
-
-const StyledImg = styled.img`
-  margin-right: ${themeSpacing(2)};
-  flex-shrink: 0;
-`
-
-const StatusIcon = styled.img`
-  margin-left: -20px;
-  margin-top: -30px;
-`
+import { StyledListItem, StyledImg, StatusIcon } from './styled'
+import Checkbox from '../Checkbox'
 
 export interface IconListItemProps {
   iconUrl?: string
@@ -30,6 +20,10 @@ export interface IconListItemProps {
   iconSize?: number
   featureStatusType?: FeatureStatusType
   children: ReactNode
+  remove?: (item: Item) => void
+  item?: Item
+  checked?: boolean
+  checkboxDisabled?: boolean
 }
 
 export const IconListItem = ({
@@ -39,8 +33,18 @@ export const IconListItem = ({
   iconSize = 40,
   id,
   featureStatusType,
+  remove,
+  item,
+  checked,
+  checkboxDisabled,
 }: IconListItemProps) => (
   <StyledListItem data-testid={id} className={className}>
+    {!checkboxDisabled && (
+      <Checkbox
+        onClick={() => remove && item && remove(item)}
+        checked={checked}
+      />
+    )}
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}
@@ -56,4 +60,8 @@ export const IconListItem = ({
   </StyledListItem>
 )
 
-export default List
+const StyledList = styled(List)`
+  margin: 0;
+`
+
+export default StyledList

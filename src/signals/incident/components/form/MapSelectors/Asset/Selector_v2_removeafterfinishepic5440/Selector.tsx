@@ -145,8 +145,10 @@ const Selector: FC = () => {
       ? Math.max(map.getZoom(), mapOptions.zoom)
       : map.getZoom()
 
-    map.flyTo(coordinates, zoomLevel)
-  }, [coordinates, map, mapOptions.zoom])
+    if (!selection) {
+      map.flyTo(coordinates, zoomLevel)
+    }
+  }, [coordinates, map, mapOptions.zoom, selection])
 
   useEffect(() => {
     global.window.scrollTo(0, 0)
@@ -174,7 +176,7 @@ const Selector: FC = () => {
   ])
 
   useEffect(() => {
-    if (!maxAssetWarning || !selection || selection.length === 0) {
+    if (!maxAssetWarning && selection && selection.length !== 0) {
       setMaxAssetWarningActive(true)
     }
   }, [maxAssetWarningActive, maxAssetWarning, selection])
@@ -263,7 +265,9 @@ const Selector: FC = () => {
   const mapWrapper = (
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
-        <DetailPanel language={meta.language} />
+        {!showList && (
+          <DetailPanel language={meta.language} zoomLevel={map?.getZoom()} />
+        )}
         <StyledMap
           hasZoomControls={desktopView}
           mapOptions={mapOptions}

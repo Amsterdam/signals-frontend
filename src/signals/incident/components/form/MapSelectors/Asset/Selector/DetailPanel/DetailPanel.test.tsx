@@ -35,19 +35,16 @@ jest.mock(
   '../../AssetList',
   () =>
     ({
-      onRemove,
+      remove,
       featureTypes,
       featureStatusTypes,
       selection,
       ...props
     }: AssetListProps) =>
-      (
+      selection && (
         <span data-testid="mock-asset-list" {...props}>
           {`${selection[0].description} - ${selection[0].label}`}
-          <input
-            type="button"
-            onClick={() => onRemove && onRemove(selection[0])}
-          />
+          <input type="button" onClick={() => remove && remove(selection[0])} />
         </span>
       )
 )

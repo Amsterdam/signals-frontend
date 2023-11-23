@@ -6,7 +6,11 @@ import { NEARBY_TYPE, UNREGISTERED_TYPE } from '../../../constants'
 import AssetSelectContext from '../../context'
 import { LegendToggleButton, StyledLegendPanel } from '../DetailPanel/styled'
 
-const Legend = () => {
+type Props = {
+  onLegendToggle: () => void
+}
+
+const Legend = ({ onLegendToggle }: Props) => {
   const [showLegendPanel, setShowLegendPanel] = useState(false)
   const closeLegendRef = useRef<HTMLButtonElement>(null)
   const legendButtonRef = useRef<HTMLButtonElement>(null)
@@ -19,7 +23,9 @@ const Legend = () => {
       legendButtonRef.current.focus()
     }
     setShowLegendPanel(!showLegendPanel)
-  }, [showLegendPanel])
+
+    onLegendToggle()
+  }, [onLegendToggle, showLegendPanel])
   const featureStatusTypes = meta.featureStatusTypes || []
 
   const nearbyLegendItem = {
