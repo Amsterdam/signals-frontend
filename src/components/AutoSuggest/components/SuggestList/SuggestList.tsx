@@ -131,9 +131,15 @@ const SuggestList: FC<SuggestListProps> = ({
 
   return (
     <>
-      <span className={'sr-only'}>
-        {options.length} opties beschikbaar. Gebruik de pijltoetsen omhoog en
-        omlaag om door de opties te navigeren.
+      <span className="sr-only">
+        {options[0].id === 'feedbackEmpty' ? (
+          'Wij kennen dit adres niet. Probeer het opnieuw.'
+        ) : (
+          <>
+            {options.length} opties beschikbaar. Gebruik de pijltoetsen omhoog
+            en omlaag om door de opties te navigeren.
+          </>
+        )}
       </span>
       <StyledList
         className={className}
