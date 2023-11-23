@@ -75,6 +75,9 @@ describe('DetailPanel', () => {
   }
 
   const props: DetailPanelProps = {
+    handleMapCloseDispatch: () => {
+      ;('')
+    },
     language: {
       unregisteredId: 'Nummer van de container',
     },

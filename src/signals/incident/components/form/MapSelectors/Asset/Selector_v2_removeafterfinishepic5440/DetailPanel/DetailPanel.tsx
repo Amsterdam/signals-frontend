@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-import type { FC } from 'react'
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+import type { FC } from 'react'
 import { useCallback, useContext, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
@@ -19,6 +19,7 @@ import {
   StyledAssetList,
   StyledButton,
   StyledButtonWrapper,
+  StyledErrorPDOkAutoSuggest,
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
@@ -34,8 +35,15 @@ import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
 export interface DetailPanelProps {
   language?: Record<string, string>
   zoomLevel?: number
+  addressFieldError?: string | null
+  handleMapCloseDispatch: () => void
 }
 
+const DetailPanel: FC<DetailPanelProps> = ({
+  language,
+  handleMapCloseDispatch,
+  addressFieldError,
+}) => {
 const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [legendOpen, setLegendOpen] = useState(false)
@@ -82,65 +90,72 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       address={address}
     >
       <PanelContent data-testid="detail-panel">
+      {!shouldRenderMobileVersion && (
+        <Button
+          aria-label="Terug"
+          aria-controls="addressPanel"
+          icon={<ChevronLeft />}
+          iconSize={20}
+          onClick={() => handleMapCloseDispatch()}
+          size={24}
+          title="Terug"
+          variant="blank"
+        />
+      )}
+      <ScrollWrapper>
         {!shouldRenderMobileVersion && (
-          <Button
-            aria-label="Terug"
-            aria-controls="addressPanel"
-            icon={<ChevronLeft />}
-            iconSize={20}
-            onClick={() => dispatch(closeMap())}
-            size={24}
-            title="Terug"
-            variant="blank"
+          <>
+            <StyledParagraphPDOkAutoSuggest>
+              {language?.title || 'Selecteer de locatie'}
+              <Description>
+                {language?.description ||
+                  'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
+              </Description>
+            </StyledParagraphPDOkAutoSuggest>
+            <StyledLabelPDOkAutoSuggest htmlFor="location">
+              {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+            </StyledLabelPDOkAutoSuggest>
+            {addressFieldError && (
+              <StyledErrorPDOkAutoSuggest>
+                {addressFieldError}
+              </StyledErrorPDOkAutoSuggest>
+            )}
+            <StyledPDOKAutoSuggest
+              id={'location'}
+              onClear={removeItem}
+              onSelect={onAddressSelect}
+              value={addressValue}
+              placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
+            />
+          </>
+        )}
+
+        {((selection && selectionOnMap) || selectableFeatures) && (
+          <StyledAssetList
+            selection={selection}
+            remove={removeItem}
+            featureTypes={featureTypes}
+            featureStatusTypes={featureStatusTypes}
+            selectableFeatures={selectableFeatures}
+            objectTypePlural={meta?.language?.objectTypePlural}
+            zoomLevel={zoomLevel}
           />
         )}
-        <ScrollWrapper>
-          {!shouldRenderMobileVersion && (
-            <>
-              <StyledParagraphPDOkAutoSuggest>
-                {language?.title || 'Selecteer de locatie'}
-                <Description>
-                  {language?.description ||
-                    'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
-                </Description>
-              </StyledParagraphPDOkAutoSuggest>
-              <StyledLabelPDOkAutoSuggest htmlFor="location">
-                {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-              </StyledLabelPDOkAutoSuggest>
-              <StyledPDOKAutoSuggest
-                id={'location'}
-                onClear={removeItem}
-                onSelect={onAddressSelect}
-                value={addressValue}
-                placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
-              />
-            </>
-          )}
-          {((selection && selectionOnMap) || selectableFeatures) && (
-            <StyledAssetList
-              selection={selection}
-              remove={removeItem}
-              featureTypes={featureTypes}
-              featureStatusTypes={featureStatusTypes}
-              selectableFeatures={selectableFeatures}
-              objectTypePlural={meta?.language?.objectTypePlural}
-              zoomLevel={zoomLevel}
-            />
-          )}
-          {address && !shouldRenderMobileVersion && (
-            <StyledButton
-              onClick={() => dispatch(closeMap())}
-              variant="primary"
-              data-testid="asset-select-submit-button"
-              tabIndex={0}
-            >
-              {selection
-                ? language?.submit || 'Meld dit object'
-                : 'Ga verder zonder ' +
-                  (language?.objectTypeSingular || 'object')}
-            </StyledButton>
-          )}
-        </ScrollWrapper>
+
+        {address && !shouldRenderMobileVersion && (
+          <StyledButton
+            onClick={() => dispatch(handleMapCloseDispatch())}
+            variant="primary"
+            data-testid="asset-select-submit-button"
+            tabIndex={0}
+          >
+            {selection
+              ? language?.submit || 'Meld dit object'
+              : 'Ga verder zonder ' +
+              (language?.objectTypeSingular || 'object')}
+          </StyledButton>
+        )}
+      </ScrollWrapper>
       </PanelContent>
       <Legend
         onLegendToggle={() => {
@@ -159,7 +174,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             {selection
               ? language?.submit || 'Meld dit object'
               : 'Ga verder zonder ' +
-                (language?.objectTypeSingular || 'object')}
+              (language?.objectTypeSingular || 'object')}
           </StyledButton>
         </StyledButtonWrapper>
       )}

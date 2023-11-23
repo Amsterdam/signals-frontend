@@ -40,6 +40,7 @@ import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentC
 import type { LocationResult } from 'types/location'
 
 import DetailPanel from './DetailPanel'
+import { StyledErrorPDOkAutoSuggest } from './DetailPanel/styled'
 import NearbyLayer from './NearbyLayer'
 import {
   AddressPanel,
@@ -114,6 +115,9 @@ const Selector: FC = () => {
   }
 
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
+  const [addressFieldError, setAddressFieldError] = useState<string | null>(
+    null
+  )
   const [maxAssetWarningActive, setMaxAssetWarningActive] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
@@ -208,6 +212,22 @@ const Selector: FC = () => {
     setOptionsList(null)
   }, [removeItem])
 
+  const handleMapCloseDispatch = () => {
+    if (address !== undefined) {
+      dispatch(closeMap())
+    } else {
+      setAddressFieldError('Dit veld is verplicht')
+    }
+  }
+
+  useEffect(() => {
+    if (addressFieldError !== null && address === undefined) {
+      setAddressFieldError('Dit veld is verplicht')
+    } else if (address !== undefined && addressFieldError !== '') {
+      setAddressFieldError('')
+    }
+  }, [address, addressFieldError])
+
   const topLeft = (
     <TopLeftWrapper>
       <GPSButton
@@ -266,7 +286,11 @@ const Selector: FC = () => {
     <FocusTrap focusTrapOptions={focusTrapOptions}>
       <Wrapper data-testid="asset-select-selector">
         {!showList && (
-          <DetailPanel language={meta.language} zoomLevel={map?.getZoom()} />
+          <DetailPanel
+            addressFieldError={addressFieldError}
+            handleMapCloseDispatch={handleMapCloseDispatch}
+            language={meta.language}
+          />
         )}
         <StyledMap
           hasZoomControls={desktopView}
@@ -309,16 +333,24 @@ const Selector: FC = () => {
                   aria-controls="addressPanel"
                   icon={<ChevronLeft />}
                   iconSize={20}
-                  onClick={() => dispatch(closeMap())}
+                  onClick={() => handleMapCloseDispatch()}
                   size={24}
                   title="Terug"
                   variant="blank"
                 />
                 <InputGroup>
                   {!showList && (
-                    <StyledLabel htmlFor="pdokautosuggest">
-                      {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-                    </StyledLabel>
+                    <>
+                      <StyledLabel htmlFor="pdokautosuggest">
+                        {meta?.language?.pdokLabel ||
+                          'Zoek op adres of postcode'}
+                      </StyledLabel>
+                      {addressFieldError && (
+                        <StyledErrorPDOkAutoSuggest>
+                          {addressFieldError}
+                        </StyledErrorPDOkAutoSuggest>
+                      )}
+                    </>
                   )}
 
                   <StyledPDOKAutoSuggest
