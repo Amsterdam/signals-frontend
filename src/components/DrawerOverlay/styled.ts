@@ -39,7 +39,6 @@ export const MapOverlay = styled('div')<{
         : css`calc(${Number($topMobile)}%)`
       : '50%'};
   pointer-events: none;
-  // calc
   @media print {
     position: relative;
   }

@@ -3,14 +3,12 @@
 import type { FunctionComponent } from 'react'
 import { useEffect, useState } from 'react'
 
-import { Close } from '@amsterdam/asc-assets'
 import type { FeatureCollection, Point } from 'geojson'
 import { useSelector } from 'react-redux'
 
 import {
   ListItem,
   SelectionNearby,
-  StyledButton,
   StyledLabel,
   StyledStatusDescription,
 } from './styled'
@@ -105,16 +103,6 @@ export const AssetListItem: FunctionComponent<ItemType> = ({
               </StyledStatusDescription>
             )}
           </StyledLabel>
-          {!configuration.featureFlags
-            .showSelectorV2removeafterfinishepic5440 &&
-            remove && (
-              <StyledButton
-                data-testid={`asset-list-remove-${id}`}
-                aria-label="Verwijder"
-                icon={<Close />}
-                onClick={() => remove(item)}
-              />
-            )}
         </IconListItem>
       )}
       {selectionIncident?.categoryName && selectionIncident?.createdAt && (

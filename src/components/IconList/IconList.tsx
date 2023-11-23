@@ -11,7 +11,6 @@ import type {
 } from 'signals/incident/components/form/MapSelectors/types'
 
 import { StyledListItem, StyledImg, StatusIcon } from './styled'
-import configuration from '../../shared/services/configuration/configuration'
 import Checkbox from '../Checkbox'
 
 export interface IconListItemProps {
@@ -40,13 +39,12 @@ export const IconListItem = ({
   checkboxDisabled,
 }: IconListItemProps) => (
   <StyledListItem data-testid={id} className={className}>
-    {configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
-      !checkboxDisabled && (
-        <Checkbox
-          onClick={() => remove && item && remove(item)}
-          checked={checked}
-        />
-      )}
+    {!checkboxDisabled && (
+      <Checkbox
+        onClick={() => remove && item && remove(item)}
+        checked={checked}
+      />
+    )}
     {iconUrl && (
       <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
     )}

@@ -5,7 +5,6 @@ import type { FunctionComponent } from 'react'
 import type { FeatureCollection } from 'geojson'
 
 import IconList from 'components/IconList/IconList'
-import configuration from 'shared/services/configuration/configuration'
 
 import { AssetListItem } from './AssetListItem'
 import { AssetListItemSelectable } from './AssetListItemSelectable'
@@ -35,7 +34,6 @@ const AssetList: FunctionComponent<AssetListProps> = ({
   zoomLevel,
 }) => {
   const selectableComponents =
-    configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
     selectableFeatures &&
     selectableFeatures?.features?.map((feat: any) => {
       const feature = feat as Feature
@@ -50,10 +48,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       )
     })
   const renderAssetListHeading =
-    (configuration.featureFlags.showSelectorV2removeafterfinishepic5440 &&
-      zoomLevel &&
-      zoomLevel >= 13) ||
-    (selection && selection.length > 0)
+    (zoomLevel && zoomLevel >= 13) || (selection && selection.length > 0)
 
   return (
     <div>
