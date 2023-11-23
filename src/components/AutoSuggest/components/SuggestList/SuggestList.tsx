@@ -130,35 +130,42 @@ const SuggestList: FC<SuggestListProps> = ({
   }
 
   return (
-    <StyledList
-      className={className}
-      data-testid="suggest-list"
-      id={id}
-      role={role}
-      ref={listRef}
-      {...rest}
-    >
-      {options.map((option) => (
-        <Li
-          id={option.id.toString()}
-          data-id={option.id}
-          key={option.id}
-          onClick={() => onSelect(option)}
-          onKeyDown={(event) => handleKeyDown(event, option)}
-          role="option"
-          tabIndex={-1}
-        >
-          <>
-            {option.id !== 'feedbackEmpty' && (
-              <StyledIcon className="chrevronIcon" size={12}>
-                <Chevron />
-              </StyledIcon>
-            )}
-            {option.value}
-          </>
-        </Li>
-      ))}
-    </StyledList>
+    <>
+      <span className={'sr-only'}>
+        {options.length} opties beschikbaar. Gebruik de pijltoetsen omhoog en
+        omlaag om door de opties te navigeren.
+      </span>
+      <StyledList
+        className={className}
+        data-testid="suggest-list"
+        id={id}
+        role={role}
+        ref={listRef}
+        {...rest}
+      >
+        {options.map((option, index) => (
+          <Li
+            id={option.id.toString()}
+            data-id={option.id}
+            key={option.id}
+            onClick={() => onSelect(option)}
+            onKeyDown={(event) => handleKeyDown(event, option)}
+            role="option"
+            aria-label={`Optie ${index + 1} ${option.value}`}
+            tabIndex={-1}
+          >
+            <>
+              {option.id !== 'feedbackEmpty' && (
+                <StyledIcon className="chrevronIcon" size={12}>
+                  <Chevron />
+                </StyledIcon>
+              )}
+              <span aria-hidden={true}>{option.value}</span>
+            </>
+          </Li>
+        ))}
+      </StyledList>
+    </>
   )
 }
 
