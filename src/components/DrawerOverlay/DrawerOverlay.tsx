@@ -32,7 +32,7 @@ export interface Props {
   onStateChange?: (state: DrawerState) => void
   state?: DrawerState
   disableDrawerHandleDesktop?: boolean
-  topPositionMoDrawerMobile?: number
+  topPositionDrawerMobile?: number
   address?: Address
 }
 
@@ -44,7 +44,7 @@ export const DrawerOverlay = ({
   state = DrawerState.Closed,
   DetailPanel,
   disableDrawerHandleDesktop = false,
-  topPositionMoDrawerMobile,
+  topPositionDrawerMobile,
   address,
 }: Props) => {
   const { deviceMode, isDesktop, isMobile } = useDeviceMode()
@@ -81,7 +81,7 @@ export const DrawerOverlay = ({
     <DrawerMapOverlay
       $mode={deviceMode}
       $isDesktop={isDesktop}
-      $topMobile={topPositionMoDrawerMobile}
+      $topMobile={topPositionDrawerMobile}
       $address={address}
     >
       <DrawerContainer
