@@ -111,9 +111,6 @@ export const TopLeftWrapper = styled.div`
     left: ${themeSpacing(4)};
     top: ${themeSpacing(32)};
 
-    > * {
-      margin-bottom: unset;
-    }
 `
 
 export const ScrollWrapper = styled.div.attrs({
