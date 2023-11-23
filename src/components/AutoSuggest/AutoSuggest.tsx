@@ -351,15 +351,14 @@ const AutoSuggest = ({
 
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="auto-suggest">
-      <div
-        aria-controls="as-listbox"
-        aria-expanded={showList}
-        aria-haspopup="listbox"
-        role="combobox"
-      >
+      <div>
         <Input
           autoFocus={autoFocus}
           aria-activedescendant={activeId.toString()}
+          aria-expanded={showList}
+          aria-haspopup="listbox"
+          role="combobox"
+          aria-controls="as-listbox"
           aria-autocomplete="list"
           autoComplete="off"
           defaultValue={defaultValue}
@@ -396,7 +395,9 @@ const AutoSuggest = ({
           />
         )}
       </div>
-      {showInlineList && showList && optionsList}
+      <div aria-live="polite" aria-atomic={true}>
+        {showInlineList && showList && optionsList}
+      </div>
     </Wrapper>
   )
 }
