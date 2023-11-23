@@ -5,19 +5,18 @@ import type { FC } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { breakpoint, ascDefaultTheme, Button } from '@amsterdam/asc-ui'
-import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import { selectionIsObject } from 'signals/incident/components/form/MapSelectors/constants'
-import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import {
   Description,
   PanelContent,
   StyledAssetList,
   StyledButton,
+  StyledErrorPDOkAutoSuggest,
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
@@ -27,14 +26,19 @@ import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
 
 export interface DetailPanelProps {
   language?: Record<string, string>
+  addressFieldError?: string | null
+  handleMapCloseDispatch: () => void
 }
 
-const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
+const DetailPanel: FC<DetailPanelProps> = ({
+  language,
+  handleMapCloseDispatch,
+  addressFieldError,
+}) => {
   const shouldRenderMobileVersion = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
 
-  const dispatch = useDispatch()
   const { address, selection, removeItem, setLocation, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
@@ -66,7 +70,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
           aria-controls="addressPanel"
           icon={<ChevronLeft />}
           iconSize={20}
-          onClick={() => dispatch(closeMap())}
+          onClick={() => handleMapCloseDispatch()}
           size={24}
           title="Terug"
           variant="blank"
@@ -85,6 +89,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
             <StyledLabelPDOkAutoSuggest htmlFor="location">
               {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
             </StyledLabelPDOkAutoSuggest>
+            {addressFieldError && (
+              <StyledErrorPDOkAutoSuggest>
+                {addressFieldError}
+              </StyledErrorPDOkAutoSuggest>
+            )}
             <StyledPDOKAutoSuggest
               id={'location'}
               onClear={removeItem}
@@ -106,7 +115,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language }) => {
 
         {address && (
           <StyledButton
-            onClick={() => dispatch(closeMap())}
+            onClick={() => handleMapCloseDispatch()}
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}

@@ -110,3 +110,10 @@ export const StyledLabelPDOkAutoSuggest = styled.label`
   font-weight: 700;
   margin-top: ${themeSpacing(5)};
 `
+
+export const StyledErrorPDOkAutoSuggest = styled.p`
+  display: block;
+  font-weight: 700;
+  color: #ec0000;
+  margin-top: ${themeSpacing(0)};
+`
