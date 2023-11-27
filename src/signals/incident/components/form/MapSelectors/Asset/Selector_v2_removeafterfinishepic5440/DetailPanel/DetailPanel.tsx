@@ -5,13 +5,11 @@ import { useCallback, useContext, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
-import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
 import { formatAddress } from 'shared/services/format-address'
 import type { PdokResponse } from 'shared/services/map-location'
 import { selectionIsObject } from 'signals/incident/components/form/MapSelectors/constants'
-import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import {
   Description,
@@ -39,20 +37,18 @@ export interface DetailPanelProps {
   addressFieldError?: string | null
   handleMapCloseDispatch: () => void
 }
-
 const DetailPanel: FC<DetailPanelProps> = ({
   language,
+  zoomLevel,
   handleMapCloseDispatch,
   addressFieldError,
 }) => {
-const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [legendOpen, setLegendOpen] = useState(false)
   const shouldRenderMobileVersion = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
   })
 
-  const dispatch = useDispatch()
   const {
     address,
     selection,
@@ -91,74 +87,74 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       address={address}
     >
       <PanelContent data-testid="detail-panel">
-      {!shouldRenderMobileVersion && (
-        <Button
-          aria-label="Terug"
-          aria-controls="addressPanel"
-          icon={<ChevronLeft />}
-          iconSize={20}
-          onClick={() => handleMapCloseDispatch()}
-          size={24}
-          title="Terug"
-          variant="blank"
-        />
-      )}
-      <ScrollWrapper>
         {!shouldRenderMobileVersion && (
-          <>
-            <StyledParagraphPDOkAutoSuggest>
-              {language?.title || 'Selecteer de locatie'}
-              <Description>
-                {language?.description ||
-                  'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
-              </Description>
-            </StyledParagraphPDOkAutoSuggest>
-            <StyledErrorBorderPDOkAutoSuggest error={addressFieldError}>
-              <StyledLabelPDOkAutoSuggest htmlFor="location">
-                {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-              </StyledLabelPDOkAutoSuggest>
-              {addressFieldError && (
-                <StyledErrorPDOkAutoSuggest>
-                  {addressFieldError}
-                </StyledErrorPDOkAutoSuggest>
-              )}
-              <StyledPDOKAutoSuggest
-                id={'location'}
-                onClear={removeItem}
-                onSelect={onAddressSelect}
-                value={addressValue}
-                placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
-              />
-            </StyledErrorBorderPDOkAutoSuggest>
-          </>
-        )}
-
-        {((selection && selectionOnMap) || selectableFeatures) && (
-          <StyledAssetList
-            selection={selection}
-            remove={removeItem}
-            featureTypes={featureTypes}
-            featureStatusTypes={featureStatusTypes}
-            selectableFeatures={selectableFeatures}
-            objectTypePlural={meta?.language?.objectTypePlural}
-            zoomLevel={zoomLevel}
+          <Button
+            aria-label="Terug"
+            aria-controls="addressPanel"
+            icon={<ChevronLeft />}
+            iconSize={20}
+            onClick={() => handleMapCloseDispatch()}
+            size={24}
+            title="Terug"
+            variant="blank"
           />
         )}
+        <ScrollWrapper>
+          {!shouldRenderMobileVersion && (
+            <>
+              <StyledParagraphPDOkAutoSuggest>
+                {language?.title || 'Selecteer de locatie'}
+                <Description>
+                  {language?.description ||
+                    'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
+                </Description>
+              </StyledParagraphPDOkAutoSuggest>
+              <StyledErrorBorderPDOkAutoSuggest error={addressFieldError}>
+                <StyledLabelPDOkAutoSuggest htmlFor="location">
+                  {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+                </StyledLabelPDOkAutoSuggest>
+                {addressFieldError && (
+                  <StyledErrorPDOkAutoSuggest>
+                    {addressFieldError}
+                  </StyledErrorPDOkAutoSuggest>
+                )}
+                <StyledPDOKAutoSuggest
+                  id={'location'}
+                  onClear={removeItem}
+                  onSelect={onAddressSelect}
+                  value={addressValue}
+                  placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
+                />
+              </StyledErrorBorderPDOkAutoSuggest>
+            </>
+          )}
 
-        {address && !shouldRenderMobileVersion && (
-          <StyledButton
-            onClick={() => dispatch(handleMapCloseDispatch())}
-            variant="primary"
-            data-testid="asset-select-submit-button"
-            tabIndex={0}
-          >
-            {selection
-              ? language?.submit || 'Meld dit object'
-              : 'Ga verder zonder ' +
-              (language?.objectTypeSingular || 'object')}
-          </StyledButton>
-        )}
-      </ScrollWrapper>
+          {((selection && selectionOnMap) || selectableFeatures) && (
+            <StyledAssetList
+              selection={selection}
+              remove={removeItem}
+              featureTypes={featureTypes}
+              featureStatusTypes={featureStatusTypes}
+              selectableFeatures={selectableFeatures}
+              objectTypePlural={meta?.language?.objectTypePlural}
+              zoomLevel={zoomLevel}
+            />
+          )}
+
+          {address && !shouldRenderMobileVersion && (
+            <StyledButton
+              onClick={() => handleMapCloseDispatch()}
+              variant="primary"
+              data-testid="asset-select-submit-button"
+              tabIndex={0}
+            >
+              {selection
+                ? language?.submit || 'Meld dit object'
+                : 'Ga verder zonder ' +
+                  (language?.objectTypeSingular || 'object')}
+            </StyledButton>
+          )}
+        </ScrollWrapper>
       </PanelContent>
       <Legend
         onLegendToggle={() => {
@@ -169,7 +165,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       {shouldRenderMobileVersion && address && (
         <StyledButtonWrapper>
           <StyledButton
-            onClick={() => dispatch(closeMap())}
+            onClick={() => handleMapCloseDispatch()}
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}
@@ -177,7 +173,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             {selection
               ? language?.submit || 'Meld dit object'
               : 'Ga verder zonder ' +
-              (language?.objectTypeSingular || 'object')}
+                (language?.objectTypeSingular || 'object')}
           </StyledButton>
         </StyledButtonWrapper>
       )}
