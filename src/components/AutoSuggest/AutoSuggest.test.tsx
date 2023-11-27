@@ -766,8 +766,9 @@ describe('src/components/AutoSuggest errorhandling', () => {
 
     render(withAppContext(<AutoSuggest {...props} />))
     const input = screen.getByRole('textbox')
-    userEvent.type(input, 'Ams')
-
+    await act(async () => {
+      userEvent.type(input, 'Ams')
+    })
     await act(async () => {
       jest.advanceTimersByTime(INPUT_DELAY)
     })
