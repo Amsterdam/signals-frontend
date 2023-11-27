@@ -26,7 +26,7 @@ const ThComponent = ({
       $isDisabled={sortingDisabled}
     >
       {headerText}
-      <SortIcon ordering={ordering} sortOption={sortOption} />
+      <SortIcon selectedSortOption={ordering} sortOption={sortOption} />
     </StyledComponent>
   )
 }
