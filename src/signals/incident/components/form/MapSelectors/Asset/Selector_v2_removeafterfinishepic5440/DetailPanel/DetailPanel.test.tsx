@@ -78,7 +78,7 @@ describe('DetailPanel', () => {
 
   const props: DetailPanelProps = {
     handleMapCloseDispatch: () => {
-      ;('')
+      dispatch(closeMap())
     },
     language: {
       unregisteredId: 'Nummer van de container',
@@ -239,8 +239,12 @@ describe('DetailPanel', () => {
     )
   })
 
-  it('renders closes the map when clicking on the close button', async () => {
-    render(withAssetSelectContext(<DetailPanel {...props} />))
+  it('close the map on close button click and address selection.', async () => {
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...contextValue,
+      })
+    )
 
     userEvent.click(screen.getByLabelText('Terug'))
 
