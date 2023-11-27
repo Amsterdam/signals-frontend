@@ -52,7 +52,7 @@ describe('Form component <MapInput />', () => {
       }
       render(withAppContext(<MapInput {...props} value={value} />))
 
-      const textbox = await screen.findByRole('textbox')
+      const textbox = await screen.findByRole('combobox')
 
       expect(screen.getAllByRole('img')[1]).toHaveClass('map-marker-select')
       expect(textbox).toHaveValue(value.addressText)

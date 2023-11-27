@@ -73,7 +73,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(screen.getByRole('combobox')).toBeInTheDocument()
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
     expect(input).toBeInTheDocument()
     expect(input.getAttribute('aria-autocomplete')).toEqual('list')
     expect(input.getAttribute('id')).toBe('')
@@ -91,14 +91,14 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.click(searchInput)
 
-    expect(screen.getByRole('textbox')).toHaveFocus()
+    expect(screen.getByRole('combobox')).toHaveFocus()
   })
 
   it('should set an id on the input field', () => {
     const id = 'id'
     render(withAppContext(<AutoSuggest {...{ ...props, id }} />))
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
     expect(input).toBeInTheDocument()
     expect(input.getAttribute('id')).toEqual(id)
   })
@@ -106,14 +106,14 @@ describe('src/components/AutoSuggest', () => {
   it('should disable the input field', () => {
     render(withAppContext(<AutoSuggest {...{ ...props, disabled: true }} />))
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
     expect(input).toBeInTheDocument()
     expect(input.hasAttribute('disabled')).toBe(true)
   })
 
   it('should request external service', async () => {
     render(withAppContext(<AutoSuggest {...props} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     userEvent.type(input, 'A')
 
@@ -160,7 +160,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should request external service with auth when configured', async () => {
     render(withAppContext(<AutoSuggest {...props} includeAuthHeaders={true} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
     userEvent.type(input, 'Ams')
 
     act(() => {
@@ -183,7 +183,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should show a value without sending a request to the external service', async () => {
     const { rerender } = render(withAppContext(<AutoSuggest {...props} />))
-    const input = screen.getByRole('textbox') as HTMLInputElement
+    const input = screen.getByRole('combobox') as HTMLInputElement
 
     await screen.findByTestId('auto-suggest')
 
@@ -206,7 +206,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should render a list of suggestions', async () => {
     render(withAppContext(<AutoSuggest {...props} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     expect(screen.queryByTestId('suggest-list')).not.toBeInTheDocument()
 
@@ -221,7 +221,7 @@ describe('src/components/AutoSuggest', () => {
   describe('keyboard navigation', () => {
     it('ArrowUp key', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox')
+      const input = screen.getByRole('combobox')
 
       userEvent.type(input, '{ArrowUp}')
 
@@ -250,7 +250,7 @@ describe('src/components/AutoSuggest', () => {
 
     it('ArrowDown key', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox') as HTMLInputElement
+      const input = screen.getByRole('combobox') as HTMLInputElement
 
       await waitFor(() => {
         expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
@@ -282,7 +282,7 @@ describe('src/components/AutoSuggest', () => {
 
     it('ArrowUp and ArrowDown cycle', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox')
+      const input = screen.getByRole('combobox')
 
       expect(input.getAttribute('aria-activedescendant')).toBeFalsy()
 
@@ -328,7 +328,7 @@ describe('src/components/AutoSuggest', () => {
     it('Esc', async () => {
       const onClear = jest.fn()
       render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
-      const input = screen.getByRole('textbox') as HTMLInputElement
+      const input = screen.getByRole('combobox') as HTMLInputElement
 
       await waitFor(() => {
         userEvent.type(input, 'Boom')
@@ -373,7 +373,7 @@ describe('src/components/AutoSuggest', () => {
         withAppContext(<AutoSuggest {...props} />)
       )
 
-      const input = screen.getByRole('textbox') as HTMLInputElement
+      const input = screen.getByRole('combobox') as HTMLInputElement
 
       await waitFor(() => {
         userEvent.type(input, 'Boom')
@@ -413,7 +413,7 @@ describe('src/components/AutoSuggest', () => {
 
     it('Home', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox')
+      const input = screen.getByRole('combobox')
 
       await waitFor(() => {
         userEvent.type(input, 'Niezel')
@@ -447,7 +447,7 @@ describe('src/components/AutoSuggest', () => {
 
     it('End', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox')
+      const input = screen.getByRole('combobox')
       const value = 'Midden'
 
       await waitFor(() => {
@@ -541,7 +541,7 @@ describe('src/components/AutoSuggest', () => {
 
     it('Any key (yes, such a key exists)', async () => {
       render(withAppContext(<AutoSuggest {...props} />))
-      const input = screen.getByRole('textbox')
+      const input = screen.getByRole('combobox')
 
       await waitFor(() => {
         userEvent.type(input, 'Meeuwenlaan')
@@ -567,7 +567,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should call onSelect on item click', async () => {
     render(withAppContext(<AutoSuggest {...props} />))
-    const input = screen.getByRole('textbox') as HTMLInputElement
+    const input = screen.getByRole('combobox') as HTMLInputElement
 
     await waitFor(() => {
       userEvent.type(input, 'Rembrandt')
@@ -600,7 +600,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(screen.queryByTestId('clear-input')).not.toBeInTheDocument()
 
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     await waitFor(() => {
       userEvent.type(input, 'Rembrandt')
@@ -625,7 +625,7 @@ describe('src/components/AutoSuggest', () => {
   it('calls onClear', async () => {
     const onClear = jest.fn()
     render(withAppContext(<AutoSuggest {...props} onClear={onClear} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     await waitFor(() => {
       userEvent.type(input, 'Rembrandt')
@@ -666,7 +666,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onClear).toHaveBeenCalled()
 
-    expect(screen.getByRole('textbox')).toHaveFocus()
+    expect(screen.getByRole('combobox')).toHaveFocus()
   })
 
   it('focuses the input on clear', async () => {
@@ -686,14 +686,14 @@ describe('src/components/AutoSuggest', () => {
 
     userEvent.click(screen.getByTestId('clear-input'))
 
-    expect(screen.getByRole('textbox')).toHaveFocus()
+    expect(screen.getByRole('combobox')).toHaveFocus()
   })
 
   it('calls onData', async () => {
     const onData = jest.fn()
 
     render(withAppContext(<AutoSuggest {...props} onData={onData} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     userEvent.type(input, 'Rembrandt')
 
@@ -710,7 +710,7 @@ describe('src/components/AutoSuggest', () => {
 
   it('should work without onClear defined', async () => {
     render(withAppContext(<AutoSuggest {...props} />))
-    const input = screen.getByRole('textbox')
+    const input = screen.getByRole('combobox')
 
     userEvent.type(input, 'Rembrandt')
 
@@ -738,7 +738,7 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onFocus).not.toHaveBeenCalled()
 
-    fireEvent.focus(screen.getByRole('textbox'))
+    fireEvent.focus(screen.getByRole('combobox'))
 
     expect(onFocus).toHaveBeenCalled()
   })

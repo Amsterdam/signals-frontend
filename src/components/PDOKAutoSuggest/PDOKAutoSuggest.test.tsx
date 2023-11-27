@@ -30,7 +30,7 @@ const headers = {
 
 const renderAndSearch = async (value = 'Dam', props = {}) => {
   render(withAppContext(<PDOKAutoSuggest onSelect={onSelect} {...props} />))
-  const input = screen.getByRole('textbox') as HTMLInputElement
+  const input = screen.getByRole('combobox') as HTMLInputElement
 
   input.focus()
 
