@@ -14,6 +14,7 @@ import type { PdokResponse } from 'shared/services/map-location'
 import type { RevGeo } from 'types/pdok/revgeo'
 
 import { Wrapper, Input, List, ClearInput } from './styled'
+import type { PdokResponseStreetName } from '../../shared/services/map-location/map-location'
 
 export const INPUT_DELAY = 350
 
@@ -33,7 +34,7 @@ export interface AutoSuggestProps {
   onClear?: () => void
   onData?: (optionsList: any) => void
   onFocus?: () => void
-  onSelect: (option: PdokResponse) => void
+  onSelect: (option: PdokResponse | PdokResponseStreetName) => void
   placeholder?: string
   showInlineList?: boolean
   tabIndex?: number
@@ -214,9 +215,12 @@ const AutoSuggest = ({
           )
 
           const responseData = await response.json()
-
           if (response.ok) {
             setData(responseData)
+          } else {
+            //see https://stackoverflow.com/questions/47015693/how-to-fix-throw-of-exception-caught-locally
+            // noinspection ExceptionCaughtLocallyJS
+            throw response
           }
         } catch (error) {
           dispatch(
@@ -362,7 +366,6 @@ const AutoSuggest = ({
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
-          defaultValue={defaultValue}
           disabled={disabled}
           id={id}
           onChange={onChange}

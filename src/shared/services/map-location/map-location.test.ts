@@ -3,16 +3,18 @@
 import type { LatLngTuple } from 'leaflet'
 
 import PDOKResponseJson from 'utils/__tests__/fixtures/PDOKResponseData.json'
+import PDOKResponseStreetNameDataJson from 'utils/__tests__/fixtures/PDOKResponseStreetNameData.json'
 
 import {
   featureToCoordinates,
   formatMapLocation,
-  formatPDOKResponse,
   coordinatesToAPIFeature,
   coordinatesToFeature,
   pointWithinBounds,
   serviceResultToAddress,
   wktPointToLocation,
+  addressPDOKDetails,
+  streetNamePDOKDetails,
 } from '.'
 
 const testAddress = {
@@ -212,7 +214,7 @@ describe('serviceResultToAddress', () => {
 describe('formatPDOKResponse', () => {
   it('should convert PDOK response to address list ', () => {
     const data = PDOKResponseJson
-    expect(formatPDOKResponse(data)).toEqual([
+    expect(addressPDOKDetails.formatter(data)).toEqual([
       {
         id: 'adr-7e22b4ee3640202eff3203e63610c76e',
         value: 'Achtergracht 43, 1017WN Amsterdam',
@@ -241,10 +243,19 @@ describe('formatPDOKResponse', () => {
       },
     ])
   })
+  it('should convert PDOK response to street name list ', () => {
+    const data = PDOKResponseStreetNameDataJson
+    expect(streetNamePDOKDetails.formatter(data)).toEqual([
+      {
+        id: 0,
+        value: 'Achtergracht',
+      },
+    ])
+  })
 
   it('return an empty array', () => {
-    expect(formatPDOKResponse(undefined)).toEqual([])
-    expect(formatPDOKResponse(null)).toEqual([])
+    expect(addressPDOKDetails.formatter(undefined)).toEqual([])
+    expect(addressPDOKDetails.formatter(null)).toEqual([])
   })
 })
 

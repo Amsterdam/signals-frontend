@@ -6,7 +6,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { formatAddress } from 'shared/services/format-address'
 import type { Incident } from 'types/api/incident'
 import type { Geometrie, Location } from 'types/incident'
-import type { RevGeo, Doc } from 'types/pdok/revgeo'
+import type { RevGeo, Doc, RevGeoStreetName } from 'types/pdok/revgeo'
 
 const sanitizeCoordinates = (coordinates: LatLngTuple): LatLngTuple =>
   coordinates.sort((a, b) => (a > b ? 1 : -1)).reverse() as LatLngTuple
@@ -94,7 +94,7 @@ export const serviceResultToAddress = ({
   woonplaats: woonplaatsnaam,
 })
 
-export const pdokResponseFieldList = [
+const pdokAddressResponseFieldList = [
   'id',
   'weergavenaam',
   'straatnaam',
@@ -103,6 +103,8 @@ export const pdokResponseFieldList = [
   'woonplaatsnaam',
   'centroide_ll',
 ]
+
+const pdokStreetNameResponseFieldList = ['straatnaam']
 
 export type PdokResponse = {
   id: number | string
@@ -113,9 +115,12 @@ export type PdokResponse = {
   }
 }
 
-export const formatPDOKResponse = (
-  request?: RevGeo | null
-): Array<PdokResponse> =>
+export type PdokResponseStreetName = {
+  id: number | string
+  value: string
+}
+
+const formatPDOKResponse = (request?: RevGeo | null): Array<PdokResponse> =>
   request?.response?.docs.map((result) => {
     const { id, weergavenaam, centroide_ll } = result
     return {
@@ -127,6 +132,47 @@ export const formatPDOKResponse = (
       },
     }
   }) || []
+
+const formatPDOKResponseStreetName = (
+  request?: RevGeoStreetName | null
+): Array<PdokResponseStreetName> => {
+  const streetNameList =
+    request?.response?.docs.map((result) => result.straatnaam) || []
+  return [...new Set(streetNameList)].map((straatnaam, index) => {
+    return {
+      id: index,
+      value: straatnaam,
+    }
+  })
+}
+
+export type PDOKDetails = {
+  serviceParams: string[][]
+  fields: string[]
+  formatter: (
+    request: RevGeo | null
+  ) => Array<PdokResponseStreetName | PdokResponse>
+}
+
+export const addressPDOKDetails = {
+  serviceParams: [
+    ['fq', 'bron:BAG'],
+    ['fq', 'type:adres'],
+    ['q', ''],
+  ],
+  fields: pdokAddressResponseFieldList,
+  formatter: formatPDOKResponse,
+}
+
+export const streetNamePDOKDetails = {
+  serviceParams: [
+    ['fq', 'bron:BAG'],
+    ['fq', 'type:weg'],
+    ['q', ''],
+  ],
+  fields: pdokStreetNameResponseFieldList,
+  formatter: formatPDOKResponseStreetName,
+}
 
 export const pointWithinBounds = (
   coordinates: LatLngTuple,

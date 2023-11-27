@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { Fragment } from 'react'
 
 import { render, fireEvent, act, screen, waitFor } from '@testing-library/react'
@@ -14,6 +14,12 @@ import type { RevGeo } from 'types/pdok/revgeo'
 import AutoSuggest, { INPUT_DELAY } from '.'
 import type { AutoSuggestProps } from '.'
 import JSONResponse from './mockResponse.json'
+import * as API from '../../../internals/testing/api'
+import {
+  fetchMock,
+  mockRequestHandler,
+} from '../../../internals/testing/msw-server'
+import * as actions from '../../containers/App/actions'
 
 jest.mock('shared/services/auth/auth')
 const mockGetAuthHeaders = mocked(getAuthHeaders)
@@ -43,7 +49,8 @@ const formatResponse: AutoSuggestProps['formatResponse'] = (requestData) =>
   }) || []
 
 const onSelect = jest.fn()
-const url = '//some-service.com?q='
+jest.spyOn(actions, 'showGlobalNotification')
+const url = API.PDOK_RESPONSE + '?q='
 
 const props = {
   numOptionsDeterminer,
@@ -741,5 +748,40 @@ describe('src/components/AutoSuggest', () => {
     fireEvent.focus(screen.getByRole('textbox'))
 
     expect(onFocus).toHaveBeenCalled()
+  })
+})
+describe('src/components/AutoSuggest errorhandling', () => {
+  beforeEach(() => {
+    fetchMock.disableMocks()
+    onSelect.mockReset()
+    jest.useFakeTimers()
+  })
+
+  it('should show error message when error is returned', async () => {
+    mockRequestHandler({
+      status: 500,
+      url: API.PDOK_RESPONSE,
+      body: null,
+    })
+
+    render(withAppContext(<AutoSuggest {...props} />))
+    const input = screen.getByRole('textbox')
+    userEvent.type(input, 'Ams')
+
+    await act(async () => {
+      jest.advanceTimersByTime(INPUT_DELAY)
+    })
+
+    await act(async () => {
+      screen.getByTestId('auto-suggest')
+    })
+
+    await waitFor(async () => {
+      expect(actions.showGlobalNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'De adressen konden niet worden opgehaald.',
+        })
+      )
+    })
   })
 })

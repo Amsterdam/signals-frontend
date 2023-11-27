@@ -1,0 +1,14 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "maxScore": 16.013206,
+    "docs": [
+      {
+        "id": "adr-7e22b4ee3640202eff3203e63610c76e",
+        "straatnaam": "Achtergracht"
+
+       }
+    ]
+  }
+}

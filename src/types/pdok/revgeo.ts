@@ -16,3 +16,17 @@ export type RevGeo = {
     start: number
   }
 }
+
+export type DocStreetName = {
+  id: string
+  straatnaam: string
+}
+
+export type RevGeoStreetName = {
+  response: {
+    docs: DocStreetName[]
+    maxScore: number
+    numFound: number
+    start: number
+  }
+}

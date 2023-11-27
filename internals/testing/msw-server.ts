@@ -265,6 +265,10 @@ const handlers = [
     res(ctx.status(200), ctx.json(detail))
   ),
 
+  rest.get(API.PDOK_RESPONSE, (_req, res, ctx) =>
+    res(ctx.status(200), ctx.json({}))
+  ),
+
   // PATCH
 
   rest.patch(API.INCIDENT, (_req, res, ctx) =>

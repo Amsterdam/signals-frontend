@@ -34,3 +34,5 @@ export const CANCEL_SIGNAL_REPORTER = `${SIGNAL_REPORTER}/:reporterId/cancel`
 export const STANDARD_TEXTS_SEARCH_ENDPOINT = `${API_BASE_URL}/private/status-messages/search`
 export const STANDARD_TEXTS_DETAIL_ENDPOINT = `${API_BASE_URL}/private/status-messages/:standardTextId`
 export const STANDARD_TEXTS_ENDPOINT = `${API_BASE_URL}/private/status-messages/`
+
+export const PDOK_RESPONSE = `https://some-service.com/`

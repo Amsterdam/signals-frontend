@@ -251,7 +251,6 @@ const OverviewMap: FC<OverviewMapProps> = ({
         <StyledViewerContainer
           topLeft={
             <Autosuggest
-              fieldList={['centroide_ll']}
               municipality={configuration.map?.municipality}
               onSelect={onSelect}
               placeholder="Zoom naar adres"

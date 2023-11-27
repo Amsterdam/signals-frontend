@@ -66,7 +66,8 @@ import CheckboxList from '../../../../components/CheckboxList'
 import PDOKAutoSuggest from '../../../../components/PDOKAutoSuggest'
 import AppContext from '../../../../containers/App/context'
 import RefreshIcon from '../../../../images/icon-refresh.svg'
-import type { PdokResponse } from '../../../../shared/services/map-location'
+import { streetNamePDOKDetails } from '../../../../shared/services/map-location'
+import type { PdokResponseStreetName } from '../../../../shared/services/map-location/map-location'
 import { useIncidentManagementContext } from '../../context'
 import { makeSelectFilterParams } from '../../selectors'
 import type { SaveFilterAction, UpdateFilterAction } from '../../types'
@@ -79,12 +80,6 @@ const getUserOptions = (data: UserOptions) =>
     id: user.username,
     value: user.username,
   }))
-
-const serviceParams = [
-  ['fq', 'bron:BAG'],
-  ['fq', 'type:weg'],
-  ['q', ''],
-]
 
 const getUserCount = (data: UserOptions) => data.count
 
@@ -132,7 +127,6 @@ const FilterForm = ({
   const [routedFilterValue, setRoutedFilterValue] = useState<KeyValue[]>([])
   const [controlledTextInput, setControlledTextInput] = useState({
     name: state.filter.name,
-    address: state.options.address_text,
     note: state.options.note_keyword,
   })
 
@@ -237,7 +231,6 @@ const FilterForm = ({
     onClearFilter()
     setControlledTextInput({
       name: '',
-      address: '',
       note: '',
     })
   }, [dispatch, onClearFilter])
@@ -312,8 +305,8 @@ const FilterForm = ({
   )
 
   const onAddressSelect = useCallback(
-    (response: PdokResponse) => {
-      dispatch(setAddress(response.data.address.openbare_ruimte))
+    (response: PdokResponseStreetName) => {
+      dispatch(setAddress(response.value))
     },
     [dispatch]
   )
@@ -399,7 +392,6 @@ const FilterForm = ({
       state.options.routing_department[0].key === notRoutedOption.key,
     [notRoutedOption.key, state.options.routing_department]
   )
-
   return (
     <Fragment>
       {showNotification && <Notification reference={notificationRef} />}
@@ -644,9 +636,9 @@ const FilterForm = ({
             <PDOKAutoSuggest
               id="filter_address"
               municipality={configuration.map?.municipality}
-              serviceParams={serviceParams}
               onSelect={onAddressSelect}
               placeholder="Zoek op straatnaam"
+              pDOKDetails={streetNamePDOKDetails}
               value={state.options.address_text}
             />
           </FilterGroup>

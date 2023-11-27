@@ -3,14 +3,15 @@ export {
   coordinatesToFeature,
   featureToCoordinates,
   formatMapLocation,
-  formatPDOKResponse,
-  pdokResponseFieldList,
   pointWithinBounds,
   serviceResultToAddress,
   wktPointToLocation,
+  streetNamePDOKDetails,
+  addressPDOKDetails,
 } from './map-location'
 export type {
   PdokResponse,
   PdokAddress,
   FormatMapLocation,
+  PDOKDetails,
 } from './map-location'

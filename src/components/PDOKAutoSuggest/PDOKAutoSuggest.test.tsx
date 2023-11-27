@@ -7,11 +7,11 @@ import * as reactRedux from 'react-redux'
 import { INPUT_DELAY } from 'components/AutoSuggest'
 import { showGlobalNotification } from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
-import { pdokResponseFieldList } from 'shared/services/map-location'
 import { withAppContext } from 'test/utils'
 import JSONResponse from 'utils/__tests__/fixtures/PDOKResponseData.json'
 
 import PDOKAutoSuggest from '.'
+import { addressPDOKDetails } from '../../shared/services/map-location'
 
 const dispatch = jest.fn()
 jest.spyOn(reactRedux, 'useDispatch').mockImplementation(() => dispatch)
@@ -139,17 +139,7 @@ describe('components/PDOKAutoSuggest', () => {
     it('should call fetch with default field list', async () => {
       await renderAndSearch()
       expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(`${fieldListQs}${pdokResponseFieldList}`),
-        expect.objectContaining(headers)
-      )
-    })
-
-    it('should call fetch with extra fields', async () => {
-      await renderAndSearch('Dam', { fieldList: ['name', 'type'] })
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining(
-          `${fieldListQs}${pdokResponseFieldList},name,type`
-        ),
+        expect.stringContaining(`${fieldListQs}${addressPDOKDetails.fields}`),
         expect.objectContaining(headers)
       )
     })
