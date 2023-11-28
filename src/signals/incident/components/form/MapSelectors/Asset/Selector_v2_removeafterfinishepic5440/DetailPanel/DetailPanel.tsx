@@ -5,6 +5,7 @@ import { useCallback, useContext, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
+import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
 import { formatAddress } from 'shared/services/format-address'
@@ -16,9 +17,7 @@ import {
   PanelContent,
   StyledAssetList,
   StyledButton,
-  StyledErrorBorderPDOkAutoSuggest,
   StyledButtonWrapper,
-  StyledErrorPDOkAutoSuggest,
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
@@ -27,6 +26,7 @@ import {
   DrawerOverlay,
   DrawerState,
 } from '../../../../../../../../components/DrawerOverlay'
+import { closeMap } from '../../../../../../containers/IncidentContainer/actions'
 import AssetSelectContext from '../../context'
 import Legend from '../Legend'
 import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
@@ -34,15 +34,8 @@ import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
 export interface DetailPanelProps {
   language?: Record<string, string>
   zoomLevel?: number
-  addressFieldError?: string | null
-  handleMapCloseDispatch: () => void
 }
-const DetailPanel: FC<DetailPanelProps> = ({
-  language,
-  zoomLevel,
-  handleMapCloseDispatch,
-  addressFieldError,
-}) => {
+const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open)
   const [legendOpen, setLegendOpen] = useState(false)
   const shouldRenderMobileVersion = useMediaQuery({
@@ -60,6 +53,8 @@ const DetailPanel: FC<DetailPanelProps> = ({
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
   const addressValue = address ? formatAddress(address) : ''
+
+  const dispatch = useDispatch()
 
   const selectionOnMap =
     selection && selectionIsObject(selection[0]) ? selection : undefined
@@ -93,7 +88,7 @@ const DetailPanel: FC<DetailPanelProps> = ({
             aria-controls="addressPanel"
             icon={<ChevronLeft />}
             iconSize={20}
-            onClick={() => handleMapCloseDispatch()}
+            onClick={() => dispatch(closeMap())}
             size={24}
             title="Terug"
             variant="blank"
@@ -109,23 +104,16 @@ const DetailPanel: FC<DetailPanelProps> = ({
                     'Typ het dichtstbijzijnde adres, klik de locatie aan op de kaart of gebruik "Mijn locatie"'}
                 </Description>
               </StyledParagraphPDOkAutoSuggest>
-              <StyledErrorBorderPDOkAutoSuggest error={addressFieldError}>
-                <StyledLabelPDOkAutoSuggest htmlFor="location">
-                  {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
-                </StyledLabelPDOkAutoSuggest>
-                {addressFieldError && (
-                  <StyledErrorPDOkAutoSuggest>
-                    {addressFieldError}
-                  </StyledErrorPDOkAutoSuggest>
-                )}
-                <StyledPDOKAutoSuggest
-                  id={'location'}
-                  onClear={removeItem}
-                  onSelect={onAddressSelect}
-                  value={addressValue}
-                  placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
-                />
-              </StyledErrorBorderPDOkAutoSuggest>
+              <StyledLabelPDOkAutoSuggest htmlFor="location">
+                {meta?.language?.pdokLabel || 'Zoek op adres of postcode'}
+              </StyledLabelPDOkAutoSuggest>
+              <StyledPDOKAutoSuggest
+                id={'location'}
+                onClear={removeItem}
+                onSelect={onAddressSelect}
+                value={addressValue}
+                placeholder={meta?.language?.pdokInput || 'Adres of postcode'}
+              />
             </>
           )}
 
@@ -143,7 +131,7 @@ const DetailPanel: FC<DetailPanelProps> = ({
 
           {address && !shouldRenderMobileVersion && (
             <StyledButton
-              onClick={() => handleMapCloseDispatch()}
+              onClick={() => dispatch(closeMap())}
               variant="primary"
               data-testid="asset-select-submit-button"
               tabIndex={0}
@@ -165,7 +153,7 @@ const DetailPanel: FC<DetailPanelProps> = ({
       {shouldRenderMobileVersion && address && (
         <StyledButtonWrapper>
           <StyledButton
-            onClick={() => handleMapCloseDispatch()}
+            onClick={() => dispatch(closeMap())}
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}
