@@ -107,15 +107,14 @@ const Notification: FunctionComponent<NotificationProps> = ({
 
   const onCloseNotification = useCallback(() => {
     setShouldHide(true)
+    /* istanbul ignore else */
+    if (typeof onClose === 'function') {
+      onClose()
+    }
 
     const slideUpTimeoutId = window.setTimeout(() => {
       window.clearTimeout(onCloseTimeoutRef.current)
       window.clearTimeout(slideUpTimeoutRef.current)
-
-      /* istanbul ignore else */
-      if (typeof onClose === 'function') {
-        onClose()
-      }
     }, ONCLOSE_TIMEOUT)
 
     slideUpTimeoutRef.current = slideUpTimeoutId
