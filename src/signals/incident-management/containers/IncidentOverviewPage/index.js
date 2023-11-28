@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from 'react'
 
 import { Row, Column } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { compose, bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
@@ -13,6 +13,9 @@ import { disablePageScroll, enablePageScroll } from 'scroll-lock'
 import LoadingIndicator from 'components/LoadingIndicator'
 import Modal from 'components/Modal'
 import OverviewMap from 'components/OverviewMap'
+import { showGlobalNotification } from 'containers/App/actions'
+import { VARIANT_NOTICE, TYPE_GLOBAL } from 'containers/App/constants'
+import { makeSelectSearchQuery } from 'containers/App/selectors'
 import MapContext from 'containers/MapContext'
 import useEventEmitter from 'hooks/useEventEmitter'
 import * as types from 'shared/types'
@@ -66,12 +69,45 @@ export const IncidentOverviewPageContainerComponent = ({
   page,
   pageChangedAction,
 }) => {
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const searchQueryIncidents = useSelector(makeSelectSearchQuery)
   const { listenFor, unlisten } = useEventEmitter()
+
   const [modalFilterIsOpen, toggleFilterModal] = useState(false)
   const [modalMyFiltersIsOpen, toggleMyFiltersModal] = useState(false)
+
   const { count, loadingIncidents, results } = incidents
-  const location = useLocation()
   const showsMap = location.pathname.split('/').pop() === MAP_URL
+  const hasActiveOrdering =
+    ordering && ordering !== '-created_at' && ordering !== 'created_at'
+
+  const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count])
+
+  const canRenderList = results && results.length > 0 && totalPages > 0
+
+  /* istanbul ignore next */
+  const hasActiveFilters = activeFilter.options
+    ? Boolean(
+        Object.keys(activeFilter.options).find(
+          (key) => activeFilter.options[key].length > 0
+        )
+      )
+    : false
+
+  const disableFilters = hasActiveOrdering || searchQueryIncidents
+
+  const showNotification = useCallback(() => {
+    dispatch(
+      showGlobalNotification({
+        variant: VARIANT_NOTICE,
+        title:
+          'Verwijder eerst uw zoekopdracht om de filteropties te gebruiken',
+        message: ' Daarna kunt u de filteropties gebruiken',
+        type: TYPE_GLOBAL,
+      })
+    )
+  }, [dispatch])
 
   const openMyFiltersModal = useCallback(() => {
     disablePageScroll()
@@ -130,19 +166,6 @@ export const IncidentOverviewPageContainerComponent = ({
     }
   }, [escFunction, openFilterModal, listenFor, unlisten])
 
-  const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count])
-
-  const canRenderList = results && results.length > 0 && totalPages > 0
-
-  /* istanbul ignore next */
-  const hasActiveFilters = activeFilter.options
-    ? Boolean(
-        Object.keys(activeFilter.options).find(
-          (key) => activeFilter.options[key].length > 0
-        )
-      )
-    : false
-
   const pagination =
     !showsMap && totalPages > 1 ? (
       <StyledPagination
@@ -169,7 +192,8 @@ export const IncidentOverviewPageContainerComponent = ({
             <StyledButton
               data-testid="my-filters-modal-btn"
               color="primary"
-              onClick={openMyFiltersModal}
+              onClick={disableFilters ? showNotification : openMyFiltersModal}
+              $disabled={disableFilters}
             >
               Mijn filters
             </StyledButton>
@@ -177,7 +201,8 @@ export const IncidentOverviewPageContainerComponent = ({
             <StyledButton
               data-testid="filter-modal-btn"
               color="primary"
-              onClick={openFilterModal}
+              onClick={disableFilters ? showNotification : openFilterModal}
+              $disabled={disableFilters}
             >
               Filter
             </StyledButton>
@@ -206,9 +231,11 @@ export const IncidentOverviewPageContainerComponent = ({
           </Modal>
         )}
 
-        <Column span={12}>
-          <QuickFilter filters={filters} setFilter={handleSetFilter} />
-        </Column>
+        {!disableFilters && (
+          <Column span={12}>
+            <QuickFilter filters={filters} setFilter={handleSetFilter} />
+          </Column>
+        )}
 
         <Column span={12}>
           {hasActiveFilters && (

@@ -25,7 +25,20 @@ export const TitleRow = styled.div`
   }
 `
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)<{ $disabled?: boolean }>`
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+    &, &:hover{
+      cursor: default;
+      outline: none;
+      border: none;
+      color: rgb(180, 180, 180);
+      background-color: rgb(230, 230, 230);
+      text-decoration: none;
+    }
+    
+  `}
   margin-left: 10px;
 `
 
