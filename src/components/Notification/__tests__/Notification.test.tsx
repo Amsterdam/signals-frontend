@@ -325,50 +325,6 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('slides up when the close button is clicked', () => {
-    mockedGetIsAuthenticated.mockImplementation(() => true)
-
-    const onClose = jest.fn()
-
-    const { container } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    )
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    userEvent.click(screen.getByTestId('notification-close'))
-
-    expect(container.firstChild).toHaveClass('slideup')
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
-
-    expect(onClose).toHaveBeenCalledTimes(1)
-  })
-
-  it('fades out up when the close button is clicked', () => {
-    mockedGetIsAuthenticated.mockImplementation(() => false)
-
-    const onClose = jest.fn()
-
-    const { container } = render(
-      withAppContext(<Notification title="Foo bar" onClose={onClose} />)
-    )
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    userEvent.click(screen.getByTestId('notification-close'))
-
-    expect(container.firstChild).toHaveClass('fadeout')
-
-    expect(onClose).not.toHaveBeenCalled()
-
-    jest.advanceTimersByTime(ONCLOSE_TIMEOUT)
-
-    expect(onClose).toHaveBeenCalledTimes(1)
-  })
-
   it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
     render(
       withAppContext(

@@ -111,13 +111,6 @@ const Notification: FunctionComponent<NotificationProps> = ({
     if (typeof onClose === 'function') {
       onClose()
     }
-
-    const slideUpTimeoutId = window.setTimeout(() => {
-      window.clearTimeout(onCloseTimeoutRef.current)
-      window.clearTimeout(slideUpTimeoutRef.current)
-    }, ONCLOSE_TIMEOUT)
-
-    slideUpTimeoutRef.current = slideUpTimeoutId
   }, [onClose])
 
   const transformClassName = tall ? 'fadeout' : 'slideup'
