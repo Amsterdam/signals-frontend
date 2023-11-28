@@ -30,7 +30,7 @@ export const controls = {
         unregisteredId: undefined,
         objectTypeSingular: 'boom',
         objectTypePlural: 'bomen',
-        submit: 'Gebruik deze locatie',
+        submit: 'Bevestigen',
       },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',

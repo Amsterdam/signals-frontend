@@ -33,7 +33,7 @@ export const AssetListItemSelectable = ({
         id={`${id}`}
         iconUrl={icon?.iconUrl}
         featureStatusType={featureStatusType}
-        remove={onClick}
+        onClick={onClick}
         item={item}
         checked={false}
       >

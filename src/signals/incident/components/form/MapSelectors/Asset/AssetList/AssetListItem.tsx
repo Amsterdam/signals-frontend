@@ -91,7 +91,7 @@ export const AssetListItem: FunctionComponent<ItemType> = ({
           id={extendedId}
           iconUrl={icon?.iconUrl}
           featureStatusType={featureStatusType}
-          remove={remove}
+          onClick={remove}
           item={item}
           checked
         >

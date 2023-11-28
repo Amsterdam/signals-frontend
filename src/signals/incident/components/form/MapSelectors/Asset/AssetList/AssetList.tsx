@@ -5,6 +5,7 @@ import type { FunctionComponent } from 'react'
 import type { FeatureCollection } from 'geojson'
 
 import IconList from 'components/IconList/IconList'
+import { capitalize } from 'shared/services/date-utils'
 
 import { AssetListItem } from './AssetListItem'
 import { AssetListItemSelectable } from './AssetListItemSelectable'
@@ -51,10 +52,12 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     (zoomLevel && zoomLevel >= 13) || (selection && selection.length > 0)
 
   return (
-    <div>
+    <>
       {renderAssetListHeading && (
         <>
-          <ListHeading>{objectTypePlural || 'Objecten'}</ListHeading>
+          <ListHeading>
+            {(objectTypePlural && capitalize(objectTypePlural)) || 'Objecten'}
+          </ListHeading>
           {featureTypes.length > 0 &&
             !(
               (selectableComponents && selectableComponents?.length > 0) ||
@@ -75,20 +78,20 @@ const AssetList: FunctionComponent<AssetListProps> = ({
           selection.length > 0 &&
           selection
             .filter(({ id }) => id)
-            .map((item, index) => (
+            .map((item) => (
               <AssetListItem
-                key={index}
+                key={item.id}
                 item={item}
                 featureTypes={featureTypes}
                 featureStatusTypes={featureStatusTypes}
-                remove={() => remove && remove(item)}
+                remove={remove}
               />
             ))}
         {Array.isArray(selectableComponents) &&
           selectableComponents.length > 0 &&
           selectableComponents}
       </IconList>
-    </div>
+    </>
   )
 }
 

@@ -117,6 +117,9 @@ export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
 })`
   -webkit-overflow-scrolling: touch;
+  height: 100%;
+  overflow-y: auto;
+  padding: ${themeSpacing(5)};
 `
 
 export const Title = styled(Heading)`

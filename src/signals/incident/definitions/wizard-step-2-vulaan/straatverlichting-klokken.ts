@@ -240,7 +240,7 @@ const straatverlichtingKlokken = {
         unregisteredId: 'Nummer van de klok',
         objectTypeSingular: 'klok',
         objectTypePlural: 'klokken',
-        submit: 'Gebruik deze locatie',
+        submit: 'Bevestigen',
       },
       label: 'Kies de klok waar het om gaat',
       shortLabel: 'Klok(ken) op kaart',

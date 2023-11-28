@@ -183,7 +183,7 @@ export const DrawerContent = styled.div`
   flex-grow: 1;
   max-width: 100%;
   min-height: 0;
-  overflow-y: auto;
+  height: 100%;
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     width: ${MENU_WIDTH}px;
