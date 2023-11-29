@@ -14,12 +14,12 @@ export const StyledListItem = styled(ListItem)`
   padding: 0;
 
   ${Checkbox} {
+    margin-right: ${themeSpacing(0.5)};
     cursor: pointer;
   }
 `
 
 export const StyledImg = styled.img`
-  margin-right: ${themeSpacing(2)};
   flex-shrink: 0;
 `
 

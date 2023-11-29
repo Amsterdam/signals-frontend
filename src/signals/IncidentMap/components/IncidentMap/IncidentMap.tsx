@@ -22,6 +22,7 @@ import {
   StyledViewerContainer,
   TopLeftWrapper,
   Wrapper,
+  DrawerContentWrapper,
 } from './styled'
 import usePaginatedIncidents from './usePaginatedIncidents'
 import { getFlyToZoom } from './utils'
@@ -227,24 +228,26 @@ export const IncidentMap = () => {
           incident={selectedIncident}
           DetailPanel={DetailPanel}
         >
-          <StyledParagraph>
-            Op deze kaart staan meldingen in de openbare ruimte waarmee we aan
-            het werk zijn. Vanwege privacy staat een klein deel van de meldingen
-            niet op de kaart.
-          </StyledParagraph>
+          <DrawerContentWrapper>
+            <StyledParagraph>
+              Op deze kaart staan meldingen in de openbare ruimte waarmee we aan
+              het werk zijn. Vanwege privacy staat een klein deel van de
+              meldingen niet op de kaart.
+            </StyledParagraph>
 
-          {!isMobile(deviceMode) && (
-            <AddressLocation
-              setCoordinates={setCoordinates}
-              address={address}
+            {!isMobile(deviceMode) && (
+              <AddressLocation
+                setCoordinates={setCoordinates}
+                address={address}
+              />
+            )}
+
+            <FilterPanel
+              filters={filters}
+              setFilters={setFilters}
+              setMapMessage={setMapMessage}
             />
-          )}
-
-          <FilterPanel
-            filters={filters}
-            setFilters={setFilters}
-            setMapMessage={setMapMessage}
-          />
+          </DrawerContentWrapper>
         </DrawerOverlay>
 
         <StyledViewerContainer

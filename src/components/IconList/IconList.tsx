@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021-2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
+import { useCallback, useState } from 'react'
 
 import { List } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -20,10 +21,10 @@ export interface IconListItemProps {
   iconSize?: number
   featureStatusType?: FeatureStatusType
   children: ReactNode
-  remove?: (item: Item) => void
+  onClick?: (item: Item) => void
   item?: Item
-  checked?: boolean
   checkboxDisabled?: boolean
+  checked?: boolean
 }
 
 export const IconListItem = ({
@@ -33,32 +34,54 @@ export const IconListItem = ({
   iconSize = 40,
   id,
   featureStatusType,
-  remove,
+  onClick,
   item,
-  checked,
   checkboxDisabled,
-}: IconListItemProps) => (
-  <StyledListItem data-testid={id} className={className}>
-    {!checkboxDisabled && (
-      <Checkbox
-        onClick={() => remove && item && remove(item)}
-        checked={checked}
-      />
-    )}
-    {iconUrl && (
-      <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
-    )}
-    {featureStatusType && (
-      <StatusIcon
-        alt=""
-        height={20}
-        src={featureStatusType.icon.iconUrl}
-        width={20}
-      />
-    )}
-    {children}
-  </StyledListItem>
-)
+  checked,
+}: IconListItemProps) => {
+  const [checkedState, setCheckedState] = useState<boolean | undefined>(
+    undefined
+  )
+  const [disabled, setDisabled] = useState<boolean>(false)
+
+  const onClickWithDelay = useCallback(
+    (item) => {
+      if (onClick && !disabled) {
+        setDisabled(true)
+        setCheckedState(!checked)
+        const timeout = setTimeout(() => {
+          onClick(item)
+          setDisabled(false)
+        }, 600)
+        return () => clearTimeout(timeout)
+      }
+    },
+    [checked, disabled, onClick]
+  )
+
+  return (
+    <StyledListItem data-testid={id} className={className}>
+      {!checkboxDisabled && (
+        <Checkbox
+          onClick={() => onClickWithDelay(item)}
+          checked={checkedState === undefined ? checked : checkedState}
+        />
+      )}
+      {iconUrl && (
+        <StyledImg alt="" height={iconSize} src={iconUrl} width={iconSize} />
+      )}
+      {featureStatusType && (
+        <StatusIcon
+          alt=""
+          height={20}
+          src={featureStatusType.icon.iconUrl}
+          width={20}
+        />
+      )}
+      {children}
+    </StyledListItem>
+  )
+}
 
 const StyledList = styled(List)`
   margin: 0;

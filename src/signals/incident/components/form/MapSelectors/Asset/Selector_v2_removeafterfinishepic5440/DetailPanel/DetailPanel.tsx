@@ -1,10 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
 import type { FC } from 'react'
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { useCallback, useContext, useState } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
-import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
+import { ascDefaultTheme, breakpoint } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
@@ -17,6 +24,7 @@ import {
   Description,
   PanelContent,
   StyledAssetList,
+  StyledBackButton,
   StyledButton,
   StyledButtonWrapper,
   StyledLabelPDOkAutoSuggest,
@@ -27,6 +35,7 @@ import {
   DrawerOverlay,
   DrawerState,
 } from '../../../../../../../../components/DrawerOverlay'
+import type { Address } from '../../../../../../../../types/address'
 import AssetSelectContext from '../../context'
 import Legend from '../Legend'
 import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
@@ -55,6 +64,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
   const addressValue = address ? formatAddress(address) : ''
+  const [currentAddress, setCurrentAddress] = useState<Address | undefined>(
+    undefined
+  )
+  const newAddressRef = useRef<Address | undefined>(address)
 
   const selectionOnMap =
     selection && selectionIsObject(selection[0]) ? selection : undefined
@@ -70,20 +83,44 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
 
   useResetDrawerState(drawerState, setDrawerState, zoomLevel)
 
-  const topPositionDrawerMobile =
-    selection || (zoomLevel && zoomLevel >= 13) || legendOpen ? 60 : 100
+  const submitButtonText = useMemo(() => {
+    return selection
+      ? language?.submit || 'Meld dit object'
+      : featureTypes.length > 0
+      ? 'Ga verder zonder ' + (language?.objectTypeSingular || 'object')
+      : language?.submit
+  }, [selection, featureTypes, language])
 
+  const topPositionDrawerMobile = useMemo(() => {
+    return selection ||
+      (zoomLevel && zoomLevel >= 13 && featureTypes.length > 0) ||
+      legendOpen
+      ? 60
+      : 100
+  }, [selection, zoomLevel, featureTypes, legendOpen])
+
+  useEffect(() => {
+    newAddressRef.current = address
+
+    const timeoutId = setTimeout(() => {
+      setCurrentAddress(newAddressRef.current)
+    }, 100)
+
+    return () => {
+      clearTimeout(timeoutId)
+    }
+  }, [address])
   return (
     <DrawerOverlay
       state={drawerState}
       onStateChange={setDrawerState}
       disableDrawerHandleDesktop
       topPositionDrawerMobile={topPositionDrawerMobile}
-      address={address}
+      address={currentAddress}
     >
       <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
-          <Button
+          <StyledBackButton
             aria-label="Terug"
             aria-controls="addressPanel"
             icon={<ChevronLeft />}
@@ -127,17 +164,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               zoomLevel={zoomLevel}
             />
           )}
-          {address && !shouldRenderMobileVersion && (
+          {currentAddress && !shouldRenderMobileVersion && (
             <StyledButton
               onClick={() => dispatch(closeMap())}
               variant="primary"
               data-testid="asset-select-submit-button"
               tabIndex={0}
             >
-              {selection
-                ? language?.submit || 'Meld dit object'
-                : 'Ga verder zonder ' +
-                  (language?.objectTypeSingular || 'object')}
+              {submitButtonText}
             </StyledButton>
           )}
         </ScrollWrapper>
@@ -148,7 +182,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           setLegendOpen(!legendOpen)
         }}
       />
-      {shouldRenderMobileVersion && address && (
+      {shouldRenderMobileVersion && currentAddress && (
         <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}
@@ -156,10 +190,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             data-testid="asset-select-submit-button"
             tabIndex={0}
           >
-            {selection
-              ? language?.submit || 'Meld dit object'
-              : 'Ga verder zonder ' +
-                (language?.objectTypeSingular || 'object')}
+            {submitButtonText}
           </StyledButton>
         </StyledButtonWrapper>
       )}

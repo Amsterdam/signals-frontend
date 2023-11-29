@@ -1,4 +1,4 @@
-import { Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, Button, themeColor, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import { FeatureStatus } from '../../types'
@@ -35,7 +35,12 @@ export const SelectionNearby = styled.div`
 
 export const ListHeading = styled.p`
   font-weight: 700;
+  margin-top: 0;
   margin-bottom: ${themeSpacing(2)};
+
+  @media only screen and ${breakpoint('min-width', 'tabletM')} {
+    margin-top: ${themeSpacing(4)};
+  }
 `
 
 export const ListDescription = styled.p`

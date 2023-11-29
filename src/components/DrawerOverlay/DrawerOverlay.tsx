@@ -11,7 +11,6 @@ import {
   Drawer,
   DrawerContainer,
   DrawerContent,
-  DrawerContentWrapper,
   DrawerHandleDesktop,
   DrawerHandleMiniDesktop,
   DrawerHandleMobile,
@@ -115,7 +114,7 @@ export const DrawerOverlay = ({
           )}
 
           <DrawerContent style={drawerContentStyle} data-testid="drawerContent">
-            <DrawerContentWrapper>{children}</DrawerContentWrapper>
+            {children}
           </DrawerContent>
         </Drawer>
       </DrawerContainer>

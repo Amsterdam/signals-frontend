@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 
 import type { LegendPanelProps } from './LegendPanel'
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
+import { ScrollWrapper } from '../styled'
 
 /**
  * Panel is positioned off-screen by 200% of its own width (or height, depending on the orientation).
@@ -47,7 +48,6 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
     flex: 0 0 50vh;
     order: 1;
     position: fixed;
-    overflow-y: auto;
     transform: translate3d(
       0,
       ${({ slide }) => (slide === 'out' ? '200%' : '0')},
@@ -55,6 +55,11 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
     );
     width: 100vw;
     max-height: 50vh;
+  }
+
+  ${ScrollWrapper} {
+    padding: 0;
+    height: calc(100% - 22px);
   }
 `
 

@@ -8,8 +8,19 @@ import AssetList from '../../AssetList'
 import LegendPanel from '../LegendPanel'
 import LegendToggle from '../LegendToggleButton'
 
+export const StyledBackButton = styled(Button)`
+  @media only screen and ${breakpoint('min-width', 'tabletM')} {
+    margin: ${themeSpacing(5, 0, 0, 5)};
+  }
+`
+
 export const StyledAssetList = styled(AssetList)`
   margin: ${themeSpacing(2)} 0 ${themeSpacing(16)} 0;
+
+  img {
+    width: ${themeSpacing(8)};
+    height: ${themeSpacing(8)};
+  }
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
     margin: ${themeSpacing(2)} 0 0 0;
   }
@@ -54,6 +65,7 @@ export const PanelContent = styled.div`
   background-color: white;
   z-index: 1;
   position: relative;
+  height: 100%;
 `
 
 export const StyledLegendPanel = styled(LegendPanel)`
@@ -71,7 +83,7 @@ export const StyledParagraphPDOkAutoSuggest = styled.p`
   font-size: 1.125rem;
   display: block;
   font-weight: 700;
-  margin: ${themeSpacing(5, 0, 0, 0)};
+  margin: 0;
 `
 
 export const StyledLabelPDOkAutoSuggest = styled.label`

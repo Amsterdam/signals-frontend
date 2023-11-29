@@ -65,3 +65,14 @@ export const StyledViewerContainer = styled(ViewerContainer)<{
     margin-left: ${themeSpacing(4)};
   }
 `
+
+export const DrawerContentWrapper = styled('div')`
+  width: 100%;
+  height: 100%;
+  padding: ${themeSpacing(5)};
+  overflow-y: auto;
+
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
+    padding-top: 0;
+  }
+`

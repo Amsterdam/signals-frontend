@@ -54,6 +54,7 @@ jest.mock('components/IconList/IconList', () => ({
     iconUrl,
     featureStatusType,
     id,
+    onClick,
     ...props
   }: PropsWithChildren<IconListItemProps>) => {
     return (
