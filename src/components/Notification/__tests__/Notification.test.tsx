@@ -325,6 +325,20 @@ describe('components/Notification', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  it('notification disappears when close button is clicked', () => {
+    mockedGetIsAuthenticated.mockImplementation(() => true)
+
+    const onClose = jest.fn()
+
+    render(withAppContext(<Notification title="Foo bar" onClose={onClose} />))
+
+    expect(onClose).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByTestId('notification-close'))
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('should NOT reset notification on history change when type equals TYPE_GLOBAL', () => {
     render(
       withAppContext(
