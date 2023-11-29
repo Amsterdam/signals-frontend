@@ -26,6 +26,7 @@ import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import onButtonPress from 'utils/on-button-press'
 
 import {
+  BaseTh,
   ContentSpan,
   StyledIcon,
   StyledList,
@@ -92,6 +93,7 @@ interface ListProps {
   status: Status[]
   orderingChangedAction: (ordering: string) => void
   ordering?: SortOptions
+  sortingDisabled?: boolean
 }
 
 const List: FunctionComponent<ListProps> = ({
@@ -103,6 +105,7 @@ const List: FunctionComponent<ListProps> = ({
   status,
   ordering,
   orderingChangedAction,
+  sortingDisabled = false,
 }) => {
   const { districts } = useIncidentManagementContext()
   const navigate = useNavigate()
@@ -144,6 +147,7 @@ const List: FunctionComponent<ListProps> = ({
               headerText={'Urgentie'}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThId}
@@ -151,8 +155,9 @@ const List: FunctionComponent<ListProps> = ({
               headerText={'Id'}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
-            <ThDay>Dag</ThDay>
+            <ThDay $isDisabled={true}>Dag</ThDay>
             <ThSort
               StyledComponent={ThDate}
               sortOption={SortOptions.CREATED_AT_ASC}
@@ -166,6 +171,7 @@ const List: FunctionComponent<ListProps> = ({
               headerText={'Subcategorie'}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThStatus}
@@ -173,6 +179,7 @@ const List: FunctionComponent<ListProps> = ({
               headerText={'Status'}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThArea}
@@ -184,13 +191,15 @@ const List: FunctionComponent<ListProps> = ({
               }
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
-              StyledComponent={Th}
+              StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
               headerText={'Adres'}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             {configuration.featureFlags.assignSignalToEmployee && (
               <Th>Toegewezen aan</Th>

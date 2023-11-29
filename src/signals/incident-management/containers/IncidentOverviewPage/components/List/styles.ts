@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021-2023 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { themeSpacing, Icon, themeColor } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const StyledList = styled.div<{ isLoading?: boolean }>`
   width: 100%;
@@ -18,15 +18,6 @@ export const Table = styled.table`
   tr:hover td,
   td {
     box-shadow: unset;
-  }
-
-  tr > th:not(:nth-child(4)) {
-    cursor: pointer;
-    color: ${themeColor('primary')};
-
-    &:hover {
-      color: ${themeColor('primary', 'dark')};
-    }
   }
 
   tr > th > svg {
@@ -47,10 +38,25 @@ export const Tr = styled.tr`
   }
 `
 
-const BaseTh = styled(Th)`
+export const BaseTh = styled(Th)<{ $isDisabled?: boolean }>`
+  cursor: pointer;
+  color: ${themeColor('primary')};
+
   &:hover {
     text-decoration: underline;
+    color: ${themeColor('primary', 'dark')};
   }
+
+  ${({ $isDisabled }) =>
+    $isDisabled &&
+    css`
+      &,
+      &:hover {
+        cursor: auto;
+        text-decoration: none;
+        color: ${themeColor('tint', 'level7')};
+      }
+    `}
 `
 
 export const ThParent = styled(Th)`
@@ -78,7 +84,7 @@ export const ThStatus = styled(BaseTh)`
   width: 160px;
 `
 
-export const ThId = styled(Th)`
+export const ThId = styled(BaseTh)`
   width: 95px;
 `
 

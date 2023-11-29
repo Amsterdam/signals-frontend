@@ -96,6 +96,7 @@ export const IncidentOverviewPageContainerComponent = ({
     : false
 
   const disableFilters = hasActiveOrdering || searchQueryIncidents
+  const disableSorting = hasActiveFilters || searchQueryIncidents
 
   const showNotification = useCallback(() => {
     dispatch(
@@ -279,6 +280,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 incidents={incidents.results}
                 incidentsCount={count}
                 isLoading={loadingIncidents}
+                sortingDisabled={disableSorting}
                 {...dataLists}
               />
             )}

@@ -11,15 +11,20 @@ const ThComponent = ({
   sortOption,
   headerText,
   StyledComponent,
+  sortingDisabled,
 }: {
   ordering?: SortOptions
   changeOrder: (column: SortOptions) => void
   sortOption: SortOptions
   headerText: string
   StyledComponent: ElementType
+  sortingDisabled?: boolean
 }) => {
   return (
-    <StyledComponent onClick={() => changeOrder(sortOption)}>
+    <StyledComponent
+      onClick={() => !sortingDisabled && changeOrder(sortOption)}
+      $isDisabled={sortingDisabled}
+    >
       {headerText}
       <SortIcon ordering={ordering} sortOption={sortOption} />
     </StyledComponent>
