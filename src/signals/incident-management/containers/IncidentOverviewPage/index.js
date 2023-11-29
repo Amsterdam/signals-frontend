@@ -103,7 +103,7 @@ export const IncidentOverviewPageContainerComponent = ({
         variant: VARIANT_NOTICE,
         title:
           'Verwijder eerst uw zoekopdracht om de filteropties te gebruiken',
-        message: ' Daarna kunt u de filteropties gebruiken',
+        message: 'Daarna kunt u de filteropties gebruiken',
         type: TYPE_GLOBAL,
       })
     )

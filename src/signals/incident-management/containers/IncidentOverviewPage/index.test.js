@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
-import { act, fireEvent, render, screen } from '@testing-library/react'
+// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
+import { mocked } from 'jest-mock'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
-
+import * as reactRedux from 'react-redux'
+import * as actions from 'containers/App/actions'
 import * as constants from 'signals/incident-management/constants'
 import { withAppContext } from 'test/utils'
 import incidentJson from 'utils/__tests__/fixtures/incident.json'
@@ -13,6 +15,14 @@ import incidentJson from 'utils/__tests__/fixtures/incident.json'
 import IncidentOverviewPage, { IncidentOverviewPageContainerComponent } from '.'
 
 Enzyme.configure({ adapter: new Adapter() })
+
+const mockedGlobalNotification = mocked(
+  actions.showGlobalNotification,
+  true
+).mockReturnValue({
+  type: 'sia/App/SHOW_GLOBAL_NOTIFICATION',
+})
+jest.mock('containers/App/actions')
 
 jest.mock('scroll-lock')
 jest.mock('signals/incident-management/constants')
@@ -118,7 +128,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   })
 
   it('should render quick filter links', () => {
-    const name = 'foo'
+    const name = 'mock-my-filter'
     const applyFilterSpy = jest.fn()
     const filters = [
       {
@@ -137,6 +147,7 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         />
       )
     )
+    expect(screen.getByText('mock-my-filter')).toBeInTheDocument()
 
     userEvent.click(screen.getByRole('button', { name }))
 
@@ -411,6 +422,91 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       )
 
       expect(enablePageScroll).toHaveBeenCalled()
+    })
+
+    it('should not disable filter buttons when ordering is of date is active', () => {
+      render(
+        withAppContext(
+          <IncidentOverviewPageContainerComponent
+            {...props}
+            ordering={'created_at'}
+          />
+        )
+      )
+
+      expect(screen.getByTestId('filter-modal-btn')).not.toBeDisabled()
+      expect(screen.getByTestId('my-filters-modal-btn')).not.toBeDisabled()
+    })
+
+    it('should disable filter buttons when ordering is active and show notification when clicked', async () => {
+      render(
+        withAppContext(
+          <IncidentOverviewPageContainerComponent
+            {...props}
+            ordering={'status'}
+          />
+        )
+      )
+
+      const filterBtn = screen.getByTestId('filter-modal-btn')
+
+      userEvent.click(filterBtn)
+
+      await waitFor(() => {
+        expect(mockedGlobalNotification).toHaveBeenCalledWith(
+          expect.objectContaining({
+            title:
+              'Verwijder eerst uw zoekopdracht om de filteropties te gebruiken',
+            message: 'Daarna kunt u de filteropties gebruiken',
+          })
+        )
+      })
+    })
+
+    it('should disable filter buttons when search is active and show notification when clicked', async () => {
+      jest.spyOn(reactRedux, 'useSelector').mockReturnValue('mock-search-query')
+
+      render(
+        withAppContext(<IncidentOverviewPageContainerComponent {...props} />)
+      )
+
+      const filterBtn = screen.getByTestId('my-filters-modal-btn')
+
+      userEvent.click(filterBtn)
+
+      await waitFor(() => {
+        expect(mockedGlobalNotification).toHaveBeenCalledWith(
+          expect.objectContaining({
+            title:
+              'Verwijder eerst uw zoekopdracht om de filteropties te gebruiken',
+            message: 'Daarna kunt u de filteropties gebruiken',
+          })
+        )
+      })
+    })
+
+    it('should hide quickfilters when filters are disabled', async () => {
+      const name = 'mock-my-filter'
+      const applyFilterSpy = jest.fn()
+      const filters = [
+        {
+          id: 1,
+          show_on_overview: true,
+          name,
+        },
+      ]
+
+      render(
+        withAppContext(
+          <IncidentOverviewPageContainerComponent
+            {...props}
+            ordering={'status'}
+            applyFilterAction={applyFilterSpy}
+            filters={filters}
+          />
+        )
+      )
+      expect(screen.queryByText('mock-my-filter')).not.toBeInTheDocument()
     })
   })
 })
