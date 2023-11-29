@@ -359,6 +359,7 @@ const AutoSuggest = ({
           aria-haspopup="listbox"
           role="combobox"
           aria-controls="as-listbox"
+          spellCheck="false"
           aria-autocomplete="list"
           autoComplete="off"
           defaultValue={defaultValue}
