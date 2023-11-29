@@ -44,7 +44,7 @@ const straatverlichtingKlokken = {
         objectTypeSingular: 'lichtpunt',
         objectTypePlural: 'lichtpunten',
         pdokLabel: 'Zoek op adres',
-        pdokInput: 'Adres of lichtpuntnummer',
+        pdokInput: 'Adres',
         submit: 'Gebruik deze locatie',
       },
       label: 'Kies de lamp of lantaarnpaal waar het om gaat',
