@@ -354,4 +354,21 @@ describe('List', () => {
 
     expect(orderingChangedActionMock).toHaveBeenCalledWith('-created_at')
   })
+
+  it('should not sort when sorting is disabled except date', () => {
+    render(withContext(<List {...props} sortingDisabled={true} />))
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Urgentie' }))
+    userEvent.click(screen.getByRole('columnheader', { name: 'Id' }))
+    userEvent.click(screen.getByRole('columnheader', { name: 'Subcategorie' }))
+    userEvent.click(screen.getByRole('columnheader', { name: 'Status' }))
+    userEvent.click(screen.getByRole('columnheader', { name: 'Stadsdeel' }))
+    userEvent.click(screen.getByRole('columnheader', { name: 'Adres' }))
+
+    expect(orderingChangedActionMock).not.toHaveBeenCalled()
+
+    userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
+
+    expect(orderingChangedActionMock).toHaveBeenCalledTimes(1)
+  })
 })
