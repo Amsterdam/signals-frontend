@@ -246,6 +246,26 @@ describe('formatPDOKResponse', () => {
     expect(formatPDOKResponse(undefined)).toEqual([])
     expect(formatPDOKResponse(null)).toEqual([])
   })
+
+  it('returns an list with unique streetNames when streetNameOnly is true', () => {
+    const data = PDOKResponseJson
+    const streetNameOnly = true
+    expect(formatPDOKResponse(data, streetNameOnly)).toEqual([
+      {
+        id: 'adr-e26dbf16d329474aa79276d93db9bebd',
+        value: 'Achtergracht',
+        data: {
+          location: { lat: 52.36150435, lng: 4.90225668 },
+          address: {
+            openbare_ruimte: 'Achtergracht',
+            huisnummer: '43G',
+            postcode: '1017WN',
+            woonplaats: 'Amsterdam',
+          },
+        },
+      },
+    ])
+  })
 })
 
 describe('pointWithinBounds', () => {

@@ -114,19 +114,31 @@ export type PdokResponse = {
 }
 
 export const formatPDOKResponse = (
-  request?: RevGeo | null
-): Array<PdokResponse> =>
-  request?.response?.docs.map((result) => {
-    const { id, weergavenaam, centroide_ll } = result
-    return {
-      id,
-      value: weergavenaam,
-      data: {
-        location: wktPointToLocation(centroide_ll),
-        address: serviceResultToAddress(result),
-      },
-    }
-  }) || []
+  request?: RevGeo | null,
+  streetNameOnly?: boolean
+): Array<PdokResponse> => {
+  const uniqueAddressesList = new Map<string, PdokResponse>(
+    request?.response?.docs.map((result) => {
+      const { id, weergavenaam, centroide_ll, straatnaam } = result
+
+      const value = streetNameOnly ? straatnaam : weergavenaam
+
+      return [
+        value,
+        {
+          id,
+          value,
+          data: {
+            location: wktPointToLocation(centroide_ll),
+            address: serviceResultToAddress(result),
+          },
+        },
+      ]
+    }) || []
+  )
+
+  return [...uniqueAddressesList.values()]
+}
 
 export const pointWithinBounds = (
   coordinates: LatLngTuple,

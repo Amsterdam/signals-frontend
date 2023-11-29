@@ -43,6 +43,28 @@ const renderAndSearch = async (value = 'Dam', props = {}) => {
   await screen.findByTestId('auto-suggest')
 }
 
+const renderAndSearchWithStreetNameOnlyAsTrue = async (
+  value = 'dor',
+  props = {}
+) => {
+  render(
+    withAppContext(
+      <PDOKAutoSuggest onSelect={onSelect} streetNameOnly={true} {...props} />
+    )
+  )
+  const input = screen.getByRole('textbox') as HTMLInputElement
+
+  input.focus()
+
+  fireEvent.change(input, { target: { value } })
+
+  act(() => {
+    jest.advanceTimersByTime(INPUT_DELAY)
+  })
+
+  await screen.findByTestId('auto-suggest')
+}
+
 describe('components/PDOKAutoSuggest', () => {
   beforeEach(() => {
     fetch.mockResponse(mockResponse)
@@ -93,6 +115,24 @@ describe('components/PDOKAutoSuggest', () => {
           variant: VARIANT_ERROR,
           type: TYPE_LOCAL,
         })
+      )
+    })
+  })
+
+  describe('serviceParams', () => {
+    it('should fetch with type:weg when streetNameOnly is true', async () => {
+      await renderAndSearchWithStreetNameOnlyAsTrue()
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining('type:weg'),
+        expect.anything()
+      )
+    })
+
+    it('should fetch with type:address when streetNameOnly is false', async () => {
+      await renderAndSearch()
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining('type:adres'),
+        expect.anything()
       )
     })
   })

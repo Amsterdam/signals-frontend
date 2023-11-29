@@ -80,12 +80,6 @@ const getUserOptions = (data: UserOptions) =>
     value: user.username,
   }))
 
-const serviceParams = [
-  ['fq', 'bron:BAG'],
-  ['fq', 'type:weg'],
-  ['q', ''],
-]
-
 const getUserCount = (data: UserOptions) => data.count
 
 interface Props {
@@ -313,7 +307,7 @@ const FilterForm = ({
 
   const onAddressSelect = useCallback(
     (response: PdokResponse) => {
-      dispatch(setAddress(response.data.address.openbare_ruimte))
+      dispatch(setAddress(response.value))
     },
     [dispatch]
   )
@@ -644,10 +638,10 @@ const FilterForm = ({
             <PDOKAutoSuggest
               id="filter_address"
               municipality={configuration.map?.municipality}
-              serviceParams={serviceParams}
               onSelect={onAddressSelect}
               placeholder="Zoek op straatnaam"
               value={state.options.address_text}
+              streetNameOnly={true}
             />
           </FilterGroup>
 
