@@ -11,7 +11,7 @@ import {
 } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
-import { ascDefaultTheme, breakpoint, Button } from '@amsterdam/asc-ui'
+import { ascDefaultTheme, breakpoint } from '@amsterdam/asc-ui'
 import { useDispatch } from 'react-redux'
 import { useMediaQuery } from 'react-responsive'
 
@@ -24,6 +24,7 @@ import {
   Description,
   PanelContent,
   StyledAssetList,
+  StyledBackButton,
   StyledButton,
   StyledButtonWrapper,
   StyledLabelPDOkAutoSuggest,
@@ -119,7 +120,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     >
       <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
-          <Button
+          <StyledBackButton
             aria-label="Terug"
             aria-controls="addressPanel"
             icon={<ChevronLeft />}
