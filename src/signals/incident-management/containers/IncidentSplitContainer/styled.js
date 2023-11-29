@@ -81,9 +81,15 @@ export const StyledHeading = styled(Heading)`
   margin-bottom: 0;
 `
 
-export const StyledWrapper = styled.div`
-  padding-top: ${themeSpacing(6)};
-  padding-bottom: ${themeSpacing(6)};
+export const StyledHeadingWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const StyledButton = styled(Button)`
+  width: ${themeSpacing(11)};
+  height: ${themeSpacing(11)};
+  min-width: unset;
 `
 
 export const FormWrapper = styled(Row)`

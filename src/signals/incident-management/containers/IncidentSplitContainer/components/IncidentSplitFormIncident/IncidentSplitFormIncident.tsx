@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
-import type { FC } from 'react'
+import type { FC, BaseSyntheticEvent } from 'react'
 
+import { TrashBin as DeleteIcon } from '@amsterdam/asc-assets/lib/icons'
+import { uniqueId } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 
 import AddNote, { getAddNoteError } from 'components/AddNote'
@@ -14,7 +16,13 @@ import {
   typesList,
 } from 'signals/incident-management/definitions'
 
-import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'
+import {
+  StyledGrid,
+  StyledHeading,
+  StyledFieldset,
+  StyledHeadingWrapper,
+  StyledButton,
+} from '../../styled'
 import type { ParentIncident } from '../IncidentSplitForm'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput'
@@ -30,27 +38,45 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
   parentIncident,
   subcategories,
 }) => {
-  const [splitCount, setSplitCount] = useState(1)
+  const [splitIds, setSplitIds] = useState([uniqueId()])
   const [groups, options] = subcategories
   const maxDescriptionLength = 1000
   const { control } = useFormContext()
 
   const addIncident = useCallback((event) => {
     event.preventDefault()
-    setSplitCount((previousSplitCount) => previousSplitCount + 1)
+    setSplitIds((previousSplitIds) => [...previousSplitIds, uniqueId()])
+  }, [])
+
+  const removeSplitForm = useCallback((splitNumber) => {
+    setSplitIds((previousSplitIds) =>
+      previousSplitIds.filter((id) => id !== splitNumber)
+    )
   }, [])
 
   return (
     <>
-      {[...Array(splitCount + 1).keys()].slice(1).map((splitNumber) => (
+      {splitIds.map((splitNumber, index) => (
         <StyledFieldset key={`incident-splitform-incident-${splitNumber}`}>
           <StyledGrid>
-            <StyledHeading
-              forwardedAs="h2"
-              data-testid="incident-split-form-incident-title"
-            >
-              Deelmelding {splitNumber + parentIncident.childrenCount}
-            </StyledHeading>
+            <StyledHeadingWrapper>
+              <StyledHeading
+                forwardedAs="h2"
+                data-testid="incident-split-form-incident-title"
+              >
+                Deelmelding {index + 1 + parentIncident.childrenCount}
+              </StyledHeading>
+              <StyledButton
+                data-testid={`incident-split-form-incident-delete-button-${splitNumber}`}
+                onClick={(event: BaseSyntheticEvent) => {
+                  event.preventDefault()
+                  removeSplitForm(splitNumber)
+                }}
+                variant="application"
+                iconSize={18}
+                icon={<DeleteIcon />}
+              />
+            </StyledHeadingWrapper>
 
             {groups.length > 0 && options.length > 0 ? (
               <Controller
@@ -62,7 +88,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                     data-testid={`incident-split-form-incident-subcategory-select-${splitNumber}`}
                     display="Subcategorie"
                     groups={groups}
-                    id={`subcategory-${splitNumber}`}
+                    id={`subcategory-${index + 1}`}
                     initialValue={parentIncident.subcategory}
                     name={name}
                     onChange={onChange}
@@ -137,7 +163,8 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
         </StyledFieldset>
       ))}
 
-      {splitCount < INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
+      {splitIds.length <
+        INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
         <fieldset>
           <Button
             data-testid="incident-split-form-incident-split-button"

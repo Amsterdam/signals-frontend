@@ -109,4 +109,20 @@ describe('IncidentSplitFormIncident', () => {
       screen.getByRole('heading', { name: 'Deelmelding 4' })
     ).toBeInTheDocument()
   })
+
+  it('should remove split incident form when delete button is clicked', () => {
+    render(withFormContext(<IncidentSplitFormIncident {...props} />))
+
+    expect(
+      screen.getAllByRole('heading', { name: /^Deelmelding \d+$/ })
+    ).toHaveLength(1)
+
+    userEvent.click(
+      screen.getByTestId('incident-split-form-incident-delete-button-1')
+    )
+
+    expect(
+      screen.queryByRole('heading', { name: /^Deelmelding \d+$/ })
+    ).not.toBeInTheDocument()
+  })
 })
