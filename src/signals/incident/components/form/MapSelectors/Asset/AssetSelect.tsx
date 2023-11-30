@@ -63,6 +63,7 @@ export interface AssetSelectProps {
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
+  const [addressLoading, setAddressLoading] = useState(false)
   const [selectableFeatures, setSelectableFeatures] = useState<
     FeatureCollection | undefined
   >(undefined)
@@ -148,11 +149,11 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       updateIncident(payload)
 
       if (payload.location) {
+        setAddressLoading(true)
         const response = await reverseGeocoderService(latLng)
-
         payload.location.address = response?.data?.address
-
         updateIncident(payload)
+        setAddressLoading(false)
       }
     },
     [address, getUpdatePayload, updateIncident]
@@ -203,6 +204,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         layer,
         message,
         selectableFeatures,
+        addressLoading,
         meta: {
           ...meta,
           featureTypes,
@@ -214,6 +216,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         fetchLocation,
         setMessage,
         setSelectableFeatures,
+        setAddressLoading,
       }}
     >
       {!mapActive && !hasSelection && <Intro />}

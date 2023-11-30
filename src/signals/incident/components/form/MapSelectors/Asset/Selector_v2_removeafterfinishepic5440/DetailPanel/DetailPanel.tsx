@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import type { FC } from 'react'
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useContext, useMemo, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'
 import { ascDefaultTheme, breakpoint } from '@amsterdam/asc-ui'
@@ -30,12 +23,12 @@ import {
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
+import { useCurrentAddress } from './useCurrentAddress'
 import { useResetDrawerState } from './useResetDrawerState'
 import {
   DrawerOverlay,
   DrawerState,
 } from '../../../../../../../../components/DrawerOverlay'
-import type { Address } from '../../../../../../../../types/address'
 import AssetSelectContext from '../../context'
 import Legend from '../Legend'
 import { ScrollWrapper, StyledPDOKAutoSuggest } from '../styled'
@@ -60,15 +53,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     setLocation,
     meta,
     selectableFeatures,
+    addressLoading,
   } = useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
   const addressValue = address ? formatAddress(address) : ''
-  const [currentAddress, setCurrentAddress] = useState<Address | undefined>(
-    undefined
-  )
-  const newAddressRef = useRef<Address | undefined>(address)
-
   const selectionOnMap =
     selection && selectionIsObject(selection[0]) ? selection : undefined
 
@@ -99,17 +88,11 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       : 100
   }, [selection, zoomLevel, featureTypes, legendOpen])
 
-  useEffect(() => {
-    newAddressRef.current = address
+  const currentAddress = useCurrentAddress({
+    address,
+    addressLoading,
+  })
 
-    const timeoutId = setTimeout(() => {
-      setCurrentAddress(newAddressRef.current)
-    }, 100)
-
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [address])
   return (
     <DrawerOverlay
       state={drawerState}
