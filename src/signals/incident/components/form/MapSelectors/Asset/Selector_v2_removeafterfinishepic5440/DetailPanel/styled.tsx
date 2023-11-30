@@ -7,6 +7,7 @@ import { DETAIL_PANEL_WIDTH } from '../../../constants'
 import AssetList from '../../AssetList'
 import LegendPanel from '../LegendPanel'
 import LegendToggle from '../LegendToggleButton'
+import { ScrollWrapper } from '../styled'
 
 export const StyledBackButton = styled(Button)`
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
@@ -66,6 +67,12 @@ export const PanelContent = styled.div`
   z-index: 1;
   position: relative;
   height: 100%;
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    ${ScrollWrapper} {
+      padding-top: 0;
+    }
+  }
 `
 
 export const StyledLegendPanel = styled(LegendPanel)`
