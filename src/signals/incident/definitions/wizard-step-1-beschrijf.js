@@ -50,7 +50,7 @@ const getControls = memoize(
         meta: {
           type: 'message',
           value: `Voordat u een melding doet kunt u op de [meldingenkaart](/meldingenkaart) zien welke meldingen bekend zijn bij de
-          gemeente. Staat uw melding er niet bij? Maak dan een melding.`,
+          gemeente.`,
         },
         render: FormComponents.PlainText,
       },
