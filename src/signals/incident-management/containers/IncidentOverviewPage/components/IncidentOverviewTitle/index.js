@@ -26,8 +26,6 @@ const getSortInformation = (ordering) => {
 
   if (sort.asc === ordering) return `${sort.key} ${sort.asc_label}`
   if (sort.desc === ordering) return `${sort.key} ${sort.desc_label}`
-
-  return null
 }
 
 export const IncidentOverviewTitle = ({
@@ -86,6 +84,7 @@ export const IncidentOverviewTitle = ({
 
 IncidentOverviewTitle.defaultProps = {
   children: null,
+  ordering: '',
 }
 
 IncidentOverviewTitle.propTypes = {
@@ -94,6 +93,7 @@ IncidentOverviewTitle.propTypes = {
   incidentsCount: PropTypes.number,
   query: PropTypes.string,
   ordering: PropTypes.string.isRequired,
+  orderingChangedAction: PropTypes.func.isRequired,
   showsMap: PropTypes.bool.isRequired,
 }
 
