@@ -26,6 +26,7 @@ import type { IncidentList, IncidentListItem } from 'types/api/incident-list'
 import onButtonPress from 'utils/on-button-press'
 
 import {
+  BaseTh,
   ContentSpan,
   StyledIcon,
   StyledList,
@@ -43,7 +44,7 @@ import {
   Tr,
 } from './styles'
 import { useIncidentManagementContext } from '../../../../context'
-import { SortOptions } from '../../contants'
+import { SortOptionLabels, SortOptions } from '../../contants'
 import compareSortOptions from '../../utils'
 import ThSort from '../Th'
 
@@ -92,6 +93,7 @@ interface ListProps {
   status: Status[]
   orderingChangedAction: (ordering: string) => void
   ordering?: SortOptions
+  sortingDisabled?: boolean
 }
 
 const List: FunctionComponent<ListProps> = ({
@@ -103,6 +105,7 @@ const List: FunctionComponent<ListProps> = ({
   status,
   ordering,
   orderingChangedAction,
+  sortingDisabled = false,
 }) => {
   const { districts } = useIncidentManagementContext()
   const navigate = useNavigate()
@@ -141,38 +144,42 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThPriority}
               sortOption={SortOptions.PRIORITY_ASC}
-              headerText={'Urgentie'}
+              headerText={SortOptionLabels.URGENTIE}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThId}
-              sortOption={SortOptions.ID_ASC}
-              headerText={'Id'}
+              sortOption={SortOptions.ID_DESC}
+              headerText={SortOptionLabels.ID}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
-            <ThDay>Dag</ThDay>
+            <ThDay $isDisabled={true}>Dag</ThDay>
             <ThSort
               StyledComponent={ThDate}
               sortOption={SortOptions.CREATED_AT_ASC}
-              headerText={'Datum'}
+              headerText={SortOptionLabels.DATUM}
               ordering={ordering}
               changeOrder={changeOrder}
             />
             <ThSort
               StyledComponent={ThSubcategory}
               sortOption={SortOptions.SUBCATEGORY_ASC}
-              headerText={'Subcategorie'}
+              headerText={SortOptionLabels.SUBCATEGORY}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThStatus}
               sortOption={SortOptions.STATUS_ASC}
-              headerText={'Status'}
+              headerText={SortOptionLabels.STATUS}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThArea}
@@ -180,17 +187,19 @@ const List: FunctionComponent<ListProps> = ({
               headerText={
                 configuration.featureFlags.fetchDistrictsFromBackend
                   ? configuration.language.district
-                  : 'Stadsdeel'
+                  : SortOptionLabels.STADSDEEL
               }
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             <ThSort
-              StyledComponent={Th}
+              StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
-              headerText={'Adres'}
+              headerText={SortOptionLabels.ADRES}
               ordering={ordering}
               changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
             />
             {configuration.featureFlags.assignSignalToEmployee && (
               <Th>Toegewezen aan</Th>

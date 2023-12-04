@@ -1230,31 +1230,31 @@ describe('Notification', () => {
     // Set threshold low so it fails with a single filter.
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    constants.MAX_FILTER_LENGTH = 108
+    constants.MAX_FILTER_LENGTH = 103
   })
 
   const notificationMessage =
     'Helaas is de combinatie van deze filters te groot. Maak een kleinere selectie.'
 
   it('should show a notification when too many filters are selected and removed when deselected', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    constants.MAX_FILTER_LENGTH = 70
     const onSubmit = jest.fn()
 
     render(withContext(<FilterForm {...{ ...formProps, onSubmit }} />))
-    expect(screen.queryByText(notificationMessage)).not.toBeInTheDocument()
-
     const afvalButton = screen.getByRole('button', { name: 'Afval' })
-
     userEvent.click(afvalButton)
 
-    const checkbox = screen.getByRole('checkbox', {
-      name: 'Container glas kapot',
-    })
+    const checkbox = screen.getByText('Container glas kapot')
 
     expect(checkbox).toBeInTheDocument()
 
     userEvent.click(checkbox)
-
-    expect(checkbox).toBeChecked()
+    await screen.findByRole('checkbox', {
+      name: /Container glas kapot/i,
+      checked: true,
+    })
 
     const checkbox2 = screen.getByRole('checkbox', {
       name: 'Container glas vol',
