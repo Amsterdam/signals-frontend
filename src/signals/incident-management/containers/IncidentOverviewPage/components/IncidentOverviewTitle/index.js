@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { useMemo } from 'react'
+// Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import { useCallback, useMemo } from 'react'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import styled from 'styled-components'
 
 import PageHeader from 'components/PageHeader'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
@@ -14,20 +13,31 @@ import * as types from 'shared/types'
 import {
   makeSelectActiveFilter,
   makeSelectIncidentsCount,
+  makeSelectOrdering,
 } from 'signals/incident-management/selectors'
 
-import { SubTitle } from './styled'
-import Refresh from '../../../../../../images/icon-refresh.svg'
+import { SubTitle, StyledLink, RefreshIcon, StyledSpan } from './styled'
+import { sortOptionsList } from '../../contants'
 
-const RefreshIcon = styled(Refresh).attrs({
-  height: 30,
-})`
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 15px;
-`
+const getSortInformation = (ordering) => {
+  const sort = sortOptionsList.find((sortOption) => {
+    return sortOption.asc === ordering || sortOption.desc === ordering
+  })
 
-export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
+  if (sort.asc === ordering) return `${sort.key} ${sort.asc_label}`
+  if (sort.desc === ordering) return `${sort.key} ${sort.desc_label}`
+
+  return null
+}
+
+export const IncidentOverviewTitle = ({
+  filter,
+  incidentsCount,
+  query,
+  ordering,
+  orderingChangedAction,
+  showsMap,
+}) => {
   const headerTitle = useMemo(() => {
     let title = filter.name || 'Meldingen'
     const hasCount = incidentsCount !== null && incidentsCount >= 0
@@ -47,13 +57,29 @@ export const IncidentOverviewTitle = ({ filter, incidentsCount, query }) => {
     )
   }, [filter, incidentsCount])
 
-  const subTitle = useMemo(
+  const resetSorting = useCallback(() => {
+    orderingChangedAction('')
+  }, [orderingChangedAction])
+
+  const subTitleSearch = useMemo(
     () => query && `Zoekresultaten voor "${query}"`,
     [query]
   )
+
+  const subTitleSort = useMemo(() => {
+    const sortInformation = ordering && getSortInformation(ordering)
+    return sortInformation && `Sorteer op ${sortInformation}`
+  }, [ordering])
+
   return (
     <PageHeader title={headerTitle}>
-      {subTitle && <SubTitle>{subTitle}</SubTitle>}
+      {subTitleSearch && <SubTitle>{subTitleSearch}</SubTitle>}
+      {subTitleSort && !showsMap && (
+        <>
+          <StyledSpan>{subTitleSort}</StyledSpan>
+          <StyledLink onClick={resetSorting}>Wis sortering</StyledLink>
+        </>
+      )}
     </PageHeader>
   )
 }
@@ -67,12 +93,15 @@ IncidentOverviewTitle.propTypes = {
   children: PropTypes.node,
   incidentsCount: PropTypes.number,
   query: PropTypes.string,
+  ordering: PropTypes.string.isRequired,
+  showsMap: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = createStructuredSelector({
   filter: makeSelectActiveFilter,
   incidentsCount: makeSelectIncidentsCount,
   query: makeSelectSearchQuery,
+  ordering: makeSelectOrdering,
 })
 
 const withConnect = connect(mapStateToProps)

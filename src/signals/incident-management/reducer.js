@@ -49,7 +49,7 @@ export const initialState = fromJS({
   loadingDistricts: false,
   loadingFilters: false,
   loadingIncidents: false,
-  ordering: '-created_at',
+  ordering: '',
   page: 1,
 })
 

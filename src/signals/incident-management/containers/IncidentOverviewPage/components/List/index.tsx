@@ -44,7 +44,7 @@ import {
   Tr,
 } from './styles'
 import { useIncidentManagementContext } from '../../../../context'
-import { SortOptions } from '../../contants'
+import { SortOptionLabels, SortOptions } from '../../contants'
 import compareSortOptions from '../../utils'
 import ThSort from '../Th'
 
@@ -144,15 +144,15 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThPriority}
               sortOption={SortOptions.PRIORITY_ASC}
-              headerText={'Urgentie'}
+              headerText={SortOptionLabels.URGENTIE}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
             <ThSort
               StyledComponent={ThId}
-              sortOption={SortOptions.ID_ASC}
-              headerText={'Id'}
+              sortOption={SortOptions.ID_DESC}
+              headerText={SortOptionLabels.ID}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -161,14 +161,14 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThDate}
               sortOption={SortOptions.CREATED_AT_ASC}
-              headerText={'Datum'}
+              headerText={SortOptionLabels.DATUM}
               ordering={ordering}
               changeOrder={changeOrder}
             />
             <ThSort
               StyledComponent={ThSubcategory}
               sortOption={SortOptions.SUBCATEGORY_ASC}
-              headerText={'Subcategorie'}
+              headerText={SortOptionLabels.SUBCATEGORY}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -176,7 +176,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThStatus}
               sortOption={SortOptions.STATUS_ASC}
-              headerText={'Status'}
+              headerText={SortOptionLabels.STATUS}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -187,7 +187,7 @@ const List: FunctionComponent<ListProps> = ({
               headerText={
                 configuration.featureFlags.fetchDistrictsFromBackend
                   ? configuration.language.district
-                  : 'Stadsdeel'
+                  : SortOptionLabels.STADSDEEL
               }
               ordering={ordering}
               changeOrder={changeOrder}
@@ -196,7 +196,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
-              headerText={'Adres'}
+              headerText={SortOptionLabels.ADRES}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}

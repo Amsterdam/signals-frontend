@@ -188,7 +188,10 @@ export const IncidentOverviewPageContainerComponent = ({
     >
       <Row>
         <TitleRow>
-          <PageHeader />
+          <PageHeader
+            orderingChangedAction={orderingChangedAction}
+            showsMap={showsMap}
+          />
           <ButtonWrapper>
             <StyledButton
               data-testid="my-filters-modal-btn"
