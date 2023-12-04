@@ -49,7 +49,7 @@ const renderAndSearchWithStreetNameOnlyAsTrue = async (
 ) => {
   render(
     withAppContext(
-      <PDOKAutoSuggest onSelect={onSelect} streetNameOnly={true} {...props} />
+      <PDOKAutoSuggest onSelect={onSelect} streetNameOnly {...props} />
     )
   )
   const input = screen.getByRole('textbox') as HTMLInputElement

@@ -641,7 +641,7 @@ const FilterForm = ({
               onSelect={onAddressSelect}
               placeholder="Zoek op straatnaam"
               value={state.options.address_text}
-              streetNameOnly={true}
+              streetNameOnly
             />
           </FilterGroup>
 
