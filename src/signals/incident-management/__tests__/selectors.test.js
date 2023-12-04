@@ -689,7 +689,7 @@ describe('signals/incident-management/selectors', () => {
       }
 
       expect(makeSelectFilterParams(emptyState)).toEqual({
-        ordering: '-created_at',
+        ordering: '',
         page: 1,
         page_size: FILTER_PAGE_SIZE,
       })
@@ -702,7 +702,7 @@ describe('signals/incident-management/selectors', () => {
       }
 
       expect(makeSelectFilterParams(state)).toEqual({
-        ordering: '-created_at',
+        ordering: '',
         page: 1,
         stadsdeel: stadsdeelFilter.options.stadsdeel,
         page_size: FILTER_PAGE_SIZE,
@@ -719,7 +719,7 @@ describe('signals/incident-management/selectors', () => {
       }
 
       expect(makeSelectFilterParams(state)).toEqual({
-        ordering: '-created_at',
+        ordering: '',
         page: 1,
         area_code: ['north'],
         area_type_code: 'district',
@@ -743,7 +743,7 @@ describe('signals/incident-management/selectors', () => {
       }
 
       expect(makeSelectFilterParams(state)).toEqual({
-        ordering: '-created_at',
+        ordering: '',
         page: 1,
         area_code: ['null'],
         page_size: FILTER_PAGE_SIZE,
