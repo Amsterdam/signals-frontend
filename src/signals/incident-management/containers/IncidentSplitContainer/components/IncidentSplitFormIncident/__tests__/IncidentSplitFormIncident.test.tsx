@@ -111,7 +111,18 @@ describe('IncidentSplitFormIncident', () => {
   })
 
   it('should remove split incident form when delete button is clicked', () => {
-    render(withFormContext(<IncidentSplitFormIncident {...props} />))
+    const parentIncidentWithChildCount = {
+      ...parentIncidentFixture,
+      childrenCount: 1,
+    }
+    render(
+      withFormContext(
+        <IncidentSplitFormIncident
+          {...props}
+          parentIncident={parentIncidentWithChildCount}
+        />
+      )
+    )
 
     expect(
       screen.getAllByRole('heading', { name: /^Deelmelding \d+$/ })

@@ -41,7 +41,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
   const [splitIds, setSplitIds] = useState([uniqueId()])
   const [groups, options] = subcategories
   const maxDescriptionLength = 1000
-  const { control } = useFormContext()
+  const { control, resetField } = useFormContext()
 
   const addIncident = useCallback((event) => {
     event.preventDefault()
@@ -64,20 +64,23 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                 forwardedAs="h2"
                 data-testid="incident-split-form-incident-title"
               >
-                Deelmelding {index + 1 + parentIncident.childrenCount}
+                Deelmelding {parentIncident.childrenCount + index + 1}
               </StyledHeading>
-              <StyledButton
-                data-testid={`incident-split-form-incident-delete-button-${
-                  index + 1
-                }`}
-                onClick={(event: BaseSyntheticEvent) => {
-                  event.preventDefault()
-                  removeSplitForm(splitNumber)
-                }}
-                variant="application"
-                iconSize={18}
-                icon={<DeleteIcon />}
-              />
+              {parentIncident.childrenCount + index + 1 > 1 && (
+                <StyledButton
+                  data-testid={`incident-split-form-incident-delete-button-${
+                    index + 1
+                  }`}
+                  onClick={(event: BaseSyntheticEvent) => {
+                    event.preventDefault()
+                    removeSplitForm(splitNumber)
+                    resetField(`incidents[${index + 1}].subcategory`)
+                  }}
+                  variant="application"
+                  iconSize={18}
+                  icon={<DeleteIcon />}
+                />
+              )}
             </StyledHeadingWrapper>
 
             {groups.length > 0 && options.length > 0 ? (

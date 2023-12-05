@@ -201,6 +201,7 @@ const IncidentSplitContainer = ({ FormComponent }) => {
 
       const mergedData = incidents
         .filter(Boolean)
+        .filter(({ subcategory }) => subcategory)
         .map(({ subcategory, description, type, priority }) => {
           const partialData = {
             category: { category_url: subcategory },
