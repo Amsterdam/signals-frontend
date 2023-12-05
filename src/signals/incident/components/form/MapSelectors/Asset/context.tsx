@@ -17,12 +17,14 @@ export const initialValue: AssetSelectValue = {
   },
   selection: undefined,
   selectableFeatures: undefined,
+  addressLoading: false,
   fetchLocation: /* istanbul ignore next */ () => {},
   setLocation: /* istanbul ignore next */ () => {},
   setMessage: /* istanbul ignore next */ () => {},
   setItem: /* istanbul ignore next */ () => {},
   removeItem: /* istanbul ignore next */ () => {},
   setSelectableFeatures: /* istanbul ignore next */ () => {},
+  setAddressLoading: /* istanbul ignore next */ () => {},
 }
 
 const AssetSelectContext = createContext(initialValue)

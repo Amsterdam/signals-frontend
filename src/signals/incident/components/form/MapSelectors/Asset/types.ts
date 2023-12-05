@@ -21,11 +21,13 @@ export interface AssetSelectValue {
   selectableFeatures?: FeatureCollection
   removeItem: (item?: Item) => void
   selection?: Item[]
+  addressLoading: boolean
   setItem: (item: Item, location?: Location) => void
   fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
   setSelectableFeatures: (features?: FeatureCollection) => void
+  setAddressLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {

@@ -30,6 +30,7 @@ jest.mock(
       featureTypes,
       featureStatusTypes,
       selection,
+      selectableFeatures,
       ...props
     }: AssetListProps) =>
       selection && (
