@@ -32,16 +32,16 @@ export default function SortIcon({
     return null
 
   if (sortException(sortOption)) {
-    const rotateOne = selectedSortOption?.startsWith('-') ? true : false
+    const rotateException = selectedSortOption?.startsWith('-')
     return (
       <StyledChevronUp
-        data-testid={rotateOne ? 'chevron-down' : 'chevron-up'}
-        $rotated={rotateOne}
+        data-testid={rotateException ? 'chevron-down' : 'chevron-up'}
+        $rotated={rotateException}
       />
     )
   }
 
-  const rotate = selectedSortOption?.startsWith('-') ? false : true
+  const rotate = !selectedSortOption?.startsWith('-')
   return (
     <StyledChevronUp
       data-testid={rotate ? 'chevron-down' : 'chevron-up'}
