@@ -362,7 +362,6 @@ const AutoSuggest = ({
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"
           autoComplete="off"
-          defaultValue={defaultValue}
           disabled={disabled}
           id={id}
           onChange={onChange}

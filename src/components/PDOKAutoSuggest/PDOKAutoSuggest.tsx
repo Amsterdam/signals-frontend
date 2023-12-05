@@ -20,7 +20,7 @@ export interface PDOKAutoSuggestProps
     AutoSuggestProps,
     'url' | 'formatResponse' | 'numOptionsDeterminer'
   > {
-  serviceParams?: string[][]
+  streetNameOnly?: boolean
   fieldList?: Array<string>
   municipality?: string
 }
@@ -32,12 +32,8 @@ export interface PDOKAutoSuggestProps
  */
 const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   fieldList = [],
+  streetNameOnly = false,
   municipality = configuration.map.municipality,
-  serviceParams = [
-    ['fq', 'bron:BAG'],
-    ['fq', 'type:adres'],
-    ['q', ''],
-  ],
   ...rest
 }) => {
   const fq = municipality
@@ -47,6 +43,12 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   const fl = [
     ['fl', [...pdokResponseFieldList, ...(fieldList || [])].join(',')],
   ]
+
+  const serviceParams = [
+    ['fq', 'bron:BAG'],
+    ['fq', streetNameOnly ? 'type:weg' : 'type:adres'],
+    ['q', ''],
+  ]
   const params = [...fq, ...fl, ...serviceParams]
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&')
   const url = `${configuration.map.pdok.suggest}?${queryParams}`
@@ -55,7 +57,7 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
     <AutoSuggest
       {...rest}
       url={url}
-      formatResponse={formatPDOKResponse}
+      formatResponse={(request) => formatPDOKResponse(request, streetNameOnly)}
       numOptionsDeterminer={numOptionsDeterminer}
       tabIndex={0}
     />

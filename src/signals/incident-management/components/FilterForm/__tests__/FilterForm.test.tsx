@@ -148,6 +148,19 @@ describe('signals/incident-management/components/FilterForm', () => {
     expect(getByTestId('filter-name')).toHaveValue('FooBar')
   })
 
+  it('should render a PDOKAutoSuggest', () => {
+    const { getByTestId } = render(
+      withContext(
+        <FilterForm
+          {...formProps}
+          filter={{ id: 1234, name: 'FooBar', options: {} }}
+        />
+      )
+    )
+
+    expect(getByTestId('auto-suggest')).toBeInTheDocument()
+  })
+
   it('should render filter fields', async () => {
     const { container, findAllByPlaceholderText } = render(
       withContext(<FilterForm {...formProps} />)
