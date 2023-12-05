@@ -49,6 +49,10 @@ export const ListDescription = styled.p`
 
 export const ListItem = styled.div`
   border-bottom: 1px solid ${themeColor('tint', 'level3')};
+
+  &:first-child {
+    border-top: 1px solid ${themeColor('tint', 'level3')};
+  }
 `
 
 export const StyledButton = styled(Button).attrs(() => ({
