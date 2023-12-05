@@ -4,24 +4,48 @@ import { StyledChevronUp } from './styled'
 import { SortOptions } from '../../contants'
 import compareSortOptions from '../../utils'
 
+const sortException = (sortOption: SortOptions) => {
+  return (
+    sortOption === SortOptions.CREATED_AT_ASC ||
+    sortOption === SortOptions.CREATED_AT_DESC ||
+    sortOption === SortOptions.ID_DESC ||
+    sortOption === SortOptions.ID_ASC
+  )
+}
 export default function SortIcon({
-  ordering,
+  selectedSortOption,
   sortOption,
 }: {
   sortOption: SortOptions
-  ordering?: SortOptions
+  selectedSortOption?: SortOptions
 }) {
   /**
    * The sorting for created at differs from the other columns because the dates
-   * are sorted from newest to oldest by default. The other columns are sorted
-   * alphabetically by from A to Z by default.
+   * are sorted from newest to oldest by default. The sorting differs for ID because
+   * it chevrons behaviour needs to mimick that of the created at chevron. The
+   * other columns are sorted alphabetically by from A to Z by default.
    */
-  return ordering && compareSortOptions(ordering, sortOption) ? (
-    (ordering.startsWith('-') && ordering !== SortOptions.CREATED_AT_ASC) ||
-    ordering === SortOptions.CREATED_AT_DESC ? (
-      <StyledChevronUp data-testid={'chevron-up'} $rotated={false} />
-    ) : (
-      <StyledChevronUp data-testid={'chevron-down'} $rotated />
+  if (
+    !selectedSortOption ||
+    !compareSortOptions(selectedSortOption, sortOption)
+  )
+    return null
+
+  if (sortException(sortOption)) {
+    const rotateException = selectedSortOption?.startsWith('-')
+    return (
+      <StyledChevronUp
+        data-testid={rotateException ? 'chevron-down' : 'chevron-up'}
+        $rotated={rotateException}
+      />
     )
-  ) : null
+  }
+
+  const rotate = !selectedSortOption?.startsWith('-')
+  return (
+    <StyledChevronUp
+      data-testid={rotate ? 'chevron-down' : 'chevron-up'}
+      $rotated={rotate}
+    />
+  )
 }

@@ -50,9 +50,7 @@ import ThSort from '../Th'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
   const statusesWithoutDaysOpen = statusList
-    .filter(
-      ({ shows_remaining_sla_days }) => shows_remaining_sla_days === false
-    )
+    .filter(({ shows_remaining_sla_days }) => !shows_remaining_sla_days)
     .map(({ key }) => key)
   const hasDaysOpen =
     incident.status && !statusesWithoutDaysOpen.includes(incident.status.state)

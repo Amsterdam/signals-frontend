@@ -11,7 +11,7 @@ describe('SortIcon', () => {
     render(
       <SortIcon
         sortOption={SortOptions.CREATED_AT_ASC}
-        ordering={SortOptions.CREATED_AT_DESC}
+        selectedSortOption={SortOptions.CREATED_AT_DESC}
       />
     )
 
@@ -22,11 +22,33 @@ describe('SortIcon', () => {
     render(
       <SortIcon
         sortOption={SortOptions.CREATED_AT_DESC}
-        ordering={SortOptions.CREATED_AT_ASC}
+        selectedSortOption={SortOptions.CREATED_AT_ASC}
       />
     )
 
     expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
+  })
+
+  it('should render a sort icon for id when its desc', () => {
+    render(
+      <SortIcon
+        sortOption={SortOptions.ID_ASC}
+        selectedSortOption={SortOptions.ID_DESC}
+      />
+    )
+
+    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
+  })
+
+  it('should render a sort icon for ID when its asc', () => {
+    render(
+      <SortIcon
+        sortOption={SortOptions.ID_DESC}
+        selectedSortOption={SortOptions.ID_ASC}
+      />
+    )
+
+    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
   })
 
   // and now for address
@@ -34,7 +56,7 @@ describe('SortIcon', () => {
     render(
       <SortIcon
         sortOption={SortOptions.ADDRESS_ASC}
-        ordering={SortOptions.ADDRESS_DESC}
+        selectedSortOption={SortOptions.ADDRESS_DESC}
       />
     )
 
@@ -45,18 +67,18 @@ describe('SortIcon', () => {
     render(
       <SortIcon
         sortOption={SortOptions.ADDRESS_DESC}
-        ordering={SortOptions.ADDRESS_ASC}
+        selectedSortOption={SortOptions.ADDRESS_ASC}
       />
     )
 
     expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
   })
 
-  it('should return null when there is no match between sortOption and ordering', () => {
+  it('should return null when there is no match between sortOption and selectedSortOption', () => {
     render(
       <SortIcon
         sortOption={SortOptions.ADDRESS_ASC}
-        ordering={SortOptions.CREATED_AT_ASC}
+        selectedSortOption={SortOptions.CREATED_AT_ASC}
       />
     )
 
