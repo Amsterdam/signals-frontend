@@ -80,12 +80,12 @@ describe('IncidentSplitFormIncident', () => {
     )
 
     expect(screen.getByTestId('select-loader')).toBeInTheDocument()
-    expect(screen.queryByTestId('subcategory-1')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('subcategory-22')).not.toBeInTheDocument()
 
     rerender(withFormContext(<IncidentSplitFormIncident {...props} />))
 
     expect(screen.queryByTestId('select-loader')).not.toBeInTheDocument()
-    expect(screen.getByTestId('subcategory-1')).toBeInTheDocument()
+    expect(screen.getByTestId('subcategory-22')).toBeInTheDocument()
   })
 
   it('should render incident split form when parent already has split incidents', () => {
@@ -108,5 +108,29 @@ describe('IncidentSplitFormIncident', () => {
     expect(
       screen.getByRole('heading', { name: 'Deelmelding 4' })
     ).toBeInTheDocument()
+  })
+
+  it('should be able to remove a sub incident when there are more then one', () => {
+    render(withFormContext(<IncidentSplitFormIncident {...props} />))
+
+    expect(
+      screen.queryByRole('button', { name: 'Verwijder deelmelding' })
+    ).not.toBeInTheDocument()
+
+    userEvent.click(
+      screen.getByRole('button', { name: 'Extra deelmelding toevoegen' })
+    )
+
+    const removeBtns = screen.getAllByRole('button', {
+      name: 'Verwijder deelmelding',
+    })
+
+    expect(removeBtns).toHaveLength(2)
+
+    userEvent.click(removeBtns[1])
+
+    expect(
+      screen.queryByRole('button', { name: 'Verwijder deelmelding' })
+    ).not.toBeInTheDocument()
   })
 })
