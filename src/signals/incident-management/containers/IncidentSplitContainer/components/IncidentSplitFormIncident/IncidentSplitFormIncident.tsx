@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import type { FC } from 'react'
 
+import { TrashBin } from '@amsterdam/asc-assets/lib/icons'
 import { uniqueId } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 
@@ -15,7 +16,13 @@ import {
   typesList,
 } from 'signals/incident-management/definitions'
 
-import { StyledGrid, StyledHeading, StyledFieldset } from '../../styled'
+import {
+  RemoveButton,
+  StyledGrid,
+  StyledHeading,
+  StyledFieldset,
+  StyledHeadingWrapper,
+} from '../../styled'
 import type { ParentIncident } from '../IncidentSplitForm'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput'
@@ -46,7 +53,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
     })
   }, [])
 
-  const deleteSubIncident = useCallback(
+  const removeSubIncident = useCallback(
     (event, id) => {
       event.preventDefault()
 
@@ -65,17 +72,23 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
         return (
           <StyledFieldset key={`incident-splitform-incident-${id}`}>
             <StyledGrid>
-              <StyledHeading
-                forwardedAs="h2"
-                data-testid="incident-split-form-incident-title"
-              >
-                Deelmelding {subIncidentNumber}
-              </StyledHeading>
+              <StyledHeadingWrapper>
+                <StyledHeading
+                  forwardedAs="h2"
+                  data-testid="incident-split-form-incident-title"
+                >
+                  Deelmelding {subIncidentNumber}
+                </StyledHeading>
 
-              <button onClick={(event) => deleteSubIncident(event, id)}>
-                X
-              </button>
-
+                {index !== 0 && (
+                  <RemoveButton
+                    icon={<TrashBin />}
+                    iconSize={16}
+                    onClick={(event) => removeSubIncident(event, id)}
+                    variant="application"
+                  />
+                )}
+              </StyledHeadingWrapper>
               {groups.length > 0 && options.length > 0 ? (
                 <Controller
                   name={`incidents.${id}.subcategory`}

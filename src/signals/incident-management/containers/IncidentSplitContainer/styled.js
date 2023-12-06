@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import {
   Heading,
   Label,
@@ -8,9 +8,9 @@ import {
   themeSpacing,
   Row,
 } from '@amsterdam/asc-ui'
+import { Button } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
-import Button from 'components/Button'
 import InfoText from 'components/InfoText'
 
 export const ThinLabel = styled.span`
@@ -125,4 +125,15 @@ export const StyledForm = styled.form`
     border-bottom: 2px solid ${themeColor('tint', 'level3')};
     margin: 0;
   }
+`
+
+export const StyledHeadingWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const RemoveButton = styled(Button)`
+  justify-content: center;
+  height: 44px;
+  width: 44px;
 `
