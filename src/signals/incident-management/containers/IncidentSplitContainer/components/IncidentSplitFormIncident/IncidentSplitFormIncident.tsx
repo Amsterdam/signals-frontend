@@ -40,7 +40,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
 }) => {
   const [subIncidents, setSubIncidents] = useState([{ id: uniqueId() }])
 
-  const { control, unregister, register } = useFormContext()
+  const { control, unregister } = useFormContext()
 
   const [groups, options] = subcategories
   const maxDescriptionLength = 1000
@@ -48,9 +48,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
   const addSubIncident = useCallback((event) => {
     event.preventDefault()
 
-    setSubIncidents((map) => {
-      return map.concat({ id: uniqueId() })
-    })
+    setSubIncidents((map) => [...map, { id: uniqueId() }])
   }, [])
 
   const removeSubIncident = useCallback(
@@ -67,7 +65,6 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
   return (
     <>
       {subIncidents.map(({ id }, index) => {
-        register(`incidents.${id}`)
         const subIncidentNumber = index + parentIncident.childrenCount + 1
         return (
           <StyledFieldset key={`incident-splitform-incident-${id}`}>
@@ -86,6 +83,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                     iconSize={16}
                     onClick={(event) => removeSubIncident(event, id)}
                     variant="application"
+                    aria-label="Verwijder deelmelding"
                   />
                 )}
               </StyledHeadingWrapper>

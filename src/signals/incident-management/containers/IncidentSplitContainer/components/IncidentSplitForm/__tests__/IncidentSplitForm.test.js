@@ -68,8 +68,11 @@ describe('IncidentSplitForm', () => {
 
     expect(onSubmit).toHaveBeenCalledWith({
       department: parentIncidentFixture.directingDepartment,
+      // eslint-disable-next-line no-sparse-arrays
       incidents: [
-        undefined,
+        ,
+        ,
+        ,
         {
           subcategory: parentIncidentFixture.subcategory,
           description:
