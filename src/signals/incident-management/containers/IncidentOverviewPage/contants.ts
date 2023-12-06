@@ -106,3 +106,6 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(hoog-laag)',
   },
 ]
+
+export const TYPE_GLOBAL = 'global'
+export const VARIANT_NOTICE = 'notice'

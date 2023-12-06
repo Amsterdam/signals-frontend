@@ -189,6 +189,15 @@ export const makeSelectIncidents = createSelector(
   }
 )
 
+export const makeSelectErrorMessage = createSelector(
+  selectIncidentManagementDomain,
+  (state) => {
+    const obj = state.toJS()
+
+    return obj.errorMessage
+  }
+)
+
 export const makeSelectIncidentsCount = createSelector(
   selectIncidentManagementDomain,
   (state) => {

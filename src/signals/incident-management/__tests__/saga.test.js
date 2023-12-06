@@ -128,7 +128,7 @@ describe('signals/incident-management/saga', () => {
       const filter = { name: 'filter', refresh: false }
       const page = 2
       const ordering = '-created_at'
-      const incidents = [{}, {}]
+      const incidents = { 0: {}, 1: {}, orderedAs: '-created_at' }
       const params = { test: 'test' }
       const filterParams = {
         page,
@@ -182,7 +182,7 @@ describe('signals/incident-management/saga', () => {
           [select(makeSelectActiveFilter), {}],
           [matchers.call.fn(authCall), []],
         ])
-        .put(requestIncidentsSuccess([]))
+        .put(requestIncidentsSuccess({ orderedAs: '' }))
         .dispatch({ type: CLEAR_FILTERS })
         .silentRun())
 
@@ -192,7 +192,7 @@ describe('signals/incident-management/saga', () => {
           [select(makeSelectActiveFilter), {}],
           [matchers.call.fn(authCall), []],
         ])
-        .put(requestIncidentsSuccess([]))
+        .put(requestIncidentsSuccess({ orderedAs: '' }))
         .dispatch({ type: PAGE_CHANGED, payload: 4 })
         .silentRun())
 
@@ -202,7 +202,7 @@ describe('signals/incident-management/saga', () => {
           [select(makeSelectActiveFilter), {}],
           [matchers.call.fn(authCall), []],
         ])
-        .put(requestIncidentsSuccess([]))
+        .put(requestIncidentsSuccess({ orderedAs: '' }))
         .dispatch({
           type: ORDERING_CHANGED,
           payload: 'incident-id-in-asc-order',
@@ -225,7 +225,7 @@ describe('signals/incident-management/saga', () => {
         .select(makeSelectFilterParams)
         .call.like(authCall, CONFIGURATION.SEARCH_ENDPOINT, { q })
         .not.put(push('/manage/incidents'))
-        .put(searchIncidentsSuccess(incidentsJSON))
+        .put(searchIncidentsSuccess({ ...incidentsJSON, orderedAs: '' }))
         .run()
     })
 
