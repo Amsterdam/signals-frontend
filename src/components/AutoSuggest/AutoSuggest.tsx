@@ -81,13 +81,15 @@ const AutoSuggest = ({
   const [activeIndex, setActiveIndex] = useState(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const options = useMemo(
-    () => data && formatResponse(data),
-    [data, formatResponse]
-  )
+
+  const options = useMemo(() => data && formatResponse(data), [data])
 
   useEffect(() => {
-    showListChanged && setTimeout(() => showListChanged(showList), 0)
+    let timeoutId: ReturnType<typeof setTimeout>
+    if (showListChanged) {
+      timeoutId = setTimeout(() => showListChanged(showList), 0)
+    }
+    return () => clearTimeout(timeoutId)
   }, [showList, showListChanged])
 
   const activeId = options?.[activeIndex]?.id || ''
