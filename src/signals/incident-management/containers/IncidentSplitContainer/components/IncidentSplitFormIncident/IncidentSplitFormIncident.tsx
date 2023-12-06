@@ -66,6 +66,8 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
     <>
       {subIncidents.map(({ id }, index) => {
         const subIncidentNumber = index + parentIncident.childrenCount + 1
+        const canRemoveIncident = index !== 0 || subIncidents.length > 1
+
         return (
           <StyledFieldset key={`incident-splitform-incident-${id}`}>
             <StyledGrid>
@@ -77,7 +79,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                   Deelmelding {subIncidentNumber}
                 </StyledHeading>
 
-                {index !== 0 && (
+                {canRemoveIncident && (
                   <RemoveButton
                     icon={<TrashBin />}
                     iconSize={16}

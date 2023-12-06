@@ -121,13 +121,13 @@ describe('IncidentSplitFormIncident', () => {
       screen.getByRole('button', { name: 'Extra deelmelding toevoegen' })
     )
 
-    const removeBtn = screen.getByRole('button', {
+    const removeBtns = screen.getAllByRole('button', {
       name: 'Verwijder deelmelding',
     })
 
-    expect(removeBtn).toBeInTheDocument()
+    expect(removeBtns).toHaveLength(2)
 
-    userEvent.click(removeBtn)
+    userEvent.click(removeBtns[1])
 
     expect(
       screen.queryByRole('button', { name: 'Verwijder deelmelding' })
