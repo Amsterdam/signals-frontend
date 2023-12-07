@@ -200,8 +200,6 @@ describe('AssetList', () => {
     })
 
     it('renders a selection and selectable items', () => {
-      mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
-        true
       render(withAppContext(<AssetList {...props} />))
 
       expect(screen.getByTestId('asset-list')).toBeInTheDocument()
@@ -219,8 +217,6 @@ describe('AssetList', () => {
     })
 
     it('should not render selectable items when the features are not correct', () => {
-      mockConfiguration.featureFlags.showSelectorV2removeafterfinishepic5440 =
-        true
       const propsCurrent = { ...props, zoomLevel: 14 }
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

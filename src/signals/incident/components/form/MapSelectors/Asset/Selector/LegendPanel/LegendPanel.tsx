@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021- 2022 Gemeente Amsterdam
+// Copyright (C) 2021- 2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
 import IconList, { IconListItem } from 'components/IconList/IconList'
@@ -28,13 +28,13 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
     id="legendPanel"
     slide={slide}
   >
-    <Title>Uitleg</Title>
+    <Title>Legenda</Title>
 
     <CloseBtn
       data-testid="close-button"
       ref={buttonRef}
       tabIndex={-1}
-      title="Sluit uitleg"
+      title="Sluit legenda"
       onClick={onClose}
     />
 
@@ -45,6 +45,7 @@ const LegendPanel: FunctionComponent<LegendPanelProps> = ({
             id={`legendPanelListItem-${item.id}`}
             key={item.id}
             iconUrl={item.iconUrl}
+            checkboxDisabled
           >
             {item.label}
           </IconListItem>

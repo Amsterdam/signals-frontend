@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 import { withAppContext } from 'test/utils'
 
-import LegendToggleButton from '.'
+import LegendToggleButton from './index'
 
 describe('LegendToggleButton', () => {
   const onClick = jest.fn()

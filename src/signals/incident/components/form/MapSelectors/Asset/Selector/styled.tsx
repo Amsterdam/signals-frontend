@@ -4,9 +4,10 @@ import {
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import Map from 'components/Map'
+import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 import ViewerContainer from 'components/ViewerContainer'
 
 import { DETAIL_PANEL_WIDTH } from '../../constants'
@@ -34,6 +35,60 @@ export const Wrapper = styled.div`
     flex-direction: column;
   }
 `
+export const StyledLabel = styled.label`
+  font-weight: 700;
+  line-height: 1.5rem;
+`
+
+export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
+  margin: ${themeSpacing(2, 0, 0, 0)};
+  width: 100%;
+`
+
+export const AddressPanel = styled.article`
+  background-color: white;
+  position: absolute;
+  width: 100vw;
+  z-index: 2;
+  left: 0;
+  top: 0;
+
+  .instruction {
+    color: ${themeColor('tint', 'level4')};
+    font-size: 1.125rem;
+    margin-top: ${themeSpacing(6)};
+    text-align: center;
+  }
+`
+
+export const StyledHeader = styled.header<{ $smallView: boolean }>`
+  position: relative;
+  padding: ${themeSpacing(4, 4, 4, 2.5)};
+  display: flex;
+
+  ${({ $smallView }) =>
+    $smallView &&
+    `
+      align-items: center;
+
+  `}
+
+  ${StyledPDOKAutoSuggest} {
+    margin: ${themeSpacing(1.5, 0, 0, 0)};
+
+    ${({ $smallView }) =>
+      $smallView &&
+      css`
+        margin: ${themeSpacing(0)};
+      `}
+    }
+  }
+`
+
+export const InputGroup = styled.div`
+  flex-grow: 1;
+  margin-left: ${themeSpacing(2)};
+`
 
 export const StyledMap = styled(Map)`
   height: 100%;
@@ -50,13 +105,12 @@ export const TopLeftWrapper = styled.div`
   > * {
     margin-bottom: ${themeSpacing(2)};
   }
-`
 
-export const TopRightWrapper = styled.div`
-  @media screen and ${breakpoint('min-width', 'tabletM')} {
+  @media screen and ${breakpoint('max-width', 'tabletM')} {
     position: absolute;
-    right: ${DETAIL_PANEL_WIDTH}px;
-  }
+    left: ${themeSpacing(4)};
+    top: ${themeSpacing(32)};
+
 `
 
 export const ScrollWrapper = styled.div.attrs({
@@ -65,8 +119,7 @@ export const ScrollWrapper = styled.div.attrs({
   -webkit-overflow-scrolling: touch;
   height: 100%;
   overflow-y: auto;
-  padding: ${themeSpacing(4, 4, 10)};
-  margin: ${themeSpacing(0, -4)};
+  padding: ${themeSpacing(5)};
 `
 
 export const Title = styled(Heading)`
@@ -75,5 +128,20 @@ export const Title = styled(Heading)`
 
   @media only screen and ${breakpoint('max-width', 'tabletM')} {
     border-bottom: 1px solid ${themeColor('tint', 'level3')};
+  }
+`
+
+export const OptionsList = styled.div`
+  ul {
+    border: 0;
+
+    li {
+      line-height: 22px;
+      padding: ${themeSpacing(2, 4)};
+    }
+  }
+
+  .chrevronIcon {
+    display: none;
   }
 `

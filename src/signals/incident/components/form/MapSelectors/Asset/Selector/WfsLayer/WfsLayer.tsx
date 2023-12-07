@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { useContext, useEffect, useState } from 'react'
 import type { FunctionComponent, ReactElement } from 'react'
 
@@ -25,7 +25,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   children,
   zoomLevel = {},
 }) => {
-  const { meta, setMessage } = useContext(AssetSelectContext)
+  const { meta, setMessage, setSelectableFeatures } =
+    useContext(AssetSelectContext)
   const layerVisible = useLayerVisible(zoomLevel)
   const [data, setData] = useState<FeatureCollection>(NO_DATA)
   const bbox = useBoundingBox()
@@ -58,6 +59,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   useEffect(() => {
     if (!layerVisible) {
       setData(NO_DATA)
+      setSelectableFeatures(NO_DATA)
       return
     }
 
@@ -80,6 +82,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           console.error('Unhandled Error in wfs call', result.error.message)
         } else {
           setData(result)
+          setSelectableFeatures(result)
         }
         return null
       })
@@ -98,7 +101,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, wfsUrl, layerVisible, setMessage, filter])
+  }, [bbox, wfsUrl, layerVisible, setMessage, filter, setSelectableFeatures])
 
   return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }
