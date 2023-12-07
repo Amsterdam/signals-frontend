@@ -111,7 +111,14 @@ export const CaterpillarLayer: FC = () => {
         />
       )
     },
-    [meta.extraProperties, meta.featureTypes, removeItem, selection, setItem]
+    [
+      meta.extraProperties,
+      meta.featureTypes,
+      removeItem,
+      selection,
+      setAddressLoading,
+      setItem,
+    ]
   )
 
   const featureStatusTypes = meta.featureStatusTypes || []

@@ -82,7 +82,10 @@ const AutoSuggest = ({
   const wrapperRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const options = useMemo(() => data && formatResponse(data), [data])
+  const options = useMemo(
+    () => data && formatResponse(data),
+    [data, formatResponse]
+  )
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
