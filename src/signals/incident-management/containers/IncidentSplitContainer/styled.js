@@ -6,7 +6,6 @@ import {
   RadioGroup,
   themeColor,
   themeSpacing,
-  Row,
   breakpoint,
 } from '@amsterdam/asc-ui'
 import { Button } from '@amsterdam/asc-ui'
@@ -111,15 +110,6 @@ export const StyledHeading = styled(Heading)`
 export const StyledWrapper = styled.div`
   padding-top: ${themeSpacing(6)};
   padding-bottom: ${themeSpacing(6)};
-`
-
-export const FormWrapper = styled(Row)`
-  display: grid;
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 7fr 5fr;
-  }
 `
 
 export const StyledGrid = styled.div`
