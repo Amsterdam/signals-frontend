@@ -146,7 +146,9 @@ export const StyledForm = styled.form`
 `
 
 export const StyledHeadingWrapper = styled.div`
+  display: flex;
   grid-column: span 2;
+  justify-content: space-between;
 `
 
 export const StyledExtraIncidentButtonContainer = styled.fieldset`
