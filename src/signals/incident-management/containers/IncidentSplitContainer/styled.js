@@ -76,7 +76,7 @@ export const StyledLabel = styled(Label)`
 export const StyledMainContainer = styled.div`
   display: grid;
   grid-column: span 7;
-  row-gap: 32px;
+  row-gap: ${themeSpacing(8)};
 
   @media screen and ${breakpoint('max-width', 'laptopM')} {
     grid-column: span 10;
@@ -95,8 +95,8 @@ export const StyledFieldset = styled.fieldset`
   background-color: ${themeColor('tint', 'level3')};
   scroll-margin-top: ${themeSpacing(15)};
   grid-column: span 12;
-  padding: 20px;
-  margin-inline: -20px;
+  padding: ${themeSpacing(5)};
+  margin-inline: -${themeSpacing(5)};
   display: grid;
   column-gap: ${themeSpacing(16)};
   row-gap: ${themeSpacing(8)};
