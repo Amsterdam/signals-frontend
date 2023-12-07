@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
+import { useCallback } from 'react'
 
 import type { AutoSuggestProps } from 'components/AutoSuggest'
 import AutoSuggest from 'components/AutoSuggest'
@@ -53,11 +54,18 @@ const PDOKAutoSuggest: FC<PDOKAutoSuggestProps> = ({
   const queryParams = params.map(([key, val]) => `${key}=${val}`).join('&')
   const url = `${configuration.map.pdok.suggest}?${queryParams}`
 
+  const onFormatResponse = useCallback(
+    (request) => {
+      return formatPDOKResponse(request, streetNameOnly)
+    },
+    [streetNameOnly]
+  )
+
   return (
     <AutoSuggest
       {...rest}
       url={url}
-      formatResponse={(request) => formatPDOKResponse(request, streetNameOnly)}
+      formatResponse={onFormatResponse}
       numOptionsDeterminer={numOptionsDeterminer}
       tabIndex={0}
     />
