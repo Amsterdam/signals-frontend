@@ -42,7 +42,6 @@ import { parseToAPIData } from 'signals/shared/filter/parse'
 import List from './components/List'
 import QuickFilter from './components/QuickFilter'
 import SubNav from './components/SubNav'
-import { TYPE_GLOBAL, VARIANT_NOTICE } from './contants'
 import {
   TitleRow,
   PageHeaderItem,
@@ -55,8 +54,10 @@ import {
   StyledPagination,
 } from './styled'
 import {
+  TYPE_GLOBAL,
   TYPE_LOCAL,
   VARIANT_ERROR,
+  VARIANT_NOTICE,
 } from '../../../../containers/Notification/constants'
 import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
