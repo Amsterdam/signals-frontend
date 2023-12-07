@@ -7,6 +7,7 @@ import {
   themeColor,
   themeSpacing,
   Row,
+  breakpoint,
 } from '@amsterdam/asc-ui'
 import { Button } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -73,8 +74,34 @@ export const StyledLabel = styled(Label)`
   }
 `
 
+export const StyledMainContainer = styled.div`
+  display: grid;
+  grid-column: span 7;
+  row-gap: 32px;
+
+  @media screen and ${breakpoint('max-width', 'laptopM')} {
+    grid-column: span 10;
+  }
+
+  @media screen and ${breakpoint('max-width', 'laptop')} {
+    grid-column: span 12;
+  }
+`
+
+export const StyledButtonContainer = styled.div`
+  grid-column: span 7;
+`
+
 export const StyledFieldset = styled.fieldset`
+  background-color: ${themeColor('tint', 'level3')};
   scroll-margin-top: ${themeSpacing(15)};
+  grid-column: span 12;
+  padding: 20px;
+  margin-inline: -20px;
+  display: grid;
+  column-gap: ${themeSpacing(16)};
+  row-gap: ${themeSpacing(8)};
+  grid-template-columns: 7fr 5fr;
 `
 
 export const StyledHeading = styled(Heading)`
@@ -98,6 +125,11 @@ export const FormWrapper = styled(Row)`
 export const StyledGrid = styled.div`
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
+  grid-column: span 2;
+
+  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    grid-column: auto;
+  }
 `
 
 export const StyledSelect = styled.div`
@@ -113,23 +145,23 @@ export const StyledInfoText = styled(InfoText)`
 `
 
 export const StyledForm = styled.form`
-  padding-top: ${themeSpacing(8)};
-
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
+  grid-template-columns: repeat(12, 1fr);
+  padding-top: ${themeSpacing(8)};
 
   fieldset {
-    padding: ${themeSpacing(0, 0, 8)};
-    position: relative;
-    border: 0;
-    border-bottom: 2px solid ${themeColor('tint', 'level3')};
-    margin: 0;
+    padding-bottom: ${themeSpacing(8)};
   }
 `
 
 export const StyledHeadingWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+  grid-column: span 2;
+`
+
+export const StyledExtraIncidentButtonContainer = styled.fieldset`
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  grid-column: span 7;
 `
 
 export const RemoveButton = styled(Button)`
