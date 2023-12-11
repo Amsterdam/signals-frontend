@@ -141,7 +141,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThParent />
             <ThSort
               StyledComponent={ThPriority}
-              sortOption={SortOptions.PRIORITY_ASC}
+              sortOption={SortOptions.PRIORITY_DESC}
               headerText={SortOptionLabels.URGENTIE}
               ordering={ordering}
               changeOrder={changeOrder}
