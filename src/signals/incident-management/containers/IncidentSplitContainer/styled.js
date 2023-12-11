@@ -76,6 +76,7 @@ export const StyledMainContainer = styled.div`
   display: grid;
   grid-column: span 1;
   row-gap: ${themeSpacing(8)};
+  padding-bottom: ${themeSpacing(8)};
 `
 
 export const StyledButtonContainer = styled.div`
@@ -89,6 +90,7 @@ export const StyledFieldset = styled.fieldset`
   margin-inline: -${themeSpacing(5)};
   display: grid;
   row-gap: ${themeSpacing(8)};
+  margin-bottom: ${themeSpacing(8)};
 
   @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
@@ -109,10 +111,9 @@ export const StyledWrapper = styled.div`
 export const StyledGrid = styled.div`
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
-  grid-column: span 2;
 
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
-    grid-column: auto;
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    grid-column: span 1;
   }
 `
 
@@ -136,10 +137,6 @@ export const StyledForm = styled.form`
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
     grid-template-columns: 7fr 5fr;
   }
-
-  fieldset {
-    padding-bottom: ${themeSpacing(8)};
-  }
 `
 
 export const StyledHeadingWrapper = styled.div`
@@ -153,6 +150,8 @@ export const StyledHeadingWrapper = styled.div`
 
 export const StyledExtraIncidentButtonContainer = styled.fieldset`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  padding-bottom: ${themeSpacing(8)};
+  margin-bottom: ${themeSpacing(2)};
 
   @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
     grid-column: span 2;
