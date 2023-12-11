@@ -6,7 +6,6 @@ import {
   RadioGroup,
   themeColor,
   themeSpacing,
-  breakpoint,
 } from '@amsterdam/asc-ui'
 import { Button } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -77,10 +76,6 @@ export const StyledMainContainer = styled.div`
   display: grid;
   grid-column: span 1;
   row-gap: ${themeSpacing(8)};
-
-  @media screen and ${breakpoint('max-width', 'laptop')} {
-    grid-column: span 2;
-  }
 `
 
 export const StyledButtonContainer = styled.div`
@@ -90,13 +85,16 @@ export const StyledButtonContainer = styled.div`
 export const StyledFieldset = styled.fieldset`
   background-color: ${themeColor('tint', 'level3')};
   scroll-margin-top: ${themeSpacing(15)};
-  grid-column: span 2;
   padding: ${themeSpacing(5)};
   margin-inline: -${themeSpacing(5)};
   display: grid;
-  column-gap: ${themeSpacing(16)};
   row-gap: ${themeSpacing(8)};
-  grid-template-columns: 7fr 5fr;
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-column: span 2;
+    grid-template-columns: 7fr 5fr;
+  }
 `
 
 export const StyledHeading = styled(Heading)`
@@ -146,13 +144,19 @@ export const StyledForm = styled.form`
 
 export const StyledHeadingWrapper = styled.div`
   display: flex;
-  grid-column: span 2;
   justify-content: space-between;
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    grid-column: span 2;
+  }
 `
 
 export const StyledExtraIncidentButtonContainer = styled.fieldset`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
-  grid-column: span 2;
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    grid-column: span 2;
+  }
 `
 
 export const RemoveButton = styled(Button)`
