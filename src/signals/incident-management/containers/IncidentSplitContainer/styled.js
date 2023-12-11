@@ -75,26 +75,22 @@ export const StyledLabel = styled(Label)`
 
 export const StyledMainContainer = styled.div`
   display: grid;
-  grid-column: span 7;
+  grid-column: span 1;
   row-gap: ${themeSpacing(8)};
 
-  @media screen and ${breakpoint('max-width', 'laptopM')} {
-    grid-column: span 10;
-  }
-
   @media screen and ${breakpoint('max-width', 'laptop')} {
-    grid-column: span 12;
+    grid-column: span 2;
   }
 `
 
 export const StyledButtonContainer = styled.div`
-  grid-column: span 7;
+  grid-column: span 1;
 `
 
 export const StyledFieldset = styled.fieldset`
   background-color: ${themeColor('tint', 'level3')};
   scroll-margin-top: ${themeSpacing(15)};
-  grid-column: span 12;
+  grid-column: span 2;
   padding: ${themeSpacing(5)};
   margin-inline: -${themeSpacing(5)};
   display: grid;
@@ -136,9 +132,12 @@ export const StyledInfoText = styled(InfoText)`
 
 export const StyledForm = styled.form`
   display: grid;
-  grid-row-gap: ${themeSpacing(8)};
-  grid-template-columns: repeat(12, 1fr);
   padding-top: ${themeSpacing(8)};
+
+  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-template-columns: 7fr 5fr;
+  }
 
   fieldset {
     padding-bottom: ${themeSpacing(8)};
@@ -153,7 +152,7 @@ export const StyledHeadingWrapper = styled.div`
 
 export const StyledExtraIncidentButtonContainer = styled.fieldset`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
-  grid-column: span 7;
+  grid-column: span 2;
 `
 
 export const RemoveButton = styled(Button)`
