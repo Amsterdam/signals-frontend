@@ -1,17 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { StyledChevronUp } from './styled'
-import { SortOptions } from '../../contants'
+import { Chevron } from './styled'
+import type { SortOptions } from '../../contants'
 import compareSortOptions from '../../utils'
 
-const sortException = (sortOption: SortOptions) => {
-  return (
-    sortOption === SortOptions.CREATED_AT_ASC ||
-    sortOption === SortOptions.CREATED_AT_DESC ||
-    sortOption === SortOptions.ID_DESC ||
-    sortOption === SortOptions.ID_ASC
-  )
-}
 export default function SortIcon({
   selectedSortOption,
   sortOption,
@@ -31,19 +23,9 @@ export default function SortIcon({
   )
     return null
 
-  if (sortException(sortOption)) {
-    const rotateException = selectedSortOption?.startsWith('-')
-    return (
-      <StyledChevronUp
-        data-testid={rotateException ? 'chevron-down' : 'chevron-up'}
-        $rotated={rotateException}
-      />
-    )
-  }
-
-  const rotate = !selectedSortOption?.startsWith('-')
+  const rotate = selectedSortOption?.startsWith('-')
   return (
-    <StyledChevronUp
+    <Chevron
       data-testid={rotate ? 'chevron-down' : 'chevron-up'}
       $rotated={rotate}
     />
