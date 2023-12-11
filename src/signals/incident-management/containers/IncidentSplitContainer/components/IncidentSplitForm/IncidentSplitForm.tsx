@@ -68,7 +68,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
-  const maxNoteLength = 1000
+  const maxNoteLength = 3000
   const formMethods = useForm({ reValidateMode: 'onSubmit' })
   const { handleSubmit, control } = formMethods
   const navigate = useNavigate()
