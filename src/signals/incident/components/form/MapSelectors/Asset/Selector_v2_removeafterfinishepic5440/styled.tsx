@@ -120,7 +120,9 @@ export const ScrollWrapper = styled.div.attrs({
   overflow-y: auto;
   padding: ${themeSpacing(5)};
   ${({ $hasSubmitButton }) =>
-    $hasSubmitButton ? `max-height: calc(100% - 120px)}` : `max-height: 100%`};
+    $hasSubmitButton
+      ? `max-height: calc(100% - 120px)}`
+      : `max-height: calc(100% - 44px)`};
 `
 
 export const Title = styled(Heading)`
