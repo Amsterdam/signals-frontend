@@ -60,7 +60,7 @@ describe('SortIcon', () => {
       />
     )
 
-    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
+    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
   })
 
   it('should render a sort icon for address desc when its asc', () => {
@@ -71,7 +71,7 @@ describe('SortIcon', () => {
       />
     )
 
-    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
+    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
   })
 
   it('should return null when there is no match between sortOption and selectedSortOption', () => {
