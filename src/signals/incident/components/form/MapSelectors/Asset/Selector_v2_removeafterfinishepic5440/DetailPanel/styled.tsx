@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2022-2023 Gemeente Amsterdam
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
 import AssetList from '../../AssetList'
@@ -26,12 +26,29 @@ export const StyledAssetList = styled(AssetList)`
   }
 `
 
-export const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)<{
+  $isMobile?: boolean
+  $hasSubmitButton?: boolean
+}>`
   position: fixed;
   margin: ${themeSpacing(4)};
   bottom: 0;
   z-index: 1;
   font-family: inherit;
+
+  ${({ $isMobile }) =>
+    $isMobile &&
+    css`
+      margin: 0;
+      position: relative;
+    `}
+
+  ${({ $hasSubmitButton, $isMobile }) =>
+    $hasSubmitButton &&
+    $isMobile &&
+    css`
+      height: calc(100% - 44px);
+    `}
 `
 
 export const StyledButtonWrapper = styled.div`
@@ -40,7 +57,7 @@ export const StyledButtonWrapper = styled.div`
   bottom: 0;
   width: 100%;
   z-index: 1;
-  padding: ${themeSpacing(5)};
+  padding: ${themeSpacing(4)};
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 4px 0px;
 `

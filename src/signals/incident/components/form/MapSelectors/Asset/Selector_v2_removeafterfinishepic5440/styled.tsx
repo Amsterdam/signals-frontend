@@ -115,12 +115,12 @@ export const TopLeftWrapper = styled.div`
 
 export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
-})<{ $hasSubmitButton?: boolean }>`
+})<{ $hasSubmitButton?: boolean; $isMobile?: boolean }>`
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   padding: ${themeSpacing(5)};
-  ${({ $hasSubmitButton }) =>
-    $hasSubmitButton
+  ${({ $hasSubmitButton, $isMobile }) =>
+    $hasSubmitButton && !$isMobile
       ? `max-height: calc(100% - 120px)}`
       : `max-height: calc(100% - 44px)`};
 `

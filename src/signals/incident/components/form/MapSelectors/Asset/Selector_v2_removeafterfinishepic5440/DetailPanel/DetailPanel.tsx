@@ -114,7 +114,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             variant="blank"
           />
         )}
-        <ScrollWrapper $hasSubmitButton={!!currentAddress}>
+        <ScrollWrapper
+          $hasSubmitButton={!!currentAddress}
+          $isMobile={shouldRenderMobileVersion}
+        >
           {!shouldRenderMobileVersion && (
             <>
               <StyledParagraphPDOkAutoSuggest>
@@ -172,6 +175,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}
+            $isMobile={shouldRenderMobileVersion}
+            $hasSubmitButton={!!currentAddress}
           >
             {submitButtonText}
           </StyledButton>
