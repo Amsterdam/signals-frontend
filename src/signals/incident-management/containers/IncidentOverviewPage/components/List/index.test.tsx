@@ -342,7 +342,7 @@ describe('List', () => {
 
     userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
 
-    expect(orderingChangedActionMock).toHaveBeenCalledWith('created_at')
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('-created_at')
   })
 
   it('should sort by clicking on the column header and pick the opposite reversed', () => {
@@ -352,7 +352,7 @@ describe('List', () => {
 
     userEvent.click(screen.getByRole('columnheader', { name: 'Datum' }))
 
-    expect(orderingChangedActionMock).toHaveBeenCalledWith('-created_at')
+    expect(orderingChangedActionMock).toHaveBeenCalledWith('created_at')
   })
 
   it('should not sort when sorting is disabled except date', () => {
