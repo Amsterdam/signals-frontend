@@ -7,7 +7,6 @@ import { DETAIL_PANEL_WIDTH } from '../../../constants'
 import AssetList from '../../AssetList'
 import LegendPanel from '../LegendPanel'
 import LegendToggle from '../LegendToggleButton'
-import { ScrollWrapper } from '../styled'
 
 export const StyledBackButton = styled(Button)`
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
@@ -28,7 +27,10 @@ export const StyledAssetList = styled(AssetList)`
 `
 
 export const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(4)};
+  position: fixed;
+  margin: ${themeSpacing(4)};
+  bottom: 0;
+  z-index: 1;
   font-family: inherit;
 `
 
@@ -41,10 +43,6 @@ export const StyledButtonWrapper = styled.div`
   padding: ${themeSpacing(5)};
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 4px 0px;
-
-  ${StyledButton} {
-    margin-top: 0;
-  }
 `
 
 export const LegendToggleButton = styled(LegendToggle)`
@@ -67,12 +65,6 @@ export const PanelContent = styled.div`
   z-index: 1;
   position: relative;
   height: 100%;
-
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    ${ScrollWrapper} {
-      padding-top: 0;
-    }
-  }
 `
 
 export const StyledLegendPanel = styled(LegendPanel)`

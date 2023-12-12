@@ -114,7 +114,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             variant="blank"
           />
         )}
-        <ScrollWrapper>
+        <ScrollWrapper $hasSubmitButton={!!currentAddress}>
           {!shouldRenderMobileVersion && (
             <>
               <StyledParagraphPDOkAutoSuggest>
@@ -147,17 +147,17 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               zoomLevel={zoomLevel}
             />
           )}
-          {currentAddress && !shouldRenderMobileVersion && (
-            <StyledButton
-              onClick={() => dispatch(closeMap())}
-              variant="primary"
-              data-testid="asset-select-submit-button"
-              tabIndex={0}
-            >
-              {submitButtonText}
-            </StyledButton>
-          )}
         </ScrollWrapper>
+        {currentAddress && !shouldRenderMobileVersion && (
+          <StyledButton
+            onClick={() => dispatch(closeMap())}
+            variant="primary"
+            data-testid="asset-select-submit-button"
+            tabIndex={0}
+          >
+            {submitButtonText}
+          </StyledButton>
+        )}
       </PanelContent>
       <Legend
         onLegendToggle={() => {
