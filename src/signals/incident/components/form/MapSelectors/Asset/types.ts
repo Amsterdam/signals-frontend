@@ -14,20 +14,18 @@ import type { Meta, Item, FeatureType } from '../types'
 
 export interface AssetSelectValue {
   address?: Address
-  layer?: FC
   coordinates?: LatLngLiteral
+  fetchLocation: (latLng: LatLngLiteral) => void
+  layer?: FC
   message?: string
   meta: Meta
-  selectableFeatures?: FeatureCollection
   removeItem: (item?: Item) => void
+  selectableFeatures?: FeatureCollection
   selection?: Item[]
-  addressLoading: boolean
   setItem: (item: Item, location?: Location) => void
-  fetchLocation: (latLng: LatLngLiteral) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
   setSelectableFeatures: (features?: FeatureCollection) => void
-  setAddressLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {

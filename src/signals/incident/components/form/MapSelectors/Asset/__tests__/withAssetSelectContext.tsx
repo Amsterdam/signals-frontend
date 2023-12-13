@@ -44,13 +44,11 @@ export const contextValue: AssetSelectValue = {
     woonplaats: 'Amsterdam',
   },
   selectableFeatures: undefined,
-  addressLoading: false,
   setItem: jest.fn(),
   fetchLocation: jest.fn(),
   setLocation: jest.fn(),
   setMessage: jest.fn(),
   setSelectableFeatures: jest.fn(),
-  setAddressLoading: jest.fn(),
 }
 
 const withAssetSelectContext = (Component: ReactNode, context = contextValue) =>

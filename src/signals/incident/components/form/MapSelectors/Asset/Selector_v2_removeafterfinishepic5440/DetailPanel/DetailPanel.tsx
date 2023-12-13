@@ -23,7 +23,6 @@ import {
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
-import { useCurrentAddress } from './useCurrentAddress'
 import { useResetDrawerState } from './useResetDrawerState'
 import {
   DrawerOverlay,
@@ -53,7 +52,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     setLocation,
     meta,
     selectableFeatures,
-    addressLoading,
   } = useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -88,18 +86,13 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       : 100
   }, [selection, zoomLevel, featureTypes, legendOpen])
 
-  const currentAddress = useCurrentAddress({
-    address,
-    addressLoading,
-  })
-
   return (
     <DrawerOverlay
       state={drawerState}
       onStateChange={setDrawerState}
       disableDrawerHandleDesktop
       topPositionDrawerMobile={topPositionDrawerMobile}
-      address={currentAddress}
+      address={address}
     >
       <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
@@ -115,7 +108,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           />
         )}
         <ScrollWrapper
-          $hasSubmitButton={!!currentAddress}
+          $hasSubmitButton={!!address}
           $isMobile={shouldRenderMobileVersion}
         >
           {!shouldRenderMobileVersion && (
@@ -151,7 +144,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             />
           )}
         </ScrollWrapper>
-        {currentAddress && !shouldRenderMobileVersion && (
+        {address && !shouldRenderMobileVersion && (
           <StyledButton
             onClick={() => dispatch(closeMap())}
             variant="primary"
@@ -168,7 +161,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           setLegendOpen(!legendOpen)
         }}
       />
-      {shouldRenderMobileVersion && currentAddress && (
+      {shouldRenderMobileVersion && address && (
         <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}
@@ -176,7 +169,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             data-testid="asset-select-submit-button"
             tabIndex={0}
             $isMobile={shouldRenderMobileVersion}
-            $hasSubmitButton={!!currentAddress}
+            $hasSubmitButton={!!address}
           >
             {submitButtonText}
           </StyledButton>
