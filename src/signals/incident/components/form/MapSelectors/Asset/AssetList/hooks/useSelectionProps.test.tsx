@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { act, renderHook } from '@testing-library/react-hooks'
 import * as reactRedux from 'react-redux'
+
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
 import { useSelectionProps } from './useSelectionProps'
