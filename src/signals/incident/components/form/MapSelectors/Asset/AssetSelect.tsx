@@ -6,10 +6,11 @@ import { useCallback, useState } from 'react'
 
 import type { FeatureCollection } from 'geojson'
 import type { LatLngLiteral } from 'leaflet'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Summary from 'components/Summary'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
+import { updateIncident as updateReduxIncident } from 'signals/incident/containers/IncidentContainer/actions'
 import { makeSelectIncidentContainer } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { Incident, Location } from 'types/incident'
 
@@ -61,6 +62,7 @@ export interface AssetSelectProps {
 }
 
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
+  const dispatch = useDispatch()
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
   const [addressLoading, setAddressLoading] = useState(false)
@@ -107,6 +109,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
       selection: selectedItem ? [selectedItem] : undefined,
     }
 
+    dispatch(updateReduxIncident({ maxAssetWarning: false }))
     parent.meta.removeFromSelection({
       [meta.name as string]: payload,
       meta_name: meta.name,

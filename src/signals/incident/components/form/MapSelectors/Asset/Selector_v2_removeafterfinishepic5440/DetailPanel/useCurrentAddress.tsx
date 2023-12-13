@@ -18,23 +18,16 @@ export const useCurrentAddress = ({ address, addressLoading }: Props) => {
   useEffect(() => {
     newAddressRef.current = address
 
-    const timeoutId = setTimeout(() => {
-      setCurrentAddress(newAddressRef.current)
-      prevAddressLoading.current = addressLoading
-    }, 100)
+    setCurrentAddress(newAddressRef.current)
+    prevAddressLoading.current = addressLoading
 
     if (!addressLoading && prevAddressLoading.current) {
       setCurrentAddress(newAddressRef.current)
-      clearTimeout(timeoutId)
       prevAddressLoading.current = addressLoading
       return
     }
 
     prevAddressLoading.current = addressLoading
-
-    return () => {
-      clearTimeout(timeoutId)
-    }
   }, [address, addressLoading])
 
   return currentAddress

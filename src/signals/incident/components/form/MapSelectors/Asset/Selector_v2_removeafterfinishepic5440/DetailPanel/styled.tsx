@@ -57,7 +57,7 @@ export const StyledButtonWrapper = styled.div`
   bottom: 0;
   width: 100%;
   z-index: 1;
-  padding: ${themeSpacing(4)};
+  padding: ${themeSpacing(5)};
   background: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 4px 0px;
 `
