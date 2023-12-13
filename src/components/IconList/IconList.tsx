@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { List } from '@amsterdam/asc-ui'
 import { useSelector } from 'react-redux'
@@ -50,7 +50,7 @@ export const IconListItem = ({
     setCheckedState(checked)
   }, [checked, maxAssetWarning])
 
-  const disableOnClick = useCallback(() => {
+  const disableOnClick = useMemo(() => {
     if (maxAssetWarning) {
       return checked
     }
@@ -60,7 +60,7 @@ export const IconListItem = ({
 
   const onClickWithDelay = useCallback(
     (item) => {
-      if (onClick && disableOnClick()) {
+      if (onClick && disableOnClick) {
         setCheckedState(!checked)
         const timeout = setTimeout(() => {
           onClick(item)

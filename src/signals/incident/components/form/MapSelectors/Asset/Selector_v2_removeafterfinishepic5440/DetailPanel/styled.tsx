@@ -30,7 +30,7 @@ export const StyledButton = styled(Button)<{
   $isMobile?: boolean
   $hasSubmitButton?: boolean
 }>`
-  position: fixed;
+  position: sticky;
   margin: ${themeSpacing(4)};
   bottom: 0;
   z-index: 1;
