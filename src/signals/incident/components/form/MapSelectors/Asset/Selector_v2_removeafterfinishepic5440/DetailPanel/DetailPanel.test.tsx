@@ -292,9 +292,10 @@ describe('DetailPanel', () => {
 
     userEvent.click(screen.getByTestId('legend-toggle-button'))
 
-    await waitFor(() => {
-      expect(screen.getByTestId('close-button')).toHaveFocus()
-    })
+    await waitFor(() => {})
+    const closeButton = screen.getByTestId('close-button')
+
+    expect(closeButton).toHaveFocus()
   })
 
   /**
