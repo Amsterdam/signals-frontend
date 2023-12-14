@@ -23,7 +23,7 @@ import {
   StyledFieldset,
   StyledHeadingWrapper,
   StyledExtraIncidentButtonContainer,
-} from '../../styled'
+} from './styled'
 import type { ParentIncident } from '../IncidentSplitForm'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 import IncidentSplitSelectInput from '../IncidentSplitSelectInput'

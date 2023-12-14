@@ -19,7 +19,7 @@ import {
   ThinLabel,
   StyledMainContainer,
   StyledButtonContainer,
-} from '../../styled'
+} from './styled'
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
 

@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react'
 import { RadioGroup, Radio } from '@amsterdam/asc-ui'
 import PropTypes from 'prop-types'
 
-import { StyledInfoText, StyledRadioLabel, StyledLabel } from '../../styled'
+import { StyledInfoText, StyledRadioLabel, StyledLabel } from './styled'
 
 const getSelectedOption = (options, value) =>
   options.find(({ key }) => key === value)

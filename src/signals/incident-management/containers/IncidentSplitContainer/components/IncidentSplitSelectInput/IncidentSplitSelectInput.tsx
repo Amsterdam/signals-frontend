@@ -7,7 +7,7 @@ import type { Group } from 'components/Select'
 import Select from 'components/Select'
 import type { SubCategoryOption } from 'models/categories/selectors'
 
-import { StyledInfoText, StyledSelect } from '../../styled'
+import { StyledInfoText, StyledSelect } from './styled'
 
 interface IncidentSplitSelectInputProps {
   id: string
