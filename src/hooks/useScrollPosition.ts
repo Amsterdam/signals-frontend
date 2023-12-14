@@ -10,15 +10,15 @@ const useScrollPosition = (page: string) => {
   const location = useLocation()
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>
+    let timeoutIdScroll: ReturnType<typeof setTimeout>
     let timeoutIdSave: ReturnType<typeof setTimeout>
     const pageScrollPosition = scrollPositions[page]
 
     if (pageScrollPosition) {
-      timeoutId = setTimeout(() => {
+      timeoutIdScroll = setTimeout(() => {
         window.scrollTo(0, pageScrollPosition)
-        clearTimeout(timeoutId)
-      }, 50)
+        clearTimeout(timeoutIdScroll)
+      }, 0)
     }
 
     const save = () => {
@@ -26,14 +26,14 @@ const useScrollPosition = (page: string) => {
         if (location.pathname === page) {
           scrollPositions[page] = window.scrollY
         }
-      }, 10)
+      }, 0)
     }
 
     window.addEventListener('scroll', save)
 
     return () => {
       window.removeEventListener('scroll', save)
-      clearTimeout(timeoutId)
+      clearTimeout(timeoutIdScroll)
       clearTimeout(timeoutIdSave)
     }
   }, [location, page])
