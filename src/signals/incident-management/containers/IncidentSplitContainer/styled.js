@@ -149,7 +149,7 @@ export const StyledHeadingWrapper = styled.div`
   }
 `
 
-export const StyledExtraIncidentButtonContainer = styled.fieldset`
+export const StyledExtraIncidentButtonContainer = styled.div`
   border-bottom: 2px solid ${themeColor('tint', 'level3')};
   padding-bottom: ${themeSpacing(8)};
   margin-bottom: ${themeSpacing(2)};
