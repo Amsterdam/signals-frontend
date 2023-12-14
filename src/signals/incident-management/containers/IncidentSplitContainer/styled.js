@@ -4,6 +4,7 @@ import {
   Heading,
   Label,
   RadioGroup,
+  breakpoint,
   themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
@@ -22,17 +23,17 @@ export const StyledDefinitionList = styled.dl`
   grid-row-gap: 0;
   padding-bottom: ${themeSpacing(4)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     grid-template-columns: 3fr 3fr;
   }
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+  @media ${breakpoint('min-width', 'laptop')} {
     grid-template-columns: 3fr 2fr;
   }
 
   dt,
   dd {
-    @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    @media ${breakpoint('min-width', 'tabletM')} {
       padding: ${themeSpacing(2)} 0;
     }
   }
@@ -92,7 +93,7 @@ export const StyledFieldset = styled.fieldset`
   row-gap: ${themeSpacing(8)};
   margin-bottom: ${themeSpacing(8)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
     grid-column: span 2;
     grid-template-columns: 7fr 5fr;
@@ -112,7 +113,7 @@ export const StyledGrid = styled.div`
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     grid-column: span 1;
   }
 `
@@ -133,7 +134,7 @@ export const StyledForm = styled.form`
   display: grid;
   padding-top: ${themeSpacing(8)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
     grid-template-columns: 7fr 5fr;
   }
@@ -143,7 +144,7 @@ export const StyledHeadingWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     grid-column: span 2;
   }
 `
@@ -153,7 +154,7 @@ export const StyledExtraIncidentButtonContainer = styled.fieldset`
   padding-bottom: ${themeSpacing(8)};
   margin-bottom: ${themeSpacing(2)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     grid-column: span 2;
   }
 `
