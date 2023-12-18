@@ -8,7 +8,7 @@ const scrollPositions: { [key: string]: number } = {}
 
 // Custom hook to restore scroll position on navigation.
 // Replace with react-router ScrollRestoration when redux-first-history supports it
-const useScrollPosition = (page: string) => {
+const useRestoreScrollPosition = (page: string) => {
   const location = useLocation()
 
   useEffect(() => {
@@ -45,4 +45,4 @@ const useScrollPosition = (page: string) => {
   }, [location, page])
 }
 
-export default useScrollPosition
+export default useRestoreScrollPosition

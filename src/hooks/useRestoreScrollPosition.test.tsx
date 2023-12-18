@@ -3,7 +3,7 @@
 import { fireEvent, waitFor, render } from '@testing-library/react'
 import * as reactRouterDom from 'react-router-dom'
 
-import useScrollPosition from './useScrollPosition'
+import useRestoreScrollPosition from './useRestoreScrollPosition'
 import { withAppContext } from '../test/utils'
 
 jest.mock('react-router-dom', () => ({
@@ -27,11 +27,11 @@ global.scrollTo = scrollToMock
 
 // Another route is using renderHook. However, useLocation doesn't work without a Routes context.
 const ScrollComponent = ({ page }: { page: string }) => {
-  useScrollPosition(page)
+  useRestoreScrollPosition(page)
   return <></>
 }
 
-describe('useScrollPosition', () => {
+describe('useRestoreScrollPosition', () => {
   beforeEach(() => {
     jest.useFakeTimers()
   })
