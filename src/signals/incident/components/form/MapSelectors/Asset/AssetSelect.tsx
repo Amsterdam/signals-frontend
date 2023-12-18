@@ -4,7 +4,6 @@ import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 
-import type { FeatureCollection } from 'geojson'
 import type { LatLngLiteral } from 'leaflet'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -20,7 +19,13 @@ import Selector from './Selector'
 import SelectorV2 from './Selector_v2_removeafterfinishepic5440'
 import configuration from '../../../../../../shared/services/configuration/configuration'
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
-import type { FeatureStatusType, FeatureType, Item, Meta } from '../types'
+import type {
+  FeatureStatusType,
+  FeatureType,
+  Item,
+  Meta,
+  SelectableFeature,
+} from '../types'
 
 const defaultIconConfig: FeatureType['icon'] = {
   options: {
@@ -66,7 +71,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
   const [selectableFeatures, setSelectableFeatures] = useState<
-    FeatureCollection | undefined
+    SelectableFeature[] | undefined
   >(undefined)
   const { mapActive } = useSelector(makeSelectIncidentContainer)
   const [featureTypes, setFeatureTypes] = useState<FeatureType[]>([])

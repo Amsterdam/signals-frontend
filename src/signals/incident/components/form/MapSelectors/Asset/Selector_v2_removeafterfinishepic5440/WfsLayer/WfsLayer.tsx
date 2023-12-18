@@ -11,6 +11,7 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
 import { NO_DATA, WfsDataProvider } from './context'
+import { mapDataToSelectableFeature } from './utils'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
 
@@ -59,7 +60,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   useEffect(() => {
     if (!layerVisible) {
       setData(NO_DATA)
-      setSelectableFeatures(NO_DATA)
+      setSelectableFeatures(undefined)
       return
     }
 
@@ -82,7 +83,13 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           console.error('Unhandled Error in wfs call', result.error.message)
         } else {
           setData(result)
-          setSelectableFeatures(result)
+
+          const mappedResult = mapDataToSelectableFeature(
+            result.features,
+            meta.featureTypes
+          )
+
+          mappedResult && setSelectableFeatures(mappedResult)
         }
         return null
       })
@@ -101,7 +108,15 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, wfsUrl, layerVisible, setMessage, filter, setSelectableFeatures])
+  }, [
+    bbox,
+    wfsUrl,
+    layerVisible,
+    setMessage,
+    filter,
+    setSelectableFeatures,
+    meta.featureTypes,
+  ])
 
   return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }
