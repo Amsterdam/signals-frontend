@@ -24,8 +24,7 @@ import { getFeatureStatusType } from '../../Asset/Selector_v2_removeafterfinishe
 /* istanbul ignore next */
 export const CaterpillarLayer: FC = () => {
   const { features } = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, meta, setItem, removeItem, setAddressLoading } =
-    useContext(SelectContext)
+  const { selection, meta, setItem, removeItem } = useContext(SelectContext)
   const getMarker = useCallback(
     (feat: any, featureStatusTypes: FeatureStatusType[]) => {
       const feature = feat as Feature
@@ -84,7 +83,6 @@ export const CaterpillarLayer: FC = () => {
 
         setItem(item, location)
 
-        setAddressLoading(true)
         const response = await reverseGeocoderService(coordinates)
 
         if (response) {
@@ -93,7 +91,6 @@ export const CaterpillarLayer: FC = () => {
         }
 
         setItem(item, location)
-        setAddressLoading(false)
       }
 
       return (

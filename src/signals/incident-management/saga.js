@@ -88,7 +88,9 @@ export function* fetchIncidents() {
       params
     )
 
-    yield put(requestIncidentsSuccess(incidents))
+    yield put(
+      requestIncidentsSuccess({ ...incidents, orderedAs: params.ordering })
+    )
 
     if (filter && filter.refresh) {
       yield put(applyFilterRefresh())
@@ -113,7 +115,7 @@ export function* searchIncidents() {
       ordering,
     })
 
-    yield put(searchIncidentsSuccess(incidents))
+    yield put(searchIncidentsSuccess({ ...incidents, orderedAs: ordering }))
   } catch (error) {
     if (error.response && error.response.status === 500) {
       // Getting an error response with status code 500 from the search endpoint

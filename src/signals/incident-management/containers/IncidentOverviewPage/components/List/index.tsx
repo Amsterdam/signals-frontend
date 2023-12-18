@@ -45,7 +45,7 @@ import {
 } from './styles'
 import { useIncidentManagementContext } from '../../../../context'
 import { SortOptionLabels, SortOptions } from '../../contants'
-import compareSortOptions from '../../utils'
+import { compareSortOptions } from '../../utils'
 import ThSort from '../Th'
 
 export const getDaysOpen = (incident: IncidentListItem) => {
@@ -158,7 +158,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThDay $isDisabled={true}>Dag</ThDay>
             <ThSort
               StyledComponent={ThDate}
-              sortOption={SortOptions.CREATED_AT_ASC}
+              sortOption={SortOptions.CREATED_AT_DESC}
               headerText={SortOptionLabels.DATUM}
               ordering={ordering}
               changeOrder={changeOrder}

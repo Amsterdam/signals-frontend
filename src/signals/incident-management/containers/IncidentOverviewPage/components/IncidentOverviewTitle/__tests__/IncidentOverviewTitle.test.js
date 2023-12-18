@@ -139,7 +139,7 @@ describe('containers/IncidentOverviewTitle', () => {
     expect(
       screen.getByText('Zoekresultaten voor "Foo bar"')
     ).toBeInTheDocument()
-    expect(screen.getByText('Sorteer op datum (oud-nieuw)')).toBeInTheDocument()
+    expect(screen.getByText('Sorteer op datum (nieuw-oud)')).toBeInTheDocument()
   })
 
   it('should provide the IncidentOverviewTitle component with sort information', () => {
@@ -155,7 +155,7 @@ describe('containers/IncidentOverviewTitle', () => {
       )
     )
 
-    expect(screen.getByText('Sorteer op datum (nieuw-oud)')).toBeInTheDocument()
+    expect(screen.getByText('Sorteer op datum (oud-nieuw)')).toBeInTheDocument()
 
     const resetBtn = screen.getByText('Wis sortering')
 

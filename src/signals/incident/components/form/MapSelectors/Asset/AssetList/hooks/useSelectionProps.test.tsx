@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import { act, renderHook } from '@testing-library/react-hooks'
+import * as reactRedux from 'react-redux'
 
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 
@@ -90,10 +91,18 @@ describe('useSelectionProps', () => {
       ],
     },
   }
+
+  beforeEach(() => {
+    jest
+      .spyOn(reactRedux, 'useSelector')
+      .mockReturnValue({ makeSelectMaxAssetWarning: false })
+  })
+
   it('should give a result', async () => {
     jest.mocked(reverseGeocoderService).mockImplementation(async () => {
       return geocodedResponse
     })
+
     const result = renderHook(() =>
       useSelectionProps({
         featureTypes: props.featureTypes,

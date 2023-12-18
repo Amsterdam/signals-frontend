@@ -15,7 +15,7 @@ describe('SortIcon', () => {
       />
     )
 
-    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
+    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
   })
 
   it('should render a sort icon for created at desc when its asc', () => {
@@ -26,7 +26,7 @@ describe('SortIcon', () => {
       />
     )
 
-    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
+    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
   })
 
   it('should render a sort icon for id when its desc', () => {
@@ -60,7 +60,7 @@ describe('SortIcon', () => {
       />
     )
 
-    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
+    expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
   })
 
   it('should render a sort icon for address desc when its asc', () => {
@@ -71,7 +71,27 @@ describe('SortIcon', () => {
       />
     )
 
+    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
+  })
+
+  it('should render a sort icon for priority desc', () => {
+    const { rerender } = render(
+      <SortIcon
+        sortOption={SortOptions.PRIORITY_ASC}
+        selectedSortOption={SortOptions.PRIORITY_DESC}
+      />
+    )
+
     expect(screen.getByTestId('chevron-down')).toBeInTheDocument()
+
+    rerender(
+      <SortIcon
+        sortOption={SortOptions.PRIORITY_DESC}
+        selectedSortOption={SortOptions.PRIORITY_ASC}
+      />
+    )
+
+    expect(screen.getByTestId('chevron-up')).toBeInTheDocument()
   })
 
   it('should return null when there is no match between sortOption and selectedSortOption', () => {

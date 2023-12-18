@@ -14,7 +14,6 @@ import LoadingIndicator from 'components/LoadingIndicator'
 import Modal from 'components/Modal'
 import OverviewMap from 'components/OverviewMap'
 import { showGlobalNotification } from 'containers/App/actions'
-import { VARIANT_NOTICE, TYPE_GLOBAL } from 'containers/App/constants'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import MapContext from 'containers/MapContext'
 import useEventEmitter from 'hooks/useEventEmitter'
@@ -32,6 +31,7 @@ import MyFilters from 'signals/incident-management/containers/MyFilters'
 import dataLists from 'signals/incident-management/definitions'
 import {
   makeSelectActiveFilter,
+  makeSelectErrorMessage,
   makeSelectFiltersOnOverview,
   makeSelectIncidents,
   makeSelectOrdering,
@@ -53,6 +53,12 @@ import {
   StyledButton,
   StyledPagination,
 } from './styled'
+import {
+  TYPE_GLOBAL,
+  TYPE_LOCAL,
+  VARIANT_ERROR,
+  VARIANT_NOTICE,
+} from '../../../../containers/Notification/constants'
 import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
@@ -68,6 +74,7 @@ export const IncidentOverviewPageContainerComponent = ({
   orderingChangedAction,
   page,
   pageChangedAction,
+  errorMessage,
 }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -97,6 +104,19 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const disableFilters = hasActiveOrdering || searchQueryIncidents
   const disableSorting = hasActiveFilters || searchQueryIncidents
+
+  useEffect(() => {
+    if (errorMessage) {
+      dispatch(
+        showGlobalNotification({
+          title: 'Let op, het sorteren is niet gelukt',
+          message: errorMessage,
+          variant: VARIANT_ERROR,
+          type: TYPE_LOCAL,
+        })
+      )
+    }
+  }, [errorMessage, dispatch])
 
   const showNotification = useCallback(() => {
     dispatch(
@@ -278,7 +298,7 @@ export const IncidentOverviewPageContainerComponent = ({
 
             {canRenderList && (
               <List
-                ordering={ordering}
+                ordering={incidents.orderedAs}
                 orderingChangedAction={orderingChangedAction}
                 incidents={incidents.results}
                 incidentsCount={count}
@@ -318,6 +338,7 @@ IncidentOverviewPageContainerComponent.propTypes = {
   pageChangedAction: PropTypes.func.isRequired,
   ordering: PropTypes.string.isRequired,
   page: PropTypes.number,
+  errorMessage: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -326,6 +347,7 @@ const mapStateToProps = createStructuredSelector({
   incidents: makeSelectIncidents,
   ordering: makeSelectOrdering,
   page: makeSelectPage,
+  errorMessage: makeSelectErrorMessage,
 })
 
 export const mapDispatchToProps = (dispatch) =>

@@ -44,12 +44,14 @@ export const initialState = fromJS({
   incidents: {
     count: undefined,
     results: [],
+    orderedAs: '', //ordering of results
   },
   loading: false,
   loadingDistricts: false,
   loadingFilters: false,
   loadingIncidents: false,
-  ordering: '',
+  ordering: '', //ordering as user wants, may have failed. Old ordering still available in incidients.orderedAs
+
   page: 1,
 })
 
