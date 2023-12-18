@@ -62,10 +62,10 @@ const AssetList: FunctionComponent<AssetListProps> = ({
             ) && (
               <ListDescription>
                 {`Er zijn geen ${
-                  objectTypePlural || 'Objecten'
+                  objectTypePlural || 'objecten'
                 } in de buurt. Versleep de kaart om de ${
-                  objectTypePlural || 'Objecten'
-                }  te zien.`}
+                  objectTypePlural || 'objecten'
+                } te zien.`}
               </ListDescription>
             )}
         </>
