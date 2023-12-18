@@ -6,6 +6,8 @@ import { useLocation } from 'react-router-dom'
 
 const scrollPositions: { [key: string]: number } = {}
 
+// Custom hook to restore scroll position on navigation.
+// Replace with react-router ScrollRestoration when redux-first-history supports it
 const useScrollPosition = (page: string) => {
   const location = useLocation()
 
@@ -15,6 +17,8 @@ const useScrollPosition = (page: string) => {
     const pageScrollPosition = scrollPositions[page]
 
     if (pageScrollPosition) {
+      // We're using setTimeout here to ensure we're setting the
+      // scroll position after other js execution is done
       timeoutIdScroll = setTimeout(() => {
         window.scrollTo(0, pageScrollPosition)
         clearTimeout(timeoutIdScroll)
@@ -22,6 +26,8 @@ const useScrollPosition = (page: string) => {
     }
 
     const save = () => {
+      // We're using setTimeout here to ensure we're saving the
+      // scroll position after other js execution is done
       timeoutIdSave = setTimeout(() => {
         if (location.pathname === page) {
           scrollPositions[page] = window.scrollY
