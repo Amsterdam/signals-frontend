@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021-2023 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { ReactNode } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { List } from '@amsterdam/asc-ui'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import type {
   FeatureStatusType,
   Item,
 } from 'signals/incident/components/form/MapSelectors/types'
+import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
 
 import { StyledListItem, StyledImg, StatusIcon } from './styled'
 import Checkbox from '../Checkbox'
@@ -42,21 +44,31 @@ export const IconListItem = ({
   const [checkedState, setCheckedState] = useState<boolean | undefined>(
     undefined
   )
-  const [disabled, setDisabled] = useState<boolean>(false)
+  const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
+
+  useEffect(() => {
+    setCheckedState(checked)
+  }, [checked, maxAssetWarning])
+
+  const disableOnClick = useMemo(() => {
+    if (maxAssetWarning) {
+      return checked
+    }
+
+    return true
+  }, [checked, maxAssetWarning])
 
   const onClickWithDelay = useCallback(
     (item) => {
-      if (onClick && !disabled) {
-        setDisabled(true)
+      if (onClick && disableOnClick) {
         setCheckedState(!checked)
         const timeout = setTimeout(() => {
           onClick(item)
-          setDisabled(false)
-        }, 600)
+        }, 400)
         return () => clearTimeout(timeout)
       }
     },
-    [checked, disabled, onClick]
+    [checked, disableOnClick, onClick]
   )
 
   return (

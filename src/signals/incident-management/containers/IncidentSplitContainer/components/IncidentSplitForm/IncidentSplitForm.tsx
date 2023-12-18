@@ -3,7 +3,7 @@
 import { useCallback, Fragment } from 'react'
 import type { FC } from 'react'
 
-import { Heading, themeSpacing } from '@amsterdam/asc-ui'
+import { Heading, themeSpacing, Row } from '@amsterdam/asc-ui'
 import { Controller, useForm, FormProvider } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -13,11 +13,12 @@ import Button from 'components/Button'
 import type { SubcategoriesGrouped } from 'models/categories/selectors'
 
 import {
-  FormWrapper,
   StyledDefinitionList,
   StyledForm,
   StyledSubmitButton,
   ThinLabel,
+  StyledMainContainer,
+  StyledButtonContainer,
 } from '../../styled'
 import IncidentSplitFormIncident from '../IncidentSplitFormIncident'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
@@ -67,7 +68,7 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
   onSubmit,
   isSubmitting,
 }) => {
-  const maxNoteLength = 1000
+  const maxNoteLength = 3000
   const formMethods = useForm({ reValidateMode: 'onSubmit' })
   const { handleSubmit, control } = formMethods
   const navigate = useNavigate()
@@ -78,88 +79,90 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
 
   return (
     <FormProvider {...formMethods}>
-      <FormWrapper>
+      <Row>
         <StyledForm
           onSubmit={handleSubmit((data) => {
             onSubmit(data)
           })}
           data-testid="incident-split-form"
         >
-          <Heading>Deelmelding maken</Heading>
+          <StyledMainContainer>
+            <Heading>Deelmelding maken</Heading>
 
-          <fieldset>
-            <Heading forwardedAs="h2">Hoofdmelding</Heading>
+            <fieldset>
+              <Heading forwardedAs="h2">Hoofdmelding</Heading>
 
-            <StyledDefinitionList>
-              <dt>Melding</dt>
-              <dd data-testid="incident-split-form-parent-incident-id">
-                {parentIncident.id}
-              </dd>
+              <StyledDefinitionList>
+                <dt>Melding</dt>
+                <dd data-testid="incident-split-form-parent-incident-id">
+                  {parentIncident.id}
+                </dd>
 
-              <dt>Status</dt>
-              <dd data-testid="incident-split-form-status-display-name">
-                {parentIncident.statusDisplayName}
-              </dd>
+                <dt>Status</dt>
+                <dd data-testid="incident-split-form-status-display-name">
+                  {parentIncident.statusDisplayName}
+                </dd>
 
-              <dt>Subcategorie (verantwoordelijke afdeling)</dt>
-              <dd data-testid="incident-split-form-subcategory-display-name">
-                {parentIncident.subcategoryDisplayName}
-              </dd>
-            </StyledDefinitionList>
+                <dt>Subcategorie (verantwoordelijke afdeling)</dt>
+                <dd data-testid="incident-split-form-subcategory-display-name">
+                  {parentIncident.subcategoryDisplayName}
+                </dd>
+              </StyledDefinitionList>
 
-            <Controller
-              name="department"
-              defaultValue={parentIncident.directingDepartment}
-              render={({ field: { onChange } }) => (
-                <StyledIncidentSplitRadioInput
-                  data-testid="incident-split-form-radio-iInput-department"
-                  display="Regie"
-                  id="department"
-                  initialValue={parentIncident.directingDepartment}
-                  name="department"
-                  options={directingDepartments}
-                  onChange={onChange}
-                />
-              )}
-            />
+              <Controller
+                name="department"
+                defaultValue={parentIncident.directingDepartment}
+                render={({ field: { onChange } }) => (
+                  <StyledIncidentSplitRadioInput
+                    data-testid="incident-split-form-radio-iInput-department"
+                    display="Regie"
+                    id="department"
+                    initialValue={parentIncident.directingDepartment}
+                    name="department"
+                    options={directingDepartments}
+                    onChange={onChange}
+                  />
+                )}
+              />
 
-            <Controller
-              name="noteText"
-              control={control}
-              defaultValue=""
-              rules={{
-                validate: (text: string) => {
-                  const error = getAddNoteError({
-                    maxContentLength: maxNoteLength,
-                    text,
-                    shouldContainAtLeastOneChar: false,
-                  })
+              <Controller
+                name="noteText"
+                control={control}
+                defaultValue=""
+                rules={{
+                  validate: (text: string) => {
+                    const error = getAddNoteError({
+                      maxContentLength: maxNoteLength,
+                      text,
+                      shouldContainAtLeastOneChar: false,
+                    })
 
-                  return error || true
-                },
-              }}
-              render={({ field, fieldState: { error } }) => (
-                <AddNote
-                  {...field}
-                  error={error?.message}
-                  isStandalone={false}
-                  label={
-                    <Fragment>
-                      Notitie <ThinLabel>(niet verplicht)</ThinLabel>
-                    </Fragment>
-                  }
-                  maxContentLength={maxNoteLength}
-                />
-              )}
-            />
-          </fieldset>
+                    return error || true
+                  },
+                }}
+                render={({ field, fieldState: { error } }) => (
+                  <AddNote
+                    {...field}
+                    error={error?.message}
+                    isStandalone={false}
+                    label={
+                      <Fragment>
+                        Notitie <ThinLabel>(niet verplicht)</ThinLabel>
+                      </Fragment>
+                    }
+                    maxContentLength={maxNoteLength}
+                  />
+                )}
+              />
+            </fieldset>
+          </StyledMainContainer>
 
           <IncidentSplitFormIncident
             parentIncident={parentIncident}
             subcategories={subcategories}
           />
 
-          <div>
+          <StyledButtonContainer>
             <StyledSubmitButton
               data-testid="incident-split-form-submit-button"
               variant="secondary"
@@ -176,9 +179,9 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
             >
               Annuleer
             </Button>
-          </div>
+          </StyledButtonContainer>
         </StyledForm>
-      </FormWrapper>
+      </Row>
     </FormProvider>
   )
 }

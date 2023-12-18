@@ -2,6 +2,10 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useContext } from 'react'
 
+import { useSelector } from 'react-redux'
+
+import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
+
 import { featureToCoordinates } from '../../../../../../../../shared/services/map-location'
 import reverseGeocoderService from '../../../../../../../../shared/services/reverse-geocoder'
 import type {
@@ -16,7 +20,6 @@ import type { Feature, FeatureType, Item } from '../../../types'
 import { FeatureStatus } from '../../../types'
 import AssetSelectContext from '../../context'
 import type { Props } from '../AssetListItemSelectable'
-
 const getFeatureType = (feature: Feature, featureTypes: FeatureType[]) => {
   return featureTypes.find(
     ({ typeField, typeValue }) => feature.properties[typeField] === typeValue
@@ -29,6 +32,7 @@ export const useSelectionProps = ({
   selection,
 }: Props) => {
   const { setItem } = useContext(AssetSelectContext)
+  const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
 
   const coordinates = featureToCoordinates(feature.geometry as Geometrie)
 
@@ -60,7 +64,7 @@ export const useSelectionProps = ({
     featureTypes?.find(({ typeValue }) => typeValue === item.type) ?? {}
 
   const onClick = async () => {
-    if (typeValue !== FeatureStatus.REPORTED) {
+    if (typeValue !== FeatureStatus.REPORTED && !maxAssetWarning) {
       const location: Location = { coordinates }
 
       const item: Item = {
@@ -71,8 +75,6 @@ export const useSelectionProps = ({
         label,
         coordinates,
       }
-
-      setItem(item, location)
 
       const response = await reverseGeocoderService(coordinates)
 

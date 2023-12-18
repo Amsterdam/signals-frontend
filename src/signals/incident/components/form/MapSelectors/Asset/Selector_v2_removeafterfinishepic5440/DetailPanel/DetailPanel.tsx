@@ -23,7 +23,6 @@ import {
   StyledLabelPDOkAutoSuggest,
   StyledParagraphPDOkAutoSuggest,
 } from './styled'
-import { useCurrentAddress } from './useCurrentAddress'
 import { useResetDrawerState } from './useResetDrawerState'
 import {
   DrawerOverlay,
@@ -53,7 +52,6 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     setLocation,
     meta,
     selectableFeatures,
-    addressLoading,
   } = useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -88,18 +86,13 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
       : 100
   }, [selection, zoomLevel, featureTypes, legendOpen])
 
-  const currentAddress = useCurrentAddress({
-    address,
-    addressLoading,
-  })
-
   return (
     <DrawerOverlay
       state={drawerState}
       onStateChange={setDrawerState}
       disableDrawerHandleDesktop
       topPositionDrawerMobile={topPositionDrawerMobile}
-      address={currentAddress}
+      address={address}
     >
       <PanelContent data-testid="detail-panel">
         {!shouldRenderMobileVersion && (
@@ -114,7 +107,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             variant="blank"
           />
         )}
-        <ScrollWrapper>
+        <ScrollWrapper
+          $hasSubmitButton={!!address}
+          $isMobile={shouldRenderMobileVersion}
+        >
           {!shouldRenderMobileVersion && (
             <>
               <StyledParagraphPDOkAutoSuggest>
@@ -147,17 +143,17 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               zoomLevel={zoomLevel}
             />
           )}
-          {currentAddress && !shouldRenderMobileVersion && (
-            <StyledButton
-              onClick={() => dispatch(closeMap())}
-              variant="primary"
-              data-testid="asset-select-submit-button"
-              tabIndex={0}
-            >
-              {submitButtonText}
-            </StyledButton>
-          )}
         </ScrollWrapper>
+        {address && !shouldRenderMobileVersion && (
+          <StyledButton
+            onClick={() => dispatch(closeMap())}
+            variant="primary"
+            data-testid="asset-select-submit-button"
+            tabIndex={0}
+          >
+            {submitButtonText}
+          </StyledButton>
+        )}
       </PanelContent>
       <Legend
         onLegendToggle={() => {
@@ -165,13 +161,15 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           setLegendOpen(!legendOpen)
         }}
       />
-      {shouldRenderMobileVersion && currentAddress && (
+      {shouldRenderMobileVersion && address && (
         <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}
             variant="primary"
             data-testid="asset-select-submit-button"
             tabIndex={0}
+            $isMobile={shouldRenderMobileVersion}
+            $hasSubmitButton={!!address}
           >
             {submitButtonText}
           </StyledButton>

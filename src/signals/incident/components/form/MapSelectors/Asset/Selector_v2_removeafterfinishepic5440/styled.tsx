@@ -110,16 +110,19 @@ export const TopLeftWrapper = styled.div`
     position: absolute;
     left: ${themeSpacing(4)};
     top: ${themeSpacing(32)};
-
+  }
 `
 
 export const ScrollWrapper = styled.div.attrs({
   'data-scroll-lock-scrollable': true,
-})`
+})<{ $hasSubmitButton?: boolean; $isMobile?: boolean }>`
   -webkit-overflow-scrolling: touch;
-  height: 100%;
   overflow-y: auto;
   padding: ${themeSpacing(5)};
+  ${({ $hasSubmitButton, $isMobile }) =>
+    $hasSubmitButton && !$isMobile
+      ? `max-height: calc(100% - 120px)}`
+      : `max-height: calc(100% - 44px)`};
 `
 
 export const Title = styled(Heading)`

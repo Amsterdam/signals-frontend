@@ -28,7 +28,7 @@ import WfsDataContext from '../context'
 
 export const AssetLayer: FC = () => {
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { selection, removeItem, setItem, setAddressLoading, meta } =
+  const { selection, removeItem, setItem, meta } =
     useContext(AssetSelectContext)
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
@@ -94,7 +94,6 @@ export const AssetLayer: FC = () => {
 
         setItem(item, location)
 
-        setAddressLoading(true)
         const response = await reverseGeocoderService(coordinates)
 
         if (response) {
@@ -103,7 +102,6 @@ export const AssetLayer: FC = () => {
         }
 
         setItem(item, location)
-        setAddressLoading(false)
       }
     }
 

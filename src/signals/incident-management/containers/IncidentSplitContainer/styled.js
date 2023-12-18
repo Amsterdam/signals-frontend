@@ -4,9 +4,9 @@ import {
   Heading,
   Label,
   RadioGroup,
+  breakpoint,
   themeColor,
   themeSpacing,
-  Row,
 } from '@amsterdam/asc-ui'
 import { Button } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
@@ -23,17 +23,17 @@ export const StyledDefinitionList = styled.dl`
   grid-row-gap: 0;
   padding-bottom: ${themeSpacing(4)};
 
-  @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+  @media ${breakpoint('min-width', 'tabletM')} {
     grid-template-columns: 3fr 3fr;
   }
 
-  @media (min-width: ${({ theme }) => theme.layouts.large.min}px) {
+  @media ${breakpoint('min-width', 'laptop')} {
     grid-template-columns: 3fr 2fr;
   }
 
   dt,
   dd {
-    @media (min-width: ${({ theme }) => theme.layouts.medium.max}px) {
+    @media ${breakpoint('min-width', 'tabletM')} {
       padding: ${themeSpacing(2)} 0;
     }
   }
@@ -73,8 +73,31 @@ export const StyledLabel = styled(Label)`
   }
 `
 
+export const StyledMainContainer = styled.div`
+  display: grid;
+  grid-column: span 1;
+  row-gap: ${themeSpacing(8)};
+  padding-bottom: ${themeSpacing(8)};
+`
+
+export const StyledButtonContainer = styled.div`
+  grid-column: span 1;
+`
+
 export const StyledFieldset = styled.fieldset`
+  background-color: ${themeColor('tint', 'level3')};
   scroll-margin-top: ${themeSpacing(15)};
+  padding: ${themeSpacing(5)};
+  margin-inline: -${themeSpacing(5)};
+  display: grid;
+  row-gap: ${themeSpacing(8)};
+  margin-bottom: ${themeSpacing(8)};
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-column: span 2;
+    grid-template-columns: 7fr 5fr;
+  }
 `
 
 export const StyledHeading = styled(Heading)`
@@ -86,18 +109,13 @@ export const StyledWrapper = styled.div`
   padding-bottom: ${themeSpacing(6)};
 `
 
-export const FormWrapper = styled(Row)`
-  display: grid;
-
-  @media (min-width: ${({ theme }) => theme.layouts.large.max}px) {
-    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
-    grid-template-columns: 7fr 5fr;
-  }
-`
-
 export const StyledGrid = styled.div`
   display: grid;
   grid-row-gap: ${themeSpacing(8)};
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column: span 1;
+  }
 `
 
 export const StyledSelect = styled.div`
@@ -113,23 +131,32 @@ export const StyledInfoText = styled(InfoText)`
 `
 
 export const StyledForm = styled.form`
+  display: grid;
   padding-top: ${themeSpacing(8)};
 
-  display: grid;
-  grid-row-gap: ${themeSpacing(8)};
-
-  fieldset {
-    padding: ${themeSpacing(0, 0, 8)};
-    position: relative;
-    border: 0;
-    border-bottom: 2px solid ${themeColor('tint', 'level3')};
-    margin: 0;
+  @media ${breakpoint('min-width', 'tabletM')} {
+    column-gap: ${({ theme }) => theme.layouts.large.gutter}px;
+    grid-template-columns: 7fr 5fr;
   }
 `
 
 export const StyledHeadingWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column: span 2;
+  }
+`
+
+export const StyledExtraIncidentButtonContainer = styled.div`
+  border-bottom: 2px solid ${themeColor('tint', 'level3')};
+  padding-bottom: ${themeSpacing(8)};
+  margin-bottom: ${themeSpacing(2)};
+
+  @media ${breakpoint('min-width', 'tabletM')} {
+    grid-column: span 2;
+  }
 `
 
 export const RemoveButton = styled(Button)`

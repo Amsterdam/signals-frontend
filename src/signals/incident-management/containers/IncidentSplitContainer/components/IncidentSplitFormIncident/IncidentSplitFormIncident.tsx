@@ -22,6 +22,7 @@ import {
   StyledHeading,
   StyledFieldset,
   StyledHeadingWrapper,
+  StyledExtraIncidentButtonContainer,
 } from '../../styled'
 import type { ParentIncident } from '../IncidentSplitForm'
 import IncidentSplitRadioInput from '../IncidentSplitRadioInput'
@@ -70,25 +71,25 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
 
         return (
           <StyledFieldset key={`incident-splitform-incident-${id}`}>
-            <StyledGrid>
-              <StyledHeadingWrapper>
-                <StyledHeading
-                  forwardedAs="h2"
-                  data-testid="incident-split-form-incident-title"
-                >
-                  Deelmelding {subIncidentNumber}
-                </StyledHeading>
+            <StyledHeadingWrapper>
+              <StyledHeading
+                forwardedAs="h2"
+                data-testid="incident-split-form-incident-title"
+              >
+                Deelmelding {subIncidentNumber}
+              </StyledHeading>
 
-                {canRemoveIncident && (
-                  <RemoveButton
-                    icon={<TrashBin />}
-                    iconSize={16}
-                    onClick={(event) => removeSubIncident(event, id)}
-                    variant="application"
-                    aria-label="Verwijder deelmelding"
-                  />
-                )}
-              </StyledHeadingWrapper>
+              {canRemoveIncident && (
+                <RemoveButton
+                  icon={<TrashBin />}
+                  iconSize={16}
+                  onClick={(event) => removeSubIncident(event, id)}
+                  variant="application"
+                  aria-label="Verwijder deelmelding"
+                />
+              )}
+            </StyledHeadingWrapper>
+            <StyledGrid>
               {groups.length > 0 && options.length > 0 ? (
                 <Controller
                   name={`incidents.${id}.subcategory`}
@@ -136,7 +137,9 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                   />
                 )}
               />
+            </StyledGrid>
 
+            <StyledGrid>
               <Controller
                 control={control}
                 defaultValue={parentIncident.priority}
@@ -177,7 +180,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
 
       {subIncidents.length <
         INCIDENT_SPLIT_LIMIT - parentIncident.childrenCount && (
-        <fieldset>
+        <StyledExtraIncidentButtonContainer>
           <Button
             data-testid="incident-split-form-incident-split-button"
             type="button"
@@ -186,7 +189,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
           >
             Extra deelmelding toevoegen
           </Button>
-        </fieldset>
+        </StyledExtraIncidentButtonContainer>
       )}
     </>
   )

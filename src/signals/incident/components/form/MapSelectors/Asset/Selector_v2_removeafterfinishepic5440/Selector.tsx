@@ -35,7 +35,10 @@ import configuration from 'shared/services/configuration/configuration'
 import { markerIcon } from 'shared/services/configuration/map-markers'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
-import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
+import {
+  closeMap,
+  updateIncident,
+} from 'signals/incident/containers/IncidentContainer/actions'
 import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
 import type { LocationResult } from 'types/location'
 
@@ -114,7 +117,6 @@ const Selector: FC = () => {
   }
 
   const [mapMessage, setMapMessage] = useState<ReactElement | string>()
-  const [maxAssetWarningActive, setMaxAssetWarningActive] = useState(true)
   const [pinMarker, setPinMarker] = useState<MarkerType>()
   const [map, setMap] = useState<MapType>()
   const hasFeatureTypes = meta.featureTypes.length > 0
@@ -159,7 +161,7 @@ const Selector: FC = () => {
   }, [])
 
   useEffect(() => {
-    if (maxAssetWarning && maxAssetWarningActive) {
+    if (maxAssetWarning) {
       const number =
         maxNumberOfAssets === 1
           ? meta?.language?.objectTypeSingular || 'object'
@@ -168,18 +170,11 @@ const Selector: FC = () => {
     }
   }, [
     maxAssetWarning,
-    maxAssetWarningActive,
     maxNumberOfAssets,
     mapMessage,
     meta?.language?.objectTypePlural,
     meta?.language?.objectTypeSingular,
   ])
-
-  useEffect(() => {
-    if (!maxAssetWarning && selection && selection.length !== 0) {
-      setMaxAssetWarningActive(true)
-    }
-  }, [maxAssetWarningActive, maxAssetWarning, selection])
 
   const shouldRenderMobileVersion = useMediaQuery({
     query: breakpoint('max-width', 'tabletM')({ theme: ascDefaultTheme }),
@@ -254,7 +249,7 @@ const Selector: FC = () => {
           data-testid="map-message"
           onClick={() => {
             setMapMessage('')
-            setMaxAssetWarningActive(false)
+            dispatch(updateIncident({ maxAssetWarning: false }))
           }}
         >
           {mapMessage}
