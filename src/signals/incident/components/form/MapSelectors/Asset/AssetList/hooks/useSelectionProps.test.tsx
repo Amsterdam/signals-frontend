@@ -74,7 +74,7 @@ describe('useSelectionProps', () => {
       {
         type: 'Feature',
         id: '123',
-        coordinates: { lat: 1, lng: 2 },
+        coordinates: { lat: 2, lng: 1 },
         status: FeatureStatus.REPORTED,
         label: 'Rest container - 123',
         description: 'Rest',

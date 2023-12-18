@@ -60,7 +60,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   useEffect(() => {
     if (!layerVisible) {
       setData(NO_DATA)
-      setSelectableFeatures(undefined)
+      setSelectableFeatures([])
       return
     }
 
@@ -89,7 +89,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
             meta.featureTypes
           )
 
-          mappedResult && setSelectableFeatures(mappedResult)
+          setSelectableFeatures(mappedResult)
         }
         return null
       })

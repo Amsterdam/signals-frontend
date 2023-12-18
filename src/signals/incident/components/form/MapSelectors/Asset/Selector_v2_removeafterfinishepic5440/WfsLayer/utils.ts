@@ -49,8 +49,8 @@ const getObjectType = (features: Feature[]) => {
 export const mapDataToSelectableFeature = (
   features: Feature[],
   featureTypes: FeatureType[]
-): SelectableFeature[] | null | undefined => {
-  if (!features || features.length === 0) return null
+): SelectableFeature[] => {
+  if (!features || features.length === 0) return []
 
   const objectType = getObjectType(features)
 
@@ -78,5 +78,7 @@ export const mapDataToSelectableFeature = (
           type: typeValue,
         }
       })
+    default:
+      return []
   }
 }
