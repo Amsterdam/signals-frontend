@@ -111,27 +111,16 @@ describe('AssetList', () => {
         coordinates: { lat: 1, lng: 2 },
       },
     ],
-    selectableFeatures: {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          id: '123',
-          properties: {
-            fractie_omschrijving: 'Rest',
-            id: '123',
-            type: 'Rest',
-            status: FeatureStatus.REPORTED,
-            label: 'Rest container - 123',
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [1, 2],
-          },
-        },
-      ],
-    },
-    objectTypePlural: 'objecten',
+    selectableFeatures: [
+      {
+        type: 'Feature',
+        id: '123',
+        coordinates: { lat: 1, lng: 2 },
+        status: FeatureStatus.REPORTED,
+        label: 'Rest container - 123',
+        description: 'Rest',
+      },
+    ],
   }
 
   const reportedProps: AssetListProps = {

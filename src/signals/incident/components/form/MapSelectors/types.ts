@@ -104,6 +104,7 @@ export interface SelectableFeature {
   id: string
   label: string
   type: string
+  status?: any
 }
 
 export type FeatureProps = Record<string, string | number | undefined | null>
