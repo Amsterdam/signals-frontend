@@ -25,7 +25,7 @@ export interface IconListItemProps {
   featureStatusType?: FeatureStatusType
   children: ReactNode
   onClick?: (item: Item) => void
-  item?: SelectableFeature
+  item?: SelectableFeature | Item
   checkboxDisabled?: boolean
   checked?: boolean
 }
