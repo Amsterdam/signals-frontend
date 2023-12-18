@@ -92,5 +92,19 @@ export interface Meta extends Record<string, unknown> {
   validators?: Record<string, Validator>
 }
 
+export enum FeatureTypes {
+  CONTAINER = 'container',
+  PUBLIC_LIGHTS = 'public_lights',
+  CATERPILLAR = 'caterpillar',
+}
+
+export interface SelectableFeature {
+  coordinates: LatLngLiteral
+  description: string
+  id: string
+  label: string
+  type: string
+}
+
 export type FeatureProps = Record<string, string | number | undefined | null>
 export type Feature = GeoJSONFeature<Point, FeatureProps>

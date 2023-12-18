@@ -3,12 +3,13 @@
 import { useSelectionProps } from './hooks/useSelectionProps'
 import { StyledLabel, ListItem } from './styled'
 import { IconListItem } from '../../../../../../../components/IconList'
-import type { Feature, FeatureType, Item, FeatureStatusType } from '../../types'
+import type { FeatureType, Item, FeatureStatusType } from '../../types'
+import type { SelectableFeature } from '../../types'
 
 export type Props = {
   featureTypes: FeatureType[]
   featureStatusTypes: FeatureStatusType[]
-  feature: Feature
+  feature: SelectableFeature
   selection?: Item[]
 }
 
