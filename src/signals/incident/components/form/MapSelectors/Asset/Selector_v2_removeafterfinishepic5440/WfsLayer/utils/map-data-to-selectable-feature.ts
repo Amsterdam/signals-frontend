@@ -27,6 +27,7 @@ export const mapDataToSelectableFeature = (
 
   switch (objectType) {
     case FeatureTypes.CONTAINER:
+    case FeatureTypes.PUBLIC_LIGHTS:
       return features.map((feature) => {
         const { idField, description, typeValue } = getFeatureType(
           feature,

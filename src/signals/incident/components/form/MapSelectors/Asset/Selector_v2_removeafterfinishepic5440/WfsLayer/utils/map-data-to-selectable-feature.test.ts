@@ -1,11 +1,18 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import { mapDataToSelectableFeature } from './map-data-to-selectable-feature'
-import { mockContainerFeatureTypes } from './test/mock-feature-types'
-import { mockGlasContainer, mockPaperContainer } from './test/mock-objects'
+import {
+  mockContainerFeatureTypes,
+  mockPublicLightsFeatureTypes,
+} from './test/mock-feature-types'
+import {
+  mockGlasContainer,
+  mockPaperContainer,
+  mockPublicLight,
+} from './test/mock-objects'
 
 describe('mapDataToSelectableFeature', () => {
-  it('should map data to selectable features correctly', () => {
+  it('should map container features to selectable features correctly', () => {
     const selectableFeatures = mapDataToSelectableFeature(
       [mockGlasContainer, mockPaperContainer],
       mockContainerFeatureTypes
@@ -25,6 +32,23 @@ describe('mapDataToSelectableFeature', () => {
         id: 'PAA00092',
         label: 'Papier container - PAA00092',
         type: 'Papier',
+      },
+    ])
+  })
+
+  it('should map public lights features to selectable features correctly', () => {
+    const selectableFeatures = mapDataToSelectableFeature(
+      [mockPublicLight],
+      mockPublicLightsFeatureTypes
+    )
+
+    expect(selectableFeatures).toEqual([
+      {
+        coordinates: { lat: 52.372935004142086, lng: 4.901763001239158 },
+        description: 'Overig lichtpunt',
+        id: '000067',
+        label: 'Overig lichtpunt - 000067',
+        type: '4',
       },
     ])
   })
