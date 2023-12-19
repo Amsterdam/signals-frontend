@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import parseISO from 'date-fns/parseISO'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import ParentIncidentIcon from 'components/ParentIncidentIcon'
 import configuration from 'shared/services/configuration/configuration'
@@ -109,13 +109,8 @@ const List: FunctionComponent<ListProps> = ({
 }) => {
   const { districts } = useIncidentManagementContext()
   const navigate = useNavigate()
-  const location = useLocation()
 
-  const [lastId, setLastId] = useState(13244)
-
-  useEffect(() => {
-    setLastId(location.pathname.split('/').pop())
-  }, [location])
+  const [lastId] = useState(13244)
 
   const navigateToIncident = (id: number) => {
     navigate(`../${INCIDENT_URL}/${id}`)
