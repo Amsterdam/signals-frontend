@@ -32,10 +32,20 @@ export const Th = styled.th`
   white-space: nowrap;
 `
 
-export const Tr = styled.tr`
+export const Tr = styled.tr<{ $lastIncident?: boolean }>`
   :focus {
     outline: auto;
   }
+
+  ${({ $lastIncident }) =>
+    $lastIncident &&
+    css`
+      box-shadow: inset 0 0 0 2px black;
+
+      & td {
+        border-bottom: none;
+      }
+    `}
 `
 
 export const BaseTh = styled(Th)<{ $isDisabled?: boolean }>`
