@@ -312,6 +312,10 @@ const FilterForm = ({
     [dispatch]
   )
 
+  const onAddressClear = useCallback(() => {
+    dispatch(setAddress(''))
+  }, [dispatch])
+
   const onNoteBlur = useCallback(
     (event) => {
       dispatch(setNoteKeyword(event.target.value))
@@ -639,6 +643,7 @@ const FilterForm = ({
               id="filter_address"
               municipality={configuration.map?.municipality}
               onSelect={onAddressSelect}
+              onClear={onAddressClear}
               placeholder="Zoek op straatnaam"
               value={state.options.address_text}
               streetNameOnly
