@@ -119,6 +119,8 @@ export const ScrollWrapper = styled.div.attrs({
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
   padding: ${themeSpacing(5)};
+  height: 100%;
+
   ${({ $hasSubmitButton, $isMobile }) =>
     $hasSubmitButton && !$isMobile
       ? `max-height: calc(100% - 120px)}`
