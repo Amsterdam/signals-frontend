@@ -107,5 +107,11 @@ export interface SelectableFeature {
   status?: any
 }
 
-export type FeatureProps = Record<string, string | number | undefined | null>
-export type Feature = GeoJSONFeature<Point, FeatureProps>
+export type FeatureProps = Record<
+  string,
+  string | number | undefined | null | boolean
+>
+
+export type Feature = GeoJSONFeature<Point, FeatureProps> & {
+  geometry_name?: string
+}

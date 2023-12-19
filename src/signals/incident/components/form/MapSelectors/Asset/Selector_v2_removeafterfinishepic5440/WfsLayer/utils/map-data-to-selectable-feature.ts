@@ -9,42 +9,13 @@ import {
   parseTemplateString,
 } from 'utils/parseTemplateString'
 
-import { FeatureTypes } from '../../../../../form/MapSelectors/types'
+import { getFeatureType } from './get-feature-type'
+import { getObjectType } from './get-object-type'
+import { FeatureTypes } from '../../../../../../form/MapSelectors/types'
 import type {
   FeatureType,
   SelectableFeature,
-} from '../../../../../form/MapSelectors/types'
-
-const getFeatureType = (
-  feature: Feature,
-  featureTypes: FeatureType[]
-): FeatureType => {
-  return featureTypes.find(
-    ({ typeField, typeValue }) => feature.properties?.[typeField] === typeValue
-  ) as FeatureType
-}
-
-const getObjectType = (features: Feature[]) => {
-  if (!features[0].id) return null
-
-  const feature = features[0]
-
-  if (typeof feature.id === 'string' && feature.id?.startsWith('container')) {
-    return FeatureTypes.CONTAINER
-  } else if (
-    feature.id === typeof String &&
-    feature.id.startsWith('openbareverlichting')
-  ) {
-    return FeatureTypes.PUBLIC_LIGHTS
-  } else if (
-    feature.id === typeof Number &&
-    feature.properties?.include('species')
-  ) {
-    return FeatureTypes.CATERPILLAR
-  }
-
-  return null
-}
+} from '../../../../../../form/MapSelectors/types'
 
 export const mapDataToSelectableFeature = (
   features: Feature[],
