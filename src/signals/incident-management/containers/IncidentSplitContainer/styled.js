@@ -86,7 +86,7 @@ export const StyledButtonContainer = styled.div`
 `
 
 export const StyledFieldset = styled.fieldset`
-  background-color: ${themeColor('tint', 'level3')};
+  background-color: ${themeColor('tint', 'level2')};
   scroll-margin-top: ${themeSpacing(15)};
   padding: ${themeSpacing(5)};
   margin-inline: -${themeSpacing(5)};
