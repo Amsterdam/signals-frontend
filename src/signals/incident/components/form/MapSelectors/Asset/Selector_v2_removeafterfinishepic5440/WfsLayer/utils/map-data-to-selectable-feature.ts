@@ -50,6 +50,21 @@ export const mapDataToSelectableFeature = (
           type: typeValue,
         }
       })
+    case FeatureTypes.CATERPILLAR:
+      return features.map((feature) => {
+        const { description, typeValue } = featureTypes[0]
+
+        const coordinates = featureToCoordinates(feature?.geometry as Geometrie)
+
+        return {
+          id: feature.id || '',
+          type: typeValue,
+          description,
+          coordinates,
+          label: [description, feature.id].filter(Boolean).join(' - '),
+        }
+      })
+
     default:
       return []
   }
