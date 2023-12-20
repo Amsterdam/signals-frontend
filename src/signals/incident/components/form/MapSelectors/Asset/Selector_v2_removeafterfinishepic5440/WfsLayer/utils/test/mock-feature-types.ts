@@ -220,7 +220,6 @@ export const mockCaterpillarFeatureTypes: FeatureType[] = [
     typeField: '',
   },
   {
-    // idField is not really returned
     idField: 'UNKNOWN',
     label: 'Onbekend',
     description: 'De boom staat niet op de kaart',

@@ -18,12 +18,12 @@ export interface AssetSelectValue {
   message?: string
   meta: Meta
   removeItem: (item?: Item) => void
-  selectableFeatures?: SelectableFeature[]
   selection?: Item[]
   setItem: (item: Item, location?: Location) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
   setSelectableFeatures: (features?: SelectableFeature[]) => void
+  selectableFeatures?: SelectableFeature[]
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {
