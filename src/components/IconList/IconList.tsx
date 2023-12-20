@@ -14,6 +14,7 @@ import type {
 import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
 
 import { StyledListItem, StyledImg, StatusIcon } from './styled'
+import type { SelectableFeature } from '../../signals/incident/components/form/MapSelectors/types'
 import Checkbox from '../Checkbox'
 
 export interface IconListItemProps {
@@ -24,7 +25,7 @@ export interface IconListItemProps {
   featureStatusType?: FeatureStatusType
   children: ReactNode
   onClick?: (item: Item) => void
-  item?: Item
+  item?: SelectableFeature | Item
   checkboxDisabled?: boolean
   checked?: boolean
 }

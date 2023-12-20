@@ -70,26 +70,16 @@ describe('useSelectionProps', () => {
         coordinates: { lat: 1, lng: 2 },
       },
     ],
-    selectableFeatures: {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          id: '123',
-          properties: {
-            fractie_omschrijving: 'Rest',
-            id: '123',
-            type: 'Rest',
-            status: FeatureStatus.REPORTED,
-            label: 'Rest container - 123',
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [1, 2],
-          },
-        },
-      ],
-    },
+    selectableFeatures: [
+      {
+        type: 'Feature',
+        id: '123',
+        coordinates: { lat: 2, lng: 1 },
+        status: FeatureStatus.REPORTED,
+        label: 'Rest container - 123',
+        description: 'Rest',
+      },
+    ],
   }
 
   beforeEach(() => {
@@ -107,7 +97,7 @@ describe('useSelectionProps', () => {
       useSelectionProps({
         featureTypes: props.featureTypes,
         featureStatusTypes: props.featureStatusTypes,
-        feature: props?.selectableFeatures?.features[0] as any,
+        feature: props?.selectableFeatures?.[0] as any,
         selection: [],
       })
     )
@@ -126,7 +116,7 @@ describe('useSelectionProps', () => {
       useSelectionProps({
         featureTypes: props.featureTypes,
         featureStatusTypes: props.featureStatusTypes,
-        feature: props?.selectableFeatures?.features[0] as any,
+        feature: props?.selectableFeatures?.[0] as any,
         selection: [
           {
             description: 'Description',

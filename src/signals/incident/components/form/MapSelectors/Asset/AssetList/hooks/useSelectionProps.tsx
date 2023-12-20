@@ -4,27 +4,26 @@ import { useContext } from 'react'
 
 import { useSelector } from 'react-redux'
 
+import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import { makeSelectMaxAssetWarning } from 'signals/incident/containers/IncidentContainer/selectors'
+import type { Location } from 'types/incident'
 
-import { featureToCoordinates } from '../../../../../../../../shared/services/map-location'
-import reverseGeocoderService from '../../../../../../../../shared/services/reverse-geocoder'
 import type {
-  Geometrie,
-  Location,
-} from '../../../../../../../../types/incident'
-import {
-  isTemplateString,
-  parseTemplateString,
-} from '../../../../../../../../utils/parseTemplateString'
-import type { Feature, FeatureType, Item } from '../../../types'
+  FeatureStatusType,
+  FeatureType,
+  Item,
+  SelectableFeature,
+} from '../../../types'
 import { FeatureStatus } from '../../../types'
 import AssetSelectContext from '../../context'
-import type { Props } from '../AssetListItemSelectable'
-const getFeatureType = (feature: Feature, featureTypes: FeatureType[]) => {
-  return featureTypes.find(
-    ({ typeField, typeValue }) => feature.properties[typeField] === typeValue
-  )
+
+type Props = {
+  featureTypes: FeatureType[]
+  featureStatusTypes: FeatureStatusType[]
+  feature: SelectableFeature
+  selection?: Item[]
 }
+
 export const useSelectionProps = ({
   featureTypes,
   featureStatusTypes,
@@ -33,50 +32,25 @@ export const useSelectionProps = ({
 }: Props) => {
   const { setItem } = useContext(AssetSelectContext)
   const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
-
-  const coordinates = featureToCoordinates(feature.geometry as Geometrie)
-
-  const featureType = getFeatureType(feature, featureTypes)
-  if (!featureType) return null
-
-  const { description, typeValue, idField } = featureType
-  const id = feature.properties[idField] || ''
-
   const featureStatusType = featureStatusTypes.find(
     ({ typeValue }) => typeValue === status
   )
-
-  const label = isTemplateString(description)
-    ? parseTemplateString(description, feature.properties)
-    : [description, id].filter(Boolean).join(' - ')
-
   const item: Item = {
-    id: `${coordinates.lat}.${coordinates.lng}.${feature.properties.created_at}`,
-    label: label,
-    description: featureType.description,
-    type: featureType.typeValue,
-    coordinates,
+    ...feature,
+    address: undefined,
+    status: featureStatusType?.typeValue,
   }
 
-  if (selection?.find((item) => item.id === id)) return null
+  if (selection?.find((item) => item.id === feature.id)) return null
 
   const { icon }: Partial<FeatureType> =
-    featureTypes?.find(({ typeValue }) => typeValue === item.type) ?? {}
+    featureTypes?.find(({ typeValue }) => typeValue === feature.type) ?? {}
 
   const onClick = async () => {
-    if (typeValue !== FeatureStatus.REPORTED && !maxAssetWarning) {
-      const location: Location = { coordinates }
+    if (feature.type !== FeatureStatus.REPORTED && !maxAssetWarning) {
+      const location: Location = { coordinates: feature.coordinates }
 
-      const item: Item = {
-        id,
-        type: typeValue,
-        description,
-        status: featureStatusType?.typeValue,
-        label,
-        coordinates,
-      }
-
-      const response = await reverseGeocoderService(coordinates)
+      const response = await reverseGeocoderService(feature.coordinates)
 
       if (response) {
         location.address = response.data.address
@@ -87,5 +61,5 @@ export const useSelectionProps = ({
     }
   }
 
-  return { id, item, featureStatusType, icon, onClick }
+  return { id: feature.id, item: feature, featureStatusType, icon, onClick }
 }

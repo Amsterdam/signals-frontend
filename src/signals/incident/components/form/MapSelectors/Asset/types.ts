@@ -2,7 +2,6 @@
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { FC } from 'react'
 
-import type { FeatureCollection } from 'geojson'
 import type { LatLngLiteral } from 'leaflet'
 
 import type { FormFieldProps } from 'components/FormField/FormField'
@@ -10,8 +9,7 @@ import type { Address } from 'types/address'
 import type { Location } from 'types/incident'
 import type { FormOptions } from 'types/reactive-form'
 
-import type { Meta, Item, FeatureType } from '../types'
-
+import type { SelectableFeature, Meta, Item, FeatureType } from '../types'
 export interface AssetSelectValue {
   address?: Address
   coordinates?: LatLngLiteral
@@ -20,12 +18,12 @@ export interface AssetSelectValue {
   message?: string
   meta: Meta
   removeItem: (item?: Item) => void
-  selectableFeatures?: FeatureCollection
   selection?: Item[]
   setItem: (item: Item, location?: Location) => void
   setLocation: (location: Location) => void
   setMessage: (message?: string) => void
-  setSelectableFeatures: (features?: FeatureCollection) => void
+  setSelectableFeatures: (features?: SelectableFeature[]) => void
+  selectableFeatures?: SelectableFeature[]
 }
 
 export interface AssetSelectRendererProps extends FormFieldProps {

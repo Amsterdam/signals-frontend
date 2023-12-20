@@ -44,7 +44,7 @@ const StatusLayer: FC<StatusLayerProps> = ({
 
       return (
         <Marker
-          key={featureId}
+          key={featureId.toString()}
           latLng={latLng}
           options={{
             zIndexOffset: 1000,

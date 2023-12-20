@@ -2,16 +2,14 @@
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
-import type { FeatureCollection } from 'geojson'
-
 import IconList from 'components/IconList/IconList'
 import { capitalize } from 'shared/services/date-utils'
 
 import { AssetListItem } from './AssetListItem'
 import { AssetListItemSelectable } from './AssetListItemSelectable'
 import { ListDescription, ListHeading } from './styled'
-import type { Feature } from '../../types'
 import type { FeatureStatusType, FeatureType, Item } from '../../types'
+import type { SelectableFeature } from '../../types'
 
 export interface AssetListProps {
   className?: string
@@ -20,7 +18,7 @@ export interface AssetListProps {
   objectTypePlural?: string
   remove?: (item: Item) => void
   selection?: Item[]
-  selectableFeatures?: FeatureCollection
+  selectableFeatures?: SelectableFeature[]
   zoomLevel?: number
 }
 
@@ -36,8 +34,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
 }) => {
   const selectableComponents =
     selectableFeatures &&
-    selectableFeatures?.features?.map((feat: any) => {
-      const feature = feat as Feature
+    selectableFeatures?.map((feature) => {
       return (
         <AssetListItemSelectable
           key={feature.id}
@@ -65,10 +62,10 @@ const AssetList: FunctionComponent<AssetListProps> = ({
             ) && (
               <ListDescription>
                 {`Er zijn geen ${
-                  objectTypePlural || 'Objecten'
+                  objectTypePlural || 'objecten'
                 } in de buurt. Versleep de kaart om de ${
-                  objectTypePlural || 'Objecten'
-                }  te zien.`}
+                  objectTypePlural || 'objecten'
+                } te zien.`}
               </ListDescription>
             )}
         </>
