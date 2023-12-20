@@ -101,7 +101,7 @@ export enum FeatureTypes {
 export interface SelectableFeature {
   coordinates: LatLngLiteral
   description: string
-  id: string
+  id: string | number
   label: string
   type: string
   status?: any
