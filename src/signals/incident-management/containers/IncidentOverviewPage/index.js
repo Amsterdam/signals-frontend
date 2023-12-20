@@ -204,6 +204,10 @@ export const IncidentOverviewPageContainerComponent = ({
 
   useRestoreScrollPosition('/manage/incidents', location)
 
+  // console.log(
+  //   document.cookie.split('; ').find((row) => row.startsWith('lastIncidentId='))
+  // )
+
   return (
     <div
       className="incident-overview-page"
