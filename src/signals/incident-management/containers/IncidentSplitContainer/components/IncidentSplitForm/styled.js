@@ -14,6 +14,7 @@ export const StyledMainContainer = styled.div`
 export const StyledForm = styled.form`
   display: grid;
   padding-top: ${themeSpacing(8)};
+  width: 100%;
 
   @media ${breakpoint('min-width', 'tabletM')} {
     column-gap: ${({ theme }) => theme.layouts.large.gutter}px;

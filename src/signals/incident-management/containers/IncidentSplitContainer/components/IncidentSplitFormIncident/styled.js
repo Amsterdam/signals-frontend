@@ -10,8 +10,10 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import AddNote from 'components/AddNote'
+
 export const StyledFieldset = styled.fieldset`
-  background-color: ${themeColor('tint', 'level3')};
+  background-color: ${themeColor('tint', 'level2')};
   scroll-margin-top: ${themeSpacing(15)};
   padding: ${themeSpacing(5)};
   margin-inline: -${themeSpacing(5)};
@@ -44,13 +46,8 @@ export const StyledWrapper = styled.div`
   padding-bottom: ${themeSpacing(6)};
 `
 
-export const StyledGrid = styled.div`
-  display: grid;
-  grid-row-gap: ${themeSpacing(8)};
-
-  @media ${breakpoint('min-width', 'tabletM')} {
-    grid-column: span 1;
-  }
+export const StyledAddNote = styled(AddNote)`
+  grid-row-start: 3;
 `
 
 export const StyledExtraIncidentButtonContainer = styled.div`
