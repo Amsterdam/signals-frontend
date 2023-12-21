@@ -449,6 +449,19 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     await screen.findByTestId('preview-location-button')
   })
 
+  it('should set a cookie with the current incident id', async () => {
+    render(withAppContext(<IncidentDetail />))
+
+    const cookieId = Number(
+      document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('lastIncidentId='))
+        ?.replace('lastIncidentId=', '')
+    )
+
+    expect(cookieId).toEqual(id)
+  })
+
   describe('handling errors', () => {
     beforeEach(async () => {
       render(withAppContext(<IncidentDetail />))
