@@ -52,7 +52,9 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     setLocation,
     meta,
     selectableFeatures,
+    coordinates,
   } = useContext(AssetSelectContext)
+  const hasLocation = address || coordinates ? true : false
   const { featureTypes } = meta
   const featureStatusTypes = meta.featureStatusTypes || []
   const addressValue = address ? formatAddress(address) : ''
@@ -108,7 +110,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           />
         )}
         <ScrollWrapper
-          $hasSubmitButton={!!address}
+          $hasSubmitButton={hasLocation}
           $isMobile={shouldRenderMobileVersion}
         >
           {!shouldRenderMobileVersion && (
@@ -144,7 +146,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             />
           )}
         </ScrollWrapper>
-        {address && !shouldRenderMobileVersion && (
+        {!shouldRenderMobileVersion && hasLocation && (
           <StyledButton
             onClick={() => dispatch(closeMap())}
             variant="primary"
@@ -161,7 +163,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
           setLegendOpen(!legendOpen)
         }}
       />
-      {shouldRenderMobileVersion && address && (
+      {shouldRenderMobileVersion && hasLocation && (
         <StyledButtonWrapper>
           <StyledButton
             onClick={() => dispatch(closeMap())}
@@ -169,7 +171,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
             data-testid="asset-select-submit-button"
             tabIndex={0}
             $isMobile={shouldRenderMobileVersion}
-            $hasSubmitButton={!!address}
+            $hasSubmitButton={hasLocation}
           >
             {submitButtonText}
           </StyledButton>
