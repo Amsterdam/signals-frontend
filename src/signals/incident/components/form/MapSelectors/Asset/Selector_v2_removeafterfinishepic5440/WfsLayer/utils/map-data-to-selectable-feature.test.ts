@@ -4,11 +4,13 @@ import { mapDataToSelectableFeature } from './map-data-to-selectable-feature'
 import {
   mockContainerFeatureTypes,
   mockPublicLightsFeatureTypes,
+  mockCaterpillarFeatureTypes,
 } from './test/mock-feature-types'
 import {
   mockGlasContainer,
   mockPaperContainer,
   mockPublicLight,
+  mockCaterpillar,
 } from './test/mock-objects'
 
 describe('mapDataToSelectableFeature', () => {
@@ -49,6 +51,23 @@ describe('mapDataToSelectableFeature', () => {
         id: '000067',
         label: 'Overig lichtpunt - 000067',
         type: '4',
+      },
+    ])
+  })
+
+  it('should map caterpillar features to selectable features correctly', () => {
+    const selectableFeatures = mapDataToSelectableFeature(
+      [mockCaterpillar],
+      mockCaterpillarFeatureTypes
+    )
+
+    expect(selectableFeatures).toEqual([
+      {
+        id: 4108613,
+        type: 'Eikenboom',
+        description: 'Eikenboom',
+        coordinates: { lat: 52.38632248, lng: 4.87543579 },
+        label: 'Eikenboom - 4108613',
       },
     ])
   })
