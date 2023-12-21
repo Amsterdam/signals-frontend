@@ -415,6 +415,7 @@ const IncidentDetail = () => {
   }, [setShowAttachmentViewer])
 
   useEffect(() => {
+    // set last incident id cookie
     document.cookie = `lastIncidentId=${id}`
   }, [id])
 

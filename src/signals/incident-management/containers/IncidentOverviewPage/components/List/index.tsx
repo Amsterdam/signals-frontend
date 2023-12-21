@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -93,7 +93,6 @@ interface ListProps {
   orderingChangedAction: (ordering: string) => void
   ordering?: SortOptions
   sortingDisabled?: boolean
-  lastIncident?: number
 }
 
 const List: FunctionComponent<ListProps> = ({
@@ -110,7 +109,7 @@ const List: FunctionComponent<ListProps> = ({
   const { districts } = useIncidentManagementContext()
   const navigate = useNavigate()
 
-  const [lastId] = useState(13244)
+  const [lastId, setLastId] = useState<number | undefined>()
 
   const navigateToIncident = (id: number) => {
     navigate(`../${INCIDENT_URL}/${id}`)
@@ -132,6 +131,20 @@ const List: FunctionComponent<ListProps> = ({
       orderingChangedAction(column)
     }
   }
+
+  useEffect(() => {
+    // check if last incident id cookie exists and convert to number
+    const lastIncidentId = Number(
+      document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('lastIncidentId='))
+        ?.replace('lastIncidentId=', '')
+    )
+
+    if (!isNaN(lastIncidentId)) {
+      setLastId(lastIncidentId)
+    }
+  }, [])
 
   return (
     <StyledList
