@@ -7,6 +7,7 @@ import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 
+import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
@@ -14,7 +15,6 @@ import { NO_DATA, WfsDataProvider } from './context'
 import { mapDataToSelectableFeature } from './utils'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
-
 export const SRS_NAME = 'EPSG:4326'
 
 export interface WfsLayerProps {
@@ -72,7 +72,9 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       params.append('filter', filter)
     }
 
-    const { request, controller } = fetchWithAbort(url.toString())
+    const { request, controller } = fetchWithAbort(url.toString(), {
+      headers: { 'X-Api-Key': configuration.map.keys.dataPlatform },
+    })
 
     request
       .then(async (result) => result.json())
