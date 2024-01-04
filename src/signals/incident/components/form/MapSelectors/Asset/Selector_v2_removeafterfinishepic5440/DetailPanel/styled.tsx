@@ -15,7 +15,7 @@ export const StyledBackButton = styled(Button)`
 `
 
 export const StyledAssetList = styled(AssetList)`
-  margin: ${themeSpacing(2)} 0 ${themeSpacing(16)} 0;
+  margin: ${themeSpacing(2, 0, 2, 0)};
 
   img {
     width: ${themeSpacing(8)};
@@ -41,13 +41,6 @@ export const StyledButton = styled(Button)<{
     css`
       margin: 0;
       position: relative;
-    `}
-
-  ${({ $hasSubmitButton, $isMobile }) =>
-    $hasSubmitButton &&
-    $isMobile &&
-    css`
-      height: calc(100% - 44px);
     `}
 `
 

@@ -81,7 +81,6 @@ export const StyledHeader = styled.header<{ $smallView: boolean }>`
       css`
         margin: ${themeSpacing(0)};
       `}
-    }
   }
 `
 
@@ -118,13 +117,17 @@ export const ScrollWrapper = styled.div.attrs({
 })<{ $hasSubmitButton?: boolean; $isMobile?: boolean }>`
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
-  padding: ${themeSpacing(5)};
+  padding: ${themeSpacing(4)};
   height: 100%;
 
   ${({ $hasSubmitButton, $isMobile }) =>
     $hasSubmitButton && !$isMobile
-      ? `max-height: calc(100% - 120px)}`
-      : `max-height: calc(100% - 44px)`};
+      ? css`
+          max-height: calc(100% - 120px);
+        `
+      : css`
+          max-height: 100%;
+        `}
 `
 
 export const Title = styled(Heading)`

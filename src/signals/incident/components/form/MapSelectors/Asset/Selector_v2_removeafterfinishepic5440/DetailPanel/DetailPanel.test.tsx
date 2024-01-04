@@ -324,10 +324,11 @@ describe('DetailPanel', () => {
     })
   })
 
-  it('should not render submit button when no address is selected', () => {
+  it('should not render submit button when there is no location', () => {
     const ctxValue = {
       ...contextValue,
       address: undefined,
+      coordinates: undefined,
     }
 
     render(
@@ -339,6 +340,25 @@ describe('DetailPanel', () => {
     expect(
       screen.queryByTestId('asset-select-submit-button')
     ).not.toBeInTheDocument()
+  })
+
+  it('should render submit button when there is only a location and no address', () => {
+    const ctxValue = {
+      ...contextValue,
+      address: undefined,
+      coordinates: {
+        lat: 52.38172086316677,
+        lng: 4.900571521826018,
+      },
+    }
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...ctxValue,
+      })
+    )
+
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
   })
 
   it('selection nearby details', () => {

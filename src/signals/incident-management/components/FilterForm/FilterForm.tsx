@@ -458,7 +458,7 @@ const FilterForm = ({
                 name="note_keyword"
                 onBlur={onNoteBlur}
                 onChange={onNoteChange}
-                placeholder="Zoek adres of postcode"
+                placeholder="Zoek in notitie"
                 type="text"
                 value={controlledTextInput.note}
               />
