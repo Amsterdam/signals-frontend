@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import type { FunctionComponent, ReactNode } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
@@ -105,8 +106,10 @@ const List: FunctionComponent<ListProps> = ({
   orderingChangedAction,
   sortingDisabled = false,
 }) => {
-  const { districts } = useIncidentManagementContext()
+  const { districts, referrer } = useIncidentManagementContext()
   const navigate = useNavigate()
+
+  const [lastId, setLastId] = useState<number | undefined>()
 
   const navigateToIncident = (id: number) => {
     navigate(`../${INCIDENT_URL}/${id}`)
@@ -128,6 +131,14 @@ const List: FunctionComponent<ListProps> = ({
       orderingChangedAction(column)
     }
   }
+
+  useEffect(() => {
+    // check if referrer is incident detail page
+    if (referrer?.startsWith('/manage/incident/')) {
+      const lastIncidentId = Number(referrer.replace('/manage/incident/', ''))
+      setLastId(lastIncidentId)
+    }
+  }, [referrer])
 
   return (
     <StyledList
@@ -214,6 +225,7 @@ const List: FunctionComponent<ListProps> = ({
                 onKeyDown={(e) => {
                   onButtonPress(e, () => navigateToIncident(incident.id))
                 }}
+                $lastIncident={incident.id === lastId}
               >
                 <Td detailLink={detailLink} data-testid="incident-parent">
                   {incident.has_children && <ParentIncidentIcon />}

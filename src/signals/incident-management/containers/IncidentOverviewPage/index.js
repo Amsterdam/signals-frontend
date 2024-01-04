@@ -59,6 +59,7 @@ import {
   VARIANT_ERROR,
   VARIANT_NOTICE,
 } from '../../../../containers/Notification/constants'
+import useRestoreScrollPosition from '../../../../hooks/useRestoreScrollPosition'
 import { MAP_URL } from '../../routes'
 import FilterTagList from '../FilterTagList/FilterTagList'
 
@@ -200,6 +201,8 @@ export const IncidentOverviewPageContainerComponent = ({
         }}
       />
     ) : null
+
+  useRestoreScrollPosition('/manage/incidents', location)
 
   return (
     <div

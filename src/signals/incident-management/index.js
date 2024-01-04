@@ -8,6 +8,7 @@ import { compose } from 'redux'
 
 import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
+import { useLocationReferrer } from 'hooks'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import injectReducer from 'utils/injectReducer'
@@ -56,6 +57,7 @@ const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
   const searchQueryIncidents = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
+  const location = useLocationReferrer()
   const [page, setPage] = useState(1)
   const [statusFilter, setStatusFilter] = useState()
   const [activeFilter, setActiveFilter] = useState()
@@ -74,8 +76,9 @@ const IncidentManagement = () => {
         searchQuery,
         setSearchQuery,
       },
+      referrer: location.referrer,
     }),
-    [activeFilter, districts, page, searchQuery, statusFilter]
+    [activeFilter, districts, page, searchQuery, statusFilter, location]
   )
 
   useEffect(() => {
