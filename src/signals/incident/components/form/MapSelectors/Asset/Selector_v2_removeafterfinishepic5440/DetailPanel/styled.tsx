@@ -16,7 +16,6 @@ export const StyledBackButton = styled(Button)`
 
 export const StyledAssetList = styled(AssetList)`
   margin: ${themeSpacing(2, 0, 2, 0)};
-  /* margin: ${themeSpacing(2)} 0 ${themeSpacing(16)} 0; */
 
   img {
     width: ${themeSpacing(8)};
