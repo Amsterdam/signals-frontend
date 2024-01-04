@@ -414,11 +414,6 @@ const IncidentDetail = () => {
     closeDispatch()
   }, [setShowAttachmentViewer])
 
-  useEffect(() => {
-    // set last incident id cookie
-    document.cookie = `lastIncidentId=${id}`
-  }, [id])
-
   if (!state.incident || !subcategories) return null
   return (
     <IncidentDetailContext.Provider

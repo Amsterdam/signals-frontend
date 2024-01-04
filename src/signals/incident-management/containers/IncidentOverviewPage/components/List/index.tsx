@@ -106,7 +106,7 @@ const List: FunctionComponent<ListProps> = ({
   orderingChangedAction,
   sortingDisabled = false,
 }) => {
-  const { districts } = useIncidentManagementContext()
+  const { districts, referrer } = useIncidentManagementContext()
   const navigate = useNavigate()
 
   const [lastId, setLastId] = useState<number | undefined>()
@@ -133,18 +133,12 @@ const List: FunctionComponent<ListProps> = ({
   }
 
   useEffect(() => {
-    // check if last incident id cookie exists and convert to number
-    const lastIncidentId = Number(
-      document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('lastIncidentId='))
-        ?.replace('lastIncidentId=', '')
-    )
-
-    if (!isNaN(lastIncidentId)) {
+    // check if referrer is incident detail page
+    if (referrer?.startsWith('/manage/incident/')) {
+      const lastIncidentId = Number(referrer.replace('/manage/incident/', ''))
       setLastId(lastIncidentId)
     }
-  }, [])
+  }, [referrer])
 
   return (
     <StyledList

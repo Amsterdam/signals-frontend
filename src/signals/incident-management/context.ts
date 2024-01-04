@@ -26,6 +26,7 @@ interface IncidentManagementContext {
   districts?: Definition[]
   standardTexts: StandardTextsAdminValue
   users?: User | null
+  referrer?: string
 }
 
 export const IncidentManagementContext =
