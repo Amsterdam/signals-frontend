@@ -45,7 +45,6 @@ const mockProviderValue = {
     searchQuery: '',
     setSearchQuery: jest.fn(),
   },
-  referrer: `/manage/incident/${incidents[0].id}`,
 }
 
 const withContext = (Component: JSX.Element) =>
