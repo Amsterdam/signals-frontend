@@ -28,8 +28,10 @@ const useRestoreScrollPosition = (page: string) => {
     const save = () => {
       // We're using setTimeout here to ensure we're saving the
       // scroll position after other js execution is done
+
       timeoutIdSave = setTimeout(() => {
-        if (location.pathname === page) {
+        // Safari sets scrollY to 0 when navigating, therefor we make an excpetion for 0
+        if (location.pathname === page && window.scrollY > 0) {
           scrollPositions[page] = window.scrollY
         }
       }, 0)
@@ -42,7 +44,7 @@ const useRestoreScrollPosition = (page: string) => {
       clearTimeout(timeoutIdScroll)
       clearTimeout(timeoutIdSave)
     }
-  }, [location, page])
+  }, [location.pathname, page])
 }
 
 export default useRestoreScrollPosition
