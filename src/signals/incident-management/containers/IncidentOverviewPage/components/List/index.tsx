@@ -140,6 +140,16 @@ const List: FunctionComponent<ListProps> = ({
     }
   }, [referrer])
 
+  // reset lastId on click
+  useEffect(() => {
+    const handleClick = () => {
+      setLastId(undefined)
+    }
+
+    window.addEventListener('click', handleClick)
+    return () => window.removeEventListener('click', handleClick)
+  }, [])
+
   return (
     <StyledList
       isLoading={isLoading}
