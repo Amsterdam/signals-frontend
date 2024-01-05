@@ -23,8 +23,8 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "showContactEdit": true,
-    "showSelectorV2removeafterfinishepic5440": true
+    "showContactEdit": true
+
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
