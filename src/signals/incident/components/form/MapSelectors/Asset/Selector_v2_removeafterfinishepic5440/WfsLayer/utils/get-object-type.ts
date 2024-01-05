@@ -19,7 +19,8 @@ export const getObjectType = (features: Feature[]) => {
   } else if (
     typeof feature.id === 'number' &&
     feature.properties &&
-    'species' in feature.properties
+    // properties is an object or an array with a species
+    ('species' in feature.properties || 'species' in feature.properties[0])
   ) {
     return FeatureTypes.CATERPILLAR
   }
