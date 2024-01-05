@@ -6,7 +6,7 @@ import {
   mockPublicLight,
   mockCaterpillar,
 } from './test/mock-objects'
-import { FeatureTypes } from '../../../../../../form/MapSelectors/types'
+import { FeatureTypes } from '../../../../types'
 
 describe('getObjectType', () => {
   it('should return container type', () => {

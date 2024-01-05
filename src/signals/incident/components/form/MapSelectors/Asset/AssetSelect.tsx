@@ -15,7 +15,7 @@ import type { Incident, Location } from 'types/incident'
 
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
-import SelectorV2 from './Selector_v2_removeafterfinishepic5440'
+import SelectorV2 from './Selector'
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import type {
   FeatureStatusType,

@@ -23,7 +23,7 @@ import configuration from '../../../../../../../shared/services/configuration/co
 import { makeSelectCategory } from '../../../../../containers/IncidentContainer/selectors'
 import { selectionIsNearby, selectionIsObject } from '../../constants'
 import type { FeatureType } from '../../types'
-import { formattedDate } from '../Selector_v2_removeafterfinishepic5440/utils'
+import { formattedDate } from '../Selector/utils'
 
 export const AssetListItem: FunctionComponent<ItemType> = ({
   featureStatusTypes,

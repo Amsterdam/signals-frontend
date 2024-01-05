@@ -9,7 +9,7 @@ import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import withAssetSelectContext, {
   contextValue,
 } from 'signals/incident/components/form/MapSelectors/Asset/__tests__/withAssetSelectContext'
-import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector_v2_removeafterfinishepic5440/WfsLayer/context'
+import { WfsDataProvider } from 'signals/incident/components/form/MapSelectors/Asset/Selector/WfsLayer/context'
 import type { AssetSelectValue } from 'signals/incident/components/form/MapSelectors/Asset/types'
 import type { Feature } from 'signals/incident/components/form/MapSelectors/types'
 import type { Meta } from 'signals/incident/components/form/MapSelectors/types'

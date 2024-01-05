@@ -2,7 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import type { Feature } from 'geojson'
 
-import type { FeatureType } from '../../../../../../form/MapSelectors/types'
+import type { FeatureType } from '../../../../types'
 
 export const getFeatureType = (
   feature: Feature,

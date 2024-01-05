@@ -11,11 +11,8 @@ import {
 
 import { getFeatureType } from './get-feature-type'
 import { getObjectType } from './get-object-type'
-import { FeatureTypes } from '../../../../../../form/MapSelectors/types'
-import type {
-  FeatureType,
-  SelectableFeature,
-} from '../../../../../../form/MapSelectors/types'
+import { FeatureTypes } from '../../../../types'
+import type { FeatureType, SelectableFeature } from '../../../../types'
 
 export const mapDataToSelectableFeature = (
   features: Feature[],
