@@ -20,8 +20,20 @@ describe('getObjectType', () => {
 
     expect(result).toEqual(FeatureTypes.PUBLIC_LIGHTS)
   })
+
   it('should return caterpillar type', () => {
     const result = getObjectType([mockCaterpillar])
+
+    expect(result).toEqual(FeatureTypes.CATERPILLAR)
+  })
+
+  it('should return caterpillar type when properties is an array with species', () => {
+    const caterpillarWithArrayProperties = {
+      ...mockCaterpillar,
+      properties: [mockCaterpillar.properties],
+    }
+
+    const result = getObjectType([caterpillarWithArrayProperties])
 
     expect(result).toEqual(FeatureTypes.CATERPILLAR)
   })
