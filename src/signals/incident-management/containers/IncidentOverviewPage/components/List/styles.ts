@@ -15,11 +15,6 @@ export const Table = styled.table`
   width: 100%;
   height: 100%;
 
-  tr:hover td,
-  td {
-    box-shadow: unset;
-  }
-
   tr > th > svg {
     height: ${themeSpacing(4)};
     margin-left: ${themeSpacing(2.5)};
@@ -37,13 +32,31 @@ export const Tr = styled.tr<{ $lastIncident?: boolean }>`
     outline: auto;
   }
 
+  &:hover td,
+  td {
+    box-shadow: unset;
+  }
+
+  /* Because of a quirk in Safari, the box shadow needs to be set on the cell instead of the row */
   ${({ $lastIncident }) =>
     $lastIncident &&
     css`
-      box-shadow: inset 0 0 0 2px black;
-
-      & td {
+      & td,
+      &:hover td {
         border-bottom: none;
+        box-shadow: black 0px 2px 0px 0px inset, black 0px -2px 0px 0px inset;
+      }
+
+      & td:first-child,
+      &:hover td:first-child {
+        box-shadow: black 0px 2px 0px 0px inset, black 0px -2px 0px 0px inset,
+          black 2px 0px 0px 0px inset;
+      }
+
+      & td:last-child,
+      &:hover td:last-child {
+        box-shadow: black 0px 2px 0px 0px inset, black 0px -2px 0px 0px inset,
+          black -2px 0px 0px 0px inset;
       }
     `}
 `
