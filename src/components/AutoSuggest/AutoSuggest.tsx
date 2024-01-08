@@ -74,7 +74,7 @@ const AutoSuggest = ({
   showListChanged,
   ...rest
 }: AutoSuggestProps) => {
-  const [showClearButton, setShowClearButton] = useState(!!value)
+  const [showInlineButton, setShowInlineButton] = useState(!!value)
 
   const [data, setData] = useState<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
@@ -120,7 +120,7 @@ const AutoSuggest = ({
 
       setActiveIndex(-1)
       setShowList(false)
-      setShowClearButton(false)
+      setShowInlineButton(false)
       if (onClear) {
         onClear()
       }
@@ -249,7 +249,7 @@ const AutoSuggest = ({
   const onChange = useCallback(
     (event) => {
       event.persist()
-      setShowClearButton(true)
+      setShowInlineButton(true)
       debouncedServiceRequest(event.target.value)
     },
     [debouncedServiceRequest]
@@ -259,7 +259,7 @@ const AutoSuggest = ({
     (option) => {
       setActiveIndex(-1)
       setShowList(false)
-      setShowClearButton(true)
+      setShowInlineButton(true)
       if (inputRef.current) {
         inputRef.current.value = option.value
       }
@@ -374,7 +374,7 @@ const AutoSuggest = ({
           ref={inputRef}
           {...rest}
         />
-        {showClearButton ? (
+        {showInlineButton ? (
           <InlineButton
             aria-label="Input verwijderen"
             title="Verwijderen"
