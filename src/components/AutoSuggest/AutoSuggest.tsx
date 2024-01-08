@@ -13,7 +13,7 @@ import { getAuthHeaders } from 'shared/services/auth/auth'
 import type { PdokResponse } from 'shared/services/map-location'
 import type { RevGeo } from 'types/pdok/revgeo'
 
-import { Wrapper, Input, List, ClearInput } from './styled'
+import { Wrapper, Input, List, InlineButton } from './styled'
 
 export const INPUT_DELAY = 350
 
@@ -74,7 +74,8 @@ const AutoSuggest = ({
   showListChanged,
   ...rest
 }: AutoSuggestProps) => {
-  const [defaultValue, setDefaultValue] = useState(value)
+  const [showClearButton, setShowClearButton] = useState(!!value)
+
   const [data, setData] = useState<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
@@ -119,8 +120,7 @@ const AutoSuggest = ({
 
       setActiveIndex(-1)
       setShowList(false)
-      setDefaultValue('')
-
+      setShowClearButton(false)
       if (onClear) {
         onClear()
       }
@@ -249,7 +249,7 @@ const AutoSuggest = ({
   const onChange = useCallback(
     (event) => {
       event.persist()
-      setDefaultValue(event.target.value)
+      setShowClearButton(true)
       debouncedServiceRequest(event.target.value)
     },
     [debouncedServiceRequest]
@@ -259,8 +259,7 @@ const AutoSuggest = ({
     (option) => {
       setActiveIndex(-1)
       setShowList(false)
-      setDefaultValue(option.value)
-
+      setShowClearButton(true)
       if (inputRef.current) {
         inputRef.current.value = option.value
       }
@@ -375,8 +374,8 @@ const AutoSuggest = ({
           ref={inputRef}
           {...rest}
         />
-        {defaultValue || value ? (
-          <ClearInput
+        {showClearButton ? (
+          <InlineButton
             aria-label="Input verwijderen"
             title="Verwijderen"
             data-testid="clear-input"
@@ -387,7 +386,7 @@ const AutoSuggest = ({
             variant="blank"
           />
         ) : (
-          <ClearInput
+          <InlineButton
             aria-label="Zoeken"
             title="Zoeken"
             data-testid="search-input"
