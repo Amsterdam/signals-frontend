@@ -65,6 +65,9 @@
     "smallHeight": "29px"
   },
   "map": {
+    "keys": {
+      "dataPlatform": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYwNDg4MTc4NDg3ODYxMTAyMDcsImV4cCI6MTczNTkyMjM1Mn0.0Odut9WJocxU6rw_DthVIiMJUrre_jIfHYe2Lyhwlj4b0FsAsaywlcujWCbv6vwfbtwd41Xvn1OxeYz6zz9IBA"
+    },
     "municipality": "amsterdam \"ouder-amstel\" weesp",
     "options": {
       "crs": "EPSG:28992",

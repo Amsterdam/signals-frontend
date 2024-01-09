@@ -401,6 +401,17 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "keys": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Place to store public keys related to maps",
+          "properties": {
+            "dataPlatform": {
+              "type": "string",
+              "description": "Key needed for calls to dataPlatform api's. Should be renewed every year"
+            }
+          }
+        },
         "municipality": {
           "description": "Allows to filter address lookup by municipality. For example a value of 'amsterdam' will be used in the following format: `fq=gemeentenaam:(amsterdam)`. Separate multiple municipalities with a space. If a municipality has spaces, surround it by quotes, which in the config will look like `\"boxtel \\\"den bosch\\\"\"`. For more information see https://github.com/PDOK/locatieserver/wiki/API-Locatieserver",
           "type": "string"
@@ -448,6 +459,10 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "dataPlatformKey": {
+              "description": "Key needed for calls to dataPlatform api's. Should be renewed every year",
+              "type": "string"
+            },
             "containers": {
               "description": "GeoJSON URL for the retrieval of container location data. Used by the incident form for showing container locations on a map\n\nNo Swagger documentation available",
               "type": "string",
