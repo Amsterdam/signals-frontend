@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 - 2022 Gemeente Amsterdam
+// Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { useContext, useEffect, useState } from 'react'
 import type { FunctionComponent, ReactElement } from 'react'
 
@@ -7,13 +7,14 @@ import { fetchWithAbort } from '@amsterdam/arm-core'
 import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import type { FeatureCollection } from 'geojson'
 
+import configuration from 'shared/services/configuration/configuration'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
 import { NO_DATA, WfsDataProvider } from './context'
+import { mapDataToSelectableFeature } from './utils'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
-
 export const SRS_NAME = 'EPSG:4326'
 
 export interface WfsLayerProps {
@@ -25,7 +26,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   children,
   zoomLevel = {},
 }) => {
-  const { meta, setMessage } = useContext(AssetSelectContext)
+  const { meta, setMessage, setSelectableFeatures } =
+    useContext(AssetSelectContext)
   const layerVisible = useLayerVisible(zoomLevel)
   const [data, setData] = useState<FeatureCollection>(NO_DATA)
   const bbox = useBoundingBox()
@@ -58,6 +60,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
   useEffect(() => {
     if (!layerVisible) {
       setData(NO_DATA)
+      setSelectableFeatures([])
       return
     }
 
@@ -69,7 +72,9 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       params.append('filter', filter)
     }
 
-    const { request, controller } = fetchWithAbort(url.toString())
+    const { request, controller } = fetchWithAbort(url.toString(), {
+      headers: { 'X-Api-Key': configuration.map.keys.dataPlatform },
+    })
 
     request
       .then(async (result) => result.json())
@@ -80,6 +85,13 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           console.error('Unhandled Error in wfs call', result.error.message)
         } else {
           setData(result)
+
+          const mappedResult = mapDataToSelectableFeature(
+            result.features,
+            meta.featureTypes
+          )
+
+          setSelectableFeatures(mappedResult)
         }
         return null
       })
@@ -98,7 +110,15 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     return () => {
       controller.abort()
     }
-  }, [bbox, wfsUrl, layerVisible, setMessage, filter])
+  }, [
+    bbox,
+    wfsUrl,
+    layerVisible,
+    setMessage,
+    filter,
+    setSelectableFeatures,
+    meta.featureTypes,
+  ])
 
   return <WfsDataProvider value={data}>{children}</WfsDataProvider>
 }

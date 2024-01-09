@@ -16,8 +16,6 @@ import type { Incident, Location } from 'types/incident'
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
 import Selector from './Selector'
-import SelectorV2 from './Selector_v2_removeafterfinishepic5440'
-import configuration from '../../../../../../shared/services/configuration/configuration'
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import type {
   FeatureStatusType,
@@ -224,9 +222,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     >
       {!mapActive && !hasSelection && <Intro />}
 
-      {configuration.featureFlags.showSelectorV2removeafterfinishepic5440
-        ? mapActive && <SelectorV2 />
-        : mapActive && <Selector />}
+      {mapActive && <Selector />}
 
       {!mapActive && hasSelection && (
         <Summary

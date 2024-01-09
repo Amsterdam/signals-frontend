@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type { FeatureType } from '../../../../../../../form/MapSelectors/types'
+import type { FeatureType } from '../../../../../types'
 
 export const mockContainerFeatureTypes: FeatureType[] = [
   {

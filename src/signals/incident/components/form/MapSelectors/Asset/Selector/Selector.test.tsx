@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import 'jest-styled-components'
 import type { FC } from 'react'
+import type { ReactPropTypes } from 'react'
 
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import fetchMock from 'jest-fetch-mock'
 import type { MapOptions } from 'leaflet'
 import * as reactRedux from 'react-redux'
+import * as reactResponsive from 'react-responsive'
 import * as scrollLock from 'scroll-lock'
 
 import type { MapProps } from 'components/Map/Map'
@@ -19,6 +21,8 @@ import assetsJson from 'utils/__tests__/fixtures/assets.json'
 import MockInstance = jest.MockInstance
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
 import Selector, { MAP_LOCATION_ZOOM } from './Selector'
+import type { PDOKAutoSuggestProps } from '../../../../../../../components/PDOKAutoSuggest'
+import type { PdokResponse } from '../../../../../../../shared/services/map-location'
 import withAssetSelectContext, {
   contextValue,
 } from '../__tests__/withAssetSelectContext'
@@ -58,6 +62,75 @@ jest.mock('components/Map', () => {
     },
   }
 })
+
+const mockAddress = {
+  postcode: '1000 AA',
+  huisnummer: '100',
+  woonplaats: 'Amsterdam',
+  openbare_ruimte: 'West',
+}
+
+const mockPDOKResponse: PdokResponse = {
+  id: 'foo',
+  value: 'Zork',
+  data: {
+    location: {
+      lat: 12.282,
+      lng: 3.141,
+    },
+    address: mockAddress,
+  },
+}
+
+const mockList = (props: ReactPropTypes) => (
+  <ul className="suggestList" {...props}>
+    <li>Suggestion #1</li>
+    <li>Suggestion #2</li>
+  </ul>
+)
+
+jest.mock(
+  'components/PDOKAutoSuggest',
+  () =>
+    ({
+      className,
+      onSelect,
+      value,
+      onClear,
+      onFocus,
+      onData,
+      showListChanged,
+    }: PDOKAutoSuggestProps) =>
+      (
+        <span data-testid="pdok-auto-suggest" className={className}>
+          <button data-testid="auto-suggest-clear" onClick={onClear}>
+            Clear input
+          </button>
+          <button
+            data-testid="auto-suggest-onselect"
+            onClick={() => onSelect(mockPDOKResponse)}
+          >
+            selectItem
+          </button>
+          <button
+            data-testid="get-data-mock-button"
+            type="button"
+            onClick={() => {
+              if (onData && showListChanged) {
+                onData(mockList)
+                showListChanged(true)
+              }
+            }}
+          />
+          <input
+            data-testid="auto-suggest-input"
+            type="text"
+            onFocus={onFocus}
+          />
+          <span>{value}</span>
+        </span>
+      )
+)
 
 const dispatch = jest.fn()
 const objectTypeSingular = contextValue?.meta?.language?.objectTypeSingular
@@ -147,15 +220,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
     const button = await screen.findByText('Meld dit object')
-    userEvent.click(button)
-    expect(dispatch).toHaveBeenCalledWith(closeMap())
-  })
-
-  it('should call close when clicking mapCloseButton', async () => {
-    render(withAssetSelectContext(<Selector />))
-    expect(dispatch).not.toHaveBeenCalledWith(closeMap())
-
-    const button = await screen.findByTestId('map-close-button')
     userEvent.click(button)
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
@@ -464,5 +528,62 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
         screen.getByText(`U kunt maximaal 2 ${objectTypePlural} kiezen.`)
       ).toBeInTheDocument()
     })
+  })
+
+  it('renders the address panel', async () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(
+      await screen.findByTestId('asset-select-selector')
+    ).toBeInTheDocument()
+
+    expect(screen.queryByTestId('address-panel')).toBeInTheDocument()
+
+    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
+
+    expect(screen.getByTestId('address-panel')).toBeInTheDocument()
+  })
+
+  it('renders a list of options in the address panel', async () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(
+      await screen.findByTestId('asset-select-selector')
+    ).toBeInTheDocument()
+
+    expect(screen.queryByTestId('address-panel')).toBeInTheDocument()
+
+    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
+
+    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
+
+    // simulate data retrieval
+    userEvent.click(
+      within(screen.getByTestId('address-panel')).getByTestId(
+        'get-data-mock-button'
+      )
+    )
+
+    expect(screen.getByTestId('options-list')).toBeInTheDocument()
+  })
+
+  it('should dispatch closeMap when clicking back button', async () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    render(withAssetSelectContext(<Selector />))
+
+    expect(
+      await screen.findByTestId('asset-select-selector')
+    ).toBeInTheDocument()
+
+    expect(screen.queryByTestId('address-panel')).toBeInTheDocument()
+
+    userEvent.click(screen.getByRole('button', { name: 'Terug' }))
+
+    expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 })

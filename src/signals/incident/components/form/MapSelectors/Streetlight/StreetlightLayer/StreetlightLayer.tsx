@@ -5,10 +5,10 @@ import { useContext } from 'react'
 import type { FeatureCollection } from 'geojson'
 
 import AssetSelectContext from '../../Asset/context'
-import StatusLayer from '../../Asset/Selector_v2_removeafterfinishepic5440/StatusLayer'
-import { getFeatureStatusType } from '../../Asset/Selector_v2_removeafterfinishepic5440/StatusLayer/utils'
-import AssetLayer from '../../Asset/Selector_v2_removeafterfinishepic5440/WfsLayer/AssetLayer'
-import WfsDataContext from '../../Asset/Selector_v2_removeafterfinishepic5440/WfsLayer/context'
+import StatusLayer from '../../Asset/Selector/StatusLayer'
+import { getFeatureStatusType } from '../../Asset/Selector/StatusLayer/utils'
+import AssetLayer from '../../Asset/Selector/WfsLayer/AssetLayer'
+import WfsDataContext from '../../Asset/Selector/WfsLayer/context'
 import type { Feature } from '../../types'
 
 export const StreetlightLayer = () => {

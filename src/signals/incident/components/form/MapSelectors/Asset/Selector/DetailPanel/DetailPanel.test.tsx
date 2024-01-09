@@ -1,32 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import type { ReactPropTypes } from 'react'
 
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
+import { act } from 'react-test-renderer'
 
-import type { PDOKAutoSuggestProps } from 'components/PDOKAutoSuggest'
-import { formatAddress } from 'shared/services/format-address'
-import type { PdokResponse } from 'shared/services/map-location'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
 
 import MockInstance = jest.MockInstance
 import type { DetailPanelProps } from './DetailPanel'
+import DetailPanel from './index'
 import { NEARBY_TYPE, UNKNOWN_TYPE } from '../../../constants'
 import withAssetSelectContext, {
   contextValue,
 } from '../../__tests__/withAssetSelectContext'
 import type { AssetListProps } from '../../AssetList/AssetList'
-import DetailPanel from '../DetailPanel'
 
 jest.mock('hooks/useFetch')
 jest.mock('react-responsive')
@@ -39,72 +30,13 @@ jest.mock(
       featureTypes,
       featureStatusTypes,
       selection,
+      selectableFeatures,
       ...props
     }: AssetListProps) =>
       selection && (
         <span data-testid="mock-asset-list" {...props}>
           {`${selection[0].description} - ${selection[0].label}`}
           <input type="button" onClick={() => remove && remove(selection[0])} />
-        </span>
-      )
-)
-
-const mockAddress = {
-  postcode: '1000 AA',
-  huisnummer: '100',
-  woonplaats: 'Amsterdam',
-  openbare_ruimte: 'West',
-}
-
-const mockPDOKResponse: PdokResponse = {
-  id: 'foo',
-  value: 'Zork',
-  data: {
-    location: {
-      lat: 12.282,
-      lng: 3.141,
-    },
-    address: mockAddress,
-  },
-}
-
-const mockList = (props: ReactPropTypes) => (
-  <ul className="suggestList" {...props}>
-    <li>Suggestion #1</li>
-    <li>Suggestion #2</li>
-  </ul>
-)
-
-jest.mock(
-  'components/PDOKAutoSuggest',
-  () =>
-    ({
-      className,
-      onSelect,
-      value,
-      onClear,
-      onFocus,
-      onData,
-    }: PDOKAutoSuggestProps) =>
-      (
-        <span data-testid="pdok-auto-suggest" className={className}>
-          <button data-testid="auto-suggest-clear" onClick={onClear}>
-            Clear input
-          </button>
-          <button onClick={() => onSelect(mockPDOKResponse)}>selectItem</button>
-          <button
-            data-testid="get-data-mock-button"
-            type="button"
-            onClick={() => {
-              onData && onData(mockList)
-            }}
-          />
-          <input
-            data-testid="auto-suggest-input"
-            type="text"
-            onFocus={onFocus}
-          />
-          <span>{value}</span>
         </span>
       )
 )
@@ -182,9 +114,11 @@ describe('DetailPanel', () => {
     )
     dispatch.mockReset()
     dispatchEventSpy.mockReset()
+    jest.useFakeTimers()
   })
 
   afterEach(() => {
+    jest.useRealTimers()
     jest.resetAllMocks()
   })
 
@@ -196,17 +130,31 @@ describe('DetailPanel', () => {
       })
     )
 
-    expect(screen.getByText('Locatie')).toBeInTheDocument()
+    act(() => {
+      jest.runAllTimers()
+    })
 
-    expect(
-      screen.getByRole('checkbox', {
-        name: 'Het object staat niet op de kaart',
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByText('Selecteer de locatie')).toBeInTheDocument()
 
     expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
 
     expect(screen.queryByTestId('assetList')).not.toBeInTheDocument()
+  })
+
+  it('should render the pdok label if available', () => {
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        meta: {
+          ...currentContextValue.meta,
+          language: {
+            pdokLabel: 'selecteer een lamp',
+          },
+        },
+      })
+    )
+
+    expect(screen.getByText('selecteer een lamp')).toBeInTheDocument()
   })
 
   it('renders selected asset', () => {
@@ -216,6 +164,10 @@ describe('DetailPanel', () => {
         selection,
       })
     )
+
+    act(() => {
+      jest.runAllTimers()
+    })
 
     expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
     expect(screen.getByTestId('mock-asset-list')).toBeInTheDocument()
@@ -243,133 +195,6 @@ describe('DetailPanel', () => {
     expect(currentContextValue.removeItem).toHaveBeenCalled()
   })
 
-  it('calls remove on autosuggest clear', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-        selection,
-      })
-    )
-
-    userEvent.type(screen.getByTestId('auto-suggest-input'), 'Meeuw')
-
-    // simulate data retrieval
-    userEvent.click(
-      within(screen.getByTestId('address-panel')).getByTestId(
-        'get-data-mock-button'
-      )
-    )
-
-    expect(screen.getByTestId('options-list')).toBeInTheDocument()
-
-    const autoSuggestClear = within(
-      screen.getByTestId('address-panel')
-    ).getByTestId('auto-suggest-clear')
-
-    expect(currentContextValue.removeItem).not.toHaveBeenCalled()
-
-    userEvent.click(autoSuggestClear)
-
-    expect(currentContextValue.removeItem).toHaveBeenCalled()
-    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
-  })
-
-  it('adds asset not on map', () => {
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-        selection: undefined,
-      })
-    )
-
-    expect(
-      screen.queryByText('Nummer van de container')
-    ).not.toBeInTheDocument()
-
-    expect(currentContextValue.setItem).not.toHaveBeenCalled()
-
-    userEvent.click(
-      screen.getByRole('checkbox', {
-        name: 'Het object staat niet op de kaart',
-      })
-    )
-    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
-    expect(currentContextValue.setItem).toHaveBeenCalledWith({
-      id: '',
-      label: 'Het object staat niet op de kaart',
-      type: UNKNOWN_TYPE,
-    })
-
-    expect(screen.getByText('Nummer van de container')).toBeInTheDocument()
-
-    const unregisteredObjectId = '897 6238'
-
-    userEvent.type(
-      screen.getByTestId('unregistered-asset-input'),
-      unregisteredObjectId
-    )
-
-    fireEvent.blur(screen.getByTestId('unregistered-asset-input'))
-
-    expect(currentContextValue.removeItem).toHaveBeenCalledTimes(2)
-    expect(currentContextValue.setItem).toHaveBeenCalledTimes(2)
-    expect(currentContextValue.setItem).toHaveBeenLastCalledWith({
-      id: unregisteredObjectId,
-      type: UNKNOWN_TYPE,
-      label: `Het object staat niet op de kaart - ${unregisteredObjectId}`,
-    })
-
-    fireEvent.submit(screen.getByTestId('unregistered-asset-input'))
-
-    expect(dispatch).toHaveBeenCalledWith(closeMap())
-  })
-
-  it('dispatches the location when an address is selected', async () => {
-    const { setLocation } = currentContextValue
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-      })
-    )
-
-    await screen.findByTestId('pdok-auto-suggest')
-
-    expect(setLocation).not.toHaveBeenCalled()
-
-    const setLocationButton = screen.getByText('selectItem')
-
-    userEvent.click(setLocationButton)
-
-    expect(setLocation).toHaveBeenCalledWith({
-      coordinates: mockPDOKResponse.data.location,
-      address: mockPDOKResponse.data.address,
-    })
-  })
-
-  it('renders already selected address', () => {
-    const predefinedAddress = {
-      postcode: '1234BR',
-      huisnummer: 1,
-      huisnummer_toevoeging: 'A',
-      woonplaats: 'Amsterdam',
-      openbare_ruimte: '',
-    }
-
-    render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...currentContextValue,
-        address: predefinedAddress,
-      })
-    )
-
-    expect(
-      screen.getByText(formatAddress(predefinedAddress))
-    ).toBeInTheDocument()
-  })
-
   it('closes/submits the panel', () => {
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
@@ -380,124 +205,76 @@ describe('DetailPanel', () => {
 
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
+    act(() => {
+      jest.runAllTimers()
+    })
+
     userEvent.click(screen.getByTestId('asset-select-submit-button'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
-  it('handles Enter key on input', () => {
+  it('submits an asset on mobile', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
     render(
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...currentContextValue,
-        selection: selectionUnregistered,
+        selection: undefined,
       })
     )
 
-    userEvent.type(
-      screen.getByLabelText('Nummer van de container (niet verplicht)'),
-      '5'
-    )
-
-    expect(currentContextValue.setItem).not.toHaveBeenCalled()
-
-    userEvent.type(
-      screen.getByLabelText('Nummer van de container (niet verplicht)'),
-      '{Enter}'
-    )
-
-    expect(currentContextValue.setItem).toHaveBeenCalledWith({
-      id: '5',
-      type: UNKNOWN_TYPE,
-      label: 'Het object staat niet op de kaart - 5',
+    act(() => {
+      jest.runAllTimers()
     })
+
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
+
+    userEvent.click(screen.getByTestId('asset-select-submit-button'))
+
     expect(dispatch).toHaveBeenCalledWith(closeMap())
   })
 
-  it('renders default labels', () => {
-    const language = undefined
-
-    const propsWithLanguage = {
-      ...props,
-      language,
-    }
+  it('it renders the mobile submit button when there is no selection', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
 
     render(
-      withAssetSelectContext(<DetailPanel {...propsWithLanguage} />, {
+      withAssetSelectContext(<DetailPanel {...props} />, {
         ...currentContextValue,
         selection: undefined,
       })
     )
 
-    expect(screen.getByText('Locatie')).toBeInTheDocument()
-    expect(
-      screen.getByText('Het object staat niet op de kaart')
-    ).toBeInTheDocument()
-  })
-
-  it('renders custom labels', () => {
-    const language = {
-      title: 'Locatie',
-      subTitle: 'Kies een container op de kaart',
-      unregistered: 'De container staat niet op de kaart',
-      description: 'Beschrijving',
-    }
-
-    const propsWithLanguage = {
-      ...props,
-      language,
-    }
-
-    render(
-      withAssetSelectContext(<DetailPanel {...propsWithLanguage} />, {
-        ...currentContextValue,
-        selection: undefined,
-      })
-    )
-
-    Object.values(language).forEach((label) => {
-      expect(screen.getByText(label)).toBeInTheDocument()
+    act(() => {
+      jest.runAllTimers()
     })
+
+    expect(screen.getByText('Ga verder zonder object')).toBeInTheDocument()
   })
 
-  it('renders the legend panel, always containing the nearby type item', () => {
-    const noFeatureTypesContext = {
-      ...contextValue,
-      meta: {
-        ...contextValue.meta,
-        featureTypes: [],
+  it('it renders the mobile submit button with a default text when there is no selection', () => {
+    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
+
+    const thisProps = {
+      ...props,
+      language: {
+        ...props.language,
+        objectTypeSingular: 'container',
       },
     }
-    const { rerender } = render(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...contextValue,
+
+    render(
+      withAssetSelectContext(<DetailPanel {...thisProps} />, {
+        ...currentContextValue,
         selection: undefined,
       })
     )
 
-    expect(screen.getByTestId('unregistered-object-panel')).toBeInTheDocument()
+    act(() => {
+      jest.runAllTimers()
+    })
 
-    fireEvent.click(screen.getByTestId('unregistered-asset-checkbox'))
-
-    expect(currentContextValue.setItem).toHaveBeenCalledTimes(1)
-
-    expect(screen.getByTestId('legend-panel')).toBeInTheDocument()
-    expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
-    expect(screen.getByTestId('legend-toggle-button')).toBeInTheDocument()
-
-    rerender(
-      withAssetSelectContext(<DetailPanel {...props} />, {
-        ...noFeatureTypesContext,
-        selection: undefined,
-      })
-    )
-
-    expect(
-      screen.queryByTestId('unregistrered-object-panel')
-    ).not.toBeInTheDocument()
-
-    expect(screen.queryByTestId('legend-panel')).toBeInTheDocument()
-    expect(screen.getByText('Bestaande melding')).toBeInTheDocument()
-    expect(screen.queryByTestId('legend-toggle-button')).toBeInTheDocument()
+    expect(screen.getByText('Ga verder zonder container')).toBeInTheDocument()
   })
 
   it('toggles the position of the legend panel', () => {
@@ -515,53 +292,73 @@ describe('DetailPanel', () => {
 
     userEvent.click(screen.getByTestId('legend-toggle-button'))
 
+    await waitFor(() => {})
+    const closeButton = screen.getByTestId('close-button')
+
+    expect(closeButton).toHaveFocus()
+  })
+
+  /**
+   * This test is  only there to trigger the no features types && address conditional styling.
+   *
+   */
+  it('should trigger styling when no feature types', () => {
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...currentContextValue,
+        meta: {
+          ...currentContextValue.meta,
+          featureTypes: [],
+        },
+      })
+    )
+  })
+
+  it('renders closes the map when clicking on the close button', async () => {
+    render(withAssetSelectContext(<DetailPanel {...props} />))
+
+    userEvent.click(screen.getByLabelText('Terug'))
+
     await waitFor(() => {
-      expect(screen.getByTestId('close-button')).toHaveFocus()
+      expect(dispatch).toHaveBeenCalledWith(closeMap())
     })
   })
 
-  it('does not render the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(false)
-    render(withAssetSelectContext(<DetailPanel {...props} />))
+  it('should not render submit button when there is no location', () => {
+    const ctxValue = {
+      ...contextValue,
+      address: undefined,
+      coordinates: undefined,
+    }
 
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-  })
-
-  it('renders the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.getByTestId('address-panel')).toBeInTheDocument()
-  })
-
-  it('renders a list of options in the address panel', () => {
-    jest.spyOn(reactResponsive, 'useMediaQuery').mockReturnValue(true)
-
-    render(withAssetSelectContext(<DetailPanel {...props} />))
-
-    expect(screen.queryByTestId('address-panel')).not.toBeInTheDocument()
-
-    fireEvent.focus(screen.getByTestId('auto-suggest-input'))
-
-    expect(screen.queryByTestId('options-list')).not.toBeInTheDocument()
-
-    // simulate data retrieval
-    userEvent.click(
-      within(screen.getByTestId('address-panel')).getByTestId(
-        'get-data-mock-button'
-      )
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...ctxValue,
+      })
     )
 
-    expect(screen.getByTestId('options-list')).toBeInTheDocument()
+    expect(
+      screen.queryByTestId('asset-select-submit-button')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should render submit button when there is only a location and no address', () => {
+    const ctxValue = {
+      ...contextValue,
+      address: undefined,
+      coordinates: {
+        lat: 52.38172086316677,
+        lng: 4.900571521826018,
+      },
+    }
+
+    render(
+      withAssetSelectContext(<DetailPanel {...props} />, {
+        ...ctxValue,
+      })
+    )
+
+    expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
   })
 
   it('selection nearby details', () => {

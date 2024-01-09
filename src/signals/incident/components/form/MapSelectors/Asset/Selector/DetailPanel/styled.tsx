@@ -1,22 +1,58 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { Button, themeSpacing, themeColor, breakpoint } from '@amsterdam/asc-ui'
 import styled, { css } from 'styled-components'
-
-import PDOKAutoSuggest from 'components/PDOKAutoSuggest'
 
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
 import AssetList from '../../AssetList'
 import LegendPanel from '../LegendPanel'
 import LegendToggle from '../LegendToggleButton'
 
-export const StyledAssetList = styled(AssetList)`
-  margin: ${themeSpacing(2)} 0 ${themeSpacing(4)} 0;
+export const StyledBackButton = styled(Button)`
+  @media only screen and ${breakpoint('min-width', 'tabletM')} {
+    margin: ${themeSpacing(5, 0, 0, 5)};
+  }
 `
 
-export const StyledButton = styled(Button)`
-  margin-top: ${themeSpacing(6)};
+export const StyledAssetList = styled(AssetList)`
+  margin: ${themeSpacing(2, 0, 2, 0)};
+
+  img {
+    width: ${themeSpacing(8)};
+    height: ${themeSpacing(8)};
+  }
+  @media only screen and ${breakpoint('min-width', 'tabletM')} {
+    margin: ${themeSpacing(2)} 0 0 0;
+  }
+`
+
+export const StyledButton = styled(Button)<{
+  $isMobile?: boolean
+  $hasSubmitButton?: boolean
+}>`
+  position: sticky;
+  margin: ${themeSpacing(4)};
+  bottom: 0;
+  z-index: 1;
   font-family: inherit;
+
+  ${({ $isMobile }) =>
+    $isMobile &&
+    css`
+      margin: 0;
+      position: relative;
+    `}
+`
+
+export const StyledButtonWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  padding: ${themeSpacing(5)};
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px -4px 4px 0px;
 `
 
 export const LegendToggleButton = styled(LegendToggle)`
@@ -34,34 +70,11 @@ export const LegendToggleButton = styled(LegendToggle)`
   }
 `
 
-export const PanelContent = styled.div<{ smallViewport?: boolean }>`
+export const PanelContent = styled.div`
   background-color: white;
-  padding: ${themeSpacing(4)};
   z-index: 1;
   position: relative;
-  ${({ smallViewport }) =>
-    smallViewport &&
-    css`
-      top: 0;
-      left: 0;
-      position: absolute;
-      height: 100%;
-    `}
-
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    bottom: 0;
-    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.1);
-    flex: 0 0 50%;
-    max-height: 50%;
-    order: 1;
-    width: 100vw;
-  }
-
-  @media only screen and ${breakpoint('min-width', 'tabletM')} {
-    box-shadow: 2px 0 2px rgba(0, 0, 0, 0.1);
-    flex: 0 0 ${DETAIL_PANEL_WIDTH}px;
-    height: 100vh;
-  }
+  height: 100%;
 `
 
 export const StyledLegendPanel = styled(LegendPanel)`
@@ -75,61 +88,15 @@ export const Description = styled.span`
   font-weight: 400;
 `
 
+export const StyledParagraphPDOkAutoSuggest = styled.p`
+  font-size: 1.125rem;
+  display: block;
+  font-weight: 700;
+  margin: 0;
+`
+
 export const StyledLabelPDOkAutoSuggest = styled.label`
   display: block;
   font-weight: 700;
-`
-
-export const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
-  margin: ${themeSpacing(4, 0)};
-  width: 100%;
-`
-
-export const AddressPanel = styled.article`
-  background-color: white;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  z-index: 2;
-  left: 0;
-  top: 0;
-
-  header {
-    border-bottom: 5px solid rgba(0, 0, 0, 0.1);
-    padding: ${themeSpacing(4)};
-    display: flex;
-    align-items: center;
-
-    > * {
-      margin: 0;
-    }
-
-    > button {
-      border: 0;
-      margin-right: ${themeSpacing(4)};
-    }
-  }
-
-  .instruction {
-    color: ${themeColor('tint', 'level4')};
-    font-size: 1.125rem;
-    margin-top: ${themeSpacing(6)};
-    text-align: center;
-  }
-`
-
-export const OptionsList = styled.div`
-  ul {
-    border: 0;
-    margin: ${themeSpacing(2, 0)};
-
-    li {
-      line-height: 22px;
-      padding: ${themeSpacing(2, 4)};
-    }
-  }
-
-  .chrevronIcon {
-    display: none;
-  }
+  margin-top: ${themeSpacing(5)};
 `

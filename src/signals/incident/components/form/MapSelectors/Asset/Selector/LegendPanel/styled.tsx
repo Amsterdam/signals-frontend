@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 
 import type { LegendPanelProps } from './LegendPanel'
 import { DETAIL_PANEL_WIDTH } from '../../../constants'
+import { ScrollWrapper } from '../styled'
 
 /**
  * Panel is positioned off-screen by 200% of its own width (or height, depending on the orientation).
@@ -24,26 +25,13 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
   ${({ slide }) =>
     slide === 'in'
       ? css`
-          transition: transform 0.275s -0.275s, transform 0.275s 0s;
+          transition: transform 0.25s -0.25s, transform 0.25s 0s;
           transition-timing-function: ease-out;
         `
       : css`
-          transition: transform 0.275s 0s;
+          transition: transform 0.25s 0s;
           transition-timing-function: ease-in;
         `}
-
-  @media only screen and ${breakpoint('max-width', 'tabletM')} {
-    bottom: 0;
-    flex: 0 0 50vh;
-    order: 1;
-    transform: translate3d(
-      0,
-      ${({ slide }) => (slide === 'out' ? '200%' : 0)},
-      0
-    );
-    width: 100vw;
-    max-height: 50vh;
-  }
 
   @media only screen and ${breakpoint('min-width', 'tabletM')} {
     height: 100vh;
@@ -53,6 +41,25 @@ export const Panel = styled.div<{ slide: LegendPanelProps['slide'] }>`
       0,
       0
     );
+  }
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    bottom: 0;
+    flex: 0 0 50vh;
+    order: 1;
+    position: fixed;
+    transform: translate3d(
+      0,
+      ${({ slide }) => (slide === 'out' ? '200%' : '0')},
+      0
+    );
+    width: 100vw;
+    max-height: 50vh;
+  }
+
+  ${ScrollWrapper} {
+    padding: 0;
+    height: calc(100% - 22px);
   }
 `
 
