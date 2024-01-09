@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 import type { FC } from 'react'
-// Copyright (C) 2021 - 2023 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
+// Copyright (C) 2021 - 2024 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
 import { useCallback, useContext, useMemo, useState } from 'react'
 
 import { ChevronLeft } from '@amsterdam/asc-assets'

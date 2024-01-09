@@ -15,7 +15,7 @@ import type { Incident, Location } from 'types/incident'
 
 import { AssetSelectProvider } from './context'
 import Intro from './Intro'
-import SelectorV2 from './Selector'
+import Selector from './Selector'
 import { UNKNOWN_TYPE, UNREGISTERED_TYPE } from '../constants'
 import type {
   FeatureStatusType,
@@ -222,7 +222,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
     >
       {!mapActive && !hasSelection && <Intro />}
 
-      {mapActive && <SelectorV2 />}
+      {mapActive && <Selector />}
 
       {!mapActive && hasSelection && (
         <Summary
