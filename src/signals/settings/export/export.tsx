@@ -2,10 +2,12 @@ import { Fragment, useCallback, useEffect } from 'react'
 
 import { Button, Column, ErrorMessage, Label, Row } from '@amsterdam/asc-ui'
 
+import BackLink from 'components/BackLink'
 import PageHeader from 'components/PageHeader'
 import { useFetch } from 'hooks'
 import type { FetchError } from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
+import { BASE_URL } from 'signals/settings/routes'
 
 const ExportContainer = () => {
   const { get, data, error, isLoading } = useFetch<Blob>()
@@ -23,7 +25,10 @@ const ExportContainer = () => {
   return (
     <Fragment>
       <Row>
-        <PageHeader title="CSV Export" />
+        <PageHeader
+          title="CSV Export"
+          BackLink={<BackLink to={BASE_URL}>Terug naar instellingen</BackLink>}
+        />
       </Row>
       <Row>
         <Column span={12} wrap>
