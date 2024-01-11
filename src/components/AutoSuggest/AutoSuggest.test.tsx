@@ -742,4 +742,18 @@ describe('src/components/AutoSuggest', () => {
 
     expect(onFocus).toHaveBeenCalled()
   })
+
+  describe('inline button', () => {
+    it('should render a search input icon', () => {
+      render(withAppContext(<AutoSuggest {...props} />))
+
+      expect(screen.getByTestId('search-input')).toBeInTheDocument()
+    })
+
+    it('should render a clear input', () => {
+      render(withAppContext(<AutoSuggest {...props} value="Dam" />))
+
+      expect(screen.getByTestId('clear-input')).toBeInTheDocument()
+    })
+  })
 })

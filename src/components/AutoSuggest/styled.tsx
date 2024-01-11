@@ -35,7 +35,7 @@ export const List = styled(SuggestList)`
   z-index: 2;
 `
 
-export const ClearInput = styled(Button)`
+export const InlineButton = styled(Button)`
   position: absolute;
   top: 11px;
   right: 11px;
