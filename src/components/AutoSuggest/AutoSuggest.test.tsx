@@ -743,6 +743,20 @@ describe('src/components/AutoSuggest', () => {
     expect(onFocus).toHaveBeenCalled()
   })
 
+  it('calls onChange when passed', () => {
+    const onChange = jest.fn()
+
+    render(withAppContext(<AutoSuggest {...props} onChange={onChange} />))
+
+    expect(onChange).not.toHaveBeenCalled()
+
+    const input = screen.getByRole('textbox')
+
+    userEvent.type(input, 'Rembrandt')
+
+    expect(onChange).toHaveBeenCalled()
+  })
+
   describe('inline button', () => {
     it('should render a search input icon', () => {
       render(withAppContext(<AutoSuggest {...props} />))
