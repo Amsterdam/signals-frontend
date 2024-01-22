@@ -18,7 +18,7 @@
     "clean:all": "npm run analyze:clean && npm run test:clean && npm run build:clean",
     "clean": "shjs ./internals/scripts/clean.js",
     "format": "prettier --write .",
-    "lint:eslint": "NODE_ENV=production eslint",
+    "lint:eslint": "cross-env NODE_ENV=production eslint",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:verbose": "npm run lint:eslint -- --format=mo . ",
     "lint:fix": "npm run lint:js -- --fix",
