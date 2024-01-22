@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react'
+import type { ChangeEvent } from 'react'
 
 import { Close, Search } from '@amsterdam/asc-assets'
 import { useDispatch } from 'react-redux'
@@ -30,12 +31,14 @@ export interface AutoSuggestProps {
   id?: string
   includeAuthHeaders?: boolean
   numOptionsDeterminer: (data: any) => number
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onClear?: () => void
   onData?: (optionsList: any) => void
   onFocus?: () => void
   onSelect: (option: PdokResponse) => void
   placeholder?: string
   showInlineList?: boolean
+  showNoResultFeedback?: boolean
   tabIndex?: number
   url: string
   showListChanged?: (value: boolean) => void
@@ -63,12 +66,14 @@ const AutoSuggest = ({
   id = '',
   includeAuthHeaders = false,
   numOptionsDeterminer,
+  onChange,
   onClear,
   onData,
   onFocus,
   onSelect,
   placeholder = '',
   showInlineList = true,
+  showNoResultFeedback = true,
   url,
   value = '',
   showListChanged,
@@ -246,14 +251,14 @@ const AutoSuggest = ({
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)
 
-  const onChange = useCallback(
-    (event) => {
-      event.persist()
-      setShowInlineButton(true)
-      debouncedServiceRequest(event.target.value)
-    },
-    [debouncedServiceRequest]
-  )
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event)
+    }
+    event.persist()
+    setShowInlineButton(true)
+    debouncedServiceRequest(event.target.value)
+  }
 
   const onSelectOption = useCallback(
     (option) => {
@@ -341,10 +346,11 @@ const AutoSuggest = ({
           onSelectOption={onSelectOption}
           options={options}
           role="listbox"
+          showNoResultFeedback={showNoResultFeedback}
         />
       )) ||
       null,
-    [activeIndex, options, onSelectOption]
+    [activeIndex, options, onSelectOption, showNoResultFeedback]
   )
 
   useEffect(() => {
@@ -368,7 +374,7 @@ const AutoSuggest = ({
           autoComplete="off"
           disabled={disabled}
           id={id}
-          onChange={onChange}
+          onChange={handleChange}
           onFocus={onFocus}
           placeholder={placeholder}
           ref={inputRef}

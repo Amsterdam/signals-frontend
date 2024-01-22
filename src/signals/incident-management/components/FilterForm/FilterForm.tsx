@@ -11,6 +11,7 @@ import {
   useState,
   useRef,
 } from 'react'
+import type { ChangeEvent } from 'react'
 
 import { Label as AscLabel } from '@amsterdam/asc-ui'
 import cloneDeep from 'lodash/cloneDeep'
@@ -304,6 +305,10 @@ const FilterForm = ({
     },
     [dispatch]
   )
+
+  const onAddressChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setAddress(event.target.value))
+  }
 
   const onAddressSelect = useCallback(
     (response: PdokResponse) => {
@@ -642,11 +647,13 @@ const FilterForm = ({
             <PDOKAutoSuggest
               id="filter_address"
               municipality={configuration.map?.municipality}
+              onChange={onAddressChange}
               onSelect={onAddressSelect}
               onClear={onAddressClear}
               placeholder="Zoek op straatnaam"
               value={state.options.address_text}
               streetNameOnly
+              showNoResultFeedback={false}
             />
           </FilterGroup>
 

@@ -50,6 +50,7 @@ type SuggestListProps = {
   options: Array<PdokResponse>
   /** aria-role for the listbox element */
   role?: string
+  showNoResultFeedback?: boolean
 }
 
 const SuggestList: FC<SuggestListProps> = ({
@@ -59,6 +60,7 @@ const SuggestList: FC<SuggestListProps> = ({
   onSelectOption,
   options,
   role = 'listbox',
+  showNoResultFeedback = true,
   ...rest
 }) => {
   const listRef = useRef<HTMLUListElement>(null)
@@ -111,7 +113,7 @@ const SuggestList: FC<SuggestListProps> = ({
   /**
    * Give feedback when address cannot be found
    */
-  if (options.length === 0) {
+  if (options.length === 0 && showNoResultFeedback) {
     options = [
       {
         id: 'feedbackEmpty',
