@@ -1,5 +1,5 @@
 {
-    "algemeen": {
+    "general": {
      "consentToContactSharing": "Ja, ik geef Signalen toestemming om mijn contactgegevens te delen met andere organisaties, als dat nodig is om mijn melding goed op te lossen.",
      "district": "Wijk",
      "headerTitle": "",
@@ -15,7 +15,7 @@
      "title": "Signalen",
      "urgentContactInfo": "Voor spoedeisende zaken kunt u ook telefonisch contact opnemen."
     },
-   "meldformulier": {
+   "incidentForm": {
      "firstStepHeader": "Beschrijf uw melding",
      "incidentMap": "Voordat u een melding doet kunt u op de [meldingenkaart](https://www.meldingen.amsterdam.nl) zien welke meldingen bekend zijn bij de gemeente. Staat uw melding er niet bij? Maak dan een melding.",
      "incidentMapMarkupNotificatie": "Voeg een link met beschrijving toe in het bovenstaand tekstvak: [meldingenkaart](https://www.meldingen.amsterdam.nl)",
@@ -36,13 +36,13 @@
      "whatDoWeDo": "Wat doen we met uw melding?",
      "footerContact": "Lukt het niet om een melding te doen? Bel het telefoonnummer 14 020. Wij zijn bereikbaar van maandag tot en met vrijdag van 08.00 tot 18.00 uur."
    },
-   "mijnmeldingen": {
+   "myIncidents": {
      "login": "Mijn meldingen",
      "loginBody": "Log in met  het e-mailadres waarmee u meldingen maakt. U krijgt dan een bevestigingsmail om naar het meldingenoverzicht te gaan.",
      "overview": "Mijn meldingen",
      "overviewBody": "Dit zijn de meldingen die u de afgelopen 12 maanden hebt gemaakt:"
    },
-   "meldingenkaart": {
+   "incidentMap": {
      "title": "Meldingenkaart",
      "introduction": "Op deze kaart staan meldingen in de openbare ruimte waarmee we aan het werk zijn. Vanwege privacy staat een klein deel van de meldingen niet op de kaart."
    },
