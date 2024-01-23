@@ -286,7 +286,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'woning',
       },
       value:
-        'Wij willen graag contact met u over het vervolg. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag.',
+        'Wij willen u graag informeren over het vervolg. Vul daarvoor in ieder geval uw e-mailadres in bij de volgende vraag.',
       type: 'info',
     },
     render: QuestionFieldType.PlainText,
@@ -297,7 +297,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'tuin',
       },
       value:
-        'Wij willen graag contact met u over het vervolg. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag.',
+        'Wij willen u graag informeren over het vervolg. Vul daarvoor in ieder geval uw e-mailadres in bij de volgende vraag.',
       type: 'info',
     },
     render: QuestionFieldType.PlainText,
