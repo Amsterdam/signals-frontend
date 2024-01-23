@@ -74,11 +74,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     return (
       <ErrorWrapper invalid={Boolean(errorMessage)}>
-        {label && (
-          <Label inline htmlFor={id}>
-            {label}
-          </Label>
-        )}
+        {label && <Label htmlFor={id}>{label}</Label>}
 
         <div role="status">
           {errorMessage && (
