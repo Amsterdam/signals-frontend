@@ -70,11 +70,16 @@ describe('AddNote', () => {
   })
 
   it('focuses the textarea', async () => {
-    const { unmount, rerender } = render(withAppContext(<AddNote />))
+    const { unmount, rerender } = render(
+      withAppContext(<AddNote label="Test label" />)
+    )
 
     // no ref, no focus
     userEvent.click(screen.getByTestId('add-note-new-note-button'))
     expect(screen.getByRole('textbox')).not.toHaveFocus()
+    expect(
+      screen.getByRole('textbox', { name: 'Test label' })
+    ).toBeInTheDocument()
 
     unmount()
 

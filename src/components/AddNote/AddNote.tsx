@@ -132,6 +132,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           onChange={onChange}
           ref={ref}
           rows={rows}
+          label={label}
           value={value || ''}
           {...rest}
         />
