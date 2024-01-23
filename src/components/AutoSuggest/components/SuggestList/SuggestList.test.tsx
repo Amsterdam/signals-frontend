@@ -219,4 +219,38 @@ describe('src/components/AutoSuggest/components/SuggestList', () => {
       fireEvent(thirdItem, arrowUpEvent)
     }
   })
+
+  it('should show feedback on no results', () => {
+    const noResults: PdokResponse[] = []
+
+    render(
+      withAppContext(
+        <SuggestList options={noResults} onSelectOption={onSelectOption} />
+      )
+    )
+
+    const feedback = screen.getByRole('option', {
+      name: 'Wij kennen dit adres niet. Probeer het opnieuw.',
+    })
+
+    expect(feedback).toBeInTheDocument()
+  })
+
+  it('should not show feedback when showNoResultFeedback is passed', () => {
+    const noResults: PdokResponse[] = []
+
+    const { container } = render(
+      withAppContext(
+        <SuggestList
+          options={noResults}
+          onSelectOption={onSelectOption}
+          showNoResultFeedback={false}
+        />
+      )
+    )
+
+    const feedback = container.querySelector('option')
+
+    expect(feedback).not.toBeTruthy()
+  })
 })
