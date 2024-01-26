@@ -1,13 +1,57 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
+import {
+  falsyOrNumber,
+  inPast,
+} from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
-import dateTime from './dateTime'
 import locatie from './locatie'
 
 const overlastBedrijvenEnHoreca = {
   locatie,
-  dateTime,
+
+  dateTime: {
+    meta: {
+      ignoreVisibility: true,
+      label: 'Wanneer heeft u de overlast?',
+      canBeNull: true,
+      timeSelectorDisabled: true,
+    },
+    options: {
+      validators: [falsyOrNumber, inPast, 'required'],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
+  /** General */
+
+  extra_bedrijven_horeca_frequentie: {
+    meta: {
+      values: {
+        ja: 'Ja, het gebeurt vaker',
+        nee: 'Nee, het is de eerste keer',
+      },
+      label: 'Heeft u deze overlast al eerder gehad?',
+      shortLabel: 'Eerder overlast',
+      pathMerge: 'extra_properties',
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_bedrijven_horeca_moment: {
+    meta: {
+      ifAllOf: {
+        extra_bedrijven_horeca_frequentie: 'ja',
+      },
+      label: 'Op welke momenten van de dag hebt u de overlast?',
+      shortLabel: 'Overlast momenten',
+      pathMerge: 'extra_properties',
+    },
+    options: { validators: ['required'] },
+    render: QuestionFieldType.TextInput,
+  },
+
   extra_bedrijven_horeca_wat: {
     meta: {
       label: 'Uw melding gaat over:',
@@ -26,39 +70,28 @@ const overlastBedrijvenEnHoreca = {
     options: { validators: ['required'] },
     render: QuestionFieldType.RadioInput,
   },
+
   extra_bedrijven_horeca_naam: {
     meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Wie of wat zorgt voor deze overlast, denkt u?',
+      label:
+        'Wat is de naam van het bedrijf of evenement waar de overlast vandaan komt?',
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.TextInput,
   },
+
   extra_bedrijven_horeca_adres: {
     meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Op welk adres hebt u overlast?',
+      label:
+        'In welk gebouw of woning heeft u de overlast? Vul alstublieft het adres in.',
       shortLabel: 'Adres overlast',
       pathMerge: 'extra_properties',
     },
-    options: { validators: ['required'] },
     render: QuestionFieldType.TextInput,
   },
+
+  /** Geluidsoverlast */
 
   extra_bedrijven_horeca_muziek_direct_naast: {
     meta: {
@@ -69,38 +102,19 @@ const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label:
-        'Woont u direct boven of naast het gebouw waar het geluid vandaan komt?',
+        'Woont u direct naast, boven of onder het gebouw waar het geluid vandaan komt?',
       shortLabel: 'Aanpandig',
       pathMerge: 'extra_properties',
       values: {
         naast: 'Naast',
         boven: 'Boven',
         onder: 'Onder',
-        nee: 'Nee, ik woon er niet direct naast',
+        nee: 'Nee, ik woon er niet direct naast, boven of onder',
       },
     },
     render: QuestionFieldType.RadioInput,
   },
 
-  extra_bedrijven_horeca_muziek_ramen_dicht: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
-      },
-      label:
-        'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
-      shortLabel: 'Overlast met ramen en deuren dicht',
-      pathMerge: 'extra_properties',
-      values: {
-        ja: 'Ja, ook last met ramen en deuren gesloten',
-        nee: 'Nee, geen last met ramen en deuren gesloten',
-      },
-    },
-    render: QuestionFieldType.RadioInput,
-  },
   extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: {
     meta: {
       ifAllOf: {
@@ -111,29 +125,13 @@ const overlastBedrijvenEnHoreca = {
       },
       label: 'Staan de ramen of deuren open van het horecabedrijf?',
       shortLabel: 'Ramen/deuren horeca open',
+      subtitle:
+        'In de vergunning staan hierover afspraken. Zo weten wij of het bedrijf zich aan de afspraken houdt.',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'Ja, ramen of deuren staan open',
-        nee: 'Nee, ramen en deuren zijn gesloten',
-      },
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: 'ja',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
-      },
-      label: 'Gaan de ramen of deuren kort of lang open?',
-      shortLabel: 'Ramen/deuren gaan',
-      pathMerge: 'extra_properties',
-      values: {
-        kort: 'Kort open',
-        lang: 'Lang open',
+        ja: 'Ja',
+        nee: 'Nee',
+        misschien: 'Dat weet ik niet',
       },
     },
     render: QuestionFieldType.RadioInput,
@@ -145,53 +143,17 @@ const overlastBedrijvenEnHoreca = {
         subcategory: 'geluidsoverlast-muziek',
         extra_bedrijven_horeca_wat: 'evenement_festival_markt',
       },
-      label: 'Heeft iemand van de organisatie u geïnformeerd?',
+      label:
+        'Heeft u van de organisatie van het evenement een brief gekregen met informatie?',
       shortLabel: 'Geïnformeerd door organisator',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'Ja, ik ben geïnformeerd door de organisator',
-        nee: 'Nee, ik ben niet geïnformeerd door de organisator',
+        ja: 'Ja, ik heb een brief gekregen van de organisatie',
+        nee: 'Nee, ik heb geen brief gekregen van de organisatie',
       },
     },
     options: { validators: ['required'] },
     render: QuestionFieldType.RadioInput,
-  },
-
-  extra_bedrijven_horeca_muziek_evenement_einde: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_wat: 'evenement_festival_markt',
-        extra_bedrijven_horeca_muziek_evenement: 'ja',
-      },
-      label: 'Weet u hoe laat het evenement eindigt?',
-      shortLabel: 'Evenement eindigt om',
-      pathMerge: 'extra_properties',
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.TextInput,
-  },
-
-  extra_bedrijven_horeca_installaties: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-installaties',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Van wat voor soort installatie hebt u last?',
-      shortLabel: 'Soort installatie',
-      subtitle: 'Bijvoorbeeld een afzuiger of airconditioning',
-      pathMerge: 'extra_properties',
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.TextInput,
   },
 
   extra_bedrijven_horeca_personen: {
@@ -222,164 +184,70 @@ const overlastBedrijvenEnHoreca = {
     render: QuestionFieldType.CheckboxInput,
   },
 
-  extra_bedrijven_horeca_terrassen: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'overlast-terrassen',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Wat is de oorzaak van de overlast?',
-      shortLabel: 'Oorzaak overlast',
-      values: {
-        uitgewaaierd_terras: 'Uitgewaaierd terras (buiten de toegestane grens)',
-        doorloop: 'Het terras belemmert de doorloop',
-        stoep_in_beslag:
-          'Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet',
-        bezoekers_op_straat: 'Bezoekers staan op straat',
-        bezoekers_op_terras: 'Bezoekers op terras',
-        opruimen_meubels: 'Geluid van opruimen meubels',
-      },
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.CheckboxInput,
-  },
-
-  extra_bedrijven_horeca_stank: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'stankoverlast',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Welke geur ruikt u?',
-      shortLabel: 'Soort geur',
-      subtitle: 'Beschrijf wat voor geur het is',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
-
-  extra_bedrijven_horeca_stank_oorzaak: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'stankoverlast',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Wat is de oorzaak van de geuroverlast, denkt u?',
-      shortLabel: 'Vermoedelijke oorzaak',
-      subtitle: 'Bijvoorbeeld afvoerpijp of schoorsteen',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
-
-  extra_bedrijven_horeca_stank_weer: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'stankoverlast',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Welk weer is het tijdens de overlast?',
-      shortLabel: 'Weersomstandigheden',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
+  /** Stankoverlast */
 
   extra_bedrijven_horeca_stank_ramen: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label:
         'Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?',
       shortLabel: 'Ramen/deuren open',
+      subtitle:
+        'In de vergunning staan hierover afspraken. Zo weten wij of het bedrijf zich aan de afspraken houdt.',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'Ja, ramen of deuren staan open',
-        nee: 'Nee, ramen en deuren zijn gesloten',
+        ja: 'Ja',
+        nee: 'Nee',
+        misschien: 'Dat weet ik niet',
       },
     },
     render: QuestionFieldType.RadioInput,
   },
 
-  extra_bedrijven_horeca_vaker: {
+  /** General (except geluidsoverlast-muziek --> evenementen) */
+
+  extra_bedrijven_horeca_doorsturen_melding: {
     meta: {
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
+        subcategory: [
+          'stankoverlast',
+          'overlast-terras, geluidsoverlast-installaties',
         ],
       },
-      label: 'Gebeurt het vaker?',
-      shortLabel: 'Vaker overlast',
-      subtitle: 'Had u de overlast al eerder of is dit de eerste keer?',
+      label: 'Mogen wij uw melding doorsturen als dat nodig is?',
+      subtitle:
+        'Soms moet een andere organisatie uw melding oppakken. Dan sturen wij uw melding door.',
+      shortLabel: 'Doorsturen melding',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'Ja, het gebeurt vaker',
-        nee: 'Nee, het is de eerste keer',
+        ja: 'ja',
+        nee: 'nee',
       },
     },
+    options: { validators: ['required'] },
     render: QuestionFieldType.RadioInput,
   },
-  extra_bedrijven_horeca_tijdstippen: {
+
+  extra_bedrijven_horeca_caution: {
     meta: {
-      ifAllOf: {
-        extra_bedrijven_horeca_vaker: 'ja',
-      },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
+        subcategory: [
+          'stankoverlast',
+          'overlast-terras, geluidsoverlast-installaties',
         ],
       },
-      label: 'Op welke momenten van de dag hebt u de overlast?',
-      shortLabel: 'Overlast momenten',
-      pathMerge: 'extra_properties',
+      value:
+        'Wij willen graag contact met u om meer te weten over wat hier gebeurt. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag. Wij geven uw gegevens niet door aan het bedrijf of de organisator.',
+      type: 'info',
     },
-    render: QuestionFieldType.TextInput,
+    render: QuestionFieldType.PlainText,
   },
 
-  extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
+  /** Exception geluidsoverlast-muziek --> evenementen */
+
+  extra_bedrijven_horeca_doorsturen_melding_geluidsoverlast_muziek: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
@@ -388,140 +256,38 @@ const overlastBedrijvenEnHoreca = {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
-          'evenement_festival_markt',
           'iets_anders',
         ],
       },
-      label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
-      shortLabel: 'Toestemming contact opnemen',
+      label: 'Mogen wij uw melding doorsturen als dat nodig is?',
+      subtitle:
+        'Soms moet een andere organisatie uw melding oppakken. Dan sturen wij uw melding door.',
+      shortLabel: 'Doorsturen melding',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'Ja, u mag contact met mij opnemen',
-        nee: 'Nee, liever geen contact',
+        ja: 'ja',
+        nee: 'nee',
       },
     },
     options: { validators: ['required'] },
     render: QuestionFieldType.RadioInput,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-installaties',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
-      shortLabel: 'Toestemming contact opnemen',
-      pathMerge: 'extra_properties',
-      values: {
-        ja: 'Ja, u mag contact met mij opnemen',
-        nee: 'Nee, liever geen contact',
-      },
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_overige: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'overig-horecabedrijven',
-      },
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
-      label: 'Mogen we contact met u opnemen over de melding?',
-      subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
-      shortLabel: 'Toestemming contact opnemen',
-      pathMerge: 'extra_properties',
-      values: {
-        ja: 'Ja, u mag contact met mij opnemen',
-        nee: 'Nee, liever geen contact',
-      },
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_caution: {
-    meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja',
-      },
-      value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
-      type: 'caution',
-    },
-    render: QuestionFieldType.PlainText,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_ja: {
-    meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja',
-      },
-      label: 'Mogen we u nu bellen?',
-      shortLabel: 'Bel moment',
-      pathMerge: 'extra_properties',
-      values: {
-        within_30_minutes: 'Binnen 30 minuten',
-        within_1_hour: 'Binnen 1 uur',
-        not_now: 'Niet nu',
-      },
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
-    meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_ja: 'not_now',
-      },
-      label: 'Wanneer mogen we u bellen?',
-      shortLabel: 'Ander bel moment',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
-  extra_bedrijven_horeca_muziek_geluidmeting_nee: {
-    meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'nee',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'nee',
-      },
-      label: 'Waarom hebt u liever geen contact?',
-      shortLabel: 'Liever geen contact',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
   },
 
-  extra_bedrijven_horeca_caution: {
+  extra_bedrijven_horeca_caution_geluidsoverlast_muziek: {
     meta: {
+      ifAllOf: {
+        subcategory: 'geluidsoverlast-muziek',
+      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
-          'evenement_festival_markt',
           'iets_anders',
         ],
       },
       value:
-        'Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.\n\nMeldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres.',
-      type: 'caution',
+        'Wij willen graag contact met u om meer te weten over wat hier gebeurt. Vul alstublieft uw telefoonnummer en e-mailadres in bij de volgende vraag. Wij geven uw gegevens niet door aan het bedrijf of de organisator.',
+      type: 'info',
     },
     render: QuestionFieldType.PlainText,
   },
