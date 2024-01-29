@@ -72,9 +72,14 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
       params.append('filter', filter)
     }
 
-    const { request, controller } = fetchWithAbort(url.toString(), {
-      headers: { 'X-Api-Key': configuration.map.keys.dataPlatform },
-    })
+    const { request, controller } = fetchWithAbort(
+      url.toString(),
+      configuration.map.keys.dataPlatform
+        ? {
+            headers: { 'X-Api-Key': configuration.map.keys.dataPlatform },
+          }
+        : undefined
+    )
 
     request
       .then(async (result) => result.json())
