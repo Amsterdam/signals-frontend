@@ -317,8 +317,8 @@ const overlastBedrijvenEnHoreca = {
       shortLabel: 'Doorsturen melding',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'ja',
-        nee: 'nee',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
     options: { validators: ['required'] },
