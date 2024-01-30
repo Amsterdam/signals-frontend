@@ -9,9 +9,9 @@ import type { FeatureCollection } from 'geojson'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { MapOptions } from 'leaflet'
 
+import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
-import configuration from 'shared/services/configuration/configuration'
 
 import WfsDataContext, { NO_DATA } from './context'
 import WfsLayer from './index'
@@ -275,7 +275,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     await act(() => promise)
   })
 
-  it('should not set x-api-key header by default', async () => {
+  it('should not set x-api-key header by default', () => {
     render(
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
@@ -289,7 +289,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     expect(fetchMock.mock.lastCall[1]?.headers).toBeFalsy()
   })
 
-  it('should only set x-api-key header when keys.dataPlatform is filled in the config', async () => {
+  it('should only set x-api-key header when keys.dataPlatform is filled in the config', () => {
     configuration.map.keys.dataPlatform = '1234'
 
     render(
