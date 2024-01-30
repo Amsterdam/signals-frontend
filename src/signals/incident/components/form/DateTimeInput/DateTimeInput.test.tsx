@@ -17,6 +17,7 @@ const props = {
   hasError: () => false,
   meta: {
     isVisible: true,
+    timeSelectorDisabled: false,
   },
   parent: {
     meta: {

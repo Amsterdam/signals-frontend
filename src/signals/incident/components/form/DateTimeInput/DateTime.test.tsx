@@ -184,4 +184,13 @@ describe('DateTime', () => {
       defaultTimestamp.getTime() - diffInMs
     )
   })
+
+  it('should not render the time selector when disabled', () => {
+    render(withAppContext(<DateTime {...props} timeSelectorDisabled={true} />))
+
+    userEvent.click(screen.getByLabelText('Eerder'))
+
+    expect(screen.queryByText('Hoe laat was het?')).not.toBeInTheDocument()
+    expect(onUpdate).toHaveBeenLastCalledWith(defaultTimestamp.getTime())
+  })
 })

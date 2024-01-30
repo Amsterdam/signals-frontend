@@ -31,7 +31,11 @@ const DateTimeInput: FC<DateTimeInputProps> = ({
       getError={getError}
       isFieldSet
     >
-      <DateTime onUpdate={updateTimestamp} value={value} />
+      <DateTime
+        onUpdate={updateTimestamp}
+        value={value}
+        timeSelectorDisabled={!!meta.timeSelectorDisabled}
+      />
     </FormField>
   )
 }
