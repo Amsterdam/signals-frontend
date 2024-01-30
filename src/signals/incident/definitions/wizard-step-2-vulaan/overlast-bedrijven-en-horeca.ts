@@ -73,6 +73,15 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_naam: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'stankoverlast',
+          'overlast-terrassen',
+          'geluidsoverlast-installaties',
+          'overig-horecabedrijven',
+        ],
+      },
+
       label:
         'Wat is de naam van het bedrijf of evenement waar de overlast vandaan komt?',
       shortLabel: 'Mogelijke veroorzaker',
@@ -81,8 +90,51 @@ const overlastBedrijvenEnHoreca = {
     render: QuestionFieldType.TextInput,
   },
 
+  extra_bedrijven_horeca_naam_overig: {
+    meta: {
+      ifAllOf: {
+        subcategory: 'geluidsoverlast-muziek',
+      },
+      ifOneOf: {
+        extra_bedrijven_horeca_wat: [
+          'horecabedrijf',
+          'ander_soort_bedrijf',
+          'evenement_festival_markt',
+        ],
+      },
+      label:
+        'Wat is de naam van het bedrijf of evenement waar de overlast vandaan komt?',
+      shortLabel: 'Mogelijke veroorzaker',
+      pathMerge: 'extra_properties',
+    },
+    render: QuestionFieldType.TextInput,
+  },
+
+  extra_bedrijven_horeca_wie_of_wat: {
+    meta: {
+      ifAllOf: {
+        subcategory: 'geluidsoverlast-muziek',
+      },
+      ifOneOf: {
+        extra_bedrijven_horeca_wat: ['iets_anders'],
+      },
+      label: 'Wie of wat zorgt voor deze overlast?',
+      shortLabel: 'Mogelijke veroorzaker',
+      pathMerge: 'extra_properties',
+    },
+    render: QuestionFieldType.TextInput,
+  },
+
   extra_bedrijven_horeca_adres: {
     meta: {
+      ifOneOf: {
+        extra_bedrijven_horeca_wat: [
+          'horecabedrijf',
+          'ander_soort_bedrijf',
+          'evenement_festival_markt',
+          'iets_anders',
+        ],
+      },
       label:
         'In welk gebouw of woning heeft u de overlast? Vul alstublieft het adres in.',
       shortLabel: 'Adres overlast',
@@ -213,7 +265,9 @@ const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         subcategory: [
           'stankoverlast',
-          'overlast-terras, geluidsoverlast-installaties',
+          'overlast-terrassen',
+          'geluidsoverlast-installaties',
+          'overig-horecabedrijven',
         ],
       },
       label: 'Mogen wij uw melding doorsturen als dat nodig is?',
@@ -222,8 +276,8 @@ const overlastBedrijvenEnHoreca = {
       shortLabel: 'Doorsturen melding',
       pathMerge: 'extra_properties',
       values: {
-        ja: 'ja',
-        nee: 'nee',
+        ja: 'Ja',
+        nee: 'Nee',
       },
     },
     options: { validators: ['required'] },
@@ -235,7 +289,9 @@ const overlastBedrijvenEnHoreca = {
       ifOneOf: {
         subcategory: [
           'stankoverlast',
-          'overlast-terras, geluidsoverlast-installaties',
+          'overlast-terrassen',
+          'geluidsoverlast-installaties',
+          'overig-horecabedrijven',
         ],
       },
       value:
@@ -253,11 +309,7 @@ const overlastBedrijvenEnHoreca = {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'iets_anders',
-        ],
+        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label: 'Mogen wij uw melding doorsturen als dat nodig is?',
       subtitle:

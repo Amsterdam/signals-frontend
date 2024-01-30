@@ -10,8 +10,6 @@ i18next
   .use(initReactI18next)
   .use(ChainedBackend)
   .init({
-    // debug: true,
-
     lng: 'nl',
     fallbackLng: 'nl',
     ns: ['translations'],
