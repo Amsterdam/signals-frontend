@@ -9,6 +9,7 @@ import type { FeatureCollection } from 'geojson'
 import type { FetchMock } from 'jest-fetch-mock'
 import type { MapOptions } from 'leaflet'
 
+import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
@@ -22,6 +23,7 @@ import { AssetSelectProvider } from '../../context'
 import type { AssetSelectValue } from '../../types'
 
 const fetchMock = fetch as FetchMock
+jest.mock('shared/services/configuration/configuration')
 
 const options = {
   ...MAP_OPTIONS,
@@ -66,6 +68,9 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
   afterEach(() => {
     consoleErrorSpy.mockClear()
     jest.resetAllMocks()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    configuration.__reset()
   })
 
   it('should not render when outside zoom level does not allow it', () => {
@@ -268,5 +273,35 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
       expect.objectContaining({})
     )
     await act(() => promise)
+  })
+
+  it('should not set x-api-key header by default', () => {
+    render(
+      withMapAsset(
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer />
+          </WfsLayer>
+        </AssetSelectProvider>
+      )
+    )
+
+    expect(fetchMock.mock.lastCall[1]?.headers).toBeFalsy()
+  })
+
+  it('should only set x-api-key header when keys.dataPlatform is filled in the config', () => {
+    configuration.map.keys.dataPlatform = '1234'
+
+    render(
+      withMapAsset(
+        <AssetSelectProvider value={assetSelectProviderValue}>
+          <WfsLayer>
+            <TestLayer />
+          </WfsLayer>
+        </AssetSelectProvider>
+      )
+    )
+
+    expect(fetchMock.mock.lastCall[1]?.headers).toEqual({ 'X-Api-Key': '1234' })
   })
 })
