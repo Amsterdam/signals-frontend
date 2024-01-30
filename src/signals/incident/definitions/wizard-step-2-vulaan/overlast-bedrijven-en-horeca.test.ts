@@ -11,6 +11,8 @@ describe('definition overlast-bedrijven-en-horeca', () => {
       'extra_bedrijven_horeca_moment',
       'extra_bedrijven_horeca_wat',
       'extra_bedrijven_horeca_naam',
+      'extra_bedrijven_horeca_naam_overig',
+      'extra_bedrijven_horeca_wie_of_wat',
       'extra_bedrijven_horeca_adres',
       'extra_bedrijven_horeca_muziek_direct_naast',
       'extra_bedrijven_horeca_muziek_ramen_dicht_onderneming',
