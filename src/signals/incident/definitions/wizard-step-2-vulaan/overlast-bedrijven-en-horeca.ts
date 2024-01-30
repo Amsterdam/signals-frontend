@@ -127,14 +127,6 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_adres: {
     meta: {
-      ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label:
         'In welk gebouw of woning heeft u de overlast? Vul alstublieft het adres in.',
       shortLabel: 'Adres overlast',
@@ -173,7 +165,7 @@ const overlastBedrijvenEnHoreca = {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
+        extra_bedrijven_horeca_wat: ['horecabedrijf'],
       },
       label: 'Staan de ramen of deuren open van het horecabedrijf?',
       shortLabel: 'Ramen/deuren horeca open',
