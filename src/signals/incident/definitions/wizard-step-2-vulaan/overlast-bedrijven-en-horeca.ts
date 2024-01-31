@@ -71,39 +71,24 @@ const overlastBedrijvenEnHoreca = {
     render: QuestionFieldType.RadioInput,
   },
 
-  extra_bedrijven_horeca_naam: {
+  extra_bedrijven_horeca_naam_bedrijf: {
     meta: {
       ifOneOf: {
-        subcategory: [
-          'stankoverlast',
-          'overlast-terrassen',
-          'geluidsoverlast-installaties',
-          'overig-horecabedrijven',
-        ],
+        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
-
-      label:
-        'Wat is de naam van het bedrijf of evenement waar de overlast vandaan komt?',
+      label: 'Wat is de naam van het bedrijf waar de overlast vandaan komt?',
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.TextInput,
   },
 
-  extra_bedrijven_horeca_naam_overig: {
+  extra_bedrijven_horeca_naam_evenemet: {
     meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-      },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-        ],
+        extra_bedrijven_horeca_wat: ['evenement_festival_markt'],
       },
-      label:
-        'Wat is de naam van het bedrijf of evenement waar de overlast vandaan komt?',
+      label: 'Wat is de naam van het evenement waar de overlast vandaan komt?',
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
     },
@@ -112,9 +97,6 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_wie_of_wat: {
     meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-      },
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['iets_anders'],
       },
@@ -134,8 +116,6 @@ const overlastBedrijvenEnHoreca = {
     },
     render: QuestionFieldType.TextInput,
   },
-
-  /** Geluidsoverlast */
 
   extra_bedrijven_horeca_muziek_direct_naast: {
     meta: {
@@ -227,8 +207,6 @@ const overlastBedrijvenEnHoreca = {
     },
     render: QuestionFieldType.CheckboxInput,
   },
-
-  /** Stankoverlast */
 
   extra_bedrijven_horeca_stank_ramen: {
     meta: {
