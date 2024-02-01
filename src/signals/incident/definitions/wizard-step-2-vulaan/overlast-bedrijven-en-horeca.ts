@@ -20,7 +20,6 @@ const overlastBedrijvenEnHoreca = {
           'stankoverlast',
         ],
       },
-      // ignoreVisibility: true,
       label: 'Wanneer heeft u de overlast?',
       canBeNull: true,
       timeSelectorDisabled: true,
@@ -30,8 +29,6 @@ const overlastBedrijvenEnHoreca = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-
-  /** General */
 
   extra_bedrijven_horeca_frequentie: {
     meta: {
