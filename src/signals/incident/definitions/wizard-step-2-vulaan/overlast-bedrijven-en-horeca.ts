@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2024 Gemeente Amsterdam
-import {
-  falsyOrNumber,
-  inPast,
-} from 'signals/incident/services/custom-validators'
+import { inPast } from 'signals/incident/services/custom-validators'
+import { nullOrNumber } from 'signals/incident/services/custom-validators/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -19,7 +17,7 @@ const overlastBedrijvenEnHoreca = {
       timeSelectorDisabled: true,
     },
     options: {
-      validators: [falsyOrNumber, inPast, 'required'],
+      validators: [nullOrNumber(), inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

@@ -39,7 +39,7 @@ describe('DateTime', () => {
     render(withAppContext(<DateTime {...props} />))
 
     expect(screen.getAllByRole('radio')).toHaveLength(2)
-    expect(screen.getByLabelText('Nu')).not.toBeChecked()
+    expect(screen.getByLabelText('Nu')).toBeChecked()
   })
 
   it('renders more options', () => {

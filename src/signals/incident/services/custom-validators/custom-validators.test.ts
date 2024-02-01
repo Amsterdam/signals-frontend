@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import {
   falsyOrNumber,
   inPast,
+  nullOrNumber,
   validateObjectLocation,
   validatePhoneNumber,
 } from '.'
@@ -121,6 +122,25 @@ describe('The custom validators service', () => {
       expect(inPast(inputLaterThanNow)).toStrictEqual({
         custom: `Vul een tijdstip uit het verleden in`,
       })
+    })
+  })
+
+  describe('nullOrNumber', () => {
+    it('returns a function', () => {
+      expect(nullOrNumber).toBeInstanceOf(Function)
+    })
+
+    it('evaluates null values', () => {
+      const inputNull = {
+        value: null,
+      }
+
+      const inputNumber = {
+        value: 1234567890,
+      }
+
+      expect(nullOrNumber()(inputNull)).toBeNull()
+      expect(nullOrNumber()(inputNumber)).toBeNull()
     })
   })
 })

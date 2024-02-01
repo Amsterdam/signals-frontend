@@ -29,6 +29,21 @@ export const falsyOrNumber = (control: Control<any>) => {
   }
 }
 
+export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
+  function required(control: Control<any>) {
+    if (
+      !control ||
+      typeof control.value === 'number' ||
+      control.value === null
+    ) {
+      return null
+    }
+
+    return {
+      required: message,
+    }
+  }
+
 export const inPast = (control: Control<number>) => {
   const newDate = new Date()
 

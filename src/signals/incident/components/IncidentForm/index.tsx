@@ -258,7 +258,6 @@ const IncidentForm = forwardRef<any, any>(
                     key={key}
                     name={value.meta?.name || 'hidden'}
                     control={reactHookFormProps.control}
-                    defaultValue={null}
                     render={({ field: { value: v, onChange } }) => {
                       return (
                         <value.render
