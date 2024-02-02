@@ -20,8 +20,12 @@ export const validatePhoneNumber = (control?: Control<any>) => {
   }
 }
 
-export const falsyOrNumber = (control: Control<any>) => {
-  if (typeof control.value === 'number' || !control.value) {
+export const falsyOrNumberOrNow = (control: Control<any>) => {
+  if (
+    typeof control.value === 'number' ||
+    !control.value ||
+    control.value === 'now'
+  ) {
     return null
   }
   return {
@@ -29,25 +33,16 @@ export const falsyOrNumber = (control: Control<any>) => {
   }
 }
 
-export const nullOrNumber = (message = 'Dit is een verplicht veld') =>
-  function required(control: Control<any>) {
-    if (
-      !control ||
-      typeof control.value === 'number' ||
-      control.value === null
-    ) {
-      return null
-    }
-
-    return {
-      required: message,
-    }
-  }
-
-export const inPast = (control: Control<number>) => {
+export const inPast = (control: Control<number | string>) => {
   const newDate = new Date()
 
-  if (!control.value || control.value <= newDate.getTime()) return null
+  if (
+    !control.value ||
+    control.value === 'now' ||
+    control.value === null ||
+    (control.value as number) <= newDate.getTime()
+  )
+    return null
   return {
     custom: `Vul een tijdstip uit het verleden in`,
   }

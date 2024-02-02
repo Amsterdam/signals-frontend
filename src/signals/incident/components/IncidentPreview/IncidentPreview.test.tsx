@@ -24,7 +24,7 @@ jest.mock('react-router-dom', () => ({
 
 const incident = {
   ...mock,
-  dateTime: null,
+  dateTime: 'now',
 }
 
 describe('<IncidentPreview />', () => {

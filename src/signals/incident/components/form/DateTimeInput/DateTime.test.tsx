@@ -13,7 +13,7 @@ import DateTime, {
 const onUpdate = jest.fn()
 const props = {
   onUpdate,
-  value: null,
+  value: 'now',
 }
 
 describe('DateTime', () => {
@@ -35,7 +35,7 @@ describe('DateTime', () => {
     expect(screen.getByLabelText('Eerder')).not.toBeChecked()
   })
 
-  it('renders when value is null', () => {
+  it('renders when value is now', () => {
     render(withAppContext(<DateTime {...props} />))
 
     expect(screen.getAllByRole('radio')).toHaveLength(2)
@@ -109,7 +109,7 @@ describe('DateTime', () => {
     userEvent.click(screen.getByLabelText('Nu'))
 
     expect(onUpdate).toHaveBeenCalledTimes(2)
-    expect(onUpdate).toHaveBeenLastCalledWith(null)
+    expect(onUpdate).toHaveBeenLastCalledWith('now')
   })
 
   it('calls onUpdate on selecting day', () => {

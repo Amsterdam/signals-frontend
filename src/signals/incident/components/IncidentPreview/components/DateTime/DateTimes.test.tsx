@@ -22,7 +22,7 @@ describe('DateTime', () => {
   })
 
   it('renders Nu', () => {
-    render(<DateTime value={null} />)
+    render(<DateTime value={'now'} />)
 
     expect(screen.getByTestId('preview-date-time')).toHaveTextContent('Nu')
   })

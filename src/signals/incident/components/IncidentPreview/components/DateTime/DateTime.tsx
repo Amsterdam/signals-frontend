@@ -19,7 +19,7 @@ const getValue = (
   value: Incident['timestamp'],
   incident?: Incident
 ): DateTimeValue => {
-  if (value === null) {
+  if (value === 'now') {
     return 'Nu'
   }
 

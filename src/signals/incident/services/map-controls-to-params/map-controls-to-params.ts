@@ -11,7 +11,7 @@ import mapValues from '../map-values'
 const mapControlsToParams = (incident: Incident, wizard: WizardSection) => {
   let params = {
     reporter: {},
-    incident_date_start: formatISO(incident.dateTime || Date.now()),
+    incident_date_start: formatISO((incident.dateTime as number) || Date.now()),
   }
 
   params = mapValues(params, incident, wizard)

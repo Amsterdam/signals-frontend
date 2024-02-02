@@ -3,7 +3,7 @@
 
 import { setupSchema } from './index'
 import {
-  falsyOrNumber,
+  falsyOrNumberOrNow,
   inPast,
   validatePhoneNumber,
 } from '../custom-validators'
@@ -38,7 +38,7 @@ describe('Yup resolver takes a bunch of controls and returns it into a schema', 
       },
       falsyOrNumberQuestion: {
         options: {
-          validators: [falsyOrNumber],
+          validators: [falsyOrNumberOrNow],
         },
       },
       inPastQuestion: {
