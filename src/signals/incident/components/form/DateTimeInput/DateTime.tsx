@@ -109,7 +109,6 @@ const DateTime: FC<DateTimeProps> = ({
   )
 
   function getDateIndication(value: Incident['timestamp']): DateIndication {
-    if (!value) return ''
     return dateIndicationValue[typeof value]
   }
 

@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2024 Gemeente Amsterdam
-import {
-  falsyOrNumber,
-  inPast,
-} from 'signals/incident/services/custom-validators'
+import { inPast } from 'signals/incident/services/custom-validators'
+import { nullOrNumber } from 'signals/incident/services/custom-validators/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -13,21 +11,36 @@ const overlastBedrijvenEnHoreca = {
 
   dateTime: {
     meta: {
-      ignoreVisibility: true,
+      ifOneOf: {
+        subcategory: [
+          'geluidsoverlast-installaties',
+          'geluidsoverlast-muziek',
+          'overig-horecabedrijven',
+          'overlast-terrassen',
+          'stankoverlast',
+        ],
+      },
       label: 'Wanneer heeft u de overlast?',
       canBeNull: true,
       timeSelectorDisabled: true,
     },
     options: {
-      validators: [falsyOrNumber, inPast, 'required'],
+      validators: [nullOrNumber(), inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },
 
-  /** General */
-
   extra_bedrijven_horeca_frequentie: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'geluidsoverlast-installaties',
+          'geluidsoverlast-muziek',
+          'overig-horecabedrijven',
+          'overlast-terrassen',
+          'stankoverlast',
+        ],
+      },
       values: {
         ja: 'Ja, het gebeurt vaker',
         nee: 'Nee, het is de eerste keer',
@@ -54,6 +67,15 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_wat: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'geluidsoverlast-installaties',
+          'geluidsoverlast-muziek',
+          'overig-horecabedrijven',
+          'overlast-terrassen',
+          'stankoverlast',
+        ],
+      },
       label: 'Uw melding gaat over:',
       shortLabel: 'Soort bedrijf',
       pathMerge: 'extra_properties',
@@ -109,6 +131,15 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_adres: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'geluidsoverlast-installaties',
+          'geluidsoverlast-muziek',
+          'overig-horecabedrijven',
+          'overlast-terrassen',
+          'stankoverlast',
+        ],
+      },
       label:
         'In welk gebouw of woning heeft u de overlast? Vul alstublieft het adres in.',
       shortLabel: 'Adres overlast',

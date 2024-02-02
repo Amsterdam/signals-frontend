@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import type { BaseSyntheticEvent, ForwardedRef } from 'react'
 import {
   useState,
@@ -258,7 +258,6 @@ const IncidentForm = forwardRef<any, any>(
                     key={key}
                     name={value.meta?.name || 'hidden'}
                     control={reactHookFormProps.control}
-                    defaultValue={null}
                     render={({ field: { value: v, onChange } }) => {
                       return (
                         <value.render
