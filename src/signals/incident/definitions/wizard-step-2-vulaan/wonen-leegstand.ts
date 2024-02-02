@@ -1,5 +1,5 @@
 import { QuestionFieldType } from '../../../../types/question'
-import { falsyOrNumber, inPast } from '../../services/custom-validators'
+import { falsyOrNumberOrNow, inPast } from '../../services/custom-validators'
 
 export const leegstand = {
   leegstand_dateTime: {
@@ -11,7 +11,7 @@ export const leegstand = {
       label: 'Wanneer was het?',
     },
     options: {
-      validators: [falsyOrNumber, inPast],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

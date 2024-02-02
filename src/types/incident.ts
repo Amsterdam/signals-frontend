@@ -22,7 +22,7 @@ type ExtraProps = {
 export interface Incident extends Record<string, any>, ExtraProps {
   category: string
   classification: Classification | null
-  dateTime: number | null
+  dateTime: number | null | string
   description: string
   email: string
   handling_message: string

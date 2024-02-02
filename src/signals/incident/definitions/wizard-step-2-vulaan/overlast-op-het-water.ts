@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import {
-  falsyOrNumber,
+  falsyOrNumberOrNow,
   inPast,
 } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
@@ -27,7 +27,7 @@ export const overlastOpHetWater = {
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumber, inPast],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

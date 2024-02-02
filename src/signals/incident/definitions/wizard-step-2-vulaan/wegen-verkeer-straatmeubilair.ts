@@ -2,7 +2,7 @@
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import appConfiguration from 'shared/services/configuration/configuration'
 import {
-  falsyOrNumber,
+  falsyOrNumberOrNow,
   inPast,
 } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
@@ -26,7 +26,7 @@ export const wegenVerkeerStraatmeubilair = {
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumber, inPast],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

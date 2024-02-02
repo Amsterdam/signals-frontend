@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import {
-  falsyOrNumber,
+  falsyOrNumberOrNow,
   inPast,
-  nullOrNumber,
   validateObjectLocation,
   validatePhoneNumber,
 } from '.'
@@ -79,9 +78,9 @@ describe('The custom validators service', () => {
     })
   })
 
-  describe('falsyOrNumber', () => {
+  describe('falsyOrNumberOrNow', () => {
     it('returns a function', () => {
-      expect(falsyOrNumber).toBeInstanceOf(Function)
+      expect(falsyOrNumberOrNow).toBeInstanceOf(Function)
     })
 
     it('evaluates null values', () => {
@@ -98,10 +97,10 @@ describe('The custom validators service', () => {
         value: 'ajksdlfjlk',
       }
 
-      expect(falsyOrNumber(inputNull)).toBeNull()
-      expect(falsyOrNumber(inputUndefined)).toBeNull()
-      expect(falsyOrNumber(inputNumber)).toBeNull()
-      expect(falsyOrNumber(invalidInputNumber)).not.toBeNull()
+      expect(falsyOrNumberOrNow(inputNull)).toBeNull()
+      expect(falsyOrNumberOrNow(inputUndefined)).toBeNull()
+      expect(falsyOrNumberOrNow(inputNumber)).toBeNull()
+      expect(falsyOrNumberOrNow(invalidInputNumber)).not.toBeNull()
     })
   })
   describe('inPast', () => {
@@ -122,25 +121,6 @@ describe('The custom validators service', () => {
       expect(inPast(inputLaterThanNow)).toStrictEqual({
         custom: `Vul een tijdstip uit het verleden in`,
       })
-    })
-  })
-
-  describe('nullOrNumber', () => {
-    it('returns a function', () => {
-      expect(nullOrNumber).toBeInstanceOf(Function)
-    })
-
-    it('evaluates null values', () => {
-      const inputNull = {
-        value: null,
-      }
-
-      const inputNumber = {
-        value: 1234567890,
-      }
-
-      expect(nullOrNumber()(inputNull)).toBeNull()
-      expect(nullOrNumber()(inputNumber)).toBeNull()
     })
   })
 })

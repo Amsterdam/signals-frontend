@@ -1,6 +1,6 @@
 import configuration from '../../../../shared/services/configuration/configuration'
 import { QuestionFieldType } from '../../../../types/question'
-import { falsyOrNumber, inPast } from '../../services/custom-validators'
+import { falsyOrNumberOrNow, inPast } from '../../services/custom-validators'
 
 export const vakantieverhuur = {
   vakantieverhuur_dateTime: {
@@ -12,7 +12,7 @@ export const vakantieverhuur = {
       label: 'Wanneer was het?',
     },
     options: {
-      validators: [falsyOrNumber, inPast],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import type { FC } from 'react'
 
 import { Label, RadioGroup } from '@amsterdam/asc-ui'
@@ -91,7 +91,7 @@ type DateIndication = DateIndicator['id'] | ''
 
 const dateIndicationValue: Record<string, DateIndication> = {
   undefined: '',
-  object: 'now',
+  now: 'now',
   number: 'earlier',
 }
 
@@ -101,7 +101,7 @@ const DateTime: FC<DateTimeProps> = ({
   timeSelectorDisabled = false,
 }) => {
   const [datetime, setDatetime] = useState(
-    value ? new Date(value) : defaultTimestamp
+    value && value !== 'now' ? new Date(value) : defaultTimestamp
   )
 
   const [dateIndication, setDateIndication] = useState<DateIndication>(
@@ -109,7 +109,9 @@ const DateTime: FC<DateTimeProps> = ({
   )
 
   function getDateIndication(value: Incident['timestamp']): DateIndication {
-    return dateIndicationValue[typeof value]
+    return typeof value === 'number'
+      ? dateIndicationValue['number']
+      : dateIndicationValue[value]
   }
 
   const updateTimestamp = useCallback(
@@ -156,7 +158,7 @@ const DateTime: FC<DateTimeProps> = ({
         cloned.setSeconds(0)
 
         setDatetime(cloned)
-        onUpdate(null)
+        onUpdate('now')
       } else {
         setDatetime(defaultTimestamp)
         onUpdate(defaultTimestamp.getTime())
@@ -165,9 +167,6 @@ const DateTime: FC<DateTimeProps> = ({
     [onUpdate]
   )
 
-  useEffect(() => {
-    setDateIndication(getDateIndication(value))
-  }, [value])
   return (
     <>
       <RadioGroup>
