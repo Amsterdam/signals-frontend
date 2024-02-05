@@ -12,6 +12,7 @@ const overlastBedrijvenEnHoreca = {
     meta: {
       ifOneOf: {
         subcategory: [
+          'evenementen',
           'geluidsoverlast-installaties',
           'geluidsoverlast-muziek',
           'overig-horecabedrijven',
@@ -33,6 +34,7 @@ const overlastBedrijvenEnHoreca = {
     meta: {
       ifOneOf: {
         subcategory: [
+          'evenementen',
           'geluidsoverlast-installaties',
           'geluidsoverlast-muziek',
           'overig-horecabedrijven',
@@ -108,6 +110,7 @@ const overlastBedrijvenEnHoreca = {
     meta: {
       ifOneOf: {
         extra_bedrijven_horeca_wat: ['evenement_festival_markt'],
+        subcategory: 'evenementen',
       },
       label: 'Wat is de naam van het evenement waar de overlast vandaan komt?',
       shortLabel: 'Mogelijke veroorzaker',
@@ -132,6 +135,7 @@ const overlastBedrijvenEnHoreca = {
     meta: {
       ifOneOf: {
         subcategory: [
+          'evenementen',
           'geluidsoverlast-installaties',
           'geluidsoverlast-muziek',
           'overig-horecabedrijven',
@@ -193,9 +197,12 @@ const overlastBedrijvenEnHoreca = {
 
   extra_bedrijven_horeca_muziek_evenement: {
     meta: {
-      ifAllOf: {
-        subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_wat: 'evenement_festival_markt',
+      ifOneOf: {
+        subcategory: 'evenementen',
+        ifAllOf: {
+          subcategory: ['geluidsoverlast-muziek'],
+          extra_bedrijven_horeca_wat: 'evenement_festival_markt',
+        },
       },
       label:
         'Heeft u van de organisatie van het evenement een brief gekregen met informatie?',
