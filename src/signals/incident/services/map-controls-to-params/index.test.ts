@@ -55,4 +55,22 @@ describe('map-controls-to-params', () => {
       varFromMapPaths: 'bar',
     })
   })
+
+  it('should return the current date when dateTime is `now`', () => {
+    const incidentWithDateTimeNow = { ...mock, dateTime: 'now' }
+
+    expect(mapControlsToParams(incidentWithDateTimeNow, wizard)).toEqual({
+      reporter: {},
+      incident_date_start: formatISO(Date.now()),
+    })
+  })
+
+  it('should return the current date when dateTime is null', () => {
+    const incidentWithDateTimeNull = { ...mock, dateTime: null }
+
+    expect(mapControlsToParams(incidentWithDateTimeNull, wizard)).toEqual({
+      reporter: {},
+      incident_date_start: formatISO(Date.now()),
+    })
+  })
 })
