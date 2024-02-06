@@ -74,7 +74,7 @@ export const IncidentsList = ({ token }: Props) => {
                 <IncidentID>{_display}</IncidentID>
                 <span>{`${formattedDate} uur`}</span>
               </Heading>
-              <Status status={displayStatus}>Status: {displayStatus}</Status>
+              <Status>Status: {displayStatus}</Status>
 
               <StyledParagraph>{text}</StyledParagraph>
 
