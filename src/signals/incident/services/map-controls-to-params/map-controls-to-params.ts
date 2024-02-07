@@ -12,7 +12,7 @@ const mapControlsToParams = (incident: Incident, wizard: WizardSection) => {
   let params = {
     reporter: {},
     incident_date_start:
-      typeof incident.dateTime === 'string' || incident.dateTime === null
+      typeof incident.dateTime === 'string' || !incident.dateTime
         ? formatISO(Date.now())
         : formatISO(incident.dateTime as number),
   }
