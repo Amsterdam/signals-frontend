@@ -24,6 +24,16 @@ export const overlastOpHetWater = {
 
   extra_boten_frequentie: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'blokkade-van-de-vaarweg',
+          'overig-boten',
+          'overlast-op-het-water-geluid',
+          'overlast-op-het-water-gezonken-boot',
+          'overlast-op-het-water-snel-varen',
+          'overlast-op-het-water-vaargedrag',
+        ],
+      },
       values: {
         ja: 'Ja, het gebeurt vaker',
         nee: 'Nee, het is de eerste keer',
