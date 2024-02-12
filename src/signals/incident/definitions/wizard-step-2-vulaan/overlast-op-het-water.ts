@@ -15,7 +15,6 @@ export const overlastOpHetWater = {
       ignoreVisibility: true,
       label: 'Wanneer heeft u de overlast?',
       canBeNull: true,
-      timeSelectorDisabled: true,
     },
     options: {
       validators: [falsyOrNumberOrNow, inPast, 'required'],
