@@ -30,11 +30,8 @@ export const IncidentID = styled.span`
   font-weight: 700;
 `
 
-export const Status = styled.div<{ status: string }>`
-  color: ${({ status }) =>
-    status === 'open'
-      ? themeColor('support', 'invalid')
-      : themeColor('support', 'valid')};
+export const Status = styled.div`
+  color: ${themeColor('tint', 'level5')};
   font-weight: 700;
   margin-bottom: ${themeSpacing(4)};
 `
