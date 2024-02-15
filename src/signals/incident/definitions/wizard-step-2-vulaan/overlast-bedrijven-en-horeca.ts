@@ -22,7 +22,6 @@ const overlastBedrijvenEnHoreca = {
       },
       label: 'Wanneer heeft u de overlast?',
       canBeNull: true,
-      timeSelectorDisabled: true,
     },
     options: {
       validators: [inPast, 'required'],
