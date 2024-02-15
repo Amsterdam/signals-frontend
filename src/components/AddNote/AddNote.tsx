@@ -12,6 +12,7 @@ import TextArea from 'components/TextArea'
 export interface AddNoteProps {
   className?: string
   error?: string
+  inForm?: boolean
   isStandalone?: boolean
   label?: ReactNode
   maxContentLength?: number
@@ -23,6 +24,7 @@ export interface AddNoteProps {
     value?: string | null
   ) => boolean
   onCancel?: () => void
+  id?: string
   rows?: number
   value?: string
   withToggle?: boolean
@@ -65,6 +67,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       className,
       error,
       isStandalone,
+      inForm,
       withToggle,
       label,
       maxContentLength,
@@ -73,6 +76,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       onChange,
       onSubmit,
       onCancel,
+      id,
       rows,
       value,
       ...rest
@@ -125,14 +129,14 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
         <TextArea
           data-testid="add-note-text"
           errorMessage={error}
-          id="addNoteText"
+          id={id || 'addNoteText'}
           maxContentLength={maxContentLength}
           name={name}
           onBlur={onBlur}
           onChange={onChange}
           ref={ref}
           rows={rows}
-          label={label}
+          label={!inForm && label}
           value={value || ''}
           {...rest}
         />
@@ -166,6 +170,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 AddNote.defaultProps = {
   className: '',
   isStandalone: true,
+  inForm: false,
   label: 'Notitie toevoegen',
   rows: 10,
   withToggle: true,

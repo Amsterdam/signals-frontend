@@ -58,7 +58,7 @@ const TextareaInput: FunctionComponent<TextAreaInputProps> = ({
       hasError={hasError}
       getError={getError}
     >
-      <AddNote {...props} />
+      <AddNote inForm id={meta.name} {...props} />
     </FormField>
   )
 }
