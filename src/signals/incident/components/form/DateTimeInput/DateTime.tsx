@@ -84,7 +84,6 @@ export const minutesOptions = [...Array(12).keys()].map((minute) => ({
 export interface DateTimeProps {
   onUpdate: (timestamp: Incident['timestamp']) => void
   value: Incident['timestamp']
-  timeSelectorDisabled?: boolean
 }
 
 type DateIndication = DateIndicator['id'] | ''
@@ -95,11 +94,7 @@ const dateIndicationValue: Record<string, DateIndication> = {
   number: 'earlier',
 }
 
-const DateTime: FC<DateTimeProps> = ({
-  onUpdate,
-  value,
-  timeSelectorDisabled = false,
-}) => {
+const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
   const [datetime, setDatetime] = useState(
     value && value !== 'now' ? new Date(value) : defaultTimestamp
   )
@@ -199,42 +194,40 @@ const DateTime: FC<DateTimeProps> = ({
             </FieldWrapper>
           </TimeFieldset>
 
-          {!timeSelectorDisabled && (
-            <TimeFieldset>
-              <legend>
-                <StyledLabel>Hoe laat was het?</StyledLabel>
-              </legend>
+          <TimeFieldset>
+            <legend>
+              <StyledLabel>Hoe laat was het?</StyledLabel>
+            </legend>
 
-              <TimeWrapper>
-                <div>
-                  <Select
-                    id="hours"
-                    aria-labelledby="uur"
-                    name="hours"
-                    data-testid="select-hours"
-                    value={datetime.getHours().toString()}
-                    onChange={updateTimestamp}
-                    options={hoursOptions}
-                  />
-                </div>
-                <Info id="uur">uur</Info>
-                <div>
-                  <Select
-                    id="minutes"
-                    name="minutes"
-                    aria-labelledby="min"
-                    data-testid="select-minutes"
-                    value={datetime.getMinutes().toString()}
-                    onChange={updateTimestamp}
-                    options={minutesOptions}
-                  />
-                </div>
-                <Info id="min" aria-label="minuten">
-                  min
-                </Info>
-              </TimeWrapper>
-            </TimeFieldset>
-          )}
+            <TimeWrapper>
+              <div>
+                <Select
+                  id="hours"
+                  aria-labelledby="uur"
+                  name="hours"
+                  data-testid="select-hours"
+                  value={datetime.getHours().toString()}
+                  onChange={updateTimestamp}
+                  options={hoursOptions}
+                />
+              </div>
+              <Info id="uur">uur</Info>
+              <div>
+                <Select
+                  id="minutes"
+                  name="minutes"
+                  aria-labelledby="min"
+                  data-testid="select-minutes"
+                  value={datetime.getMinutes().toString()}
+                  onChange={updateTimestamp}
+                  options={minutesOptions}
+                />
+              </div>
+              <Info id="min" aria-label="minuten">
+                min
+              </Info>
+            </TimeWrapper>
+          </TimeFieldset>
         </>
       )}
     </>
