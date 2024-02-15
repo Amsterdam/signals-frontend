@@ -96,6 +96,7 @@ export const overlastOpHetWater = {
         vracht: 'Vrachtschip of binnenvaartschip',
         huur: 'Huurboot',
         overig: 'Overig',
+        weetniet: 'Weet ik niet',
       },
       label: 'Wat voor soort boot is het?',
       shortLabel: 'Soort boot',
