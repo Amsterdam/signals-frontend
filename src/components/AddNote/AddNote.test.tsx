@@ -256,4 +256,22 @@ describe('AddNote', () => {
       screen.queryByTestId('add-note-new-note-button')
     ).not.toBeInTheDocument()
   })
+
+  it('does not render a label when inForm is true', () => {
+    const { container } = render(
+      withAppContext(<AddNote label="Test label" inForm={true} />)
+    )
+
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
+
+    expect(container.querySelector('label')).not.toBeInTheDocument()
+  })
+
+  it('renders the passed id', () => {
+    const { container } = render(withAppContext(<AddNote id="test" />))
+
+    userEvent.click(screen.getByTestId('add-note-new-note-button'))
+
+    expect(container.querySelector('#test')).toBeInTheDocument()
+  })
 })
