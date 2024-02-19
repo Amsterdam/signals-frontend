@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import { useContext, useMemo, useRef } from 'react'
 
 import { ascDefaultTheme, breakpoint, Paragraph } from '@amsterdam/asc-ui/lib'
+import { DataLayer } from '@piwikpro/react-piwik-pro'
 import { FormProvider, useForm } from 'react-hook-form'
 
 import { FrontPageAlert } from 'components/FrontPageAlert'
@@ -109,6 +110,13 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                       sectionLabels,
                     } = wizardDefinition[key as keyof WizardSection]
                     const showProgress = index < steps.length
+
+                    DataLayer.push({
+                      event: 'interaction.component.virtualPageview',
+                      meta: {
+                        vpv_url: `/incident/${key}`, // TODO: moet de base url hier bij?
+                      },
+                    })
 
                     return previewFactory || form || formFactory ? (
                       <>

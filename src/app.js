@@ -26,7 +26,7 @@ import './polyfills'
 import './fonts.css'
 
 import configureStore from './configureStore'
-import { createPiwikInstance } from './hooks/useAnalytics'
+import { createPiwikInstance } from './utils/createPiwikInstance'
 
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
@@ -72,6 +72,7 @@ const render = () => {
   spinnerBackground.remove()
 
   // Create Piwik instance if on acc or prod
+  // TODO: this should be an allowlist. How to implement that for non-Amsterdam users?
   createPiwikInstance(
     location.hostname !== 'localhost' && location.hostname !== '127.0.0.1'
   )
