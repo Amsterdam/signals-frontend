@@ -71,7 +71,10 @@ const render = () => {
   spinner.remove()
   spinnerBackground.remove()
 
-  createPiwikInstance() // TODO: specify acc or prod here
+  // Create Piwik instance if on acc or prod
+  createPiwikInstance(
+    location.hostname !== 'localhost' && location.hostname !== '127.0.0.1'
+  )
 
   ReactDOM.render(
     <Provider store={store}>
