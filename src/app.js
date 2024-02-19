@@ -73,6 +73,7 @@ const render = () => {
 
   // Create Piwik instance if on acc or prod
   // TODO: this should be an allowlist. How to implement that for non-Amsterdam users?
+  // TODO: can we use process.env.DOMAIN_TAG to check for acc or prod?
   createPiwikInstance(
     location.hostname !== 'localhost' && location.hostname !== '127.0.0.1'
   )
