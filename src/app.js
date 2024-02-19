@@ -26,6 +26,7 @@ import './polyfills'
 import './fonts.css'
 
 import configureStore from './configureStore'
+import { createPiwikInstance } from './hooks/useAnalytics'
 
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
@@ -69,6 +70,8 @@ const render = () => {
   const spinnerBackground = document.getElementById('spinner-background')
   spinner.remove()
   spinnerBackground.remove()
+
+  createPiwikInstance() // TODO: specify acc or prod here
 
   ReactDOM.render(
     <Provider store={store}>
