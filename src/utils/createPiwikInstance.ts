@@ -10,6 +10,7 @@ function createPiwikInstance(isEnabled = true) {
 
   if (!piwikUrl || !piwikSiteId) return
 
+  // TODO: initialising piwik with these values seems to break the site, unsure why this is
   PiwikPro.initialize(piwikSiteId, piwikUrl)
   PiwikInstance = true
 }
