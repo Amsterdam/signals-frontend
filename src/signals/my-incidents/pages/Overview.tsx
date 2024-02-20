@@ -40,6 +40,12 @@ export const Overview = () => {
       )
   }, [email, get, token])
 
+  // TODO: IMPLEMENT PIWIK EVENT HERE
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(`virtualPageview: /mijn-meldingen/ingelogd`)
+  }, [])
+
   return (
     <StyledRow>
       <Wrapper>
@@ -60,6 +66,13 @@ export const Overview = () => {
         </Paragraph>
         <StyledLink
           to="/incident/beschrijf"
+          onClick={() =>
+            // TODO: IMPLEMENT PIWIK EVENT HERE
+            // eslint-disable-next-line no-console
+            console.log(
+              `trackEvent: Click on 'Maak een nieuwe melding' on 'Mijn meldingen' page`
+            )
+          }
           variant="inline"
           fontSize={16}
           forwardedAs={Link}

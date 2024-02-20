@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 
 import ReactDOM from 'react-dom'
 
@@ -13,6 +13,12 @@ import { Header } from '../components/Header'
 const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 
 export const IncidentMapContainer = () => {
+  // TODO: IMPLEMENT PIWIK EVENT HERE
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(`virtualPageview: /meldingenkaart`)
+  }, [])
+
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const appHtmlElement = document.getElementById('app')!
   const map = (

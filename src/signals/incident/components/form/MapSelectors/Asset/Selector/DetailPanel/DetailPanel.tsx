@@ -64,6 +64,10 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   /* istanbul ignore next */
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
+      // TODO: IMPLEMENT PIWIK EVENT HERE
+      // eslint-disable-next-line no-console
+      console.log('trackEvent: Select address with autosuggest')
+
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
     },

@@ -49,6 +49,14 @@ const Markdown = ({ children, hideTabindexLink, ...props }: Props) => (
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       a: ({ node, ...props }) => (
         <Link
+          onClick={() => {
+            // TODO: IMPLEMENT PIWIK EVENT HERE
+            props.href === '/meldingenkaart' &&
+              // eslint-disable-next-line no-console
+              console.log(
+                `trackEvent: Click on 'meldingenkaart' on page 1 of form`
+              )
+          }}
           tabIndex={hideTabindexLink ? -1 : 0}
           variant="inline"
           {...props}

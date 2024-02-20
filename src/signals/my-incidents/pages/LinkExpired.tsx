@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -24,6 +24,12 @@ export const LinkExpired = () => {
     ),
     [onClick]
   )
+
+  // TODO: IMPLEMENT PIWIK EVENT HERE
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(`virtualPageview: /mijn-meldingen/verlopen`)
+  }, [])
 
   return (
     <BasePage

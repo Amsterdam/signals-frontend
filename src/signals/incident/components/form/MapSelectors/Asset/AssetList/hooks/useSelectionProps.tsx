@@ -47,6 +47,10 @@ export const useSelectionProps = ({
     featureTypes?.find(({ typeValue }) => typeValue === feature.type) ?? {}
 
   const onClick = async () => {
+    // TODO: IMPLEMENT PIWIK EVENT HERE
+    // eslint-disable-next-line no-console
+    console.log(`trackEvent: Click on object checkbox`)
+
     if (feature.type !== FeatureStatus.REPORTED && !maxAssetWarning) {
       const location: Location = { coordinates: feature.coordinates }
 

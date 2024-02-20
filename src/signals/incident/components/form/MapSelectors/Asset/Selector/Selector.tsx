@@ -125,6 +125,10 @@ const Selector: FC = () => {
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
+      // TODO: IMPLEMENT PIWIK EVENT HERE
+      // eslint-disable-next-line no-console
+      console.log('trackEvent: Click on map')
+
       fetchLocation(latlng)
     },
     [fetchLocation]
@@ -189,6 +193,10 @@ const Selector: FC = () => {
   /* istanbul ignore next */
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
+      // TODO: IMPLEMENT PIWIK EVENT HERE
+      // eslint-disable-next-line no-console
+      console.log('trackEvent: Select address with autosuggest - mobile')
+
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
       setOptionsList(null)

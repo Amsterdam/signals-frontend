@@ -70,6 +70,10 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
 
   const onClick = useCallback(
     (event) => {
+      // TODO: IMPLEMENT PIWIK EVENT HERE
+      // eslint-disable-next-line no-console
+      console.log("trackEvent: Click on 'Mijn locatie'")
+
       event.preventDefault()
 
       if (loading) return
