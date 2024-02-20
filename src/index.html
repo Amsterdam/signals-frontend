@@ -1,50 +1,44 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="apple-mobile-web-app-title" content="$SIGNALS_PWA_TITLE" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="$SIGNALS_STATUS_BAR_STYLE"
-    />
-    <link rel="icon" href="$SIGNALS_FAVICON" />
-    <link rel="apple-touch-icon" sizes="180x180" href="$SIGNALS_IOS_ICON" />
-    <!-- html-loader should ignore manifest.json so that its filename stays the same -->
-    <!-- webpackIgnore: true -->
-    <link rel="manifest" href="/manifest.json" />
-    <title>$SIGNALS_SITE_TITLE</title>
-    <script>
-      window.CONFIG = $SIGNALS_CONFIG
-    </script>
-  </head>
 
-  <body>
-    <div id="app">
-      <svg
-        id="spinner"
-        viewBox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-        focusable="false"
-      >
-        <path
-          d="M50 100C22.4 99.967.033 77.6 0 50h10c0 22.091 17.909 40 40 40s40-17.909 40-40-17.909-40-40-40V0c27.614 0 50 22.386 50 50s-22.386 50-50 50z"
-        ></path>
-      </svg>
-      <div id="spinner-background"></div>
-      <noscript>
-        <p>
-          Deze website werkt helaas niet zonder javascript. Sta het uitvoeren
-          van javascript toe in uw browser om $SIGNALS_PWA_TITLE te kunnen
-          bekijken
-        </p>
-      </noscript>
-    </div>
-    <script>
-      var spinner = document.getElementById('spinner')
-      spinner.style.fill = window.CONFIG.head.themeColor
-    </script>
-    $SIGNALS_ADDITIONAL_CODE_CSS
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-title" content="$SIGNALS_PWA_TITLE" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="$SIGNALS_STATUS_BAR_STYLE" />
+  <link rel="icon" href="$SIGNALS_FAVICON" />
+  <link rel="apple-touch-icon" sizes="180x180" href="$SIGNALS_IOS_ICON" />
+  <!-- html-loader should ignore manifest.json so that its filename stays the same -->
+  <!-- webpackIgnore: true -->
+  <link rel="manifest" href="/manifest.json" />
+  <title>$SIGNALS_SITE_TITLE</title>
+  <script>
+    window.CONFIG = $SIGNALS_CONFIG
+  </script>
+</head>
+
+<body>
+  $SIGNALS_PIWIK_SCRIPT
+  <div id="app">
+    <svg id='spinner' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' focusable='false'>
+      <path
+        d='M50 100C22.4 99.967.033 77.6 0 50h10c0 22.091 17.909 40 40 40s40-17.909 40-40-17.909-40-40-40V0c27.614 0 50 22.386 50 50s-22.386 50-50 50z'></path>
+    </svg>
+    <div id='spinner-background'></div>
+    <noscript>
+      <p>
+        Deze website werkt helaas niet zonder javascript. Sta het uitvoeren
+        van javascript toe in uw browser om $SIGNALS_PWA_TITLE te kunnen
+        bekijken
+      </p>
+    </noscript>
+  </div>
+  <script>
+    var spinner = document.getElementById('spinner')
+    spinner.style.fill =  window.CONFIG.head.themeColor;
+  </script>
+  $SIGNALS_ADDITIONAL_CODE_CSS
+</body>
+
 </html>

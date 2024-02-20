@@ -26,7 +26,6 @@ import './polyfills'
 import './fonts.css'
 
 import configureStore from './configureStore'
-import { createPiwikInstance } from './utils/createPiwikInstance'
 
 const environment = process.env.BUILD_ENV
 const dsn = configuration?.sentry?.dsn
@@ -70,13 +69,6 @@ const render = () => {
   const spinnerBackground = document.getElementById('spinner-background')
   spinner.remove()
   spinnerBackground.remove()
-
-  // Create Piwik instance if on acc or prod
-  // TODO: this should be an allowlist. How to implement that for non-Amsterdam users?
-  // TODO: can we use process.env.DOMAIN_TAG to check for acc or prod?
-  createPiwikInstance(
-    location.hostname !== 'localhost' && location.hostname !== '127.0.0.1'
-  )
 
   ReactDOM.render(
     <Provider store={store}>
