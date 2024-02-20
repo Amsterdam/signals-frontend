@@ -110,6 +110,13 @@ const IncidentWizard: FC<IncidentWizardProps> = ({
                     } = wizardDefinition[key as keyof WizardSection]
                     const showProgress = index < steps.length
 
+                    ;(window as any).dataLayer.push({
+                      event: 'interaction.component.virtualPageview',
+                      meta: {
+                        vpv_url: `/incident/${key}`, // TODO: moet de base url hier bij?
+                      },
+                    })
+
                     return previewFactory || form || formFactory ? (
                       <>
                         <FrontPageAlert />
