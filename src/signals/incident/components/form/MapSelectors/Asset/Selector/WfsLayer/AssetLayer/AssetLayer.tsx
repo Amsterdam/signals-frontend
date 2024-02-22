@@ -75,6 +75,15 @@ export const AssetLayer: FC = () => {
         } (${id})`
 
     const onClick = async () => {
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'pinClick',
+          label: label,
+        },
+      })
+
       if (typeValue !== FeatureStatus.REPORTED) {
         const location: Location = { coordinates }
 

@@ -41,6 +41,15 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
   const { setEmail } = useMyIncidentContext()
 
   const onSubmit = async ({ email }: FormData) => {
+    ;(window as any)?.dataLayer.push({
+      event: 'interaction.generic.component.linkClick',
+      meta: {
+        category: 'interaction.generic.component.linkClick',
+        action: 'loginMail - intern', // TODO: dit is eigenlijk geen link, maar een button click om een mailtje te versturen. Welke interaction moet je hier voor gebruiken?
+        label: 'Inloggen',
+      },
+    })
+
     await postEmail(email)
     setEmail(email)
   }

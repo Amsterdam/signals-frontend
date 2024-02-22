@@ -40,6 +40,16 @@ export function VerificationPage() {
             variant="primary"
             forwardedAs={Link}
             to="/incident/beschrijf"
+            onClick={() => {
+              ;(window as any)?.dataLayer.push({
+                event: 'interaction.generic.component.linkClick',
+                meta: {
+                  category: 'interaction.generic.component.linkClick',
+                  action: 'verificationPageLink - intern',
+                  label: 'Doe een melding - /incident/beschrijf',
+                },
+              })
+            }}
           >
             Doe een melding
           </StyledButton>
