@@ -8,10 +8,13 @@ import { LoginForm } from '../components'
 export const RequestAccess = () => {
   const [errorMessage, setErrorMessage] = useState<string>('')
 
-  // TODO: IMPLEMENT PIWIK EVENT HERE
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(`virtualPageview: /mijn-meldingen/login`)
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: `/mijn-meldingen/login`,
+      },
+    })
   }, [])
 
   return (

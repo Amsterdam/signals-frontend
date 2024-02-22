@@ -13,10 +13,13 @@ import { Header } from '../components/Header'
 const IncidentMap = lazy(() => import('../components/IncidentMap/IncidentMap'))
 
 export const IncidentMapContainer = () => {
-  // TODO: IMPLEMENT PIWIK EVENT HERE
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(`virtualPageview: /meldingenkaart`)
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: '/meldingenkaart',
+      },
+    })
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

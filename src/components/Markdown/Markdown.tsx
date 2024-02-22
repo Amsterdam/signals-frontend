@@ -50,12 +50,15 @@ const Markdown = ({ children, hideTabindexLink, ...props }: Props) => (
       a: ({ node, ...props }) => (
         <Link
           onClick={() => {
-            // TODO: IMPLEMENT PIWIK EVENT HERE
             props.href === '/meldingenkaart' &&
-              // eslint-disable-next-line no-console
-              console.log(
-                `trackEvent: Click on 'meldingenkaart' on page 1 of form`
-              )
+              (window as any)?.dataLayer.push({
+                event: 'interaction.generic.component.linkClick',
+                meta: {
+                  category: 'interaction.generic.component.linkClick',
+                  action: 'introLink - intern',
+                  label: 'meldingenkaart - /meldingenkaart',
+                },
+              })
           }}
           tabIndex={hideTabindexLink ? -1 : 0}
           variant="inline"

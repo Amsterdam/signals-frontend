@@ -47,10 +47,6 @@ export const useSelectionProps = ({
     featureTypes?.find(({ typeValue }) => typeValue === feature.type) ?? {}
 
   const onClick = async () => {
-    // TODO: IMPLEMENT PIWIK EVENT HERE
-    // eslint-disable-next-line no-console
-    console.log(`trackEvent: Click on object checkbox`)
-
     if (feature.type !== FeatureStatus.REPORTED && !maxAssetWarning) {
       const location: Location = { coordinates: feature.coordinates }
 
@@ -60,6 +56,14 @@ export const useSelectionProps = ({
         location.address = response.data.address
         item.address = response.data.address
       }
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'checkboxClickOn',
+          label: `${item.label}`,
+        },
+      })
 
       setItem(item, location)
     }

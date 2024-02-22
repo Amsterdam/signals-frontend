@@ -64,12 +64,16 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
   /* istanbul ignore next */
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
-      // TODO: IMPLEMENT PIWIK EVENT HERE
-      // eslint-disable-next-line no-console
-      console.log('trackEvent: Select address with autosuggest')
-
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'useAutosuggest', // TODO: deze actie staat niet in de lijst, kun je hier gewoon actions aan toevoegen?
+          label: `${address.openbare_ruimte} ${address.huisnummer} ${address.postcode} ${address.woonplaats}`,
+        },
+      })
     },
     [setLocation]
   )

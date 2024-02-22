@@ -125,9 +125,14 @@ const Selector: FC = () => {
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
-      // TODO: IMPLEMENT PIWIK EVENT HERE
-      // eslint-disable-next-line no-console
-      console.log('trackEvent: Click on map')
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'clickOnMap', // TODO: Deze actie bestaat niet, kun je zomaar actions toevoegen?
+          label: 'Click on map',
+        },
+      })
 
       fetchLocation(latlng)
     },
@@ -193,13 +198,17 @@ const Selector: FC = () => {
   /* istanbul ignore next */
   const onAddressSelect = useCallback(
     (option: PdokResponse) => {
-      // TODO: IMPLEMENT PIWIK EVENT HERE
-      // eslint-disable-next-line no-console
-      console.log('trackEvent: Select address with autosuggest - mobile')
-
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
       setOptionsList(null)
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'useAutosuggest', // TODO: deze actie staat niet in de lijst, kun je hier gewoon actions aan toevoegen?
+          label: `${address.openbare_ruimte} ${address.huisnummer} ${address.postcode} ${address.woonplaats}`,
+        },
+      })
     },
     [setLocation]
   )

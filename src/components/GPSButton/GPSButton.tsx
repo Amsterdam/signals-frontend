@@ -70,9 +70,14 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
 
   const onClick = useCallback(
     (event) => {
-      // TODO: IMPLEMENT PIWIK EVENT HERE
-      // eslint-disable-next-line no-console
-      console.log("trackEvent: Click on 'Mijn locatie'")
+      ;(window as any)?.dataLayer.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'buttonClick', // TODO: deze actie staat niet in de lijst, kun je hier gewoon actions aan toevoegen?
+          label: 'Mijn locatie',
+        },
+      })
 
       event.preventDefault()
 

@@ -25,10 +25,13 @@ export const LinkExpired = () => {
     [onClick]
   )
 
-  // TODO: IMPLEMENT PIWIK EVENT HERE
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(`virtualPageview: /mijn-meldingen/verlopen`)
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: `/mijn-meldingen/verlopen`,
+      },
+    })
   }, [])
 
   return (
