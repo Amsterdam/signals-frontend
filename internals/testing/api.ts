@@ -1,5 +1,7 @@
 const API_BASE_URL = 'http://localhost:8000/signals/v1'
 
+export const SIGNAL = `${API_BASE_URL}/signals`
+
 export const AUTOCOMPLETE_USERNAMES = `${API_BASE_URL}/private/autocomplete/usernames`
 export const USERS = `${API_BASE_URL}/private/users`
 export const STATUS_MESSAGE_TEMPLATES = /status-message-templates/

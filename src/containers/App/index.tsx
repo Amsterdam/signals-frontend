@@ -9,8 +9,10 @@ import styled from 'styled-components'
 import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
 import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
+import MaintenancePage from 'components/pages/MaintenancePage'
 import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
+import { useCheckApiHealth } from 'hooks/useApiHealthCheck'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
@@ -76,6 +78,8 @@ export const AppContainer = () => {
     (isFrontOffice && !getIsAuthenticated()) || tallHeaderByDefault
 
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
+
+  useCheckApiHealth()
 
   useEffect(() => {
     const { referrer } = location
@@ -182,6 +186,7 @@ export const AppContainer = () => {
                     path="/verify_email/:token"
                     element={<VerificationPage />}
                   />
+                  <Route path={'/onderhoud'} element={<MaintenancePage />} />
                   <Route path={'*'} element={<NotFoundPage />} />
                 </Routes>
               </Suspense>
