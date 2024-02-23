@@ -1,5 +1,5 @@
 {
-  "apiBaseUrl": "https://api.acc.meldingen.amsterdam.nl",
+  "apiBaseUrl": "http://localhost:8000",
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
     "assignSignalToDepartment": false,
