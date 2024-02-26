@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2024 Gemeente Amsterdam
+import { useEffect } from 'react'
+
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -12,23 +14,29 @@ export const useCheckApiHealth = async () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  if (location.pathname.includes('/onderhoud')) return null
+  useEffect(() => {
+    async function checkHealth() {
+      try {
+        const response = await fetch(`${configuration.apiBaseUrl}/signals/`, {
+          method: 'HEAD',
+        })
 
-  try {
-    const response = await fetch(`${configuration.apiBaseUrl}/signals/`, {
-      method: 'HEAD',
-    })
-
-    if (response.status === 503) {
-      navigate('/onderhoud')
+        if (response.status === 503) {
+          navigate('/onderhoud')
+        }
+      } catch (error) {
+        dispatch(
+          showGlobalNotification({
+            title: 'Er kon geen health check worden uitgevoerd op de API.',
+            variant: VARIANT_ERROR,
+            type: TYPE_LOCAL,
+          })
+        )
+      }
     }
-  } catch (error) {
-    dispatch(
-      showGlobalNotification({
-        title: 'Er kon geen health check worden uitgevoerd op de API.',
-        variant: VARIANT_ERROR,
-        type: TYPE_LOCAL,
-      })
-    )
-  }
+
+    checkHealth()
+  }, [dispatch, navigate])
+
+  if (location.pathname.includes('/onderhoud')) return null
 }
