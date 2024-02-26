@@ -6,7 +6,7 @@ import { withAppContext } from 'test/utils'
 
 import MaintenancePage from './MaintenancePage'
 
-describe('MainteancePage', () => {
+describe('MaintenancePage', () => {
   it('should render MaintenancePage', () => {
     render(withAppContext(<MaintenancePage />))
 

@@ -9,7 +9,7 @@ import { showGlobalNotification } from 'containers/App/actions'
 import { TYPE_LOCAL, VARIANT_ERROR } from 'containers/Notification/constants'
 import configuration from 'shared/services/configuration/configuration'
 
-export const useCheckApiHealth = async () => {
+export const useApiHealthCheck = async () => {
   const dispatch = useDispatch()
   const location = useLocation()
   const navigate = useNavigate()

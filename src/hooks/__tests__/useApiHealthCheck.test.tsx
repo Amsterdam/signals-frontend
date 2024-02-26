@@ -11,7 +11,7 @@ import {
   mockRequestHandler,
   fetchMock,
 } from '../../../internals/testing/msw-server'
-import { useCheckApiHealth } from '../useApiHealthCheck'
+import { useApiHealthCheck } from '../useApiHealthCheck'
 
 jest.spyOn(global.document, 'dispatchEvent')
 
@@ -37,7 +37,7 @@ const renderhookOptions = {
   wrapper: ({ children }: any) => withAppContext(children),
 }
 
-describe('useCheckApiHealth', () => {
+describe('useApiHealthCheck', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -50,7 +50,7 @@ describe('useCheckApiHealth', () => {
       body: null,
     })
 
-    renderHook(() => useCheckApiHealth(), renderhookOptions)
+    renderHook(() => useApiHealthCheck(), renderhookOptions)
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/onderhoud')
@@ -71,7 +71,7 @@ describe('useCheckApiHealth', () => {
       search: '',
       state: null,
     }))
-    renderHook(() => useCheckApiHealth(), renderhookOptions)
+    renderHook(() => useApiHealthCheck(), renderhookOptions)
 
     await waitFor(() => {
       expect(mockNavigate).not.toHaveBeenCalledWith('/onderhoud')

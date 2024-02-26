@@ -12,7 +12,7 @@ import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
 import MaintenancePage from 'components/pages/MaintenancePage'
 import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
-import { useCheckApiHealth } from 'hooks/useApiHealthCheck'
+import { useApiHealthCheck } from 'hooks/useApiHealthCheck'
 import useIsFrontOffice from 'hooks/useIsFrontOffice'
 import useLocationReferrer from 'hooks/useLocationReferrer'
 import { fetchCategories as fetchCategoriesAction } from 'models/categories/actions'
@@ -79,7 +79,7 @@ export const AppContainer = () => {
 
   const contextValue = useMemo(() => ({ loading, sources }), [loading, sources])
 
-  useCheckApiHealth()
+  useApiHealthCheck()
 
   useEffect(() => {
     const { referrer } = location
