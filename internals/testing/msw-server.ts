@@ -48,7 +48,7 @@ interface MockRequestHandlerArgs {
   status?: number
   body: any
   url?: string | RegExp
-  method?: 'get' | 'patch' | 'post'
+  method?: 'get' | 'patch' | 'post' | 'head'
 }
 
 export const mockRequestHandler = ({
