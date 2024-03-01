@@ -2,7 +2,6 @@
 // Copyright (C) 2024 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
-// import { StyledAlert } from './styled'
 import { Alert, Heading } from '@amsterdam/asc-ui'
 
 import BasePage from '../BasePage'
