@@ -2,7 +2,8 @@
 // Copyright (C) 2024 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
-import { Alert } from '@amsterdam/asc-ui'
+// import { StyledAlert } from './styled'
+import { Alert, Heading } from '@amsterdam/asc-ui'
 
 import BasePage from '../BasePage'
 
@@ -11,11 +12,13 @@ const MaintenancePage: FunctionComponent = () => (
     documentTitle="Onderhoudspagina"
     pageTitle={'Melding openbare ruimte en overlast'}
   >
-    <Alert
-      level="error"
-      heading="Tijdelijk niet te gebruiken"
-      content="Wij zijn dit formulier aan het verbeteren. Daarom kunt u het formulier korte tijd niet gebruiken. Probeer het later nog eens."
-    />
+    <Alert level="error">
+      <Heading as="h2">Tijdelijk niet te gebruiken</Heading>
+      <p>
+        Wij zijn dit formulier aan het verbeteren. Daarom kunt u het formulier
+        korte tijd niet gebruiken. Probeer het later nog eens.
+      </p>
+    </Alert>
   </BasePage>
 )
 
