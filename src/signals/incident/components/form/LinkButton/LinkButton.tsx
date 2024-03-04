@@ -22,7 +22,22 @@ const LinkButton: FunctionComponent<ButtonProps> = ({
       </Heading>
     )}
 
-    <Button type="button" variant="primary" as="a" href={href}>
+    <Button
+      type="button"
+      variant="primary"
+      as="a"
+      href={href}
+      onClick={() => {
+        ;(window as any)?.dataLayer.push({
+          event: 'interaction.generic.component.linkClick',
+          meta: {
+            category: 'interaction.generic.component.linkClick',
+            action: 'verificationPageLink - intern',
+            label: 'Doe een melding - /incident/beschrijf',
+          },
+        })
+      }}
+    >
       {label}
     </Button>
   </div>
