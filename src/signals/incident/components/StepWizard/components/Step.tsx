@@ -11,12 +11,14 @@ export default function Step({
   id: string
 }) {
   useEffect(() => {
-    ;(window as any).dataLayer?.push({
-      event: 'interaction.component.virtualPageview',
-      meta: {
-        vpv_url: `/${id}/`,
-      },
-    })
+    // Do not log the 'Opslaan' page
+    id !== 'incident/opslaan' &&
+      (window as any).dataLayer?.push({
+        event: 'interaction.component.virtualPageview',
+        meta: {
+          vpv_url: `/${id}/`,
+        },
+      })
   }, [id])
 
   return <div id={id}>{render()}</div>
