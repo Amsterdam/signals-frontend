@@ -130,6 +130,9 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
               render={({ field, fieldState: { error } }) => (
                 <StyledAddNote
                   {...field}
+                  description="Zorg ervoor dat hier duidelijk staat wat het specifieke probleem is
+                  dat de afdeling moet behandelen. Verwijder uit de meldtekst wat niet
+                  van belang is. En verduidelijk het verzoek waar nodig is."
                   error={error && error.message}
                   isStandalone={false}
                   label="Omschrijving"
