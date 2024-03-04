@@ -17,9 +17,6 @@ import configuration from 'shared/services/configuration/configuration'
 
 // Import root app
 
-// Import translations
-import 'shared/services/i18n/i18n'
-
 // Import CSS and Global Styles
 import './global.css'
 import './polyfills'
