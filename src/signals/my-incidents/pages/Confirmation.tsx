@@ -79,6 +79,15 @@ export const Confirmation = () => {
     }
   }, [errorMessage])
 
+  useEffect(() => {
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: `/mijn-meldingen/bevestig/`,
+      },
+    })
+  }, [])
+
   return (
     <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />
   )
