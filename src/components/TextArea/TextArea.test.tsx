@@ -39,6 +39,16 @@ describe('components/TextArea', () => {
     expect(screen.getByText('Notitie')).toBeInTheDocument()
   })
 
+  it('renders description', () => {
+    render(
+      withAppContext(
+        <TextArea label="Notitie" description="Omschrijving van text area" />
+      )
+    )
+
+    expect(screen.getByText('Omschrijving van text area')).toBeInTheDocument()
+  })
+
   it('renders error', () => {
     render(withAppContext(<TextArea errorMessage="Dit veld is verplicht" />))
 
