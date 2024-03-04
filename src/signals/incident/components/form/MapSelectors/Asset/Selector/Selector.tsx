@@ -129,7 +129,7 @@ const Selector: FC = () => {
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
-          action: 'clickOnMap', // TODO: Deze actie bestaat niet, kun je zomaar actions toevoegen?
+          action: 'pinClick',
           label: 'Click on map',
         },
       })
