@@ -12,6 +12,7 @@ import {
   StyledArea,
   InfoText,
   ErrorWrapper,
+  Paragraph,
 } from './styled'
 
 interface TextAreaProps extends AscTextAreaProps {
@@ -25,6 +26,7 @@ interface TextAreaProps extends AscTextAreaProps {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
   rows?: number
   value?: string
+  description?: string
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
@@ -39,6 +41,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
       maxContentLength,
       onChange,
       value,
+      description,
       ...props
     },
     ref?: ForwardedRef<HTMLTextAreaElement>
@@ -84,6 +87,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
             />
           )}
         </div>
+
+        {description && <Paragraph>{description}</Paragraph>}
 
         <StyledArea
           aria-describedby="textareaInfoText textareaErrorMessage"

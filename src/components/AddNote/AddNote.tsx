@@ -28,6 +28,7 @@ export interface AddNoteProps {
   rows?: number
   value?: string
   withToggle?: boolean
+  description?: string
 }
 
 const NoteButton = styled(Button)`
