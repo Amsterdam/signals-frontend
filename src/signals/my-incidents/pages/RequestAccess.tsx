@@ -12,7 +12,7 @@ export const RequestAccess = () => {
     ;(window as any).dataLayer?.push({
       event: 'interaction.component.virtualPageview',
       meta: {
-        vpv_url: `/mijn-meldingen/login`,
+        vpv_url: `/mijn-meldingen/login/`,
       },
     })
   }, [])

@@ -14,7 +14,7 @@ export default function Step({
     ;(window as any).dataLayer?.push({
       event: 'interaction.component.virtualPageview',
       meta: {
-        vpv_url: `/${id}`,
+        vpv_url: `/${id}/`,
       },
     })
   }, [id])

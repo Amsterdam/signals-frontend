@@ -29,7 +29,7 @@ export const LinkExpired = () => {
     ;(window as any).dataLayer?.push({
       event: 'interaction.component.virtualPageview',
       meta: {
-        vpv_url: `/mijn-meldingen/verlopen`,
+        vpv_url: `/mijn-meldingen/verlopen/`,
       },
     })
   }, [])

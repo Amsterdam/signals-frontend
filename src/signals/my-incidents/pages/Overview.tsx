@@ -44,7 +44,7 @@ export const Overview = () => {
     ;(window as any).dataLayer?.push({
       event: 'interaction.component.virtualPageview',
       meta: {
-        vpv_url: `/mijn-meldingen/ingelogd`,
+        vpv_url: `/mijn-meldingen/ingelogd/`,
       },
     })
   }, [])

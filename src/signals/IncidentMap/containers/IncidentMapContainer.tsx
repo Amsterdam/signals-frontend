@@ -17,7 +17,7 @@ export const IncidentMapContainer = () => {
     ;(window as any).dataLayer?.push({
       event: 'interaction.component.virtualPageview',
       meta: {
-        vpv_url: '/meldingenkaart',
+        vpv_url: '/meldingenkaart/',
       },
     })
   }, [])
