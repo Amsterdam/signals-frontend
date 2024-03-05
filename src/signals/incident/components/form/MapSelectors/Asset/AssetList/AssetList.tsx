@@ -52,21 +52,24 @@ const AssetList: FunctionComponent<AssetListProps> = ({
     <>
       {renderAssetListHeading && (
         <>
-          <ListHeading>
-            {(objectTypePlural && capitalize(objectTypePlural)) || 'Objecten'}
-          </ListHeading>
           {featureTypes.length > 0 &&
             !(
               (selectableComponents && selectableComponents?.length > 0) ||
               (selection && selection.length > 0)
             ) && (
-              <ListDescription>
-                {`Er zijn geen ${
-                  objectTypePlural || 'objecten'
-                } in de buurt. Versleep de kaart om de ${
-                  objectTypePlural || 'objecten'
-                } te zien.`}
-              </ListDescription>
+              <>
+                <ListHeading>
+                  {(objectTypePlural && capitalize(objectTypePlural)) ||
+                    'Objecten'}
+                </ListHeading>
+                <ListDescription>
+                  {`Er zijn geen ${
+                    objectTypePlural || 'objecten'
+                  } in de buurt. Versleep de kaart om de ${
+                    objectTypePlural || 'objecten'
+                  } te zien.`}
+                </ListDescription>
+              </>
             )}
         </>
       )}
