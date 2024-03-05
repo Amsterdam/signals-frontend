@@ -132,7 +132,7 @@ const IncidentSplitFormIncident: FC<IncidentSplitFormIncidentProps> = ({
                   {...field}
                   description="Zorg ervoor dat hier duidelijk staat wat het specifieke probleem is
                   dat de afdeling moet behandelen. Verwijder uit de meldtekst wat niet
-                  van belang is. En verduidelijk het verzoek waar nodig is."
+                  van belang is. En verduidelijk het verzoek waar dat nodig is."
                   error={error && error.message}
                   isStandalone={false}
                   label="Omschrijving"
