@@ -28,7 +28,7 @@ const LinkButton: FunctionComponent<ButtonProps> = ({
       as="a"
       href={href}
       onClick={() => {
-        ;(window as any)?.dataLayer.push({
+        ;(window as any)?.dataLayer?.push({
           event: 'interaction.generic.component.linkClick',
           meta: {
             category: 'interaction.generic.component.linkClick',

@@ -125,7 +125,7 @@ const Selector: FC = () => {
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
-      ;(window as any)?.dataLayer.push({
+      ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
@@ -201,7 +201,7 @@ const Selector: FC = () => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
       setOptionsList(null)
-      ;(window as any)?.dataLayer.push({
+      ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',

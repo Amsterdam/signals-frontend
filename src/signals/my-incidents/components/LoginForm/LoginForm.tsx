@@ -41,7 +41,7 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
   const { setEmail } = useMyIncidentContext()
 
   const onSubmit = async ({ email }: FormData) => {
-    ;(window as any)?.dataLayer.push({
+    ;(window as any)?.dataLayer?.push({
       event: 'interaction.generic.component.linkClick',
       meta: {
         category: 'interaction.generic.component.linkClick',

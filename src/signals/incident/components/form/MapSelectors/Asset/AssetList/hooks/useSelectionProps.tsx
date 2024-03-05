@@ -56,7 +56,7 @@ export const useSelectionProps = ({
         location.address = response.data.address
         item.address = response.data.address
       }
-      ;(window as any)?.dataLayer.push({
+      ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',

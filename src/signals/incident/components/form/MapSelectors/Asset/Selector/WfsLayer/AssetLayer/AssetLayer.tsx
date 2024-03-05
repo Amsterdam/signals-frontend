@@ -75,7 +75,7 @@ export const AssetLayer: FC = () => {
         } (${id})`
 
     const onClick = async () => {
-      ;(window as any)?.dataLayer.push({
+      ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',

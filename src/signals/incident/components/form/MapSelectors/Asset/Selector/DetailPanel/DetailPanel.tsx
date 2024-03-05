@@ -66,7 +66,7 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
     (option: PdokResponse) => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
-      ;(window as any)?.dataLayer.push({
+      ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
