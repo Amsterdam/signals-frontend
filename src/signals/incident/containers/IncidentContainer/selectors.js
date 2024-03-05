@@ -3,21 +3,20 @@
 import { createSelector } from 'reselect'
 
 import { initialState } from './reducer'
-
-export const getClassificationData = (
-  category,
-  subcategory,
-  { _links, name, slug, handling_message }
-) => ({
-  category,
-  subcategory,
-  handling_message,
-  classification: {
-    id: _links.self.href,
-    name,
-    slug,
-  },
-})
+export const getClassificationData = (category, subcategory, categoryData) => {
+  const { _links, name, slug, handling_message } = categoryData
+  return {
+    category,
+    subcategory,
+    category_is_public_accessible: categoryData?.is_public_accessible,
+    handling_message,
+    classification: {
+      id: _links.self.href,
+      name,
+      slug,
+    },
+  }
+}
 
 export const selectIncidentContainerDomain = (state) =>
   state?.incidentContainer || initialState
