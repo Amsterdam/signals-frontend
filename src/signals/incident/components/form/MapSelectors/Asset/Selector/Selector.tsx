@@ -205,7 +205,7 @@ const Selector: FC = () => {
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
-          action: 'useAutosuggest', // TODO: deze actie staat niet in de lijst, kun je hier gewoon actions aan toevoegen?
+          action: 'useAutosuggest',
           label: `${address.openbare_ruimte} ${address.huisnummer} ${address.postcode} ${address.woonplaats}`,
         },
       })

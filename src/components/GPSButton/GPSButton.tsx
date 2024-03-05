@@ -74,7 +74,7 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
-          action: 'buttonClick', // TODO: deze actie staat niet in de lijst, kun je hier gewoon actions aan toevoegen?
+          action: 'buttonClick',
           label: 'Mijn locatie',
         },
       })
