@@ -193,6 +193,7 @@ describe('IncidentContainer saga', () => {
         category: 'overig',
         subcategory: 'overig',
         handling_message,
+        category_is_public_accessible: false,
         classification,
       }
 
