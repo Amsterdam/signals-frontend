@@ -147,7 +147,8 @@ const IncidentSplitForm: FC<IncidentSplitFormProps> = ({
                     isStandalone={false}
                     label={
                       <Fragment>
-                        Notitie <ThinLabel>(niet verplicht)</ThinLabel>
+                        Notitie hoofdmelding{' '}
+                        <ThinLabel>(niet verplicht)</ThinLabel>
                       </Fragment>
                     }
                     maxContentLength={maxNoteLength}

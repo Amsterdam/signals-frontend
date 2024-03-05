@@ -16,6 +16,13 @@ export const StyledErrorMessage = styled(ErrorMessage)`
   margin-bottom: ${themeSpacing(2)};
 `
 
+export const Paragraph = styled.p`
+  font-weight: 400;
+  size: 1rem;
+  line-height: 22px;
+  margin: ${themeSpacing(2, 0)};
+`
+
 export const StyledArea = styled(AscTextArea)<{
   rows?: number
   maxRows?: number
