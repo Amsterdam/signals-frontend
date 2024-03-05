@@ -188,6 +188,12 @@ describe('AssetList', () => {
       expect(screen.getByTestId('asset-list-item')).toBeInTheDocument()
     })
 
+    it('should not render ListHeading when there are no features', () => {
+      render(withAppContext(<AssetList {...props} />))
+
+      expect(screen.queryByText('Objecten')).not.toBeInTheDocument()
+    })
+
     it('renders a selection and selectable items', () => {
       render(withAppContext(<AssetList {...props} />))
 
@@ -218,6 +224,7 @@ describe('AssetList', () => {
         screen.queryByTestId('asset-list-item-selectable')
       ).not.toBeInTheDocument()
 
+      expect(screen.getByText('Objecten')).toBeInTheDocument()
       expect(
         screen.getByText(
           'Er zijn geen objecten in de buurt. Versleep de kaart om de objecten te zien.'
