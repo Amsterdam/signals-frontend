@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+// Copyright (C) 2020 - 2024 Gemeente Amsterdam
 import {
   useMemo,
   useContext,

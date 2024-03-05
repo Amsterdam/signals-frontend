@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2024 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
 import { Button, Heading } from '@amsterdam/asc-ui'

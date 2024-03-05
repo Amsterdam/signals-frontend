@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2023 Gemeente Amsterdam
+// Copyright (C) 2023 - 2024 Gemeente Amsterdam
 import { lazy, Suspense, useEffect } from 'react'
 
 import ReactDOM from 'react-dom'
