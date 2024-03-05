@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2023 Gemeente Amsterdam
+// Copyright (C) 2023 - 2024 Gemeente Amsterdam
 import { useState, useCallback, useMemo, useEffect } from 'react'
 
 import { useNavigate } from 'react-router-dom'
@@ -78,6 +78,15 @@ export const Confirmation = () => {
       setParagraphs([errorMessage])
     }
   }, [errorMessage])
+
+  useEffect(() => {
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: `/mijn-meldingen/bevestig/`,
+      },
+    })
+  }, [])
 
   return (
     <BasePage buttons={buttons} pageInfo={pageInfo} paragraphs={paragraphs} />

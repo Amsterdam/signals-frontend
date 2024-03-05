@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2024 Gemeente Amsterdam
 import type { FunctionComponent } from 'react'
 
 import { Button, Heading } from '@amsterdam/asc-ui'
@@ -22,7 +22,22 @@ const LinkButton: FunctionComponent<ButtonProps> = ({
       </Heading>
     )}
 
-    <Button type="button" variant="primary" as="a" href={href}>
+    <Button
+      type="button"
+      variant="primary"
+      as="a"
+      href={href}
+      onClick={() => {
+        ;(window as any)?.dataLayer?.push({
+          event: 'interaction.generic.component.linkClick',
+          meta: {
+            category: 'interaction.generic.component.linkClick',
+            action: 'verificationPageLink - intern',
+            label: 'Doe een melding - /incident/beschrijf',
+          },
+        })
+      }}
+    >
       {label}
     </Button>
   </div>

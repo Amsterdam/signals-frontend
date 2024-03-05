@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2022 Gemeente Amsterdam
+// Copyright (C) 2020 - 2024 Gemeente Amsterdam
 import { useCallback, useState } from 'react'
 import type { FunctionComponent, HTMLProps } from 'react'
 
@@ -70,6 +70,15 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
 
   const onClick = useCallback(
     (event) => {
+      ;(window as any)?.dataLayer?.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'buttonClick',
+          label: 'Mijn locatie',
+        },
+      })
+
       event.preventDefault()
 
       if (loading) return

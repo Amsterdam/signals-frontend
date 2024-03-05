@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+// Copyright (C) 2020 - 2024 Gemeente Amsterdam
 import {
   useMemo,
   useContext,
@@ -125,6 +125,15 @@ const Selector: FC = () => {
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
+      ;(window as any)?.dataLayer?.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'pinClick',
+          label: 'Click on map',
+        },
+      })
+
       fetchLocation(latlng)
     },
     [fetchLocation]
@@ -192,6 +201,14 @@ const Selector: FC = () => {
       const { location, address } = option.data
       setLocation({ coordinates: location, address })
       setOptionsList(null)
+      ;(window as any)?.dataLayer?.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'useAutosuggest',
+          label: `${address.openbare_ruimte} ${address.huisnummer} ${address.postcode} ${address.woonplaats}`,
+        },
+      })
     },
     [setLocation]
   )

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2022 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import type { ReactNode } from 'react'
 
 import {
@@ -49,6 +49,17 @@ const Markdown = ({ children, hideTabindexLink, ...props }: Props) => (
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       a: ({ node, ...props }) => (
         <Link
+          onClick={() => {
+            props.href === '/meldingenkaart' &&
+              (window as any)?.dataLayer?.push({
+                event: 'interaction.generic.component.linkClick',
+                meta: {
+                  category: 'interaction.generic.component.linkClick',
+                  action: 'introLink - intern',
+                  label: 'meldingenkaart - /meldingenkaart',
+                },
+              })
+          }}
           tabIndex={hideTabindexLink ? -1 : 0}
           variant="inline"
           {...props}

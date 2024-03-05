@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2023 Gemeente Amsterdam
+// Copyright (C) 2023 - 2024 Gemeente Amsterdam
 import { useContext } from 'react'
 
 import { useSelector } from 'react-redux'
@@ -56,6 +56,14 @@ export const useSelectionProps = ({
         location.address = response.data.address
         item.address = response.data.address
       }
+      ;(window as any)?.dataLayer?.push({
+        event: 'interaction.generic.component.mapInteraction',
+        meta: {
+          category: 'interaction.generic.component.mapInteraction',
+          action: 'checkboxClickOn',
+          label: `${item.label}`,
+        },
+      })
 
       setItem(item, location)
     }

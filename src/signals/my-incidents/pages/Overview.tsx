@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 Gemeente Amsterdam
+// Copyright (C) 2022 - 2024 Gemeente Amsterdam
 import { useEffect } from 'react'
 
 import { Paragraph } from '@amsterdam/asc-ui'
@@ -40,6 +40,15 @@ export const Overview = () => {
       )
   }, [email, get, token])
 
+  useEffect(() => {
+    ;(window as any).dataLayer?.push({
+      event: 'interaction.component.virtualPageview',
+      meta: {
+        vpv_url: `/mijn-meldingen/ingelogd/`,
+      },
+    })
+  }, [])
+
   return (
     <StyledRow>
       <Wrapper>
@@ -60,6 +69,16 @@ export const Overview = () => {
         </Paragraph>
         <StyledLink
           to="/incident/beschrijf"
+          onClick={() =>
+            (window as any)?.dataLayer?.push({
+              event: 'interaction.generic.component.linkClick',
+              meta: {
+                category: 'interaction.generic.component.linkClick',
+                action: 'myIncidentsOverview - intern',
+                label: 'Maak een nieuwe melding - /incident/beschrijf',
+              },
+            })
+          }
           variant="inline"
           fontSize={16}
           forwardedAs={Link}

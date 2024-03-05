@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2022 - 2023 Gemeente Amsterdam
+// Copyright (C) 2022 - 2024 Gemeente Amsterdam
 import { useEffect } from 'react'
 
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -41,6 +41,15 @@ export const LoginForm = ({ setErrorMessage }: Props) => {
   const { setEmail } = useMyIncidentContext()
 
   const onSubmit = async ({ email }: FormData) => {
+    ;(window as any)?.dataLayer?.push({
+      event: 'interaction.generic.component.linkClick',
+      meta: {
+        category: 'interaction.generic.component.linkClick',
+        action: 'loginMail - intern',
+        label: 'Inloggen',
+      },
+    })
+
     await postEmail(email)
     setEmail(email)
   }
