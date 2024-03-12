@@ -10,6 +10,10 @@ import useFetch from 'hooks/useFetch'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import {
+  makeSelectCategory,
+  makeSelectIncidentContainer,
+} from 'signals/incident/containers/IncidentContainer/selectors'
+import {
   get,
   mockUseMapInstance,
   useFetchResponse,
@@ -47,15 +51,25 @@ const renderWithContext = () =>
 describe('NearbyLayer', () => {
   beforeEach(() => {
     get.mockReset()
-
     Leaflet.FeatureGroup.prototype.addLayer = jest.fn()
     Leaflet.FeatureGroup.prototype.clearLayers = jest.fn()
     Leaflet.FeatureGroup.prototype.clearAllEventListeners = jest.fn()
     Leaflet.Marker.prototype.setIcon = jest.fn()
 
-    jest
-      .spyOn(reactRedux, 'useSelector')
-      .mockReturnValue({ category, subcategory })
+    jest.spyOn(reactRedux, 'useSelector').mockImplementation((selector) => {
+      switch (selector) {
+        case makeSelectCategory: {
+          return { category, subcategory }
+        }
+        case makeSelectIncidentContainer: {
+          return {
+            incident: { category_is_public_accessible: true },
+          }
+        }
+        default:
+          break
+      }
+    })
 
     jest.mocked(useFetch).mockImplementation(() => useFetchResponse)
   })
@@ -78,6 +92,31 @@ describe('NearbyLayer', () => {
     expect(get).toHaveBeenCalledWith(
       expect.stringContaining(configuration.GEOGRAPHY_PUBLIC_ENDPOINT)
     )
+  })
+
+  it('does not send a request to the API on mount when the category is not public accessible', async () => {
+    jest.spyOn(useLayerVisible, 'default').mockImplementation(() => true)
+    jest.spyOn(reactRedux, 'useSelector').mockImplementation((selector) => {
+      switch (selector) {
+        case makeSelectCategory: {
+          return { category, subcategory }
+        }
+        case makeSelectIncidentContainer: {
+          return {
+            incident: { category_is_public_accessible: false },
+          }
+        }
+        default:
+          break
+      }
+    })
+    expect(get).not.toHaveBeenCalled()
+
+    renderWithContext()
+
+    await screen.findByTestId('nearby-layer')
+
+    expect(get).toHaveBeenCalledTimes(0)
   })
 
   it('renders markers', () => {

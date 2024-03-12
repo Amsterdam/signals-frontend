@@ -22,7 +22,10 @@ import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/const
 import useBoundingBox from 'signals/incident/components/form/MapSelectors/hooks/useBoundingBox'
 import useLayerVisible from 'signals/incident/components/form/MapSelectors/hooks/useLayerVisible'
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
-import { makeSelectCategory } from 'signals/incident/containers/IncidentContainer/selectors'
+import {
+  makeSelectCategory,
+  makeSelectIncidentContainer,
+} from 'signals/incident/containers/IncidentContainer/selectors'
 import type { Location } from 'types/incident'
 
 import { formattedDate } from '../utils'
@@ -81,6 +84,7 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   const layerVisible = useLayerVisible(zoomLevel)
   const mapInstance = useMapInstance()
   const { category, subcategory } = useSelector(makeSelectCategory)
+  const { incident } = useSelector(makeSelectIncidentContainer)
   const { get, data, error } = useFetch<FeatureCollection<Point, Properties>>()
   const [activeLayer, setActiveLayer] = useState<NearbyMarker>()
   const featureGroup = useRef<L.FeatureGroup<NearbyMarker>>(L.featureGroup())
@@ -134,7 +138,14 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
   })
 
   useEffect(() => {
-    if (!layerVisible || !bbox || !category || !subcategory) return
+    if (
+      !layerVisible ||
+      !bbox ||
+      !category ||
+      !subcategory ||
+      !incident?.category_is_public_accessible
+    )
+      return
 
     const { west, south, east, north } = bbox
     const searchParams = new URLSearchParams({
@@ -144,7 +155,14 @@ export const NearbyLayer: FC<NearbyLayerProps> = ({ zoomLevel }) => {
     })
 
     get(`${configuration.GEOGRAPHY_PUBLIC_ENDPOINT}?${searchParams.toString()}`)
-  }, [layerVisible, get, bbox, category, subcategory])
+  }, [
+    layerVisible,
+    get,
+    bbox,
+    category,
+    subcategory,
+    incident?.category_is_public_accessible,
+  ])
 
   useEffect(() => {
     featureGroup.current.clearLayers()
