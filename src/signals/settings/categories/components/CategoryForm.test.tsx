@@ -54,7 +54,7 @@ const defaultProps: Omit<Props, 'formMethods'> = {
   isMainCategory: false,
   isPublicAccessibleLabel:
     'Toon meldingen van deze subcategorie op openbare kaarten en op de kaart in het meldformulier.',
-  defaultValues: null,
+  defaultValues: mockFormValues,
 }
 
 const Wrapper = ({
