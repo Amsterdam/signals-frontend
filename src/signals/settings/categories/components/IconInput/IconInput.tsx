@@ -145,12 +145,7 @@ export const IconInput = ({ formMethods, icon }: Props) => {
           <StyledDiv>
             {fileDataURL && (
               <StyledIcon size={32}>
-                <img
-                  width={32}
-                  height={32}
-                  alt="Icoon"
-                  src={`${fileDataURL}`}
-                />
+                <img width={32} height={32} alt="Icoon" src={fileDataURL} />
               </StyledIcon>
             )}
 

@@ -50,6 +50,7 @@ export interface Props {
   responsibleDepartments: string[]
   isMainCategory: boolean
   isPublicAccessibleLabel: string
+  currentIcon: string | null
 }
 
 export const CategoryForm = ({
@@ -61,6 +62,7 @@ export const CategoryForm = ({
   responsibleDepartments,
   isMainCategory,
   isPublicAccessibleLabel,
+  currentIcon,
 }: Props) => {
   return (
     <FormProvider {...formMethods}>
@@ -178,10 +180,7 @@ export const CategoryForm = ({
                   )}
                 </FieldGroup>
 
-                <IconInput
-                  formMethods={formMethods}
-                  icon={formMethods.getValues('icon')}
-                />
+                <IconInput formMethods={formMethods} icon={currentIcon} />
 
                 {formMethods.watch('is_public_accessible') && (
                   <FieldGroup>
