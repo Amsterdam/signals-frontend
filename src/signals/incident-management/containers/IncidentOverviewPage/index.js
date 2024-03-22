@@ -34,7 +34,6 @@ import {
   makeSelectErrorMessage,
   makeSelectFiltersOnOverview,
   makeSelectIncidents,
-  makeSelectOrdering,
   makeSelectPage,
 } from 'signals/incident-management/selectors'
 import { parseToAPIData } from 'signals/shared/filter/parse'
@@ -71,7 +70,6 @@ export const IncidentOverviewPageContainerComponent = ({
   clearFiltersAction,
   filters,
   incidents,
-  ordering,
   orderingChangedAction,
   page,
   pageChangedAction,
@@ -87,8 +85,6 @@ export const IncidentOverviewPageContainerComponent = ({
 
   const { count, loadingIncidents, results } = incidents
   const showsMap = location.pathname.split('/').pop() === MAP_URL
-  const hasActiveOrdering =
-    ordering && ordering !== '-created_at' && ordering !== 'created_at'
 
   const totalPages = useMemo(() => Math.ceil(count / FILTER_PAGE_SIZE), [count])
 
@@ -102,9 +98,7 @@ export const IncidentOverviewPageContainerComponent = ({
         )
       )
     : false
-
-  const disableFilters = hasActiveOrdering || searchQueryIncidents
-  const disableSorting = hasActiveFilters || searchQueryIncidents
+  const disableFiltersAndSorting = searchQueryIncidents
 
   useEffect(() => {
     if (errorMessage) {
@@ -219,8 +213,10 @@ export const IncidentOverviewPageContainerComponent = ({
             <StyledButton
               data-testid="my-filters-modal-btn"
               color="primary"
-              onClick={disableFilters ? showNotification : openMyFiltersModal}
-              $disabled={disableFilters}
+              onClick={
+                disableFiltersAndSorting ? showNotification : openMyFiltersModal
+              }
+              $disabled={disableFiltersAndSorting}
             >
               Mijn filters
             </StyledButton>
@@ -228,8 +224,10 @@ export const IncidentOverviewPageContainerComponent = ({
             <StyledButton
               data-testid="filter-modal-btn"
               color="primary"
-              onClick={disableFilters ? showNotification : openFilterModal}
-              $disabled={disableFilters}
+              onClick={
+                disableFiltersAndSorting ? showNotification : openFilterModal
+              }
+              $disabled={disableFiltersAndSorting}
             >
               Filter
             </StyledButton>
@@ -258,7 +256,7 @@ export const IncidentOverviewPageContainerComponent = ({
           </Modal>
         )}
 
-        {!disableFilters && (
+        {!disableFiltersAndSorting && (
           <Column span={12}>
             <QuickFilter filters={filters} setFilter={handleSetFilter} />
           </Column>
@@ -306,7 +304,7 @@ export const IncidentOverviewPageContainerComponent = ({
                 incidents={incidents.results}
                 incidentsCount={count}
                 isLoading={loadingIncidents}
-                sortingDisabled={disableSorting}
+                sortingDisabled={disableFiltersAndSorting}
                 {...dataLists}
               />
             )}
@@ -339,7 +337,6 @@ IncidentOverviewPageContainerComponent.propTypes = {
   }),
   orderingChangedAction: PropTypes.func.isRequired,
   pageChangedAction: PropTypes.func.isRequired,
-  ordering: PropTypes.string.isRequired,
   page: PropTypes.number,
   errorMessage: PropTypes.string,
 }
@@ -348,7 +345,6 @@ const mapStateToProps = createStructuredSelector({
   activeFilter: makeSelectActiveFilter,
   filters: makeSelectFiltersOnOverview,
   incidents: makeSelectIncidents,
-  ordering: makeSelectOrdering,
   page: makeSelectPage,
   errorMessage: makeSelectErrorMessage,
 })
