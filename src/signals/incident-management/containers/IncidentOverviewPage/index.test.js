@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
@@ -75,7 +75,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         loadingIncidents: true,
       },
       page: 3,
-      ordering: '-created_at',
       categories: {},
       orderingChangedAction: jest.fn(),
       pageChangedAction: jest.fn(),
@@ -259,7 +258,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       .props()
 
     expect(containerProps.activeFilter).not.toBeUndefined()
-    expect(containerProps.ordering).not.toBeUndefined()
     expect(containerProps.page).not.toBeUndefined()
   })
 
@@ -471,38 +469,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       expect(screen.getByTestId('my-filters-modal-btn')).not.toBeDisabled()
     })
 
-    it('should disable filter buttons when ordering is active and show notification when clicked', async () => {
-      const mockedGlobalNotification = mocked(
-        actions.showGlobalNotification,
-        true
-      ).mockReturnValue({
-        type: 'sia/App/SHOW_GLOBAL_NOTIFICATION',
-      })
-
-      render(
-        withAppContext(
-          <IncidentOverviewPageContainerComponent
-            {...props}
-            ordering={'status'}
-          />
-        )
-      )
-
-      const filterBtn = screen.getByTestId('filter-modal-btn')
-
-      userEvent.click(filterBtn)
-
-      await waitFor(() => {
-        expect(mockedGlobalNotification).toHaveBeenCalledWith(
-          expect.objectContaining({
-            title:
-              'Verwijder eerst uw zoekopdracht om de filteropties te gebruiken',
-            message: 'Daarna kunt u de filteropties gebruiken',
-          })
-        )
-      })
-    })
-
     it('should disable filter buttons when search is active and show notification when clicked', async () => {
       const mockedGlobalNotification = mocked(
         actions.showGlobalNotification,
@@ -531,7 +497,9 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
       })
     })
 
-    it('should hide quickfilters when filters are disabled', async () => {
+    it('should hide quickfilters when search is active and filters are disabled', async () => {
+      jest.spyOn(reactRedux, 'useSelector').mockReturnValue('mock-search-query')
+
       const name = 'mock-my-filter'
       const applyFilterSpy = jest.fn()
       const filters = [
@@ -546,7 +514,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
         withAppContext(
           <IncidentOverviewPageContainerComponent
             {...props}
-            ordering={'status'}
             applyFilterAction={applyFilterSpy}
             filters={filters}
           />
