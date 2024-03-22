@@ -6,7 +6,6 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   authCall,
@@ -87,8 +86,6 @@ describe('signals/incident-management/saga', () => {
             CLEAR_FILTERS,
             SEARCH_INCIDENTS,
             REQUEST_INCIDENTS,
-            SET_SEARCH_QUERY,
-            RESET_SEARCH_QUERY,
             PAGE_CHANGED,
             ORDERING_CHANGED,
             PATCH_INCIDENT_SUCCESS,

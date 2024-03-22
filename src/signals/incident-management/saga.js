@@ -13,7 +13,6 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   authCall,
@@ -107,7 +106,6 @@ export function* searchIncidents() {
     yield put(applyFilterRefreshStop())
 
     const { page, page_size, ordering } = yield select(makeSelectFilterParams)
-
     const incidents = yield call(authCall, CONFIGURATION.SEARCH_ENDPOINT, {
       q,
       page,
@@ -283,8 +281,6 @@ export default function* watchIncidentManagementSaga() {
         CLEAR_FILTERS,
         SEARCH_INCIDENTS,
         REQUEST_INCIDENTS,
-        SET_SEARCH_QUERY,
-        RESET_SEARCH_QUERY,
         PAGE_CHANGED,
         ORDERING_CHANGED,
         PATCH_INCIDENT_SUCCESS,
