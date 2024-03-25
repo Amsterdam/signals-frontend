@@ -127,6 +127,7 @@ describe('DetailPanel', () => {
       withAssetSelectContext(<DetailPanel {...props} />, {
         ...currentContextValue,
         selection: undefined,
+        selectableFeatures: [],
       })
     )
 

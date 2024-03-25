@@ -142,7 +142,8 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
               />
             </>
           )}
-          {((selection && selectionOnMap) || selectableFeatures) && (
+          {((selection && selectionOnMap) ||
+            (selectableFeatures && selectableFeatures.length > 0)) && (
             <StyledAssetList
               selection={selection}
               remove={removeItem}
