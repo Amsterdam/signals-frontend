@@ -257,7 +257,6 @@ describe('signals/incident-management/reducer', () => {
 
     const applied = (state) =>
       state
-        .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('activeFilter', fromJS(appliedFilter))
         .set('editFilter', fromJS(appliedFilter))

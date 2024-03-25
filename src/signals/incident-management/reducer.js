@@ -102,7 +102,6 @@ export default (state = initialState, action) => {
       return state
         .set('activeFilter', fromJS(action.payload))
         .set('editFilter', fromJS(action.payload))
-        .set('ordering', initialState.get('ordering'))
         .set('page', initialState.get('page'))
         .set('loadingIncidents', true)
 
