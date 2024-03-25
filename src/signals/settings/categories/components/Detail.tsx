@@ -200,6 +200,7 @@ export const CategoryDetail = ({
         readOnly={!userCanSubmitForm}
         responsibleDepartments={responsibleDepartments}
         isPublicAccessibleLabel={isPublicAccessibleLabel}
+        defaultValues={defaultValues}
       />
     </Fragment>
   )

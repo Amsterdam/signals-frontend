@@ -50,6 +50,7 @@ export interface Props {
   responsibleDepartments: string[]
   isMainCategory: boolean
   isPublicAccessibleLabel: string
+  defaultValues: CategoryFormValues | null
 }
 
 export const CategoryForm = ({
@@ -61,6 +62,7 @@ export const CategoryForm = ({
   responsibleDepartments,
   isMainCategory,
   isPublicAccessibleLabel,
+  defaultValues,
 }: Props) => {
   return (
     <FormProvider {...formMethods}>
@@ -88,9 +90,7 @@ export const CategoryForm = ({
                       <StyledDefinitionTerm>
                         <strong>Naam</strong>
                       </StyledDefinitionTerm>
-                      <dd data-testid="name">
-                        {formMethods.getValues('name')}
-                      </dd>
+                      <dd data-testid="name">{defaultValues?.name}</dd>
                     </>
                   )}
                 </FieldGroup>
@@ -180,7 +180,7 @@ export const CategoryForm = ({
 
                 <IconInput
                   formMethods={formMethods}
-                  icon={formMethods.getValues('icon')}
+                  icon={defaultValues?.icon || null}
                 />
 
                 {formMethods.watch('is_public_accessible') && (
