@@ -65,6 +65,7 @@ export interface AssetSelectProps {
 }
 
 const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
+  console.log('---  value:', value)
   const dispatch = useDispatch()
   const { selection, location } = value || {}
   const [message, setMessage] = useState<string>()
@@ -97,6 +98,7 @@ const AssetSelect: FC<AssetSelectProps> = ({ value, layer, meta, parent }) => {
         location: itemLocation || location,
         maxNumberOfAssets: maxNumberOfAssets || 1,
       }
+      console.log('--- setItem  payload:', payload)
       parent.meta.addToSelection({
         location: payload.location,
         [meta.name as string]: payload,
