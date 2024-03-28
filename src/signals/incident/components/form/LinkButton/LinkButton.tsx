@@ -32,7 +32,7 @@ const LinkButton: FunctionComponent<ButtonProps> = ({
           event: 'interaction.generic.component.linkClick',
           meta: {
             category: 'interaction.generic.component.linkClick',
-            action: 'verificationPageLink - intern',
+            action: 'confirmationPageLink - intern',
             label: 'Doe een melding - /incident/beschrijf',
           },
         })
