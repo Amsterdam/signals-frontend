@@ -79,7 +79,7 @@ export const AssetLayer: FC = () => {
         event: 'interaction.generic.component.mapInteraction',
         meta: {
           category: 'interaction.generic.component.mapInteraction',
-          action: 'pinClick',
+          action: 'objectClick',
           label: label,
         },
       })
