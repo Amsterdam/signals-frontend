@@ -162,7 +162,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThPriority}
               sortOption={SortOptions.PRIORITY_ASC}
-              headerText={SortOptionLabels.URGENTIE}
+              headerText={SortOptionLabels.PRIORITY}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -179,7 +179,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThDate}
               sortOption={SortOptions.CREATED_AT_DESC}
-              headerText={SortOptionLabels.DATUM}
+              headerText={SortOptionLabels.DATE}
               ordering={ordering}
               changeOrder={changeOrder}
             />
@@ -205,7 +205,7 @@ const List: FunctionComponent<ListProps> = ({
               headerText={
                 configuration.featureFlags.fetchDistrictsFromBackend
                   ? configuration.language.district
-                  : SortOptionLabels.STADSDEEL
+                  : SortOptionLabels.DISTRICT
               }
               ordering={ordering}
               changeOrder={changeOrder}
@@ -214,7 +214,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
-              headerText={SortOptionLabels.ADRES}
+              headerText={SortOptionLabels.ADDRESS}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -223,7 +223,7 @@ const List: FunctionComponent<ListProps> = ({
               <ThSort
                 StyledComponent={BaseTh}
                 sortOption={SortOptions.ASSIGNED_USER_EMAIL_ASC}
-                headerText={SortOptionLabels.TOEGEWEZEN_AAN}
+                headerText={SortOptionLabels.ASSIGNED_USER_EMAIL}
                 ordering={ordering}
                 changeOrder={changeOrder}
                 sortingDisabled={sortingDisabled}
