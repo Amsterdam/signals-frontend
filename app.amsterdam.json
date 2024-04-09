@@ -127,7 +127,7 @@
     }
   },
   "oidc": {
-    "authEndpoint": "https://iam.amsterdam.nl/auth",
+    "authEndpoint": "https://acc.iam.amsterdam.nl/auth",
     "clientId": "sia-frontend",
     "realm": "datapunt-ad-acc",
     "responseType": "code",

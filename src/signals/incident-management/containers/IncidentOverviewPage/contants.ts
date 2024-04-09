@@ -23,7 +23,8 @@ export enum SortOptionKeys {
   ADDRESS = 'adres',
   DATE = 'datum',
   ID = 'id',
-  DISTRICT = 'stadsdeel',
+  BUROUGH = 'stadsdeel',
+  DISTRICT = 'area_name',
   STATUS = 'status',
   SUBCATEGORY = 'subcategorie',
   PRIORITY = 'urgentie',
@@ -34,7 +35,7 @@ export enum SortOptionLabels {
   ADDRESS = 'Adres',
   DATE = 'Datum',
   ID = 'Id',
-  DISTRICT = 'Stadsdeel',
+  BUROUGH = 'Stadsdeel',
   STATUS = 'Status',
   SUBCATEGORY = 'Subcategorie',
   PRIORITY = 'Urgentie',
@@ -43,7 +44,7 @@ export enum SortOptionLabels {
 
 export type SortOption = {
   key: SortOptionKeys
-  label: string
+  label?: string
   asc: SortOptions
   desc: SortOptions
   asc_label: string
@@ -84,11 +85,18 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(hoog-laag)',
   },
   {
-    key: SortOptionKeys.DISTRICT,
-    label: SortOptionLabels.DISTRICT,
+    key: SortOptionKeys.BUROUGH,
+    label: SortOptionLabels.BUROUGH,
     asc: SortOptions.BUROUGH_ASC,
     asc_label: '(a-z)',
     desc: SortOptions.BUROUGH_DESC,
+    desc_label: '(z-a)',
+  },
+  {
+    key: SortOptionKeys.DISTRICT,
+    asc: SortOptions.DISTRICT_ASC,
+    asc_label: '(a-z)',
+    desc: SortOptions.DISTRICT_DESC,
     desc_label: '(z-a)',
   },
   {

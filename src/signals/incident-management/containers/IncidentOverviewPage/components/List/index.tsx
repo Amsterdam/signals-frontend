@@ -199,18 +199,25 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
-            <ThSort
-              StyledComponent={ThArea}
-              sortOption={SortOptions.BUROUGH_ASC}
-              headerText={
-                configuration.featureFlags.fetchDistrictsFromBackend
-                  ? configuration.language.district
-                  : SortOptionLabels.DISTRICT
-              }
-              ordering={ordering}
-              changeOrder={changeOrder}
-              sortingDisabled={sortingDisabled}
-            />
+            {configuration.featureFlags.fetchDistrictsFromBackend ? (
+              <ThSort
+                StyledComponent={ThArea}
+                sortOption={SortOptions.DISTRICT_ASC}
+                headerText={configuration.language.district}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            ) : (
+              <ThSort
+                StyledComponent={ThArea}
+                sortOption={SortOptions.BUROUGH_ASC}
+                headerText={SortOptionLabels.BUROUGH}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            )}
             <ThSort
               StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
