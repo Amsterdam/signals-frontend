@@ -27,6 +27,7 @@ export enum SortOptionKeys {
   STATUS = 'status',
   SUBCATEGORY = 'subcategorie',
   URGENTIE = 'urgentie',
+  TOEGEWEZEN_AAN = 'toegewezen_aan',
 }
 
 export enum SortOptionLabels {
@@ -37,6 +38,7 @@ export enum SortOptionLabels {
   STATUS = 'Status',
   SUBCATEGORY = 'Subcategorie',
   URGENTIE = 'Urgentie',
+  TOEGEWEZEN_AAN = 'Toegewezen aan',
 }
 
 export type SortOption = {
@@ -52,6 +54,14 @@ export const sortOptionsList: SortOption[] = [
   {
     key: SortOptionKeys.ADRES,
     label: SortOptionLabels.ADRES,
+    asc: SortOptions.ASSIGNED_USER_EMAIL_ASC,
+    asc_label: '(a-z)',
+    desc: SortOptions.ASSIGNED_USER_EMAIL_DESC,
+    desc_label: '(z-a)',
+  },
+  {
+    key: SortOptionKeys.TOEGEWEZEN_AAN,
+    label: SortOptionLabels.TOEGEWEZEN_AAN,
     asc: SortOptions.ADDRESS_ASC,
     asc_label: '(a-z)',
     desc: SortOptions.ADDRESS_DESC,

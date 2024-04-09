@@ -33,7 +33,6 @@ import {
   StyledList,
   Table,
   TdStyle,
-  Th,
   ThArea,
   ThDate,
   ThDay,
@@ -221,7 +220,14 @@ const List: FunctionComponent<ListProps> = ({
               sortingDisabled={sortingDisabled}
             />
             {configuration.featureFlags.assignSignalToEmployee && (
-              <Th>Toegewezen aan</Th>
+              <ThSort
+                StyledComponent={BaseTh}
+                sortOption={SortOptions.ASSIGNED_USER_EMAIL_ASC}
+                headerText={SortOptionLabels.TOEGEWEZEN_AAN}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
             )}
           </tr>
         </thead>

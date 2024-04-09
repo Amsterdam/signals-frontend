@@ -3,7 +3,7 @@
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
     "assignSignalToDepartment": false,
-    "assignSignalToEmployee": false,
+    "assignSignalToEmployee": true,
     "disableClosingCategoryOverigOverig": true,
     "enableAmsterdamSpecificOverigCategories": true,
     "enableCsvExport": false,
