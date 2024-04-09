@@ -3,7 +3,7 @@
   "areaTypeCodeForDistrict": "stadsdeel",
   "featureFlags": {
     "assignSignalToDepartment": false,
-    "assignSignalToEmployee": true,
+    "assignSignalToEmployee": false,
     "disableClosingCategoryOverigOverig": true,
     "enableAmsterdamSpecificOverigCategories": true,
     "enableCsvExport": false,
@@ -127,7 +127,7 @@
     }
   },
   "oidc": {
-    "authEndpoint": "https://acc.iam.amsterdam.nl/auth",
+    "authEndpoint": "https://iam.amsterdam.nl/auth",
     "clientId": "sia-frontend",
     "realm": "datapunt-ad-acc",
     "responseType": "code",
