@@ -46,7 +46,7 @@ export enum SortOptionLabels {
 }
 
 export type SortOption = {
-  label?: string
+  label: string
   asc: SortOptions
   desc: SortOptions
   asc_label: string
