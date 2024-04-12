@@ -33,7 +33,6 @@ import {
   StyledList,
   Table,
   TdStyle,
-  Th,
   ThArea,
   ThDate,
   ThDay,
@@ -163,7 +162,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThPriority}
               sortOption={SortOptions.PRIORITY_ASC}
-              headerText={SortOptionLabels.URGENTIE}
+              headerText={SortOptionLabels.PRIORITY}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
@@ -180,7 +179,7 @@ const List: FunctionComponent<ListProps> = ({
             <ThSort
               StyledComponent={ThDate}
               sortOption={SortOptions.CREATED_AT_DESC}
-              headerText={SortOptionLabels.DATUM}
+              headerText={SortOptionLabels.DATE}
               ordering={ordering}
               changeOrder={changeOrder}
             />
@@ -200,28 +199,42 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
-            <ThSort
-              StyledComponent={ThArea}
-              sortOption={SortOptions.BUROUGH_ASC}
-              headerText={
-                configuration.featureFlags.fetchDistrictsFromBackend
-                  ? configuration.language.district
-                  : SortOptionLabels.STADSDEEL
-              }
-              ordering={ordering}
-              changeOrder={changeOrder}
-              sortingDisabled={sortingDisabled}
-            />
+            {configuration.featureFlags.fetchDistrictsFromBackend ? (
+              <ThSort
+                StyledComponent={ThArea}
+                sortOption={SortOptions.DISTRICT_ASC}
+                headerText={configuration.language.district}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            ) : (
+              <ThSort
+                StyledComponent={ThArea}
+                sortOption={SortOptions.BUROUGH_ASC}
+                headerText={SortOptionLabels.BUROUGH}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            )}
             <ThSort
               StyledComponent={BaseTh}
               sortOption={SortOptions.ADDRESS_ASC}
-              headerText={SortOptionLabels.ADRES}
+              headerText={SortOptionLabels.ADDRESS}
               ordering={ordering}
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
             {configuration.featureFlags.assignSignalToEmployee && (
-              <Th>Toegewezen aan</Th>
+              <ThSort
+                StyledComponent={BaseTh}
+                sortOption={SortOptions.ASSIGNED_USER_EMAIL_ASC}
+                headerText={SortOptionLabels.ASSIGNED_USER_EMAIL}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
             )}
           </tr>
         </thead>

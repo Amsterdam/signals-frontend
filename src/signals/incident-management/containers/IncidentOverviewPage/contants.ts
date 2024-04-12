@@ -1,3 +1,5 @@
+import configuration from 'shared/services/configuration/configuration'
+
 export enum SortOptions {
   ADDRESS_ASC = 'address',
   ADDRESS_DESC = '-address',
@@ -20,27 +22,30 @@ export enum SortOptions {
 }
 
 export enum SortOptionKeys {
-  ADRES = 'adres',
-  DATUM = 'datum',
+  ADDRESS = 'adres',
+  DATE = 'datum',
   ID = 'id',
-  STADSDEEL = 'stadsdeel',
+  BUROUGH = 'stadsdeel',
+  DISTRICT = 'area_name',
   STATUS = 'status',
   SUBCATEGORY = 'subcategorie',
-  URGENTIE = 'urgentie',
+  PRIORITY = 'urgentie',
+  ASSIGNED_USER_EMAIL = 'toegewezen_aan',
 }
 
 export enum SortOptionLabels {
-  ADRES = 'Adres',
-  DATUM = 'Datum',
+  ADDRESS = 'Adres',
+  DISTRICT = `Wijk`,
+  DATE = 'Datum',
   ID = 'Id',
-  STADSDEEL = 'Stadsdeel',
+  BUROUGH = 'Stadsdeel',
   STATUS = 'Status',
   SUBCATEGORY = 'Subcategorie',
-  URGENTIE = 'Urgentie',
+  PRIORITY = 'Urgentie',
+  ASSIGNED_USER_EMAIL = 'Toegewezen aan',
 }
 
 export type SortOption = {
-  key: SortOptionKeys
   label: string
   asc: SortOptions
   desc: SortOptions
@@ -50,23 +55,27 @@ export type SortOption = {
 
 export const sortOptionsList: SortOption[] = [
   {
-    key: SortOptionKeys.ADRES,
-    label: SortOptionLabels.ADRES,
+    label: SortOptionLabels.ASSIGNED_USER_EMAIL,
+    asc: SortOptions.ASSIGNED_USER_EMAIL_ASC,
+    asc_label: '(a-z)',
+    desc: SortOptions.ASSIGNED_USER_EMAIL_DESC,
+    desc_label: '(z-a)',
+  },
+  {
+    label: SortOptionLabels.ADDRESS,
     asc: SortOptions.ADDRESS_ASC,
     asc_label: '(a-z)',
     desc: SortOptions.ADDRESS_DESC,
     desc_label: '(z-a)',
   },
   {
-    key: SortOptionKeys.DATUM,
-    label: SortOptionLabels.DATUM,
+    label: SortOptionLabels.DATE,
     asc: SortOptions.CREATED_AT_ASC,
     asc_label: '(oud-nieuw)',
     desc: SortOptions.CREATED_AT_DESC,
     desc_label: '(nieuw-oud)',
   },
   {
-    key: SortOptionKeys.ID,
     label: SortOptionLabels.ID,
     asc: SortOptions.ID_ASC,
     asc_label: '(laag-hoog)',
@@ -74,15 +83,20 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(hoog-laag)',
   },
   {
-    key: SortOptionKeys.STADSDEEL,
-    label: SortOptionLabels.STADSDEEL,
+    label: SortOptionLabels.BUROUGH,
     asc: SortOptions.BUROUGH_ASC,
     asc_label: '(a-z)',
     desc: SortOptions.BUROUGH_DESC,
     desc_label: '(z-a)',
   },
   {
-    key: SortOptionKeys.STATUS,
+    label: configuration.language.district ?? SortOptionLabels.DISTRICT,
+    asc: SortOptions.DISTRICT_ASC,
+    asc_label: '(a-z)',
+    desc: SortOptions.DISTRICT_DESC,
+    desc_label: '(z-a)',
+  },
+  {
     label: SortOptionLabels.STATUS,
     asc: SortOptions.STATUS_ASC,
     asc_label: '(a-z)',
@@ -90,7 +104,6 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(z-a)',
   },
   {
-    key: SortOptionKeys.SUBCATEGORY,
     label: SortOptionLabels.SUBCATEGORY,
     asc: SortOptions.SUBCATEGORY_ASC,
     asc_label: '(a-z)',
@@ -98,8 +111,7 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(z-a)',
   },
   {
-    key: SortOptionKeys.URGENTIE,
-    label: SortOptionLabels.URGENTIE,
+    label: SortOptionLabels.PRIORITY,
     asc: SortOptions.PRIORITY_ASC,
     asc_label: '(hoog-laag-normaal)',
     desc: SortOptions.PRIORITY_DESC,

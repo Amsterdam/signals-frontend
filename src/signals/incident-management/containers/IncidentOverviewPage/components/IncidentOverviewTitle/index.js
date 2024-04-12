@@ -24,8 +24,10 @@ const getSortInformation = (ordering) => {
     return sortOption.asc === ordering || sortOption.desc === ordering
   })
 
-  if (sort.asc === ordering) return `${sort.key} ${sort.asc_label}`
-  if (sort.desc === ordering) return `${sort.key} ${sort.desc_label}`
+  if (sort.asc === ordering)
+    return `${sort.label.toLowerCase()} ${sort.asc_label}`
+  if (sort.desc === ordering)
+    return `${sort.label.toLowerCase()} ${sort.desc_label}`
 }
 
 export const IncidentOverviewTitle = ({
