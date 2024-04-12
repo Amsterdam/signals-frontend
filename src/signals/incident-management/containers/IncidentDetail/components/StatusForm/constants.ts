@@ -23,7 +23,7 @@ export const NO_EMAIL_IS_SENT = 'Er wordt geen bericht verstuurd.'
 export const DEFAULT_TEXT_MAX_LENGTH = 3000
 export const DEFAULT_TEXT_LABEL = 'Bericht aan melder'
 
-export const REPLY_MAIL_MAX_LENGTH = 400
+export const REPLY_MAIL_MAX_LENGTH = 1000
 export const REPLY_MAIL_LABEL = 'Vraag aan melder'
 export const REPLY_NO_MAIL_HEADING = `De melder heeft geen e-mailadres opgegeven`
 export const REPLY_NO_MAIL_CONTENT = `Je kunt hem dus geen vraag stellen. Is het telefoonnummer wel bekend? Bel dan de melder.`
