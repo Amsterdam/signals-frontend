@@ -1,5 +1,3 @@
-import configuration from 'shared/services/configuration/configuration'
-
 export enum SortOptions {
   ADDRESS_ASC = 'address',
   ADDRESS_DESC = '-address',
@@ -33,8 +31,11 @@ export enum SortOptionKeys {
   ASSIGNED_USER_EMAIL = 'toegewezen_aan',
 }
 
+const discrict_label = `configuration.language.district`
+
 export enum SortOptionLabels {
   ADDRESS = 'Adres',
+  DISTRICT = `${discrict_label}`,
   DATE = 'Datum',
   ID = 'Id',
   BUROUGH = 'Stadsdeel',
@@ -89,8 +90,7 @@ export const sortOptionsList: SortOption[] = [
     desc_label: '(z-a)',
   },
   {
-    // Only used we when fetchDistrictsFromBackend is enabled
-    label: configuration.language.district,
+    label: SortOptionLabels.DISTRICT,
     asc: SortOptions.DISTRICT_ASC,
     asc_label: '(a-z)',
     desc: SortOptions.DISTRICT_DESC,
