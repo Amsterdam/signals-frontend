@@ -12,9 +12,10 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
 import { NO_DATA, WfsDataProvider } from './context'
-import { mapDataToSelectableFeature } from './utils'
+import { mapDataToSelectableFeature } from './utils/map-data-to-selectable-feature'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
+
 export const SRS_NAME = 'EPSG:4326'
 
 export interface WfsLayerProps {
@@ -93,7 +94,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
           const mappedResult = mapDataToSelectableFeature(
             result.features,
-            meta.featureTypes
+            meta.featureTypes,
+            meta.featureStatusTypes
           )
 
           setSelectableFeatures(mappedResult)
@@ -123,6 +125,7 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
     filter,
     setSelectableFeatures,
     meta.featureTypes,
+    meta.featureStatusTypes,
   ])
 
   return <WfsDataProvider value={data}>{children}</WfsDataProvider>
