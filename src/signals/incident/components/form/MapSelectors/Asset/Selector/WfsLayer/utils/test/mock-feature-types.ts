@@ -215,9 +215,9 @@ export const mockCaterpillarFeatureTypes: FeatureType[] = [
       },
       iconUrl: '/assets/images/groen_water/oak.svg',
     },
-    idField: 'OBJECTID',
+    idField: 'id',
     typeValue: 'Eikenboom',
-    typeField: '',
+    typeField: 'type',
   },
   {
     idField: 'UNKNOWN',
@@ -232,5 +232,20 @@ export const mockCaterpillarFeatureTypes: FeatureType[] = [
     },
     typeValue: 'not-on-map',
     typeField: '',
+  },
+]
+
+export const mockPublicLightsFeatureTypesDenHaag = [
+  {
+    icon: {
+      options: {
+        className: 'object-marker',
+        iconSize: [40, 40],
+      },
+      iconUrl: '/assets/images/openbare_verlichting/overig.svg',
+    },
+    label: 'Straatverlichting',
+    idField: 'LumiId',
+    description: 'Lichtpunt {{ MastCode }} ',
   },
 ]

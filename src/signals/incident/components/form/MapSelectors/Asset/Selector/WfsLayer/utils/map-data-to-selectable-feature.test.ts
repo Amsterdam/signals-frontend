@@ -1,74 +1,125 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2023 Gemeente Amsterdam
+import type {
+  Feature,
+  FeatureStatusType,
+  FeatureType,
+} from 'signals/incident/components/form/MapSelectors/types'
+
 import { mapDataToSelectableFeature } from './map-data-to-selectable-feature'
 import {
   mockContainerFeatureTypes,
   mockPublicLightsFeatureTypes,
   mockCaterpillarFeatureTypes,
+  mockPublicLightsFeatureTypesDenHaag,
 } from './test/mock-feature-types'
 import {
-  mockGlasContainer,
-  mockPaperContainer,
-  mockPublicLight,
+  mockContainers,
   mockCaterpillar,
+  mockFeaturesDenHaag,
+  mockPublicLights,
 } from './test/mock-objects'
 
+const mockFeatureStatusTypes = undefined
 describe('mapDataToSelectableFeature', () => {
-  it('should map container features to selectable features correctly', () => {
+  it('should map containers to selectable features correctly', () => {
     const selectableFeatures = mapDataToSelectableFeature(
-      [mockGlasContainer, mockPaperContainer],
-      mockContainerFeatureTypes
+      mockContainers,
+      mockContainerFeatureTypes,
+      mockFeatureStatusTypes
     )
 
     expect(selectableFeatures).toEqual([
       {
-        coordinates: { lat: 52.37209240253326, lng: 4.900003434199737 },
-        description: 'Glas container',
-        id: 'GLA00144',
-        label: 'Glas container - GLA00144',
-        type: 'Glas',
-      },
-      {
-        coordinates: { lat: 52.37210126045667, lng: 4.900010236862614 },
-        description: 'Papier container',
-        id: 'PAA00092',
-        label: 'Papier container - PAA00092',
+        id: 'PAA00210',
         type: 'Papier',
+        description: 'Papier container',
+        status: undefined,
+        label: 'Papier container - PAA00210',
+        coordinates: { lat: 52.37585547675836, lng: 4.89321686975306 },
       },
     ])
   })
 
-  it('should map public lights features to selectable features correctly', () => {
+  it('should map public lights to selectable features correctly', () => {
     const selectableFeatures = mapDataToSelectableFeature(
-      [mockPublicLight],
-      mockPublicLightsFeatureTypes
+      mockPublicLights,
+      mockPublicLightsFeatureTypes,
+      mockFeatureStatusTypes
     )
 
     expect(selectableFeatures).toEqual([
       {
-        coordinates: { lat: 52.372935004142086, lng: 4.901763001239158 },
-        description: 'Overig lichtpunt',
         id: '000067',
-        label: 'Overig lichtpunt - 000067',
         type: '4',
+        description: 'Overig lichtpunt',
+        status: undefined,
+        label: 'Overig lichtpunt - 000067',
+        coordinates: { lat: 52.372935004142086, lng: 4.901763001239158 },
       },
     ])
   })
 
-  it('should map caterpillar features to selectable features correctly', () => {
+  it('should map caterpillar objects to selectable features correctly', () => {
     const selectableFeatures = mapDataToSelectableFeature(
-      [mockCaterpillar],
-      mockCaterpillarFeatureTypes
+      mockCaterpillar as Feature[],
+      mockCaterpillarFeatureTypes,
+      mockFeatureStatusTypes
     )
 
     expect(selectableFeatures).toEqual([
       {
-        id: 4108613,
+        id: '4108613',
         type: 'Eikenboom',
         description: 'Eikenboom',
+        status: undefined,
         coordinates: { lat: 52.38632248, lng: 4.87543579 },
         label: 'Eikenboom - 4108613',
       },
     ])
+  })
+
+  it('should map features to selectable features correctly with Den Haag light objects', () => {
+    const selectableFeatures = mapDataToSelectableFeature(
+      mockFeaturesDenHaag,
+      mockPublicLightsFeatureTypesDenHaag as FeatureType[],
+      []
+    )
+
+    expect(selectableFeatures).toEqual([
+      {
+        id: '230281',
+        type: undefined,
+        description: 'Lichtpunt {{ MastCode }} ',
+        status: undefined,
+        label: 'Lichtpunt Koningskade-0542 ',
+        coordinates: { lat: 52.08410811, lng: 4.31817273 },
+      },
+    ])
+  })
+
+  it('should create label correctly when description is a template string', () => {
+    const mockFeatureTypesWithTemplateString = [
+      {
+        label: 'Papier',
+        description: 'Papier container - {{ id_nummer }}',
+        icon: {
+          options: {
+            className: 'object-marker',
+            iconSize: [40, 40],
+          },
+          iconUrl: '/assets/images/afval/paper.svg',
+        },
+        idField: 'id_nummer',
+        typeField: 'fractie_omschrijving',
+        typeValue: 'Papier',
+      },
+    ] as FeatureStatusType[]
+
+    const selectableFeatures = mapDataToSelectableFeature(
+      mockContainers,
+      mockFeatureTypesWithTemplateString,
+      mockFeatureStatusTypes
+    )
+
+    expect(selectableFeatures[0].label).toEqual('Papier container - PAA00210')
   })
 })
