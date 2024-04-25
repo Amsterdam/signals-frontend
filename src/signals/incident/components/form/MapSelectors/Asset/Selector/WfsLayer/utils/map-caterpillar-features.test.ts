@@ -25,6 +25,7 @@ describe('mapDataToSelectableFeature', () => {
             '0': {
               species: 'Quercus robur',
               type: 'Eikenboom',
+              id: 4108614,
             },
             id: 4108614,
             type: 'Eikenboom',
