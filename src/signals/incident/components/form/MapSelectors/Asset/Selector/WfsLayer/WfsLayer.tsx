@@ -12,6 +12,8 @@ import AssetSelectContext from 'signals/incident/components/form/MapSelectors/As
 import type { DataLayerProps } from 'signals/incident/components/form/MapSelectors/types'
 
 import { NO_DATA, WfsDataProvider } from './context'
+import { isCaterpillarCategory } from './utils/is-caterpillar-category'
+import { mapCaterpillarFeatures } from './utils/map-caterpillar-features'
 import { mapDataToSelectableFeature } from './utils/map-data-to-selectable-feature'
 import useBoundingBox from '../../../hooks/useBoundingBox'
 import useLayerVisible from '../../../hooks/useLayerVisible'
@@ -90,15 +92,21 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
           // eslint-disable-next-line no-console
           console.error('Unhandled Error in wfs call', result.error.message)
         } else {
-          setData(result)
+          let mappedResult = result
 
-          const mappedResult = mapDataToSelectableFeature(
-            result.features,
+          if (isCaterpillarCategory(result.features[0])) {
+            mappedResult = mapCaterpillarFeatures(result)
+          }
+
+          setData(mappedResult)
+
+          const selectableFeatures = mapDataToSelectableFeature(
+            mappedResult.features,
             meta.featureTypes,
             meta.featureStatusTypes
           )
 
-          setSelectableFeatures(mappedResult)
+          setSelectableFeatures(selectableFeatures)
         }
         return null
       })
