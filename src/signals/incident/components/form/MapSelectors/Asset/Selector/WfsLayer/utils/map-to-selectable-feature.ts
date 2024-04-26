@@ -16,7 +16,7 @@ export const mapToSelectableFeature = (
   featureType: FeatureType,
   coordinates: LatLngLiteral,
   featureStatusType?: FeatureStatusType
-) => {
+): SelectableFeature => {
   const { description, typeValue, idField } = featureType
   const id = feature.properties[idField] || ''
 
@@ -24,7 +24,7 @@ export const mapToSelectableFeature = (
     ? parseTemplateString(description, feature.properties)
     : [description, id].filter(Boolean).join(' - ')
 
-  const selectableFeature: SelectableFeature = {
+  const selectableFeature = {
     id: id.toString(),
     type: typeValue,
     description,
