@@ -33,7 +33,7 @@ export const useSelectionProps = ({
   const { setItem } = useContext(AssetSelectContext)
   const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
   const featureStatusType = featureStatusTypes.find(
-    ({ typeValue }) => typeValue === status
+    ({ typeValue }) => typeValue === feature.status
   )
   const item: Item = {
     ...feature,
