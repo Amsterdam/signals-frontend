@@ -5,7 +5,7 @@ import {
   mockContainerFeatureTypes,
   mockCaterpillarFeatureTypes,
 } from './test/mock-feature-types'
-import { mockContainers, mockCaterpillar } from './test/mock-objects'
+import { mockContainers, mockCaterpillarFeature } from './test/mock-objects'
 
 describe('getFeatureType', () => {
   it('should return the container feature type', () => {
@@ -16,7 +16,7 @@ describe('getFeatureType', () => {
 
   it('should return the caterpillar feature type', () => {
     const result = getFeatureType(
-      mockCaterpillar[0],
+      mockCaterpillarFeature[0],
       mockCaterpillarFeatureTypes
     )
 

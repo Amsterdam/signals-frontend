@@ -78,7 +78,36 @@ export const mockPublicLights: Feature[] = [
   },
 ]
 
-export const mockCaterpillar: FeatuesGeo[] = [
+export const mockCaterpillarFeatureGeo: FeatuesGeo[] = [
+  {
+    id: 4108613,
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [52.38632248, 4.87543579],
+    },
+    properties: {
+      species: 'Quercus robur',
+      id: 4108613,
+    },
+  },
+  {
+    id: 4108614,
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [52.3863225, 4.8754357],
+    },
+    properties: [
+      {
+        species: 'Quercus robur',
+        id: 4108614,
+      },
+    ],
+  },
+]
+
+export const mockCaterpillarFeature = [
   {
     id: 4108613,
     type: 'Feature',
@@ -107,7 +136,7 @@ export const mockCaterpillar: FeatuesGeo[] = [
       },
     ],
   },
-]
+] as Feature[]
 
 export const mockFeaturesDenHaag = [
   {

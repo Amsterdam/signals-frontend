@@ -6,17 +6,30 @@ interface Result {
   features: FeatuesGeo[]
 }
 
-interface MappedResult {
-  features: Feature[]
-}
-
-export const mapCaterpillarFeatures = (result: Result): MappedResult => {
+export const mapCaterpillarFeatures = (result: Result) => {
   const mappedFeatures = result.features.map((feature) => {
-    return {
-      ...feature,
-      properties: { ...feature.properties, id: feature.id, type: 'Eikenboom' },
-    } as Feature
-  })
+    if (Array.isArray(feature.properties)) {
+      if (!feature.properties[0].type) {
+        return {
+          ...feature,
+          properties: {
+            ...feature.properties[0],
+            id: feature.id,
+            type: 'Eikenboom',
+          },
+        }
+      } else return feature
+    } else if (!feature.properties?.type) {
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          id: feature.id,
+          type: 'Eikenboom',
+        },
+      }
+    } else return feature
+  }) as Feature[]
 
   return { ...result, features: mappedFeatures }
 }

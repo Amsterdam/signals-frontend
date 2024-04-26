@@ -1,5 +1,4 @@
 import type {
-  Feature,
   FeatureStatusType,
   FeatureType,
 } from 'signals/incident/components/form/MapSelectors/types'
@@ -13,7 +12,7 @@ import {
 } from './test/mock-feature-types'
 import {
   mockContainers,
-  mockCaterpillar,
+  mockCaterpillarFeature,
   mockFeaturesDenHaag,
   mockPublicLights,
 } from './test/mock-objects'
@@ -60,7 +59,7 @@ describe('mapDataToSelectableFeature', () => {
 
   it('should map caterpillar objects to selectable features correctly', () => {
     const selectableFeatures = mapDataToSelectableFeature(
-      mockCaterpillar as Feature[],
+      mockCaterpillarFeature,
       mockCaterpillarFeatureTypes,
       mockFeatureStatusTypes
     )
