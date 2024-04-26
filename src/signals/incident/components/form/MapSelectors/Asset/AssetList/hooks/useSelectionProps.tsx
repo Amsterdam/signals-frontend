@@ -41,7 +41,8 @@ export const useSelectionProps = ({
     status: featureStatusType?.typeValue,
   }
 
-  if (selection?.find((item) => item.id === feature.id)) return null
+  if (selection?.find((item) => item.id?.toString() === feature.id.toString()))
+    return null
 
   const { icon }: Partial<FeatureType> =
     featureTypes?.find(({ typeValue }) => typeValue === feature.type) ?? {}
