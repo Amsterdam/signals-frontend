@@ -107,7 +107,7 @@ export const mockCaterpillarFeatureGeo: FeaturesGeo[] = [
   },
 ]
 
-export const mockCaterpillarFeature = [
+export const mockCaterpillarFeature: Feature[] = [
   {
     id: 4108613,
     type: 'Feature',
@@ -128,17 +128,15 @@ export const mockCaterpillarFeature = [
       type: 'Point',
       coordinates: [52.3863225, 4.8754357],
     },
-    properties: [
-      {
-        species: 'Quercus robur',
-        id: 4108614,
-        type: 'Eikenboom',
-      },
-    ],
+    properties: {
+      species: 'Quercus robur',
+      id: 4108614,
+      type: 'Eikenboom',
+    },
   },
-] as Feature[]
+]
 
-export const mockFeaturesDenHaag = [
+export const mockFeaturesDenHaag: Feature[] = [
   {
     type: 'Feature',
     id: 'mast.23661',
@@ -167,4 +165,4 @@ export const mockFeaturesDenHaag = [
       MastRempla: null,
     },
   },
-] as Feature[]
+]

@@ -70,8 +70,16 @@ describe('mapDataToSelectableFeature', () => {
         type: 'Eikenboom',
         description: 'Eikenboom',
         status: undefined,
-        coordinates: { lat: 52.38632248, lng: 4.87543579 },
         label: 'Eikenboom - 4108613',
+        coordinates: { lat: 52.38632248, lng: 4.87543579 },
+      },
+      {
+        id: '4108614',
+        type: 'Eikenboom',
+        description: 'Eikenboom',
+        status: undefined,
+        label: 'Eikenboom - 4108614',
+        coordinates: { lat: 52.3863225, lng: 4.8754357 },
       },
     ])
   })
