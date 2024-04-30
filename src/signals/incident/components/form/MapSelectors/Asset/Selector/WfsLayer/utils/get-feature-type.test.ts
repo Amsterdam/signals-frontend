@@ -1,13 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import { getFeatureType } from './get-feature-type'
-import { mockContainerFeatureTypes } from './test/mock-feature-types'
-import { mockGlasContainer } from './test/mock-objects'
+import {
+  mockContainerFeatureTypes,
+  mockCaterpillarFeatureTypes,
+} from './test/mock-feature-types'
+import { mockContainers, mockCaterpillarFeature } from './test/mock-objects'
 
 describe('getFeatureType', () => {
-  it('should return the correct feature type', () => {
-    const result = getFeatureType(mockGlasContainer, mockContainerFeatureTypes)
+  it('should return the container feature type', () => {
+    const result = getFeatureType(mockContainers[0], mockContainerFeatureTypes)
 
-    expect(result).toEqual(mockContainerFeatureTypes[2])
+    expect(result).toEqual(mockContainerFeatureTypes[1])
+  })
+
+  it('should return the caterpillar feature type', () => {
+    const result = getFeatureType(
+      mockCaterpillarFeature[0],
+      mockCaterpillarFeatureTypes
+    )
+
+    expect(result).toEqual(mockCaterpillarFeatureTypes[0])
   })
 })

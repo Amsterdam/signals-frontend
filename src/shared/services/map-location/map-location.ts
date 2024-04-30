@@ -8,7 +8,7 @@ import type { Incident } from 'types/api/incident'
 import type { Geometrie, Location } from 'types/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
-const sanitizeCoordinates = (coordinates: LatLngTuple): LatLngTuple =>
+export const sanitizeCoordinates = (coordinates: LatLngTuple): LatLngTuple =>
   coordinates.sort((a, b) => (a > b ? 1 : -1)).reverse() as LatLngTuple
 
 export const coordinatesToFeature = ({

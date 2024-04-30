@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
 import { useSelectionProps } from './hooks/useSelectionProps'
-import { StyledLabel, ListItem } from './styled'
+import { StyledLabel, ListItem, StyledStatusDescription } from './styled'
 import { IconListItem } from '../../../../../../../components/IconList'
 import type { FeatureType, Item, FeatureStatusType } from '../../types'
 import type { SelectableFeature } from '../../types'
@@ -38,7 +38,14 @@ export const AssetListItemSelectable = ({
         item={item}
         checked={false}
       >
-        <StyledLabel>{item.label}</StyledLabel>
+        <StyledLabel>
+          {item.label}
+          {featureStatusType?.description && (
+            <StyledStatusDescription status={featureStatusType.typeValue}>
+              {featureStatusType?.description}
+            </StyledStatusDescription>
+          )}
+        </StyledLabel>
       </IconListItem>
     </ListItem>
   )

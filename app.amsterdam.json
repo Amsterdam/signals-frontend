@@ -24,7 +24,6 @@
     "showVulaanControls": true,
     "useProjectenSignalType": false,
     "showContactEdit": true
-
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
@@ -71,19 +70,10 @@
     "municipality": "amsterdam \"ouder-amstel\" weesp",
     "options": {
       "crs": "EPSG:28992",
-      "center": [
-        52.3731081,
-        4.8932945
-      ],
+      "center": [52.3731081, 4.8932945],
       "maxBounds": [
-        [
-          52.25168,
-          4.64034
-        ],
-        [
-          52.50536,
-          5.10737
-        ]
+        [52.25168, 4.64034],
+        [52.50536, 5.10737]
       ],
       "maxNumberOfAssets": {
         "straatverlichting": 3,
@@ -100,22 +90,15 @@
       "minZoom": 7,
       "zoom": 7
     },
-     "optionsAreaMap": {
+    "optionsAreaMap": {
       "focusRadiusMeters": 100,
       "zoom": 13
     },
     "tiles": {
-      "args": [
-        "https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"
-      ],
+      "args": ["https://{s}.data.amsterdam.nl/topo_rd/{z}/{x}/{y}.png"],
       "options": {
         "attribution": "<span aria-hidden='true'>Kaartgegevens CC-BY-4.0 Gemeente Amsterdam</span>",
-        "subdomains": [
-          "t1",
-          "t2",
-          "t3",
-          "t4"
-        ],
+        "subdomains": ["t1", "t2", "t3", "t4"],
         "tms": true
       }
     },

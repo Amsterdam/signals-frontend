@@ -33,7 +33,7 @@ export const useSelectionProps = ({
   const { setItem } = useContext(AssetSelectContext)
   const { maxAssetWarning } = useSelector(makeSelectMaxAssetWarning)
   const featureStatusType = featureStatusTypes.find(
-    ({ typeValue }) => typeValue === status
+    ({ typeValue }) => typeValue === feature.status
   )
   const item: Item = {
     ...feature,
@@ -41,7 +41,8 @@ export const useSelectionProps = ({
     status: featureStatusType?.typeValue,
   }
 
-  if (selection?.find((item) => item.id === feature.id)) return null
+  if (selection?.find((item) => item.id?.toString() === feature.id.toString()))
+    return null
 
   const { icon }: Partial<FeatureType> =
     featureTypes?.find(({ typeValue }) => typeValue === feature.type) ?? {}

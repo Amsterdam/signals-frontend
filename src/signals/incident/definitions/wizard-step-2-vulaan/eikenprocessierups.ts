@@ -45,9 +45,9 @@ export const controls = {
             options,
             iconUrl: '/assets/images/groen_water/oak.svg',
           },
-          idField: 'OBJECTID',
+          idField: 'id',
           typeValue: 'Eikenboom',
-          typeField: '',
+          typeField: 'type',
         },
         {
           label: 'Onbekend',
@@ -57,7 +57,7 @@ export const controls = {
             iconUrl: '/assets/images/feature-unknown-marker.svg',
           },
           typeValue: UNREGISTERED_TYPE,
-          typeField: '',
+          typeField: 'type',
         },
       ],
       featureStatusTypes: [
