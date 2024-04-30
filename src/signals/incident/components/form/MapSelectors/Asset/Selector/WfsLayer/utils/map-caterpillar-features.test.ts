@@ -4,7 +4,7 @@ import { mapCaterpillarFeatures } from './map-caterpillar-features'
 import { mockCaterpillarFeatureGeo } from './test/mock-objects'
 
 describe('mapDataToSelectableFeature', () => {
-  it('should return an array of SelectableFeature', () => {
+  it('should return an array of SelectableFeatures', () => {
     const result = mapCaterpillarFeatures({
       features: mockCaterpillarFeatureGeo,
     })

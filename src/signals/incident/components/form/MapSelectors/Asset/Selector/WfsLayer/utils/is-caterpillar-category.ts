@@ -1,6 +1,6 @@
-import type { Feature as FeatuesGeo } from 'geojson'
+import type { Feature as FeatureGeo } from 'geojson'
 
-export const isCaterpillarCategory = (feature: FeatuesGeo) => {
+export const isCaterpillarCategory = (feature: FeatureGeo) => {
   return (
     typeof feature.id === 'number' &&
     feature.properties &&

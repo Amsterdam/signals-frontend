@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import type { Feature as FeatuesGeo } from 'geojson'
+import type { Feature as FeaturesGeo } from 'geojson'
 
 import type { Feature } from '../../../../../types'
 
@@ -78,7 +78,7 @@ export const mockPublicLights: Feature[] = [
   },
 ]
 
-export const mockCaterpillarFeatureGeo: FeatuesGeo[] = [
+export const mockCaterpillarFeatureGeo: FeaturesGeo[] = [
   {
     id: 4108613,
     type: 'Feature',
