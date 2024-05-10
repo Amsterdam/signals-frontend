@@ -1,6 +1,10 @@
 import type { Feature as FeatureGeo } from 'geojson'
 
-export const isCaterpillarCategory = (feature: FeatureGeo) => {
+export const isCaterpillarCategory = (
+  feature: FeatureGeo | null | undefined
+) => {
+  if (!feature) return false
+
   return (
     typeof feature.id === 'number' &&
     feature.properties &&

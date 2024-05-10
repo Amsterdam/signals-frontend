@@ -305,9 +305,16 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     expect(fetchMock.mock.lastCall[1]?.headers).toBeFalsy()
   })
 
-  it('should only set x-api-key header when keys.dataPlatform is filled in the config', () => {
+  it('should only set x-api-key header when hos is api.data.amsterdam.nl', () => {
     configuration.map.keys.dataPlatform = '1234'
-
+    const assetSelectProviderValue: AssetSelectValue = {
+      ...assetSelectContextValue,
+      meta: {
+        ...assetSelectContextValue.meta,
+        endpoint: 'https://api.data.amsterdam.nl',
+      },
+      setItem: jest.fn(() => promise),
+    }
     render(
       withMapAsset(
         <AssetSelectProvider value={assetSelectProviderValue}>
