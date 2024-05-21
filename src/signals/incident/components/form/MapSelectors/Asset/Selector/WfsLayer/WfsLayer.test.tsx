@@ -305,7 +305,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
     expect(fetchMock.mock.lastCall[1]?.headers).toBeFalsy()
   })
 
-  it('should only set x-api-key header when hos is api.data.amsterdam.nl', () => {
+  it('should only set x-api-key header when host is api.data.amsterdam.nl', () => {
     configuration.map.keys.dataPlatform = '1234'
     const assetSelectProviderValue: AssetSelectValue = {
       ...assetSelectContextValue,
