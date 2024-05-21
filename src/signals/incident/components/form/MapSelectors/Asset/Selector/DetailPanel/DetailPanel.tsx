@@ -90,11 +90,14 @@ const DetailPanel: FC<DetailPanelProps> = ({ language, zoomLevel }) => {
 
   const topPositionDrawerMobile = useMemo(() => {
     return selection ||
-      (zoomLevel && zoomLevel >= 13 && featureTypes.length > 0) ||
+      (zoomLevel &&
+        zoomLevel >= 13 &&
+        selectableFeatures &&
+        selectableFeatures.length > 0) ||
       legendOpen
       ? 60
       : 100
-  }, [selection, zoomLevel, featureTypes, legendOpen])
+  }, [selection, zoomLevel, selectableFeatures, legendOpen])
 
   return (
     <DrawerOverlay
