@@ -15,7 +15,6 @@ export const woningdelen = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-
   extra_wonen_woningdelen_vermoeden: {
     meta: {
       ifOneOf: {
@@ -33,7 +32,68 @@ export const woningdelen = {
     meta: {
       ifOneOf: {
         subcategory: 'woningdelen-spookburgers',
-        wonen_overig: ['woningdelen', 'crimineleBewoning'],
+        wonen_overig: ['woningdelen'],
+      },
+      label: 'Weet u wie de eigenaar is van de woning?',
+      shortLabel: 'Eigenaar bekend',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+  extra_wonen_woningdelen_weet_eigenaar: {
+    meta: {
+      ifAllOf: {
+        ifOneOf: {
+          subcategory: 'woningdelen-spookburgers',
+          wonen_overig: ['woningdelen'],
+        },
+      },
+      ifOneOf: {
+        extra_wonen_woningdelen_eigenaar: ['ja'],
+      },
+      label: 'Weet de eigenaar hoeveel personen in de woning verblijven?',
+      shortLabel: 'Eigenaar weet ervan',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+        weet_ik_niet: 'Weet ik niet',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+  extra_wonen_woningdelen_hoe_weet_eigenaar: {
+    meta: {
+      ifAllOf: {
+        ifOneOf: {
+          subcategory: 'woningdelen-spookburgers',
+          wonen_overig: ['woningdelen'],
+        },
+      },
+      ifOneOf: {
+        extra_wonen_woningdelen_weet_eigenaar: ['ja'],
+      },
+      label:
+        'Waaruit blijkt dat de eigenaar weet hoeveel personen in de woning verblijven?',
+      shortLabel: 'Hoe weet eigenaar er van?',
+      pathMerge: 'extra_properties',
+    },
+    render: QuestionFieldType.TextareaInput,
+  },
+  extra_wonen_criminele_bewoning_eigenaar: {
+    meta: {
+      ifOneOf: {
+        wonen_overig: ['crimineleBewoning'],
       },
       label: 'Weet u wie de eigenaar is van de woning?',
       shortLabel: 'Naam eigenaar',
@@ -88,12 +148,11 @@ export const woningdelen = {
     },
     render: QuestionFieldType.RadioInput,
   },
-  extra_wonen_woningdelen_bewoners_familie: {
+  extra_wonen_criminele_bewoning_bewoners_familie: {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'woningdelen-spookburgers',
-          wonen_overig: ['woningdelen', 'crimineleBewoning'],
+          wonen_overig: ['crimineleBewoning'],
         },
       },
       ifOneOf: {
@@ -117,12 +176,11 @@ export const woningdelen = {
     },
     render: QuestionFieldType.RadioInput,
   },
-  extra_wonen_woningdelen_samenwonen: {
+  extra_wonen_criminele_bewoning_samenwonen: {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'woningdelen-spookburgers',
-          wonen_overig: ['woningdelen', 'crimineleBewoning'],
+          wonen_overig: ['crimineleBewoning'],
         },
       },
       ifOneOf: {
@@ -177,5 +235,64 @@ export const woningdelen = {
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.TextInput,
+  },
+  extra_wonen_woningdelen_overlast: {
+    meta: {
+      ifOneOf: {
+        subcategory: 'woningdelen-spookburgers',
+        wonen_overig: ['woningdelen'],
+      },
+      label: 'Ervaart u overlast?',
+      shortLabel: 'Overlast',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+  extra_wonen_woningdelen_overlast_omschrijven: {
+    meta: {
+      ifAllOf: {
+        ifOneOf: {
+          subcategory: 'woningdelen-spookburgers',
+          wonen_overig: ['woningdelen'],
+        },
+      },
+      ifOneOf: {
+        extra_wonen_woningdelen_overlast: ['ja'],
+      },
+      label: 'Kunt u de overlast die u ervaart omschrijven?',
+      subtitle:
+        'Waar bestaat de overlast uit, wanneer, hoe vaak en waar vindt het plaats?',
+      shortLabel: 'Omschrijving overlast',
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.TextareaInput,
+  },
+  extra_wonen_woningdelen_overlast_info: {
+    meta: {
+      ifAllOf: {
+        ifOneOf: {
+          subcategory: 'woningdelen-spookburgers',
+          wonen_overig: ['woningdelen'],
+        },
+      },
+      ifOneOf: {
+        extra_wonen_woningdelen_weet_eigenaar: ['ja'],
+        extra_wonen_woningdelen_overlast: ['ja'],
+      },
+      type: 'info',
+      value:
+        'Heeft u aanvullende bewijsstukken, vul dan alstublieft uw e-mailadres en telefoonnummer in op de volgende pagina. Wij hebben graag contact met u hierover.',
+    },
+    render: QuestionFieldType.PlainText,
   },
 }
