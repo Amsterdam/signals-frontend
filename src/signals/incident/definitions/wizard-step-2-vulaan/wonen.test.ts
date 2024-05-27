@@ -73,7 +73,7 @@ describe('definition wonen', () => {
       'extra_wonen_criminele_bewoning_eigenaar',
       'extra_wonen_woningdelen_adres_huurder',
       'extra_wonen_woningdelen_aantal_personen',
-      'extra_wonen_woningdelen_bewoners_familie',
+      'extra_wonen_criminele_bewoning_bewoners_familie',
       'extra_wonen_criminele_bewoning_samenwonen',
       'extra_wonen_woningdelen_wisselende_bewoners',
       'extra_wonen_woningdelen_iemand_aanwezig',
