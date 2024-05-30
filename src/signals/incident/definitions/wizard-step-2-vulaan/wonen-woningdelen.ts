@@ -35,7 +35,7 @@ export const woningdelen = {
         wonen_overig: ['woningdelen'],
       },
       label: 'Weet u wie de eigenaar is van de woning?',
-      shortLabel: 'Eigenaar bekend',
+      shortLabel: 'Weet u wie de eigenaar is?',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -59,7 +59,7 @@ export const woningdelen = {
         extra_wonen_woningdelen_eigenaar: ['ja'],
       },
       label: 'Weet de eigenaar hoeveel personen in de woning verblijven?',
-      shortLabel: 'Eigenaar weet ervan',
+      shortLabel: 'Weet de eigenaar er vanaf?',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
@@ -85,7 +85,7 @@ export const woningdelen = {
       },
       label:
         'Waaruit blijkt dat de eigenaar weet hoeveel personen in de woning verblijven?',
-      shortLabel: 'Hoe weet eigenaar er van?',
+      shortLabel: 'Waaruit blijkt dit?',
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.TextareaInput,
@@ -243,7 +243,7 @@ export const woningdelen = {
         wonen_overig: ['woningdelen'],
       },
       label: 'Ervaart u overlast?',
-      shortLabel: 'Overlast',
+      shortLabel: 'Ervaart u overlast?',
       pathMerge: 'extra_properties',
       values: {
         ja: 'Ja',
