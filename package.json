@@ -98,7 +98,7 @@
     "@types/enzyme": "^3.10.11",
     "@types/invariant": "^2.2.34",
     "@types/jest": "^27.5.2",
-    "@types/jsdom": "^16.2.15",
+    "@types/jsdom": "^21.1.7",
     "@types/leaflet": "^1.9.0",
     "@types/leaflet.markercluster": "^1.5.1",
     "@types/lodash": "^4.14.191",
@@ -179,7 +179,7 @@
     "typescript-plugin-styled-components": "^1.6.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.76.0",
-    "webpack-bundle-analyzer": "^4.7.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
   },
