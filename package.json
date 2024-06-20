@@ -152,9 +152,9 @@
     "eslint-plugin-testing-library": "^3.10.2",
     "exports-loader": "^3.1.0",
     "file-loader": "^6.2.0",
-    "fork-ts-checker-webpack-plugin": "^6.5.2",
+    "fork-ts-checker-webpack-plugin": "^6.5.3",
     "html-loader": "^2.1.2",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.6.0",
     "husky": "^4.3.8",
     "imports-loader": "^3.1.1",
     "jest": "^27.5.1",
@@ -164,7 +164,7 @@
     "jest-styled-components": "^7.1.1",
     "lint-staged": "^11.2.6",
     "match-media-mock": "^0.1.1",
-    "mini-css-extract-plugin": "^2.7.2",
+    "mini-css-extract-plugin": "^2.9.0",
     "msw": "^0.36.8",
     "node-plop": "^0.26.3",
     "npm-check-updates": "^16.14.20",
@@ -179,10 +179,10 @@
     "typescript": "^4.9.4",
     "typescript-plugin-styled-components": "^1.6.0",
     "url-loader": "^4.1.1",
-    "webpack": "^5.76.0",
+    "webpack": "^5.92.1",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.11.1"
+    "webpack-dev-server": "^4.15.2"
   },
   "private": true,
   "husky": {
