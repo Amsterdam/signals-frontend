@@ -191,7 +191,6 @@ export const IncidentMap = () => {
           dragging: true,
           scrollWheelZoom: true,
           zoom: configuration.map.optionsIncidentMap.zoom,
-          attributionControl: false,
         }}
       >
         {isMobile(deviceMode) && (

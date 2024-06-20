@@ -25,6 +25,11 @@ const StyledMap = styled(MapComponent)`
   &.leaflet-drag-target {
     cursor: all-scroll;
   }
+
+  .leaflet-control-attribution a,
+  span {
+    display: none;
+  }
 `
 
 export interface MapProps {
@@ -78,13 +83,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
 
   useEffect(() => {
     /* istanbul ignore next */
-    const timeout = setTimeout(() => {
-      document.querySelector('.leaflet-control-attribution a')?.remove()
-      document.querySelector('.leaflet-control-attribution span')?.remove()
-    }, 0)
-
     return () => {
-      clearTimeout(timeout)
       if (mapActive) {
         dispatch(closeMap())
       }
