@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+
 import type { FunctionComponent } from 'react'
 import { useCallback, useState, useEffect } from 'react'
 
@@ -138,7 +140,6 @@ const FileInput: FunctionComponent<FileInputProps> = ({
               multiple
               aria-label="Toevoegen foto"
             />
-
             <label htmlFor="fileUpload">
               <AddButton as="span">
                 <ScreenReaderOnly>Toevoegen foto</ScreenReaderOnly>
