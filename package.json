@@ -35,6 +35,7 @@
     "test:clean": "rimraf ./coverage",
     "test:concurrent": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
+    "update-minor": "npm-check-updates --target minor --upgrade && npm install",
     "validate-config": "node ./internals/scripts/validate-config.js",
     "validate-base-config": "node ./internals/scripts/validate-base-config.js"
   },
@@ -166,6 +167,7 @@
     "mini-css-extract-plugin": "^2.7.2",
     "msw": "^0.36.8",
     "node-plop": "^0.26.3",
+    "npm-check-updates": "^16.14.20",
     "prettier": "^2.8.1",
     "prop-types": "^15.8.1",
     "react-test-renderer": "^17.0.2",
