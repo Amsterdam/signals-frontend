@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { useCallback } from 'react'
 
 import { Button, Checkbox, Label } from '@amsterdam/asc-ui'
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import * as yup from 'yup'
 
