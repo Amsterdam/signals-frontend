@@ -26,9 +26,11 @@ const StyledMap = styled(MapComponent)`
     cursor: all-scroll;
   }
 
-  .leaflet-control-attribution a,
-  span {
-    display: none;
+  .leaflet-control-attribution {
+    a,
+    span:first-of-type {
+      display: none;
+    }
   }
 `
 
