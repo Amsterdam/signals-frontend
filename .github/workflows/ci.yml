@@ -18,7 +18,7 @@ jobs:
         job: [lint, test, validate-config, build]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Cache .npm
         uses: actions/cache@v1
