@@ -22,9 +22,7 @@ const StyledHeading = styled(Heading).attrs({
   }
 `
 
-const StyledParagraph = styled(Paragraph).attrs({
-  light: true,
-})`
+const StyledParagraph = styled(Paragraph)`
   white-space: pre-wrap;
   word-break: break-word;
 `
