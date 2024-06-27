@@ -522,29 +522,6 @@ export const verhuurderschap = {
     render: QuestionFieldType.RadioInput,
   },
 
-  extra_wonen_verhuurderschap_afsluitende_vragen: {
-    meta: {
-      ifOneOf: {
-        extra_wonen_verhuurderschap_onderwerp: [
-          'discriminatie',
-          'intimidatie',
-          'huurcontract',
-          'bemiddelingskosten',
-          'servicekosten',
-          'overige',
-        ],
-      },
-      label:
-        'Wat is de naam en het e-mailadres van uw verhuurder of bemiddelaar?',
-      shortLabel: 'Afsluitende vragen',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.TextInput,
-  },
-
   extra_wonen_verhuurderschap_consent: {
     meta: {
       ifOneOf: {

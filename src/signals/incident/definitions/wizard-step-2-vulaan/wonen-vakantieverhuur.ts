@@ -116,17 +116,6 @@ export const vakantieverhuur = {
     },
     render: QuestionFieldType.RadioInput,
   },
-  extra_wonen_vakantieverhuur_naam_bewoner: {
-    meta: {
-      ifOneOf: {
-        extra_wonen_vakantieverhuur_bewoning: 'ja',
-      },
-      label: 'Wat is de naam van de persoon die op het adres woont?',
-      shortLabel: 'Naam bewoner',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
   extra_wonen_vakantieverhuur_online_aangeboden: {
     meta: {
       ifOneOf: {

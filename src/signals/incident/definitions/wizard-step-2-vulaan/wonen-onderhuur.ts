@@ -69,18 +69,6 @@ export const onderhuur = {
     },
     render: QuestionFieldType.RadioInput,
   },
-  extra_wonen_onderhuur_naam_bewoners: {
-    meta: {
-      ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
-      },
-      label: 'Wat zijn de namen van de mensen die op dit adres wonen?',
-      shortLabel: 'Naam bewoners',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextareaInput,
-  },
   extra_wonen_onderhuur_woon_periode: {
     meta: {
       ifOneOf: {
@@ -110,22 +98,6 @@ export const onderhuur = {
       label: 'Op welke dag/tijd is er iemand op het adres?',
       shortLabel: 'Iemand aanwezig',
       pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
-  extra_wonen_onderhuur_naam_huurder: {
-    meta: {
-      ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
-      },
-      label: 'Weet u wie de officiële huurder is van de woning?',
-      subtitle: 'De persoon die in de woning zou moeten wonen',
-      shortLabel: 'Naam huurder',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
     },
     render: QuestionFieldType.TextInput,
   },
