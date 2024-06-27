@@ -64,7 +64,6 @@ describe('definition wonen', () => {
       'extra_wonen_woningdelen_eigenaar',
       'extra_wonen_woningdelen_weet_eigenaar',
       'extra_wonen_woningdelen_hoe_weet_eigenaar',
-      'extra_wonen_criminele_bewoning_eigenaar',
       'extra_wonen_woningdelen_adres_huurder',
       'extra_wonen_woningdelen_aantal_personen',
       'extra_wonen_criminele_bewoning_bewoners_familie',
