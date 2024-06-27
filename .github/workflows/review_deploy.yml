@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ contains( github.event.pull_request.labels.*.name, 'review') || github.event.label.name == 'review' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Azure login
         uses: azure/login@v1.4.6
@@ -44,7 +44,7 @@ jobs:
     if: ${{ contains( github.event.pull_request.labels.*.name, 'review') || github.event.label.name == 'review' }}
     needs: [ buildImage ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Azure login
         uses: azure/login@v1.4.6
