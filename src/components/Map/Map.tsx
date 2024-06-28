@@ -77,14 +77,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 
   useEffect(() => {
-    /* istanbul ignore next */
-    const timeout = setTimeout(() => {
-      document.querySelector('.leaflet-control-attribution a')?.remove()
-      document.querySelector('.leaflet-control-attribution span')?.remove()
-    }, 0)
-
     return () => {
-      clearTimeout(timeout)
       if (mapActive) {
         dispatch(closeMap())
       }
