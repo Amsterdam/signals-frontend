@@ -76,7 +76,7 @@ const MapInput = ({
   useEffect(() => {
     if (!map) return
     map.attributionControl.getContainer()?.setAttribute('aria-hidden', 'true')
-    map.attributionControl.setPrefix('')
+    map.attributionControl.setPrefix(false)
   }, [map])
 
   const clickFunc = useCallback(
