@@ -122,6 +122,7 @@ const Selector: FC = () => {
   const hasFeatureTypes = meta.featureTypes.length > 0
   const showMarker =
     coordinates && (!selection || selectionIsUndetermined(selection[0]))
+  map?.attributionControl.setPrefix(false)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {

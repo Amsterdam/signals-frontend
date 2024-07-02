@@ -108,6 +108,8 @@ const OverviewMap: FC<OverviewMapProps> = ({
   const [incident, setIncident] = useState<IncidentSummary>()
   const [pollingCount, setPollingCount] = useState(0)
 
+  map?.attributionControl.setPrefix(false)
+
   const params = useMemo(
     () => ({
       ...filterParams,

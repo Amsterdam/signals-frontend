@@ -65,6 +65,8 @@ export const IncidentMap = () => {
 
   const { deviceMode, isMobile } = useDeviceMode()
 
+  map?.attributionControl.setPrefix(false)
+
   const closeDrawerOverlay = useCallback(() => {
     setDrawerState(DrawerState.Closed)
   }, [])
@@ -191,7 +193,6 @@ export const IncidentMap = () => {
           dragging: true,
           scrollWheelZoom: true,
           zoom: configuration.map.optionsIncidentMap.zoom,
-          attributionControl: false,
         }}
       >
         {isMobile(deviceMode) && (
