@@ -90,20 +90,6 @@ export const woningdelen = {
     },
     render: QuestionFieldType.TextareaInput,
   },
-  extra_wonen_criminele_bewoning_eigenaar: {
-    meta: {
-      ifOneOf: {
-        wonen_overig: ['crimineleBewoning'],
-      },
-      label: 'Weet u wie de eigenaar is van de woning?',
-      shortLabel: 'Naam eigenaar',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.TextInput,
-  },
   extra_wonen_woningdelen_adres_huurder: {
     meta: {
       ifOneOf: {

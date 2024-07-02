@@ -15,22 +15,6 @@ export const leegstand = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-
-  extra_wonen_leegstand_naam_eigenaar: {
-    meta: {
-      ifOneOf: {
-        subcategory: 'leegstand',
-        wonen_overig: 'leegstand',
-      },
-      label: 'Weet u wie de eigenaar is van de woning?',
-      shortLabel: 'Naam eigenaar',
-      pathMerge: 'extra_properties',
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.TextInput,
-  },
   extra_wonen_leegstand_periode: {
     meta: {
       ifOneOf: {
@@ -70,21 +54,6 @@ export const leegstand = {
       validators: ['required'],
     },
     render: QuestionFieldType.RadioInput,
-  },
-  extra_wonen_leegstand_naam_persoon: {
-    meta: {
-      ifAllOf: {
-        extra_wonen_leegstand_woning_gebruik: 'ja',
-        ifOneOf: {
-          subcategory: 'leegstand',
-          wonen_overig: 'leegstand',
-        },
-      },
-      label: 'Wat is de naam van de persoon die soms in de woning is?',
-      shortLabel: 'Naam persoon',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
   },
   extra_wonen_leegstand_activiteit_in_woning: {
     meta: {
