@@ -18,7 +18,7 @@ jobs:
         job: [lint, test, validate-config, build]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Cache .npm
         uses: actions/cache@v1
@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Setup Node 18
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '18.13'
           check-latest: true
