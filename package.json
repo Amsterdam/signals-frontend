@@ -35,7 +35,7 @@
     "test:clean": "rimraf ./coverage",
     "test:concurrent": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
-    "update-minor": "npm-check-updates --target minor --upgrade",
+    "update-minor": "npm-check-updates --target minor --upgrade && npm install",
     "validate-config": "node ./internals/scripts/validate-config.js",
     "validate-base-config": "node ./internals/scripts/validate-base-config.js"
   },
