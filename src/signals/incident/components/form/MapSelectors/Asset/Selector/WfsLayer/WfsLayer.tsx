@@ -77,7 +77,8 @@ const WfsLayer: FunctionComponent<WfsLayerProps> = ({
 
     const { request, controller } = fetchWithAbort(
       url.toString(),
-      configuration.map.keys.dataPlatform && url.host === 'api.data.amsterdam.nl'
+      configuration.map.keys.dataPlatform &&
+        url.host === 'api.data.amsterdam.nl'
         ? {
             headers: { 'X-Api-Key': configuration.map.keys.dataPlatform },
           }

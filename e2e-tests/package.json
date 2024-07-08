@@ -11,8 +11,7 @@
     "start": "npm run open",
     "test": "npm run run",
     "lint": "eslint cypress",
-    "lint:find-rules": "eslint-find-rules -dun .eslintrc.js",
-    "lint:nibble": "NODE_ENV=production eslint-nibble --cache --ext js cypress"
+    "lint:find-rules": "eslint-find-rules -dun .eslintrc.js"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.0",
@@ -25,7 +24,6 @@
     "eslint-config-prettier": "^6.15.0",
     "eslint-find-rules": "^4.1.0",
     "eslint-import-resolver-webpack": "^0.13.0",
-    "eslint-nibble": "^8.1.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-promise": "^4.2.1",

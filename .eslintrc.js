@@ -16,8 +16,7 @@ module.exports = {
     'plugin:redux-saga/recommended',
     'plugin:testing-library/react',
     'plugin:import/typescript',
-    'prettier',
-    'prettier/react',
+    'plugin:prettier/recommended',
   ],
   globals: {
     L: true,
@@ -32,10 +31,7 @@ module.exports = {
       },
     },
     {
-      extends: [
-        'plugin:@typescript-eslint/recommended',
-        'prettier/@typescript-eslint',
-      ],
+      extends: ['plugin:@typescript-eslint/recommended', 'prettier'],
       files: ['**/*.ts', '**/*.tsx'],
       rules: {
         '@typescript-eslint/consistent-type-imports': 'error',
