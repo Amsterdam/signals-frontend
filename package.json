@@ -44,7 +44,7 @@
     "@amsterdam/asc-ui": "^0.38.0",
     "@amsterdam/react-maps": "^1.1.1",
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
-    "@hookform/resolvers": "^2.9.11",
+    "@hookform/resolvers": "^3.9.0",
     "@microsoft/applicationinsights-web": "^2.8.18",
     "@sentry/browser": "^6.19.7",
     "classnames": "^2.5.1",
