@@ -76,7 +76,7 @@
     "scroll-lock": "^2.1.5",
     "styled-components": "^5.3.11",
     "whatwg-fetch": "^3.6.20",
-    "yup": "^0.32.11"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.8",
