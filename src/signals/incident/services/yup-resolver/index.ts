@@ -4,7 +4,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import isObject from 'lodash/isObject'
 import * as yup from 'yup'
-import type { AnyObject } from 'yup/es/types'
+import type { AnyObject } from 'yup'
 
 import { isBlocking } from '../custom-validators'
 
