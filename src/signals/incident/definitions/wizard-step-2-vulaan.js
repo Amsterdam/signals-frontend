@@ -10,6 +10,7 @@ import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierups from './wizard-step-2-vulaan/eikenprocessierups'
+import japanseDuizendknoop from './wizard-step-2-vulaan/japanse-duizendknoop'
 import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
@@ -112,6 +113,8 @@ export default {
       case 'openbaar-groen-en-water': {
         if (subcategory === 'eikenprocessierups') {
           return expandQuestions(eikenprocessierups, category, subcategory)
+        } else if (subcategory === 'japanse-duizendknoop') {
+          return expandQuestions(japanseDuizendknoop, category, subcategory)
         } else if (subcategory === 'boom-illegale-kap') {
           return expandQuestions(boomIllegaleKap, category, subcategory)
         } else {
