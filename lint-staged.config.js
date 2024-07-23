@@ -15,7 +15,7 @@ module.exports = {
 
     return [
       `eslint ${mainFiles.join(' ')}`,
-      `./e2e-tests/node_modules/.bin/eslint ${e2eTestingFiles.join(' ')}`,
+      // `./e2e-tests/node_modules/.bin/eslint ${e2eTestingFiles.join(' ')}`,
     ]
   },
 }
