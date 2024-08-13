@@ -73,16 +73,10 @@ describe('definition wonen', () => {
       'extra_wonen_woningdelen_overlast',
       'extra_wonen_woningdelen_overlast_omschrijven',
       'extra_wonen_woningdelen_overlast_info',
-      'woningkwaliteit_dateTime',
       'extra_wonen_woonkwaliteit_direct_gevaar',
       'extra_wonen_woonkwaliteit_direct_gevaar_alert',
       'extra_wonen_woonkwaliteit_gemeld_bij_eigenaar',
       'extra_wonen_woonkwaliteit_direct_gevaar_ja',
-      'extra_wonen_woonkwaliteit_bewoner',
-      'extra_wonen_woonkwaliteit_namens_bewoner',
-      'extra_wonen_woonkwaliteit_toestemming_contact',
-      'extra_wonen_woonkwaliteit_toestemming_contact_ja',
-      'extra_wonen_woonkwaliteit_geen_contact',
     ])
   })
 })
