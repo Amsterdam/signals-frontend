@@ -8,7 +8,7 @@ import type { Incident } from 'types/api/incident'
 import type { Geometrie, Location } from 'types/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
-export const convertCoordsToLatLng = (coordinates: LatLngTuple) => {
+const convertCoordsToLatLng = (coordinates: LatLngTuple) => {
   const coordsWithoutAltitude = [coordinates[0], coordinates[1]]
 
   return coordsWithoutAltitude
