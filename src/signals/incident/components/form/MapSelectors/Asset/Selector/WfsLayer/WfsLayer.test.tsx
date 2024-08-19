@@ -11,7 +11,7 @@ import type { LatLngTuple, MapOptions } from 'leaflet'
 
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
-import { sanitizeCoordinates } from 'shared/services/map-location'
+import { convertCoordsToLatLng } from 'shared/services/map-location'
 import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
 import WfsDataContext, { NO_DATA } from './context'
@@ -108,7 +108,7 @@ describe('src/signals/incident/components/form/AssetSelect/WfsLayer', () => {
           ...feature,
           geometry: {
             ...feature.geometry,
-            coordinates: sanitizeCoordinates(
+            coordinates: convertCoordsToLatLng(
               feature.geometry.coordinates as LatLngTuple
             ),
           },

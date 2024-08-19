@@ -1,9 +1,8 @@
 import type { Feature } from 'geojson'
-import type { LatLngTuple } from 'leaflet'
 
 export type PointLatLng = {
   type: 'Point'
-  coordinates: LatLngTuple
+  coordinates: [number, number]
 }
 
 export type Properties = {

@@ -9,7 +9,7 @@ import type { ZoomLevel } from '@amsterdam/arm-core/lib/types'
 import { useMapInstance } from '@amsterdam/react-maps'
 import type { FeatureCollection, Feature } from 'geojson'
 import L from 'leaflet'
-import type { LatLngTuple, LeafletMouseEvent } from 'leaflet'
+import type { LeafletMouseEvent } from 'leaflet'
 import intersection from 'lodash/intersection'
 import { useSelector } from 'react-redux'
 
@@ -34,7 +34,7 @@ import WfsDataContext from '../WfsLayer/context'
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
   type: 'Point'
-  coordinates: LatLngTuple
+  coordinates: [number, number]
 }
 
 type Properties = {
