@@ -11,7 +11,9 @@ import type { RevGeo, Doc } from 'types/pdok/revgeo'
 export const convertCoordsToLatLng = (coordinates: LatLngTuple) => {
   const coordsWithoutAltitude = [coordinates[0], coordinates[1]]
 
-  return coordsWithoutAltitude.sort().reverse() as LatLngTuple
+  return coordsWithoutAltitude
+    .sort((a, b) => (a > b ? 1 : -1))
+    .reverse() as LatLngTuple
 }
 
 export const coordinatesToFeature = ({
