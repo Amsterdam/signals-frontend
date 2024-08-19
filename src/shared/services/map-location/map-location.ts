@@ -8,8 +8,11 @@ import type { Incident } from 'types/api/incident'
 import type { Geometrie, Location } from 'types/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
-export const convertCoordsToLatLng = (coordinates: LatLngTuple) =>
-  [coordinates[1], coordinates[0]] as LatLngTuple
+export const convertCoordsToLatLng = (coordinates: LatLngTuple) => {
+  const coordsWithoutAltitude = [coordinates[0], coordinates[1]]
+
+  return coordsWithoutAltitude.sort().reverse() as LatLngTuple
+}
 
 export const coordinatesToFeature = ({
   lat,
