@@ -149,25 +149,6 @@ describe('Wizard summary', () => {
             optional: true,
             render: PreviewComponents.DateTime,
           },
-          extra_afval_handhaving: {
-            label: 'Welk afval is verkeerd neergezet?',
-            optional: true,
-            render: Label,
-            canBeNull: false,
-          },
-          extra_afval_handhaving_owner: {
-            label:
-              'Weet u wie de eigenaar is van het verkeerd geplaatste afval? Bijvoorbeeld omdat u dat ziet aan een adressticker of iets anders?',
-            optional: true,
-            render: ObjectLabel,
-            canBeNull: false,
-          },
-          extra_afval_handhaving_owner_confirmation: {
-            canBeNull: false,
-            label: undefined,
-            optional: true,
-            render: Null,
-          },
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
             optional: true,

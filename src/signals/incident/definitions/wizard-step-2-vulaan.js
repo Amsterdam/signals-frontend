@@ -6,6 +6,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
+import afvalThor from './wizard-step-2-vulaan/afval-thor'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -18,6 +19,7 @@ import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
+import verkeersoverlast from './wizard-step-2-vulaan/verkeersoverlast'
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import wonen from './wizard-step-2-vulaan/wonen'
 import FormComponents from '../components/form'
@@ -107,6 +109,9 @@ export default {
         if (subcategory.startsWith('container')) {
           return expandQuestions(afvalContainer, category, subcategory)
         }
+        if (['asbest-accu', 'handhaving-op-afval'].includes(subcategory)) {
+          return expandQuestions(afvalThor, category, subcategory)
+        }
         return expandQuestions(afval, category, subcategory)
       }
 
@@ -150,13 +155,23 @@ export default {
         return expandQuestions(overlastPersonenEnGroepen, category, subcategory)
 
       case 'wegen-verkeer-straatmeubilair': {
-        const config = ['klok', 'lantaarnpaal-straatverlichting'].includes(
+        if (['klok', 'lantaarnpaal-straatverlichting'].includes(subcategory)) {
+          return expandQuestions(
+            straatverlichtingKlokken,
+            category,
+            subcategory
+          )
+        }
+
+        if (subcategory === 'verkeersoverlast') {
+          return expandQuestions(verkeersoverlast, category, subcategory)
+        }
+
+        return expandQuestions(
+          wegenVerkeerStraatmeubilair,
+          category,
           subcategory
         )
-          ? straatverlichtingKlokken
-          : wegenVerkeerStraatmeubilair
-
-        return expandQuestions(config, category, subcategory)
       }
 
       case 'wonen':

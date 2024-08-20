@@ -29,7 +29,6 @@ export const overlastOpHetWater = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-
   dateTime_Thor: {
     meta: {
       label: 'Wanneer is of was de overlast?',

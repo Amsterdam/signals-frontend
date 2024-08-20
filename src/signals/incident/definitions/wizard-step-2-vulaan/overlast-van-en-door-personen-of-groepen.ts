@@ -13,6 +13,19 @@ export const overlastPersonenEnGroepen = {
   dateTime: {
     meta: {
       ifOneOf: {
+        subcategory: ['loslopende-agressieve-honden'],
+      },
+      label: 'Wanneer was het?',
+      canBeNull: true,
+    },
+    options: {
+      validators: [falsyOrNumberOrNow, inPast],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+  dateTime_Thor: {
+    meta: {
+      ifOneOf: {
         subcategory: [
           'daklozen-bedelen',
           'drank-en-drugsoverlast',
@@ -25,7 +38,6 @@ export const overlastPersonenEnGroepen = {
         ],
       },
       label: 'Wanneer is of was de overlast?',
-      ignoreVisibility: true,
       canBeNull: true,
     },
     options: {

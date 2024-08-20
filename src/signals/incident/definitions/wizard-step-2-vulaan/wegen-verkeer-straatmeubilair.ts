@@ -18,15 +18,11 @@ export const wegenVerkeerStraatmeubilair = {
   locatie,
   dateTime: {
     meta: {
-      ifOneOf: {
-        subcategory: ['verkeersoverlast'],
-      },
-      label: 'Wanneer is of was de overlast?',
-      ignoreVisibility: true,
+      label: 'Wanneer was het?',
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast, 'required'],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },

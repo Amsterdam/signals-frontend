@@ -12,60 +12,13 @@ export const controls = {
   locatie,
   dateTime: {
     meta: {
-      ifOneOf: {
-        subcategory: ['asbest-accu', 'handhaving-op-afval'],
-      },
-      label: 'Wanneer is of was de overlast?',
-      ignoreVisibility: true,
+      label: 'Wanneer was het?',
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast, 'required'],
+      validators: [falsyOrNumberOrNow, inPast],
     },
     render: QuestionFieldType.DateTimeInput,
-  },
-  extra_afval_handhaving: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['asbest-accu', 'handhaving-op-afval'],
-      },
-      label: 'Welk afval is verkeerd neergezet?',
-      subtitle:
-        'U helpt ons door zoveel mogelijk informatie te geven over het soort afval: huisafval, bedrijfsafval, grofvuil of dozen en papier.',
-      shortLabel: 'Welk afval',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextareaInput,
-  },
-  extra_afval_handhaving_owner: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['asbest-accu', 'handhaving-op-afval'],
-      },
-      label:
-        'Weet u wie de eigenaar is van het verkeerd geplaatste afval? Bijvoorbeeld omdat u dat ziet aan een adressticker of iets anders?',
-      shortLabel: 'Welke eigenaar',
-      pathMerge: 'extra_properties',
-      values: {
-        ja: 'Ja',
-        nee: 'Nee',
-      },
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_afval_handhaving_owner_confirmation: {
-    meta: {
-      ifOneOf: {
-        extra_afval_handhaving_owner: 'ja',
-      },
-      value:
-        'Wij willen graag telefonisch contact met u hierover. Als u dat goed vindt, vul dan uw telefoonnummer in op de volgende pagina.',
-      type: 'info',
-    },
-    render: QuestionFieldType.PlainText,
   },
   extra_afval: {
     meta: {
