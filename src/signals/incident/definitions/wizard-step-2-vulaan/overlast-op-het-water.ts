@@ -12,9 +12,35 @@ export const overlastOpHetWater = {
   locatie,
   dateTime: {
     meta: {
-      ignoreVisibility: true,
       label: 'Wanneer heeft u de overlast?',
       canBeNull: true,
+      ifOneOf: {
+        subcategory: [
+          'olie-op-het-water',
+          'overig-boten',
+          'overlast-op-het-water-vaargedrag',
+          'overlast-vanaf-het-water',
+          'scheepvaart-nautisch-toezicht',
+        ],
+      },
+    },
+    options: {
+      validators: [falsyOrNumberOrNow, inPast, 'required'],
+    },
+    render: QuestionFieldType.DateTimeInput,
+  },
+
+  dateTime_Thor: {
+    meta: {
+      label: 'Wanneer is of was de overlast?',
+      canBeNull: true,
+      ifOneOf: {
+        subcategory: [
+          'blokkade-van-de-vaarweg',
+          'overlast-op-het-water-geluid',
+          'overlast-op-het-water-snel-varen',
+        ],
+      },
     },
     options: {
       validators: [falsyOrNumberOrNow, inPast, 'required'],
@@ -29,7 +55,6 @@ export const overlastOpHetWater = {
           'blokkade-van-de-vaarweg',
           'overig-boten',
           'overlast-op-het-water-geluid',
-          'overlast-op-het-water-gezonken-boot',
           'overlast-op-het-water-snel-varen',
           'overlast-op-het-water-vaargedrag',
         ],

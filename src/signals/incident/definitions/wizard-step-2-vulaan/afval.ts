@@ -15,12 +15,12 @@ export const controls = {
       ifOneOf: {
         subcategory: ['asbest-accu', 'handhaving-op-afval'],
       },
-      label: 'Wanneer was het?',
+      label: 'Wanneer is of was de overlast?',
       ignoreVisibility: true,
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast],
+      validators: [falsyOrNumberOrNow, inPast, 'required'],
     },
     render: QuestionFieldType.DateTimeInput,
   },

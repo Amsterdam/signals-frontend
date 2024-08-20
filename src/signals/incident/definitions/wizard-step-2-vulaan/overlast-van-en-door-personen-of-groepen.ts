@@ -16,6 +16,7 @@ export const overlastPersonenEnGroepen = {
         subcategory: [
           'daklozen-bedelen',
           'drank-en-drugsoverlast',
+          'geluidsoverlast-door-personen',
           'jongerenoverlast',
           'overige-overlast-door-personen',
           'overlast-door-afsteken-vuurwerk',
@@ -23,12 +24,12 @@ export const overlastPersonenEnGroepen = {
           'wildplassen-poepen-overgeven',
         ],
       },
-      label: 'Wanneer was het?',
+      label: 'Wanneer is of was de overlast?',
       ignoreVisibility: true,
       canBeNull: true,
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast],
+      validators: [falsyOrNumberOrNow, inPast, 'required'],
     },
     render: QuestionFieldType.DateTimeInput,
   },
