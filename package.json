@@ -161,7 +161,7 @@
     "lint-staged": "^15.2.9",
     "match-media-mock": "^0.1.1",
     "mini-css-extract-plugin": "^2.9.0",
-    "msw": "^0.36.8",
+    "msw": "^2.3.5",
     "node-plop": "^0.32.0",
     "npm-check-updates": "^16.14.20",
     "prettier": "^2.8.8",
