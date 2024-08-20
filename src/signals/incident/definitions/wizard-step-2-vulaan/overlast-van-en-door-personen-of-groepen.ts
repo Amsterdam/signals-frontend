@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import {
-  falsyOrNumberOrNow,
+  // falsyOrNumberOrNow,
   inPast,
 } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
@@ -23,12 +23,12 @@ export const overlastPersonenEnGroepen = {
           'wildplassen-poepen-overgeven',
         ],
       },
-      label: 'Wanneer was het?',
+      label: 'Wanneer is of was de overlast?',
       ignoreVisibility: true,
-      canBeNull: true,
+      canBeNull: false,
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast],
+      validators: ['required', inPast],
     },
     render: QuestionFieldType.DateTimeInput,
   },
@@ -66,17 +66,6 @@ export const overlastPersonenEnGroepen = {
     },
     render: QuestionFieldType.PlainText,
   },
-  extra_jongeren_text: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'jongerenoverlast',
-      },
-      type: 'caution',
-      value:
-        'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
-    },
-    render: QuestionFieldType.PlainText,
-  },
   extra_personen_overig: {
     meta: {
       label: 'Om hoeveel personen gaat het (ongeveer)?',
@@ -87,21 +76,6 @@ export const overlastPersonenEnGroepen = {
         '4-6': '4, 5 of 6',
         '7_of_meer': '7 of meer',
         onbekend: 'Onbekend',
-      },
-    },
-    options: {
-      validators: ['required'],
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-  extra_personen_overig_vaker: {
-    meta: {
-      label: 'Gebeurt het vaker?',
-      shortLabel: 'Vaker',
-      pathMerge: 'extra_properties',
-      values: {
-        nee: 'Nee',
-        ja: 'Ja, het gebeurt vaker',
       },
     },
     options: {
