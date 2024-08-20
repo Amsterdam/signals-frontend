@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import { useFetch } from 'hooks'
 import configuration from 'shared/services/configuration/configuration'
 import { featureToCoordinates } from 'shared/services/map-location'
+import type { LatLng } from 'shared/services/map-location/map-location'
 import reverseGeocoderService from 'shared/services/reverse-geocoder'
 import AssetSelectContext from 'signals/incident/components/form/MapSelectors/Asset/context'
 import { NEARBY_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
@@ -34,7 +35,7 @@ import WfsDataContext from '../WfsLayer/context'
 // Custom Point type, because the compiler complains about the coordinates type
 type Point = {
   type: 'Point'
-  coordinates: [number, number]
+  coordinates: LatLng
 }
 
 type Properties = {

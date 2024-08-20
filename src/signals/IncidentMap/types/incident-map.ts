@@ -1,8 +1,10 @@
 import type { Feature } from 'geojson'
 
+import type { LatLng } from 'shared/services/map-location/map-location'
+
 export type PointLatLng = {
   type: 'Point'
-  coordinates: [number, number]
+  coordinates: LatLng
 }
 
 export type Properties = {
