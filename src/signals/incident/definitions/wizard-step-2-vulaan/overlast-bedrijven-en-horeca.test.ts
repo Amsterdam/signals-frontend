@@ -7,6 +7,8 @@ describe('definition overlast-bedrijven-en-horeca', () => {
     expect(keys).toStrictEqual([
       'locatie',
       'dateTime',
+      'dateTimePersonenOverlast',
+      'extra_personen_overig',
       'extra_bedrijven_horeca_frequentie',
       'extra_bedrijven_horeca_moment',
       'extra_bedrijven_horeca_wat',
