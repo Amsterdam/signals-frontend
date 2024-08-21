@@ -8,15 +8,22 @@ import type { Incident } from 'types/api/incident'
 import type { Geometrie, Location } from 'types/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
-export const sanitizeCoordinates = (coordinates: LatLngTuple): LatLngTuple =>
-  coordinates.sort((a, b) => (a > b ? 1 : -1)).reverse() as LatLngTuple
+export type LatLng = [number, number]
+
+const convertCoordsToLatLng = (coordinates: LatLngTuple) => {
+  const coordsWithoutAltitude = [coordinates[0], coordinates[1]]
+
+  return coordsWithoutAltitude
+    .sort((a, b) => (a > b ? 1 : -1))
+    .reverse() as LatLng
+}
 
 export const coordinatesToFeature = ({
   lat,
   lng,
 }: LatLngLiteral): Geometrie => ({
   type: 'Point',
-  coordinates: sanitizeCoordinates([lat, lng]),
+  coordinates: convertCoordsToLatLng([lat, lng]),
 })
 
 export const coordinatesToAPIFeature = ({
@@ -30,7 +37,7 @@ export const coordinatesToAPIFeature = ({
 export const featureToCoordinates = ({
   coordinates,
 }: Geometrie): LatLngLiteral => {
-  const [lat, lng] = sanitizeCoordinates(coordinates)
+  const [lat, lng] = convertCoordsToLatLng(coordinates)
   return { lat, lng }
 }
 
@@ -41,7 +48,7 @@ export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
     throw new TypeError('Provided WKT geometry is not a point.')
   }
 
-  const [lat, lng] = sanitizeCoordinates(
+  const [lat, lng] = convertCoordsToLatLng(
     pointMatch.map((str) => Number.parseFloat(str)) as LatLngTuple
   )
 
@@ -144,7 +151,7 @@ export const pointWithinBounds = (
   coordinates: LatLngTuple,
   bounds = configuration.map.options.maxBounds
 ) => {
-  const [lat, lng] = sanitizeCoordinates(coordinates)
+  const [lat, lng] = convertCoordsToLatLng(coordinates)
 
   const latWithinBounds = lat > bounds[0][0] && lat < bounds[1][0]
   const lngWithinBounds = lng > bounds[0][1] && lng < bounds[1][1]
