@@ -7,7 +7,6 @@ import locatie from './locatie'
 
 const overlastBedrijvenEnHoreca = {
   locatie,
-
   dateTime: {
     meta: {
       ifOneOf: {
@@ -22,14 +21,12 @@ const overlastBedrijvenEnHoreca = {
         ],
       },
       label: 'Wanneer is of was de overlast?',
-      canBeNull: true,
     },
     options: {
       validators: [inPast, 'required'],
     },
     render: QuestionFieldType.DateTimeInput,
   },
-
   extra_bedrijven_horeca_frequentie: {
     meta: {
       ifOneOf: {

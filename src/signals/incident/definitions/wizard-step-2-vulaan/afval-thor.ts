@@ -10,7 +10,6 @@ export const controls = {
   dateTime: {
     meta: {
       label: 'Wanneer is of was de overlast?',
-      canBeNull: true,
     },
     options: {
       validators: [inPast, 'required'],

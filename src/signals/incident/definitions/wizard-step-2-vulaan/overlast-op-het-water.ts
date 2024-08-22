@@ -10,7 +10,6 @@ export const overlastOpHetWater = {
   dateTime: {
     meta: {
       label: 'Wanneer heeft u de overlast?',
-      canBeNull: true,
       ifOneOf: {
         subcategory: [
           'olie-op-het-water',
@@ -27,7 +26,6 @@ export const overlastOpHetWater = {
   dateTime_Thor: {
     meta: {
       label: 'Wanneer is of was de overlast?',
-      canBeNull: true,
       ifOneOf: {
         subcategory: [
           'blokkade-van-de-vaarweg',

@@ -23,7 +23,6 @@ export const overlastPersonenEnGroepen = {
         ],
       },
       label: 'Wanneer is of was de overlast?',
-      canBeNull: true,
     },
     options: {
       validators: [inPast, 'required'],
