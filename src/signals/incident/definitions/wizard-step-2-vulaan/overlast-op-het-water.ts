@@ -17,10 +17,8 @@ export const overlastOpHetWater = {
       ifOneOf: {
         subcategory: [
           'olie-op-het-water',
-          'overig-boten',
           'overlast-op-het-water-vaargedrag',
           'overlast-vanaf-het-water',
-          'scheepvaart-nautisch-toezicht',
         ],
       },
     },
@@ -36,8 +34,10 @@ export const overlastOpHetWater = {
       ifOneOf: {
         subcategory: [
           'blokkade-van-de-vaarweg',
+          'overig-boten',
           'overlast-op-het-water-geluid',
           'overlast-op-het-water-snel-varen',
+          'scheepvaart-nautisch-toezicht',
         ],
       },
     },
