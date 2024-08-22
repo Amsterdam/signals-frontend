@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import { inPast } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
