@@ -13,24 +13,12 @@ export const overlastPersonenEnGroepen = {
   dateTime: {
     meta: {
       ifOneOf: {
-        subcategory: ['loslopende-agressieve-honden'],
-      },
-      label: 'Wanneer was het?',
-      canBeNull: true,
-    },
-    options: {
-      validators: [falsyOrNumberOrNow, inPast],
-    },
-    render: QuestionFieldType.DateTimeInput,
-  },
-  dateTime_Thor: {
-    meta: {
-      ifOneOf: {
         subcategory: [
           'daklozen-bedelen',
           'drank-en-drugsoverlast',
           'geluidsoverlast-door-personen',
           'jongerenoverlast',
+          'loslopende-agressieve-honden',
           'overige-overlast-door-personen',
           'overlast-door-afsteken-vuurwerk',
           'overlast-van-taxis-bussen-en-fietstaxis',
