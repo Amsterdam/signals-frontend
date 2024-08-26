@@ -10,144 +10,12 @@ export const overlastOpHetWater = {
   dateTime: {
     meta: {
       label: 'Wanneer heeft u de overlast?',
-      ifOneOf: {
-        subcategory: [
-          'olie-op-het-water',
-          'overlast-op-het-water-vaargedrag',
-          'overlast-vanaf-het-water',
-        ],
-      },
     },
     options: {
       validators: [inPast, 'required'],
     },
     render: QuestionFieldType.DateTimeInput,
   },
-  dateTime_Thor: {
-    meta: {
-      label: 'Wanneer is of was de overlast?',
-      ifOneOf: {
-        subcategory: [
-          'blokkade-van-de-vaarweg',
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'scheepvaart-nautisch-toezicht',
-        ],
-      },
-    },
-    options: {
-      validators: [inPast, 'required'],
-    },
-    render: QuestionFieldType.DateTimeInput,
-  },
-
-  extra_boten_frequentie: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'blokkade-van-de-vaarweg',
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'overlast-op-het-water-vaargedrag',
-        ],
-      },
-      values: {
-        ja: 'Ja, het gebeurt vaker',
-        nee: 'Nee, het is de eerste keer',
-      },
-      label: 'Heeft u deze overlast al eerder gehad?',
-      shortLabel: 'Eerder overlast',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-
-  extra_boten_moment: {
-    meta: {
-      ifAllOf: {
-        extra_boten_frequentie: 'ja',
-      },
-      label: 'Op welke momenten van de dag hebt u de overlast?',
-      shortLabel: 'Overlast momenten',
-      pathMerge: 'extra_properties',
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.TextInput,
-  },
-
-  extra_boten_beweging: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'blokkade-van-de-vaarweg',
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'overlast-op-het-water-vaargedrag',
-        ],
-      },
-      values: {
-        ja: 'Ja, de boot ligt stil',
-        nee: 'Nee, de boot vaart',
-      },
-      label: 'Ligt de boot stil?',
-      shortLabel: 'Beweging boot',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.RadioInput,
-  },
-
-  extra_boten_soort: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'overlast-op-het-water-vaargedrag',
-        ],
-      },
-      values: {
-        plezier: '(Plezier)boot in privé-eigendom',
-        rondvaart: 'Rondvaartboot of salonboot van rederij',
-        vracht: 'Vrachtschip of binnenvaartschip',
-        huur: 'Huurboot',
-        overig: 'Overig',
-        weetniet: 'Weet ik niet',
-      },
-      label: 'Wat voor soort boot is het?',
-      shortLabel: 'Soort boot',
-      pathMerge: 'extra_properties',
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.RadioInput,
-  },
-
-  extra_boten_open_gesloten: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'overlast-op-het-water-vaargedrag',
-        ],
-      },
-      values: {
-        ja: 'Ja, het is een open boot (bijvoorbeeld een sloep, roeiboot, rondvaartboot met dak open)',
-        nee: 'Nee, het is een gesloten boot (bijvoorbeeld een rondvaartboot, salonboot, kajuitboot)',
-        onduidelijk: 'Ik kan het niet zien',
-      },
-      label: 'Is het een open of een gesloten boot?',
-      shortLabel: 'Open boot',
-      pathMerge: 'extra_properties',
-    },
-    options: { validators: ['required'] },
-    render: QuestionFieldType.RadioInput,
-  },
-
   extra_boten_drijfkracht: {
     meta: {
       ifOneOf: {
@@ -163,7 +31,6 @@ export const overlastOpHetWater = {
     },
     render: QuestionFieldType.RadioInput,
   },
-
   extra_boten_vast: {
     meta: {
       ifOneOf: {
@@ -180,7 +47,6 @@ export const overlastOpHetWater = {
     },
     render: QuestionFieldType.RadioInput,
   },
-
   extra_boten_lekken: {
     meta: {
       ifOneOf: {
@@ -196,26 +62,6 @@ export const overlastOpHetWater = {
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.RadioInput,
-  },
-
-  extra_boten_meer: {
-    meta: {
-      ifOneOf: {
-        subcategory: [
-          'blokkade-van-de-vaarweg',
-          'overig-boten',
-          'overlast-op-het-water-geluid',
-          'overlast-op-het-water-snel-varen',
-          'overlast-op-het-water-vaargedrag',
-        ],
-      },
-      label: 'Wat weet u nog meer over deze situatie?',
-      shortLabel: 'Extra informatie',
-      subtitle:
-        'Bijvoorbeeld: waar de boot naar toe vaart, naam boot, kleur van de boot, lengte en andere dingen die u opvallen, aantal passagiers',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextareaInput,
   },
 }
 

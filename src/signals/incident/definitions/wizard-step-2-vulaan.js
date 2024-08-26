@@ -16,6 +16,7 @@ import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
+import overlastOpHetWaterThor from './wizard-step-2-vulaan/overlast-op-het-water-thor'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
@@ -146,6 +147,18 @@ export default {
       }
 
       case 'overlast-op-het-water':
+        if (
+          [
+            'blokkade-van-de-vaarweg',
+            'overig-boten',
+            'overlast-op-het-water-geluid',
+            'overlast-op-het-water-snel-varen',
+            'scheepvaart-nautisch-toezicht',
+          ].includes(subcategory)
+        ) {
+          return expandQuestions(overlastOpHetWaterThor, category, subcategory)
+        }
+
         return expandQuestions(overlastOpHetWater, category, subcategory)
 
       case 'overlast-van-dieren':
