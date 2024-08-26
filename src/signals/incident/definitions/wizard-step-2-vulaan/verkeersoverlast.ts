@@ -5,7 +5,7 @@ import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
 
-const boomIllegaleKap = {
+export const verkeersoverlast = {
   locatie,
   dateTime: {
     meta: {
@@ -18,4 +18,4 @@ const boomIllegaleKap = {
   },
 }
 
-export default boomIllegaleKap
+export default verkeersoverlast

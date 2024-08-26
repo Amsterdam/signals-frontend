@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import memoize from 'lodash/memoize'
 
 import configuration from 'shared/services/configuration/configuration'
 
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
+import afvalThor from './wizard-step-2-vulaan/afval-thor'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -15,9 +16,11 @@ import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
+import overlastOpHetWaterThor from './wizard-step-2-vulaan/overlast-op-het-water-thor'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
+import verkeersoverlast from './wizard-step-2-vulaan/verkeersoverlast'
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import wonen from './wizard-step-2-vulaan/wonen'
 import FormComponents from '../components/form'
@@ -107,6 +110,9 @@ export default {
         if (subcategory.startsWith('container')) {
           return expandQuestions(afvalContainer, category, subcategory)
         }
+        if (['asbest-accu', 'handhaving-op-afval'].includes(subcategory)) {
+          return expandQuestions(afvalThor, category, subcategory)
+        }
         return expandQuestions(afval, category, subcategory)
       }
 
@@ -141,6 +147,18 @@ export default {
       }
 
       case 'overlast-op-het-water':
+        if (
+          [
+            'blokkade-van-de-vaarweg',
+            'overig-boten',
+            'overlast-op-het-water-geluid',
+            'overlast-op-het-water-snel-varen',
+            'scheepvaart-nautisch-toezicht',
+          ].includes(subcategory)
+        ) {
+          return expandQuestions(overlastOpHetWaterThor, category, subcategory)
+        }
+
         return expandQuestions(overlastOpHetWater, category, subcategory)
 
       case 'overlast-van-dieren':
@@ -150,13 +168,23 @@ export default {
         return expandQuestions(overlastPersonenEnGroepen, category, subcategory)
 
       case 'wegen-verkeer-straatmeubilair': {
-        const config = ['klok', 'lantaarnpaal-straatverlichting'].includes(
+        if (['klok', 'lantaarnpaal-straatverlichting'].includes(subcategory)) {
+          return expandQuestions(
+            straatverlichtingKlokken,
+            category,
+            subcategory
+          )
+        }
+
+        if (subcategory === 'verkeersoverlast') {
+          return expandQuestions(verkeersoverlast, category, subcategory)
+        }
+
+        return expandQuestions(
+          wegenVerkeerStraatmeubilair,
+          category,
           subcategory
         )
-          ? straatverlichtingKlokken
-          : wegenVerkeerStraatmeubilair
-
-        return expandQuestions(config, category, subcategory)
       }
 
       case 'wonen':

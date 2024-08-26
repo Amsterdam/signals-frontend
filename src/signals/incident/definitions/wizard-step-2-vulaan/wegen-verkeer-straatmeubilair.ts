@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
 import appConfiguration from 'shared/services/configuration/configuration'
 import {
   falsyOrNumberOrNow,
@@ -18,11 +18,7 @@ export const wegenVerkeerStraatmeubilair = {
   locatie,
   dateTime: {
     meta: {
-      ifOneOf: {
-        subcategory: ['verkeersoverlast'],
-      },
       label: 'Wanneer was het?',
-      ignoreVisibility: true,
       canBeNull: true,
     },
     options: {

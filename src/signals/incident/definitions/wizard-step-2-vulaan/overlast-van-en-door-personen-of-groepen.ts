@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
-import {
-  falsyOrNumberOrNow,
-  inPast,
-} from 'signals/incident/services/custom-validators'
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
+import { inPast } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import locatie from './locatie'
@@ -16,19 +13,19 @@ export const overlastPersonenEnGroepen = {
         subcategory: [
           'daklozen-bedelen',
           'drank-en-drugsoverlast',
+          'geluidsoverlast-door-personen',
           'jongerenoverlast',
+          'loslopende-agressieve-honden',
           'overige-overlast-door-personen',
           'overlast-door-afsteken-vuurwerk',
           'overlast-van-taxis-bussen-en-fietstaxis',
           'wildplassen-poepen-overgeven',
         ],
       },
-      label: 'Wanneer was het?',
-      ignoreVisibility: true,
-      canBeNull: true,
+      label: 'Wanneer is of was de overlast?',
     },
     options: {
-      validators: [falsyOrNumberOrNow, inPast],
+      validators: [inPast, 'required'],
     },
     render: QuestionFieldType.DateTimeInput,
   },
