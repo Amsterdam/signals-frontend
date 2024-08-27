@@ -27,6 +27,26 @@ const overlastBedrijvenEnHoreca = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
+  extra_personen_overig: {
+    meta: {
+      ifOneOf: {
+        subcategory: ['overlast-door-bezoekers-niet-op-terras'],
+      },
+      label: 'Om hoeveel personen gaat het (ongeveer)?',
+      shortLabel: 'Aantal personen',
+      pathMerge: 'extra_properties',
+      values: {
+        '1-3': '1, 2 of 3',
+        '4-6': '4, 5 of 6',
+        '7_of_meer': '7 of meer',
+        onbekend: 'Onbekend',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
   extra_bedrijven_horeca_frequentie: {
     meta: {
       ifOneOf: {
