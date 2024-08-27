@@ -9,9 +9,7 @@ describe('definition overlast-van-en-door-personen-of-groepen', () => {
       'dateTime',
       'extra_drugs_verkoop',
       'extra_drugs_verkoop_ja',
-      'extra_jongeren_text',
       'extra_personen_overig',
-      'extra_personen_overig_vaker',
       'extra_personen_overig_vaker_momenten',
     ])
   })
