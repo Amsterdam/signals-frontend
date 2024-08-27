@@ -9,6 +9,13 @@ export const overlastOpHetWater = {
   locatie,
   dateTime: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'olie-op-het-water',
+          'overlast-op-het-water-vaargedrag',
+          'overlast-vanaf-het-water',
+        ],
+      },
       label: 'Wanneer heeft u de overlast?',
     },
     options: {
