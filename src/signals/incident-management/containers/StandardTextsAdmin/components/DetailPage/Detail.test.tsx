@@ -2,6 +2,7 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { getByRole, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -10,15 +11,9 @@ import { withAppContext } from 'test/utils'
 import { Detail } from './Detail'
 import type { StandardTextDetailData } from './types'
 import * as API from '../../../../../../../internals/testing/api'
-import {
-  fetchMock,
-  mockRequestHandler,
-  rest,
-  server,
-} from '../../../../../../../internals/testing/msw-server'
+import { server } from '../../../../../../../internals/testing/msw-server'
 import { mockSubcategory } from '../../_test_/mock-subcategories'
 
-fetchMock.disableMocks()
 const mockNavigate = jest.fn()
 const dispatch = jest.fn()
 
@@ -138,9 +133,9 @@ describe('Detail', () => {
 
   it('deletes the standard text when the button Verwijderen -> Bevestig is pressed', async () => {
     server.use(
-      rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
+      http.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () => {
         success = true
-        return res(ctx.status(202))
+        return
       })
     )
 
@@ -154,9 +149,9 @@ describe('Detail', () => {
 
   it("doesn't delete the standard text when the button Verwijderen-> Annuleer is pressed", async () => {
     server.use(
-      rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) => {
+      http.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () => {
         success = true
-        return res(ctx.status(202))
+        return
       })
     )
 
@@ -250,12 +245,11 @@ describe('Detail', () => {
 
   describe('Error handling', () => {
     it('displays an error notification if the fetch fails', async () => {
-      mockRequestHandler({
-        method: 'get',
-        url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
-        status: 500,
-        body: 'Something went wrong',
-      })
+      server.use(
+        http.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () =>
+          HttpResponse.json('Something went wrong', { status: 500 })
+        )
+      )
 
       render(withAppContext(<Detail />))
 
@@ -283,12 +277,11 @@ describe('Detail', () => {
         updated_at: '25-06-2023',
       }
 
-      mockRequestHandler({
-        status: 200,
-        method: 'get',
-        url: `${API.STANDARD_TEXTS_DETAIL_ENDPOINT}`,
-        body: mockData,
-      })
+      server.use(
+        http.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () =>
+          HttpResponse.json(mockData)
+        )
+      )
 
       render(withAppContext(<Detail />))
 

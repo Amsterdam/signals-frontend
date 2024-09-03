@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2023 Gemeente Amsterdam
 import { act, renderHook, cleanup } from '@testing-library/react-hooks'
+import { http, HttpResponse } from 'msw'
 import { Provider } from 'react-redux'
 import * as reactRedux from 'react-redux'
 
@@ -12,12 +13,7 @@ import type { Result } from 'types/api/reporter'
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
 
 import * as API from './../../../../../internals/testing/api'
-import {
-  fetchMock,
-  mockRequestHandler,
-  rest,
-  server,
-} from './../../../../../internals/testing/msw-server'
+import { server } from './../../../../../internals/testing/msw-server'
 import type { FetchReporterHook } from './useFetchReporter'
 import { useFetchReporter } from './useFetchReporter'
 
@@ -25,8 +21,6 @@ const dispatch = jest.fn()
 const reduxSpy = jest
   .spyOn(reactRedux, 'useDispatch')
   .mockImplementation(() => dispatch)
-
-fetchMock.disableMocks()
 
 jest.mock('react-router-dom')
 jest.mock('shared/services/configuration/configuration')
@@ -62,25 +56,24 @@ describe.skip('Fetch Reporter hook', () => {
   })
 
   it('correctly implements pagination', async () => {
-    mockRequestHandler({
-      url: API.INCIDENT,
-      body: {
-        ...incidentFixture,
-        id: 12345,
-      },
-    })
+    server.use(
+      http.get(API.INCIDENT, () =>
+        HttpResponse.json({
+          ...incidentFixture,
+          id: 12345,
+        })
+      )
+    )
 
     server.use(
-      rest.get(API.INCIDENT_CONTEXT_REPORTER, (req, res, ctx) => {
-        const query = req.url.searchParams
-        const page = query.get('page')
-        return res(
-          ctx.status(200),
-          ctx.json({
-            count: 8,
-            results: [{ ...REPORTER_MOCK, id: Number(page) }],
-          })
-        )
+      http.get(API.INCIDENT_CONTEXT_REPORTER, ({ request }) => {
+        const reqUrl = new URL(request.url)
+
+        const page = reqUrl.searchParams.get('page')
+        return HttpResponse.json({
+          count: 8,
+          results: [{ ...REPORTER_MOCK, id: Number(page) }],
+        })
       })
     )
 
@@ -175,13 +168,14 @@ describe.skip('Fetch Reporter hook', () => {
       initialProps: { store },
     })
 
-    mockRequestHandler({
-      url: API.INCIDENT,
-      body: {
-        ...incidentFixture,
-        id: Number(INCIDENT_ID_2),
-      },
-    })
+    server.use(
+      http.get(API.INCIDENT, () =>
+        HttpResponse.json({
+          ...incidentFixture,
+          id: Number(INCIDENT_ID_2),
+        })
+      )
+    )
 
     act(() => {
       result.current.selectIncident(Number(INCIDENT_ID_2))
@@ -218,11 +212,11 @@ describe.skip('Fetch Reporter hook', () => {
   })
 
   it('handles errors', async () => {
-    mockRequestHandler({
-      url: API.INCIDENT_CONTEXT_REPORTER,
-      status: 500,
-      body: 'Something went wrong',
-    })
+    server.use(
+      http.get(API.INCIDENT_CONTEXT_REPORTER, () =>
+        HttpResponse.json('Something went wrong', { status: 500 })
+      )
+    )
 
     const { waitForNextUpdate } = renderHook(
       () => useFetchReporter(INCIDENT_ID),
