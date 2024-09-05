@@ -3,7 +3,6 @@
 const path = require('path')
 
 module.exports = {
-  maxWorkers: 2,
   collectCoverageFrom: [
     'src/*.{js,jsx,ts,tsx}',
     'src/**/*.{js,jsx,ts,tsx}',
