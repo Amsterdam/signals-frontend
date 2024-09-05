@@ -26,11 +26,6 @@
     "target": "es5",
     "downlevelIteration": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "custom.d.ts",
-    "internals/testing/jest.polyfills.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "custom.d.ts"],
   "exclude": ["node_modules", "build", "src/*.json"]
 }
