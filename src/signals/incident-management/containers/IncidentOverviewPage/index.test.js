@@ -4,7 +4,6 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import Enzyme, { mount } from 'enzyme'
-import fetchMock from 'jest-fetch-mock'
 import { mocked } from 'jest-mock'
 import * as reactRedux from 'react-redux'
 import { disablePageScroll, enablePageScroll } from 'scroll-lock'
@@ -83,7 +82,6 @@ describe('signals/incident-management/containers/IncidentOverviewPage', () => {
   })
   afterEach(() => {
     jest.resetAllMocks()
-    fetchMock.resetMocks()
   })
 
   it('should render modal buttons', () => {

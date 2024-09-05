@@ -65,6 +65,7 @@ const renderAndSearchWithStreetNameOnlyAsTrue = async (
   await screen.findByTestId('auto-suggest')
 }
 
+// TODO: these tests broke when updating MSW, should be fixed
 // eslint-disable-next-line jest/no-disabled-tests
 describe.skip('components/PDOKAutoSuggest', () => {
   beforeEach(() => {

@@ -28,6 +28,7 @@ jest.mock('shared/services/auth/auth', () => ({
 
 jest.useFakeTimers()
 
+// TODO: these tests broke when updating MSW, should be fixed
 // eslint-disable-next-line jest/no-disabled-tests
 describe.skip('<App />', () => {
   let listenSpy: jest.SpyInstance
