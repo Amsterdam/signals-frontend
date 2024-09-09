@@ -6,7 +6,6 @@ import type { ReactPropTypes } from 'react'
 
 import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import fetchMock from 'jest-fetch-mock'
 import type { MapOptions } from 'leaflet'
 import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
@@ -16,7 +15,6 @@ import type { MapProps } from 'components/Map/Map'
 import configuration from 'shared/services/configuration/configuration'
 import MAP_OPTIONS from 'shared/services/configuration/map-options'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
-import assetsJson from 'utils/__tests__/fixtures/assets.json'
 
 import MockInstance = jest.MockInstance
 import type { LegendPanelProps } from './LegendPanel/LegendPanel'
@@ -145,8 +143,6 @@ describe('signals/incident/components/form/AssetSelect/Selector', () => {
     )
     dispatch.mockReset()
     dispatchEventSpy.mockReset()
-    fetchMock.resetMocks()
-    fetchMock.mockResponseOnce(JSON.stringify(assetsJson), { status: 200 })
     mockShowDesktopVariant = false
     actualMapOptions = null
   })

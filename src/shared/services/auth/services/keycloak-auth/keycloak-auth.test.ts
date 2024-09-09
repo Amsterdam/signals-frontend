@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
+
+// TODO: Typing is a mess here, should fix
+// eslint-disable-next-line
+// @ts-nocheck
 import { mocked } from 'jest-mock'
 import type { KeycloakInstance } from 'keycloak-js'
 import keycloakJS from 'keycloak-js'

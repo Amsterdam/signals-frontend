@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
+
+// TODO: Typing is a mess here, should fix
+// eslint-disable-next-line
+// @ts-nocheck
 import 'jest-localstorage-mock'
 import * as Sentry from '@sentry/browser'
 import { mocked } from 'jest-mock'

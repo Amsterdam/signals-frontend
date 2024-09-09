@@ -24,7 +24,7 @@ import 'jest-styled-components'
 import Notification from '..'
 
 jest.mock('shared/services/auth/auth')
-const mockedGetIsAuthenticated = mocked(getIsAuthenticated, true)
+const mockedGetIsAuthenticated = mocked(getIsAuthenticated)
 
 describe('components/Notification', () => {
   let listenSpy: jest.SpyInstance

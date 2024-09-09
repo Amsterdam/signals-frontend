@@ -280,8 +280,8 @@ const CheckboxList = <T extends Option>({
         if (onToggle && allOptionsChecked) {
           onToggle(groupValue || name, allOptionsChecked)
         } else {
-          const onChangeTimeout = global.setTimeout(() => {
-            global.clearTimeout(onChangeTimeout)
+          const onChangeTimeout = setTimeout(() => {
+            clearTimeout(onChangeTimeout)
             onChange && onChange(groupValue || name, [...modifiedState])
           }, 0)
         }

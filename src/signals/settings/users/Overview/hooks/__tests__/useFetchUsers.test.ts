@@ -1,25 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { renderHook, act } from '@testing-library/react-hooks'
+import { delay, http, HttpResponse } from 'msw'
 
 import * as constants from 'containers/App/constants'
 import { getErrorMessage } from 'shared/services/api/api'
 import usersJSON from 'utils/__tests__/fixtures/users.json'
 
 import * as API from '../../../../../../../internals/testing/api'
-import {
-  rest,
-  server,
-  mockRequestHandler,
-  fetchMock,
-} from '../../../../../../../internals/testing/msw-server'
+import { server } from '../../../../../../../internals/testing/msw-server'
 import useFetchUsers from '../useFetchUsers'
 
 jest.mock('containers/App/constants', () => ({
   PAGE_SIZE: 5,
 }))
-
-fetchMock.disableMocks()
 
 describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   it('should request users from API', async () => {
@@ -58,12 +52,13 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
   })
 
   it('requests with filters', async () => {
-    let request: any
+    let reqUrl = new URL('http://localhost:8000')
 
     server.use(
-      rest.get(/localhost/, async (req, res, ctx) => {
-        request = req
-        res(ctx.status(200))
+      http.get(/localhost/, ({ request }) => {
+        reqUrl = new URL(request.url)
+
+        return HttpResponse.json('Test', { status: 200 })
       })
     )
 
@@ -79,21 +74,18 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate()
 
-    expect(request.url.toString()).toEqual(
-      expect.stringContaining('role=Regievoerder')
-    )
-    expect(request.url.toString()).toEqual(
-      expect.stringContaining('profile_department_code=ACC')
-    )
+    expect(reqUrl.searchParams.get('role')).toEqual('Regievoerder')
+    expect(reqUrl.searchParams.get('profile_department_code')).toEqual('ACC')
   })
 
   it('requests with filters, clearing empty values', async () => {
-    let request: any
+    let reqUrl = new URL('http://localhost:8000')
 
     server.use(
-      rest.get(/localhost/, async (req, res, ctx) => {
-        request = req
-        res(ctx.status(200))
+      http.get(/localhost/, ({ request }) => {
+        reqUrl = new URL(request.url)
+
+        return HttpResponse.json('Test', { status: 200 })
       })
     )
 
@@ -109,18 +101,19 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     await waitForNextUpdate()
 
-    expect(request.url.toString()).toEqual(
-      expect.stringContaining('role=Regievoerder')
-    )
-    expect(request.url.toString()).not.toEqual(
-      expect.stringContaining('profile_department_code=ACC')
+    expect(reqUrl.searchParams.get('role')).toEqual('Regievoerder')
+    expect(reqUrl.searchParams.get('profile_department_code')).not.toEqual(
+      'ACC'
     )
   })
 
   it('should return errors that are thrown during fetch', async () => {
     const message = 'Network request failed'
     const errorResponse = new Error()
-    mockRequestHandler({ url: API.USERS, status: 404, body: { message } })
+
+    server.use(
+      http.get(API.USERS, () => HttpResponse.json(message, { status: 404 }))
+    )
 
     const { result, waitForNextUpdate } = renderHook(() => useFetchUsers())
 
@@ -146,9 +139,11 @@ describe('signals/settings/users/containers/Overview/hooks/FetchUsers', () => {
 
     const abortSpy = jest.spyOn(global.AbortController.prototype, 'abort')
     server.use(
-      rest.get(/localhost/, async (_, res, ctx) =>
-        res(ctx.delay(200), ctx.status(404), ctx.json(body))
-      )
+      http.get(/localhost/, async () => {
+        await delay(200)
+
+        return HttpResponse.json(body, { status: 404 })
+      })
     )
 
     const { result, unmount, waitForNextUpdate } = renderHook(() =>

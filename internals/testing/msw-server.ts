@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
 import fetchMock from 'jest-fetch-mock'
-import type { MockedRequest, ResponseResolver } from 'msw'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 import { setupServer } from 'msw/node'
 
 import incidentFixture from 'utils/__tests__/fixtures/incident.json'
@@ -58,9 +57,7 @@ export const mockRequestHandler = ({
   body,
 }: MockRequestHandlerArgs) => {
   server.use(
-    rest[method](url, async (_req, res, ctx) =>
-      res(ctx.status(status), ctx.json(body))
-    )
+    http[method](url, () => HttpResponse.json(body, { status: status }))
   )
 }
 
@@ -83,17 +80,19 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results
 }
 
-const handleNotImplemented: ResponseResolver = (req, res, ctx) => {
-  const message = `Msw - not implemented: ${req.method} to ${req.url.href}`
+const handleNotImplemented = ({ request }: { request: Request }) => {
+  const message = `Msw - not implemented: ${request.method} to ${request.url}`
 
   console.error(message)
-  res(ctx.status(500, message))
+  return HttpResponse.json(message, { status: 500 })
 }
 
 const handlers = [
   // GET
-  rest.get(API.AUTOCOMPLETE_USERNAMES, (req, res, ctx) => {
-    const departmentCodes = req.url.searchParams.getAll(
+  http.get(API.AUTOCOMPLETE_USERNAMES, ({ request }) => {
+    const reqUrl = new URL(request.url)
+
+    const departmentCodes = reqUrl.searchParams.getAll(
       'profile_department_code'
     )
     const results = autocompleteUsernames.results.filter(({ username }) =>
@@ -105,16 +104,18 @@ const handlers = [
       count: results.length,
     }
 
-    return res(ctx.status(200), ctx.json(data))
+    return HttpResponse.json(data)
   }),
 
-  rest.get(API.USERS, (req, res, ctx) => {
-    const departmentCodes = req.url.searchParams.getAll(
+  http.get(API.USERS, ({ request }) => {
+    const reqUrl = new URL(request.url)
+
+    const departmentCodes = reqUrl.searchParams.getAll(
       'profile_department_code'
     )
     const filtered = getUsersFilteredByDepartmentCodes(departmentCodes)
-    const page = parseInt(req.url.searchParams.get('page') ?? '1')
-    const pageSize = parseInt(req.url.searchParams.get('page_size') ?? '5')
+    const page = parseInt(reqUrl.searchParams.get('page') ?? '1')
+    const pageSize = parseInt(reqUrl.searchParams.get('page_size') ?? '5')
     const start = (page - 1) * pageSize
     const end = start + pageSize
     const results = filtered.slice(start, end)
@@ -124,216 +125,183 @@ const handlers = [
       results,
     }
 
-    return res(ctx.status(200), ctx.json(response))
+    return HttpResponse.json(response)
   }),
 
-  rest.get(API.INCIDENT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentFixture))
+  http.get(API.INCIDENT, () => HttpResponse.json(incidentFixture)),
+
+  http.get(API.INCIDENT_ATTACHMENTS, () =>
+    HttpResponse.json(incidentAttachmentsFixture)
   ),
 
-  rest.get(API.INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentAttachmentsFixture))
+  http.get(API.INCIDENT_CHILDREN, () =>
+    HttpResponse.json(incidentChildrenFixture)
   ),
 
-  rest.get(API.INCIDENT_CHILDREN, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentChildrenFixture))
+  http.get(API.INCIDENT_HISTORY, () =>
+    HttpResponse.json(incidentHistoryFixture)
   ),
 
-  rest.get(API.INCIDENT_HISTORY, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentHistoryFixture))
+  http.get(API.INCIDENT_CONTEXT_GEOGRAPHY, () =>
+    HttpResponse.json(incidentContextNearGeographyFixture)
   ),
 
-  rest.get(API.INCIDENT_CONTEXT_GEOGRAPHY, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentContextNearGeographyFixture))
+  http.get(API.INCIDENT_CONTEXT_REPORTER, () =>
+    HttpResponse.json(incidentReporterFixture)
   ),
 
-  rest.get(API.INCIDENT_CONTEXT_REPORTER, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentReporterFixture))
+  http.get(API.INCIDENT_CONTEXT, () =>
+    HttpResponse.json(incidentContextFixture)
   ),
 
-  rest.get(API.INCIDENT_CONTEXT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentContextFixture))
-  ),
+  http.get(API.REPORTS, () => HttpResponse.json(reportsFixture)),
 
-  rest.get(API.REPORTS, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(reportsFixture))
-  ),
+  http.get(API.SIGNAL_REPORTER, () => HttpResponse.json(signalReporterFixture)),
 
-  rest.get(API.SIGNAL_REPORTER, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(signalReporterFixture))
-  ),
+  http.get(API.STANDARD_TEXTS_SEARCH_ENDPOINT, ({ request }) => {
+    const reqUrl = new URL(request.url)
 
-  rest.get(API.STANDARD_TEXTS_SEARCH_ENDPOINT, (req, res, ctx) => {
-    const queryString = req.url.searchParams.get('q')
-    const pageNumber = req.url.searchParams.get('page')
-    const status = req.url.searchParams.get('state')
-    const isActive = req.url.searchParams.get('active')
+    const queryString = reqUrl.searchParams.get('q')
+    const pageNumber = reqUrl.searchParams.get('page')
+    const status = reqUrl.searchParams.get('state')
+    const isActive = reqUrl.searchParams.get('active')
 
     switch (status && isActive) {
       case 'm' && 'true':
-        return res(ctx.status(200), ctx.json(multicaseFilter))
+        return HttpResponse.json(multicaseFilter)
     }
 
     switch (status) {
       case 'm':
-        return res(ctx.status(200), ctx.json(statusFilter))
+        return HttpResponse.json(statusFilter)
     }
 
     switch (isActive) {
       case 'true':
-        return res(ctx.status(200), ctx.json(activeFilter))
+        return HttpResponse.json(activeFilter)
     }
 
     switch (queryString) {
       case '15':
-        return res(ctx.status(200), ctx.json(page2))
+        return HttpResponse.json(page2)
       case 'qwerty':
-        return res(ctx.status(200), ctx.json(noResult))
+        return HttpResponse.json(noResult)
     }
 
     switch (pageNumber) {
       case '2':
-        return res(ctx.status(200), ctx.json(page2))
+        return HttpResponse.json(page2)
       default:
-        return res(ctx.status(200), ctx.json(standardTexts))
+        return HttpResponse.json(standardTexts)
     }
   }),
 
-  rest.get(API.STANDARD_TEXTS_ENDPOINT, (_, res, ctx) => {
-    return res(ctx.status(200), ctx.json(standardTexts))
-  }),
+  http.get(API.STANDARD_TEXTS_ENDPOINT, () => HttpResponse.json(standardTexts)),
 
-  rest.get(API.QA_SESSIONS, (req, res, ctx) => {
-    switch (req.params.uuid) {
+  http.get(API.QA_SESSIONS, ({ params }) => {
+    switch (params.uuid) {
       case 'locked':
-        return res(
-          ctx.status(410),
-          ctx.json({
+        return HttpResponse.json(
+          {
             detail: 'Already used!',
-          })
+          },
+          { status: 410 }
         )
 
       case 'invalidated':
-        return res(
-          ctx.status(500),
-          ctx.json({
+        return HttpResponse.json(
+          {
             detail:
               'Session invalidated is invalidated, associated signal not in state REACTIE_GEVRAAGD.',
-          })
+          },
+          { status: 500 }
         )
 
       case 'expired':
-        return res(ctx.status(410), ctx.json({ detail: 'Expired!' }))
+        return HttpResponse.json({ detail: 'Expired!' }, { status: 410 })
 
       case 'invalid-uuid':
-        return res(
-          ctx.status(500),
-          ctx.json({ detail: "['invalid-uuid’ is geen geldige UUID.']" })
-        )
-      case 'forward-to-external-questionnaire':
-        return res(
-          ctx.status(200),
-          ctx.json(qaForwardToExternalQuestionnaireFixture)
+        return HttpResponse.json(
+          { detail: "['invalid-uuid’ is geen geldige UUID.']" },
+          { status: 500 }
         )
 
+      case 'forward-to-external-questionnaire':
+        return HttpResponse.json(qaForwardToExternalQuestionnaireFixture)
+
       default:
-        return res(ctx.status(200), ctx.json(qaSessionFixture))
+        return HttpResponse.json(qaSessionFixture)
     }
   }),
 
-  rest.get(API.QA_QUESTIONNAIRES, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(qaQuestionnaireFixture))
+  http.get(API.QA_QUESTIONNAIRES, () =>
+    HttpResponse.json(qaQuestionnaireFixture)
   ),
 
-  rest.get(API.PUBLIC_INCIDENT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(publicIncidentFixture))
+  http.get(API.PUBLIC_INCIDENT, () => HttpResponse.json(publicIncidentFixture)),
+
+  http.get(API.REPORTS_OPEN, () => HttpResponse.json(openSignalsReportFixture)),
+
+  http.get(API.REPORTS_REOPEN_REQUESTED, () =>
+    HttpResponse.json(reopenRequestedSignalsReportFixture)
   ),
 
-  rest.get(API.REPORTS_OPEN, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(openSignalsReportFixture))
+  http.get(API.STATUS_MESSAGE_TEMPLATES, () =>
+    HttpResponse.json(statusMessageTemplatesFixture)
   ),
 
-  rest.get(API.REPORTS_REOPEN_REQUESTED, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(reopenRequestedSignalsReportFixture))
-  ),
-
-  rest.get(API.STATUS_MESSAGE_TEMPLATES, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(statusMessageTemplatesFixture))
-  ),
-
-  rest.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(detail))
-  ),
+  http.get(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () => HttpResponse.json(detail)),
 
   // PATCH
 
-  rest.patch(API.INCIDENT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(incidentFixture))
-  ),
+  http.patch(API.INCIDENT, () => HttpResponse.json(incidentFixture)),
 
-  rest.patch(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(detail))
+  http.patch(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () =>
+    HttpResponse.json(detail)
   ),
 
   // POST
 
-  rest.post(API.EMAIL_VERIFICATION_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(null))
+  http.post(API.EMAIL_VERIFICATION_ENDPOINT, () => HttpResponse.json(null)),
+
+  http.post(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () =>
+    HttpResponse.json(detail)
   ),
 
-  rest.post(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(detail))
-  ),
+  http.post(API.STANDARD_TEXTS_ENDPOINT, () => HttpResponse.json(detailPost)),
 
-  rest.post(API.STANDARD_TEXTS_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(201), ctx.json(detailPost))
-  ),
+  http.post(API.QA_ANSWER, () => HttpResponse.json(qaAnswerFixture)),
 
-  rest.post(API.QA_ANSWER, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(qaAnswerFixture))
-  ),
+  http.post(API.QA_ANSWERS, () => HttpResponse.json(null)),
 
-  rest.post(API.QA_ANSWERS, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(null))
-  ),
+  http.post(API.QA_SESSIONS_ATTACHMENTS, () => HttpResponse.json(null)),
 
-  rest.post(API.QA_SESSIONS_ATTACHMENTS, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(null))
-  ),
+  http.post(API.QA_SUBMIT, () => HttpResponse.json(qaSubmitFixture)),
 
-  rest.post(API.QA_SUBMIT, (_req, res, ctx) =>
-    res(ctx.status(200), ctx.json(qaSubmitFixture))
-  ),
+  http.post(API.PUBLIC_INCIDENT_ATTACHMENTS, () => HttpResponse.json()),
 
-  rest.post(API.PUBLIC_INCIDENT_ATTACHMENTS, (_req, res, ctx) =>
-    res(ctx.status(200))
-  ),
+  http.post(API.SIGNAL_REPORTER, () => HttpResponse.json()),
 
-  rest.post(API.SIGNAL_REPORTER, (_req, res, ctx) => res(ctx.status(200))),
-
-  rest.post(API.CANCEL_SIGNAL_REPORTER, (_req, res, ctx) =>
-    res(ctx.status(200))
-  ),
+  http.post(API.CANCEL_SIGNAL_REPORTER, () => HttpResponse.json()),
 
   // DELETE
 
-  rest.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, (_req, res, ctx) =>
-    res(ctx.status(204), ctx.json(null))
+  http.delete(API.STANDARD_TEXTS_DETAIL_ENDPOINT, () =>
+    HttpResponse.json(null)
   ),
 
-  rest.delete(API.CATEGORIES_PRIVATE_ENDPOINT_ICON, (_req, res, ctx) =>
-    res(ctx.status(204))
+  http.delete(API.CATEGORIES_PRIVATE_ENDPOINT_ICON, () =>
+    HttpResponse.json(null)
   ),
 
   // FALLBACK
-  rest.get('*', handleNotImplemented),
-  rest.patch('*', handleNotImplemented),
-  rest.post('*', handleNotImplemented),
-  rest.put('*', handleNotImplemented),
-  rest.delete('*', handleNotImplemented),
+  http.get('*', handleNotImplemented),
+  http.patch('*', handleNotImplemented),
+  http.post('*', handleNotImplemented),
+  http.put('*', handleNotImplemented),
+  http.delete('*', handleNotImplemented),
 ]
 
 const server = setupServer(...handlers)
 
-export { server, rest, fetchMock }
-export type { MockedRequest }
+export { server, fetchMock }
