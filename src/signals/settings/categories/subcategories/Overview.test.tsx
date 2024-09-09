@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
+
+// TODO: Typing is a mess here, should fix
+// eslint-disable-next-line
+// @ts-nocheck
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { mocked } from 'jest-mock'
@@ -45,8 +49,6 @@ const mockUseSelector = mocked(useSelector)
 const scrollTo = jest.fn()
 global.window.scrollTo = scrollTo
 
-// eslint-disable-next-line
-// @ts-ignore
 constants.PAGE_SIZE = 2
 
 const subCategories = Object.entries(categories).flatMap(([, { sub }]) => sub)
@@ -66,8 +68,6 @@ describe('signals/settings/categories/containers/Overview', () => {
   beforeEach(() => {
     navigateSpy.mockReset()
     mockUserCan.mockReturnValue(true)
-    // eslint-disable-next-line
-    // @ts-ignore
     constants.PAGE_SIZE = 2
   })
 

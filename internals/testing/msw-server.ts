@@ -80,8 +80,7 @@ const getUsersFilteredByDepartmentCodes = (departmentCodes: string[]) => {
   return usersFixture.results
 }
 
-// TODO
-const handleNotImplemented = ({ request }) => {
+const handleNotImplemented = ({ request }: { request: Request }) => {
   const message = `Msw - not implemented: ${request.method} to ${request.url}`
 
   console.error(message)
