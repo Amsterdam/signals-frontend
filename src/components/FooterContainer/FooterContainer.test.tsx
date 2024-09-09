@@ -13,7 +13,7 @@ import configureStore from '../../configureStore'
 
 jest.mock('shared/services/configuration/configuration')
 jest.mock('shared/services/auth/auth')
-const mockedGetIsAuthenticated = mocked(getIsAuthenticated, false)
+const mockedGetIsAuthenticated = mocked(getIsAuthenticated)
 
 let mockIsIncidentMap = false
 jest.mock('hooks/useIsIncidentMap', () => {
