@@ -87,7 +87,7 @@ export const OverviewContainer = () => {
 
   const onPaginationClick = useCallback(
     (pageToNavigateTo) => {
-      global.window.scrollTo(0, 0)
+      window.scrollTo(0, 0)
       navigate(`${BASE_URL}/${SUBCATEGORIES_PAGED_URL}/${pageToNavigateTo}`)
     },
     [navigate]
