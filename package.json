@@ -25,6 +25,7 @@
     "lint:find-rules": "eslint-find-rules -dun .eslintrc.json",
     "lint": "npm run lint:js",
     "preanalyze": "npm run analyze:clean",
+    "prepare": "husky",
     "pretest": "npm run test:clean",
     "prestart:prod": "npm run build",
     "start": "cross-env NODE_ENV=development npx webpack s --allowed-hosts localhost bs-local.com --config ./internals/webpack/webpack.dev.babel --port=3001 --hot --compress --history-api-fallback --watch-files=./src/* --watch-files=./src/**/*",
@@ -152,7 +153,7 @@
     "fork-ts-checker-webpack-plugin": "^9.0.2",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.6.0",
-    "husky": "^4.3.8",
+    "husky": "^9.1.5",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -183,11 +184,6 @@
     "webpack-dev-server": "^4.15.2"
   },
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run validate-config"
-    }
-  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "prettier --write",
