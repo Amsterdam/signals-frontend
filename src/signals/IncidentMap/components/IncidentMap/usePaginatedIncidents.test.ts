@@ -2,7 +2,6 @@
 // Copyright (C) 2022 - 2023 Gemeente Amsterdam
 import { renderHook } from '@testing-library/react-hooks'
 import fetchMock from 'jest-fetch-mock'
-import { act } from 'react-test-renderer'
 
 import usePaginatedIncidents from './usePaginatedIncidents'
 
@@ -49,13 +48,11 @@ describe.skip('usePaginationTest', () => {
 
     expect(fetchMock).toBeCalledTimes(0)
 
-    act(() => {
-      getIncidents({
-        east: '123',
-        north: '123',
-        west: '123',
-        south: '123',
-      })
+    getIncidents({
+      east: '123',
+      north: '123',
+      west: '123',
+      south: '123',
     })
 
     expect(fetchMock).toBeCalledTimes(1)
@@ -86,13 +83,11 @@ describe.skip('usePaginationTest', () => {
 
     const { getIncidents } = hook.result.current
 
-    act(() => {
-      getIncidents({
-        east: '123',
-        north: '123',
-        west: '123',
-        south: '123',
-      })
+    getIncidents({
+      east: '123',
+      north: '123',
+      west: '123',
+      south: '123',
     })
 
     expect(hook.result.current.incidents).toHaveLength(0)
@@ -115,13 +110,11 @@ describe.skip('usePaginationTest', () => {
 
     const { getIncidents } = hook.result.current
 
-    act(() => {
-      getIncidents({
-        east: '123',
-        north: '123',
-        west: '123',
-        south: '123',
-      })
+    getIncidents({
+      east: '123',
+      north: '123',
+      west: '123',
+      south: '123',
     })
 
     await hook.waitForNextUpdate()
@@ -150,13 +143,11 @@ describe.skip('usePaginationTest', () => {
 
     const { getIncidents } = hook.result.current
 
-    act(() => {
-      getIncidents({
-        east: '123',
-        north: '123',
-        west: '123',
-        south: '123',
-      })
+    getIncidents({
+      east: '123',
+      north: '123',
+      west: '123',
+      south: '123',
     })
 
     await hook.waitForNextUpdate()
@@ -185,13 +176,11 @@ describe.skip('usePaginationTest', () => {
 
     const { getIncidents } = hook.result.current
 
-    act(() => {
-      getIncidents({
-        east: '123',
-        north: '123',
-        west: '123',
-        south: '123',
-      })
+    getIncidents({
+      east: '123',
+      north: '123',
+      west: '123',
+      south: '123',
     })
 
     await hook.waitForNextUpdate()
