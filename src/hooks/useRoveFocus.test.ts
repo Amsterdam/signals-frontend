@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Gemeente Amsterdam
-import { renderHook } from '@testing-library/react-hooks'
+import { act, renderHook } from '@testing-library/react-hooks'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react-test-renderer'
 
 import { useRoveFocus } from './useRoveFocus'
 
