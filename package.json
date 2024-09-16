@@ -47,7 +47,7 @@
     "@datapunt/leaflet-geojson-bbox-layer": "0.1.1",
     "@hookform/resolvers": "^2.9.11",
     "@microsoft/applicationinsights-web": "^2.8.18",
-    "@sentry/browser": "^6.19.7",
+    "@sentry/browser": "^8.30.0",
     "classnames": "^2.5.1",
     "date-fns": "^2.30.0",
     "focus-trap-react": "^10.2.3",
