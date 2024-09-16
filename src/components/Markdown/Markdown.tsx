@@ -9,7 +9,7 @@ import {
   ListItem,
 } from '@amsterdam/asc-ui'
 import ReactMarkdown from 'react-markdown'
-import type { Options } from 'react-markdown'
+import type { ReactMarkdownOptions } from 'react-markdown'
 import styled from 'styled-components'
 
 import Paragraph from 'components/Paragraph'
@@ -41,7 +41,7 @@ const OrderedList = styled(AscOrderedList)`
 type Props = {
   hideTabindexLink?: boolean
   children: ReactNode
-} & Options
+} & ReactMarkdownOptions
 
 const Markdown = ({ children, hideTabindexLink, ...props }: Props) => (
   <ReactMarkdown
