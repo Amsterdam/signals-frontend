@@ -17,7 +17,7 @@ describe('formatRequest', () => {
 
   it('should format correct without distance', () => {
     expect(formatRequest('https://base-url', testLocation)).toEqual(
-      `${result}50`
+      `${result}30`
     )
   })
 
