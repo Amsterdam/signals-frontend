@@ -38,6 +38,7 @@ export const useSelectionProps = ({
   const item: Item = {
     ...feature,
     address: undefined,
+    description: feature.label, // Use label as description, because label already has parsed template strings.
     status: featureStatusType?.typeValue,
   }
 

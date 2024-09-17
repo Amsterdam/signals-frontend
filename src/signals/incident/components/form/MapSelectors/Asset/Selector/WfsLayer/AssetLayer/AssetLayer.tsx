@@ -90,7 +90,7 @@ export const AssetLayer: FC = () => {
         const item: Item = {
           id: id.toString(),
           type: typeValue,
-          description,
+          description: label, // Use label as description, because label already has parsed template strings.
           status: featureStatusType?.typeValue,
           label,
           coordinates,
