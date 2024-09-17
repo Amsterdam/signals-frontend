@@ -60,8 +60,7 @@ const straatverlichtingKlokken = {
       featureTypes: [
         {
           label: 'Grachtmast',
-          description:
-            'Grachtmast - hier moet een nr komen te staan {{ objecttype }}',
+          description: 'Grachtmast',
           icon: {
             options,
             iconUrl: '/assets/images/openbare_verlichting/grachtmast.svg',
