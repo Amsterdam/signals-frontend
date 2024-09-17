@@ -24,10 +24,14 @@ export const mapToSelectableFeature = (
     ? parseTemplateString(description, feature.properties)
     : [description, id].filter(Boolean).join(' - ')
 
+  const parsedDescription = isTemplateString(description)
+    ? parseTemplateString(description, feature.properties)
+    : description
+
   const selectableFeature = {
     id: id.toString(),
     type: typeValue,
-    description,
+    description: parsedDescription,
     status: featureStatusType?.typeValue,
     label,
     coordinates,
