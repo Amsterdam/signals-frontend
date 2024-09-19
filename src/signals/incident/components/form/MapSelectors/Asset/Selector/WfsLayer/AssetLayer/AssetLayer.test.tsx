@@ -176,7 +176,7 @@ describe('AssetLayer', () => {
           featureTypes: [
             {
               label: 'Papier',
-              description: 'Papier met nummer: {{ id_nummer }}',
+              description: 'Papier met nummer: PAB00022',
               icon: {
                 options: [Object],
                 iconUrl: '/assets/images/afval/paper.svg',
