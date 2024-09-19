@@ -74,6 +74,10 @@ export const AssetLayer: FC = () => {
           isSelected ? ', is geselecteerd' : ''
         } (${id})`
 
+    const parsedDescription = isTemplateString(description)
+      ? parseTemplateString(description, feature.properties)
+      : description
+
     const onClick = async () => {
       ;(window as any)?.dataLayer?.push({
         event: 'interaction.generic.component.mapInteraction',
@@ -90,7 +94,7 @@ export const AssetLayer: FC = () => {
         const item: Item = {
           id: id.toString(),
           type: typeValue,
-          description,
+          description: parsedDescription,
           status: featureStatusType?.typeValue,
           label,
           coordinates,
