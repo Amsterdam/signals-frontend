@@ -112,7 +112,7 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <StyledLink to="../new">
+          <StyledLink to="./new">
             <Button variant="secondary">Tekst toevoegen</Button>
           </StyledLink>
         </div>
