@@ -7,7 +7,6 @@ describe('definition overlast-in-de-openbare-ruimte', () => {
     expect(keys).toStrictEqual([
       'locatie',
       'dateTime',
-      'extra_auto_scooter_bromfietswrak',
       'extra_fietswrak',
       'extra_parkeeroverlast',
     ])
