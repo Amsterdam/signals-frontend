@@ -7,6 +7,7 @@ import configuration from 'shared/services/configuration/configuration'
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import afvalThor from './wizard-step-2-vulaan/afval-thor'
+import autoScooterBromfietswrak from './wizard-step-2-vulaan/auto-scooter-bromfietswrak'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -137,6 +138,13 @@ export default {
       case 'overlast-in-de-openbare-ruimte': {
         if (subcategory === 'bouw-sloopoverlast') {
           return expandQuestions(bouwSloopOverlast, category, subcategory)
+        }
+        if (subcategory === 'auto-scooter-bromfietswrak') {
+          return expandQuestions(
+            autoScooterBromfietswrak,
+            category,
+            subcategory
+          )
         }
 
         return expandQuestions(

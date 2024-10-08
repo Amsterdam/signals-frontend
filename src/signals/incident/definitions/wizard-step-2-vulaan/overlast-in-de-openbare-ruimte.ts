@@ -16,19 +16,6 @@ export const overlastInDeOpenbareRuimte = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-  extra_auto_scooter_bromfietswrak: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'auto-scooter-bromfietswrak',
-      },
-      label:
-        'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
-      shortLabel: 'Extra informatie',
-      subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
   extra_fietswrak: {
     meta: {
       ifAllOf: {
