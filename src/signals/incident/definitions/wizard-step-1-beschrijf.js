@@ -52,7 +52,9 @@ const getControls = memoize(
           value: `Voordat u een melding doet kunt u op de [meldingenkaart](/meldingenkaart) zien welke meldingen bekend zijn bij de
           gemeente.`,
         },
-        render: FormComponents.PlainText,
+        render: configuration.featureFlags.enablePublicIncidentsMap
+          ? FormComponents.PlainText
+          : null,
       },
       source: {
         meta: {
