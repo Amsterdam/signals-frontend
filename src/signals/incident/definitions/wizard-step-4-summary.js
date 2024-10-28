@@ -187,8 +187,17 @@ const getExtraQuestions = (category, subcategory, questions) => {
       return summary(wonenControls)
 
     case 'openbaar-groen-en-water': {
-      if (subcategory === 'boom') {
-        // TODO: andere cats toevoegen
+      if (
+        subcategory === 'boom' ||
+        subcategory === 'boom-noodkap' ||
+        subcategory === 'boom-illegale-kap' ||
+        subcategory === 'boom-aanvraag-plaatsing' ||
+        subcategory === 'boom-overig' ||
+        subcategory === 'boom-afval' ||
+        subcategory === 'boom-stormschade' ||
+        subcategory === 'boom-verzoek-inspectie' ||
+        subcategory === 'boomziekten-en-plagen'
+      ) {
         return summary(bomenControls)
       }
       if (subcategory === 'eikenprocessierups') {

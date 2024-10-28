@@ -119,8 +119,17 @@ export default {
       }
 
       case 'openbaar-groen-en-water': {
-        if (subcategory === 'boom') {
-          // TODO: andere cats toevoegen
+        if (
+          subcategory === 'boom' ||
+          subcategory === 'boom-noodkap' ||
+          subcategory === 'boom-illegale-kap' ||
+          subcategory === 'boom-aanvraag-plaatsing' ||
+          subcategory === 'boom-overig' ||
+          subcategory === 'boom-afval' ||
+          subcategory === 'boom-stormschade' ||
+          subcategory === 'boom-verzoek-inspectie' ||
+          subcategory === 'boomziekten-en-plagen'
+        ) {
           return expandQuestions(bomen, category, subcategory)
         }
         if (subcategory === 'eikenprocessierups') {
