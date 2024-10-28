@@ -7,7 +7,6 @@ import { QuestionFieldType } from 'types/question'
 
 import type ConfigurationType from '../../../../../app.amsterdam.json'
 import appConfiguration from '../../../../shared/services/configuration/configuration'
-import { FeatureStatus } from '../../components/form/MapSelectors/types'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
@@ -22,7 +21,7 @@ const configuration = appConfiguration as unknown as typeof ConfigurationType
 export const controls = {
   extra_bomen: {
     meta: {
-      label: 'Waar is het? TEST BOMEN', // TODO
+      label: 'Waar is het?',
       language: {
         title: 'Selecteer de boom',
         subTitle: 'Kies een boom op de kaart',
@@ -30,7 +29,7 @@ export const controls = {
         unregisteredId: undefined,
         objectTypeSingular: 'boom',
         objectTypePlural: 'bomen',
-        submit: 'Bevestigen',
+        submit: 'Meld deze boom',
       },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
@@ -40,15 +39,15 @@ export const controls = {
       maxNumberOfAssets: configuration.map.options?.maxNumberOfAssets.bomen,
       featureTypes: [
         {
-          label: 'Eikenboom',
-          description: 'Eikenboom',
+          label: 'Boom',
+          description: 'Boom',
           icon: {
             options,
             iconUrl: '/assets/images/groen_water/tree.svg',
           },
           idField: 'id',
           typeValue: 'Bomen',
-          typeField: 'type_soortnaam', // TODO: dit is een filter geloof ik, juiste instellen
+          typeField: 'type_soortnaam',
         },
         {
           label: 'Onbekend',
@@ -61,35 +60,6 @@ export const controls = {
           typeField: 'type',
         },
       ],
-      featureStatusTypes: [
-        {
-          label: 'Is gemeld',
-          description: 'Eikenboom is reeds gemeld',
-          icon: {
-            options,
-            iconUrl: '/assets/images/icon-reported-marker.svg',
-          },
-          idField: 'OBJECTID',
-          typeValue: FeatureStatus.REPORTED,
-          typeField: '',
-          statusField: 'Registratie',
-          statusValues: ['Deels bestreden', 'Melding', 'Registratie'],
-        },
-        {
-          label: 'Vrij van eikenprocessierups',
-          description: 'Vrij van eikenprocessierups',
-          icon: {
-            options,
-            iconUrl: '/assets/images/icon-checked-marker.svg',
-          },
-          idField: 'OBJECTID',
-          typeValue: FeatureStatus.CHECKED,
-          typeField: '',
-          statusField: 'Registratie',
-          statusValues: ['Bestreden', 'Geen EPR', 'EPR (niet bestrijden)'],
-        },
-      ],
-      extraProperties: ['GlobalID'],
     },
     options: {
       validators: [validateObjectLocation('boom')],
