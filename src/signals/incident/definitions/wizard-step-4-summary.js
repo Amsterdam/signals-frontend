@@ -9,6 +9,7 @@ import { QuestionFieldType } from 'types/question'
 import afvalControls from './wizard-step-2-vulaan/afval'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalThorControls from './wizard-step-2-vulaan/afval-thor'
+import bomenControls from './wizard-step-2-vulaan/bomen'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -186,6 +187,10 @@ const getExtraQuestions = (category, subcategory, questions) => {
       return summary(wonenControls)
 
     case 'openbaar-groen-en-water': {
+      if (subcategory === 'boom') {
+        // TODO: andere cats toevoegen
+        return summary(bomenControls)
+      }
       if (subcategory === 'eikenprocessierups') {
         return summary(eikenprocessierupsControls)
       } else if (subcategory === 'japanse-duizendknoop') {

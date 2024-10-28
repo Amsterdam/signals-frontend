@@ -8,6 +8,7 @@ import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import afvalThor from './wizard-step-2-vulaan/afval-thor'
 import autoScooterBromfietswrak from './wizard-step-2-vulaan/auto-scooter-bromfietswrak'
+import bomen from './wizard-step-2-vulaan/bomen'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -118,6 +119,10 @@ export default {
       }
 
       case 'openbaar-groen-en-water': {
+        if (subcategory === 'boom') {
+          // TODO: andere cats toevoegen
+          return expandQuestions(bomen, category, subcategory)
+        }
         if (subcategory === 'eikenprocessierups') {
           return expandQuestions(eikenprocessierups, category, subcategory)
         } else if (subcategory === 'japanse-duizendknoop') {

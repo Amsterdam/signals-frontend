@@ -134,6 +134,7 @@ export const AssetLayer: FC = () => {
       />
     )
   }
+
   return (
     <>
       {data.features.map((feat) => getMarker(feat, featureStatusTypes || []))}
