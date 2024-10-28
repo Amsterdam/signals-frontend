@@ -34,12 +34,10 @@ export const controls = {
       },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
-      endpoint:
-        'https://api.data.amsterdam.nl/v1/wfs/bomen/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=stamgegevens&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json', // TODO
+      endpoint: configuration.map.layers?.bomen,
       wfsFilter:
         '<PropertyIsNotEqualTo><PropertyName>soortnaam_kort</PropertyName><Literal>Quercus</Literal></PropertyIsNotEqualTo><BBOX><PropertyName>geometrie</PropertyName><gml:Envelope srsName="{srsName}"><lowerCorner>{west} {south}</lowerCorner><upperCorner>{east} {north}</upperCorner></gml:Envelope></BBOX>',
-      maxNumberOfAssets:
-        configuration.map.options?.maxNumberOfAssets.eikenProcessierups, // TODO
+      maxNumberOfAssets: configuration.map.options?.maxNumberOfAssets.bomen,
       featureTypes: [
         {
           label: 'Eikenboom',
