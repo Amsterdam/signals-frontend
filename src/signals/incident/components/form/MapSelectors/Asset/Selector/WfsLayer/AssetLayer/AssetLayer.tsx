@@ -117,7 +117,6 @@ export const AssetLayer: FC = () => {
         setItem(item, location)
       }
     }
-
     return (
       <Marker
         key={`${id}-${isSelected}`}
