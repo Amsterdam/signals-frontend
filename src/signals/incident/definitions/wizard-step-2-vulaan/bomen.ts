@@ -29,7 +29,7 @@ export const controls = {
         unregisteredId: undefined,
         objectTypeSingular: 'boom',
         objectTypePlural: 'bomen',
-        submit: 'Meld deze boom',
+        submit: 'Bevestigen',
       },
       shortLabel: 'Boom',
       pathMerge: 'extra_properties',
