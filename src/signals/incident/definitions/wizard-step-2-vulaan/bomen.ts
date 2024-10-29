@@ -64,7 +64,7 @@ export const controls = {
     options: {
       validators: [validateObjectLocation('boom')],
     },
-    render: QuestionFieldType.StreetlightSelect, // TODO: dit waarsch nog aanpassen
+    render: QuestionFieldType.AssetSelect,
   },
 }
 
