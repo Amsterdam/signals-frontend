@@ -4,10 +4,10 @@ import type { IconOptions } from 'leaflet'
 
 import appConfiguration from 'shared/services/configuration/configuration'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
+import { validateObjectLocation } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
 import type ConfigurationType from '../../../../../app.amsterdam.json'
-import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
 
