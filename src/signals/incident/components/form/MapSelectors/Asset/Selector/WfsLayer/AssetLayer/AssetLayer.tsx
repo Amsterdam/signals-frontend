@@ -117,6 +117,7 @@ export const AssetLayer: FC = () => {
         setItem(item, location)
       }
     }
+
     return (
       <Marker
         key={`${id}-${isSelected}`}
@@ -133,7 +134,6 @@ export const AssetLayer: FC = () => {
       />
     )
   }
-
   return (
     <>
       {data.features.map((feat) => getMarker(feat, featureStatusTypes || []))}
