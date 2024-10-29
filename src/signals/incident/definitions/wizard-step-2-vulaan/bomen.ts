@@ -2,11 +2,11 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
+import appConfiguration from 'shared/services/configuration/configuration'
 import { UNREGISTERED_TYPE } from 'signals/incident/components/form/MapSelectors/constants'
 import { QuestionFieldType } from 'types/question'
 
 import type ConfigurationType from '../../../../../app.amsterdam.json'
-import appConfiguration from '../../../../shared/services/configuration/configuration'
 import { validateObjectLocation } from '../../services/custom-validators'
 
 export const ICON_SIZE = 40
