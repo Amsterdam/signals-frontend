@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
+// Copyright (C) 2024 Gemeente Amsterdam
 import type { IconOptions } from 'leaflet'
 
 import appConfiguration from 'shared/services/configuration/configuration'
