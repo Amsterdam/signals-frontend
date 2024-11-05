@@ -80,8 +80,13 @@ const FormField = ({
     hasError('custom')
 
   const isOptional = !options?.validators?.some((validator: any) => {
+    // Check if validator is a function with the name 'required'
+    // If so, it also isn't optional
+    if (validator.name === 'required') return true
+
     return ['required', 'min'].includes(validator)
   })
+
   const FieldSetWrapper = isFieldSet ? FieldSet : Fragment
 
   return (

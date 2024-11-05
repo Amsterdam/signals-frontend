@@ -143,7 +143,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.StreetlightSelect,
     options: {
-      validators: [validateObjectLocation('lichtpunt'), 'required'],
+      validators: [validateObjectLocation('lichtpunt')],
     },
   },
 
@@ -294,7 +294,7 @@ const straatverlichtingKlokken = {
     },
     render: QuestionFieldType.ClockSelect,
     options: {
-      validators: [validateObjectLocation('klok'), 'required'],
+      validators: [validateObjectLocation('klok')],
     },
   },
 
