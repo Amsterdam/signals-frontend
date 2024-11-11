@@ -12,7 +12,7 @@ const navigation = configuration.featureFlags.appMode
         meta: {
           title: 'Wilt u nog een andere melding doen?',
           labelCloseButton: 'Sluit venster',
-          labelLinkButton: 'Doe een melding',
+          labelLinkButton: 'Doe nog een melding',
           hrefLinkButton: '/',
         },
         render: FormComponents.AppNavigation,
@@ -21,7 +21,7 @@ const navigation = configuration.featureFlags.appMode
   : {
       next_incident_action: {
         meta: {
-          label: 'Doe een melding',
+          label: 'Doe nog een melding',
           href: '/',
         },
         render: FormComponents.LinkButton,
