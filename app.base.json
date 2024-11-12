@@ -20,7 +20,7 @@
     "showThorButton": false,
     "showVulaanControls": false,
     "useProjectenSignalType": false,
-    "enableForwardIncidentToExternal": false,
+    "enableForwardIncidentToExternal": true,
     "showMainCategories": false,
     "showStandardTextAdminV1": true,
     "showStandardTextAdminV2": false,
@@ -72,21 +72,12 @@
     "municipality": "amsterdam",
     "options": {
       "crs": "EPSG:28992",
-      "center": [
-        52.3731081,
-        4.8932945
-      ],
+      "center": [52.3731081, 4.8932945],
       "maxBounds": [
-        [
-          52.25168,
-          4.64034
-        ],
-        [
-          52.50536,
-          5.10737
-        ]
+        [52.25168, 4.64034],
+        [52.50536, 5.10737]
       ],
-      "maxNumberOfAssets" : {
+      "maxNumberOfAssets": {
         "straatverlichting": 3,
         "klokken": 1,
         "afvalContainer": 5,
@@ -181,7 +172,7 @@
     }
   },
   "frontPageAlert": {
-    "text":""
+    "text": ""
   },
   "additionalCode": {
     "css": ""
