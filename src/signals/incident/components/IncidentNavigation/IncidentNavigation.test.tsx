@@ -8,6 +8,7 @@ import wizardDefinition from 'signals/incident/definitions/wizard'
 import { withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
+import configuration from '../../../../shared/services/configuration/configuration'
 import { Step, Steps, Wizard } from '../StepWizard'
 
 jest.mock('shared/services/auth/auth', () => ({
@@ -139,6 +140,30 @@ describe('signals/incident/components/IncidentNavigation', () => {
     await waitFor(() => {
       expect(queryByTestId('next-button')).not.toBeInTheDocument()
       expect(getByTestId('previous-button')).toBeInTheDocument()
+    })
+  })
+
+  it('does not render a previous button for the app version', async () => {
+    configuration.featureFlags.appMode = true
+
+    const secondStep = [...steps][1]
+
+    const { getByTestId, queryByTestId } = render(
+      withAppContext(
+        <Wizard>
+          <Steps>
+            <Step
+              id={secondStep}
+              render={() => <IncidentNavigation {...props} />}
+            />
+          </Steps>
+        </Wizard>
+      )
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('next-button')).toBeInTheDocument()
+      expect(getByTestId('previous-button')).not.toBeInTheDocument()
     })
   })
 
