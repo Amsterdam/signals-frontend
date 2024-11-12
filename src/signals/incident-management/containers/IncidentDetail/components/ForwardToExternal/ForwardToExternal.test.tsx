@@ -232,7 +232,7 @@ describe('ForwardToExternal', () => {
 
         const images = screen.getAllByRole('img')
 
-        expect(images).toHaveLength(2)
+        expect(images).toHaveLength(3)
       })
     })
   })
