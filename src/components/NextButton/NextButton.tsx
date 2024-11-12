@@ -6,8 +6,13 @@ import styled from 'styled-components'
 
 import Button from 'components/Button'
 
+import configuration from '../../shared/services/configuration/configuration'
+
+const appMode = configuration.featureFlags.appMode
+
 const StyledButton = styled(Button)`
-  margin-right: 15px !important;
+  margin-right: ${appMode ? '0' : '15px !important'};
+  width: ${appMode ? '100%' : 'auto'};
 `
 
 interface Props {
@@ -21,9 +26,9 @@ const NextButton = ({ className = '', children, onClick }: Props) => (
     className={className}
     data-testid="next-button"
     onClick={onClick}
-    taskflow
     type="submit"
-    variant="secondary"
+    taskflow={!appMode}
+    variant={appMode ? 'primary' : 'secondary'}
   >
     {children}
   </StyledButton>
