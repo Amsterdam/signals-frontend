@@ -8,8 +8,11 @@ import wizardDefinition from 'signals/incident/definitions/wizard'
 import { withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
+import type configurationType from '../../../../shared/services/configuration/__mocks__/configuration'
 import configuration from '../../../../shared/services/configuration/configuration'
 import { Step, Steps, Wizard } from '../StepWizard'
+
+const mockConfiguration = configuration as typeof configurationType
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -17,6 +20,8 @@ jest.mock('shared/services/auth/auth', () => ({
 }))
 
 jest.spyOn(auth, 'getIsAuthenticated').mockImplementation(() => false)
+
+jest.mock('shared/services/configuration/configuration')
 
 const steps = Object.keys(wizardDefinition)
   .filter((key) => key !== 'opslaan')
@@ -47,9 +52,19 @@ jest.mock('react-router-dom', () => {
 jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 describe('signals/incident/components/IncidentNavigation', () => {
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
+  afterEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    mockConfiguration.__reset()
+  })
+
   beforeEach(() => {
     handleSubmit.mockReset()
   })
+
   it('redirects to wizard step 1 from step 2 when refresh is hit', async () => {
     const wizardDefinitionWithoutFormAction = { ...wizardDefinition }
 
@@ -148,7 +163,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
 
     const secondStep = [...steps][1]
 
-    const { getByTestId, queryByTestId } = render(
+    const { queryByTestId } = render(
       withAppContext(
         <Wizard>
           <Steps>
@@ -163,7 +178,31 @@ describe('signals/incident/components/IncidentNavigation', () => {
 
     await waitFor(() => {
       expect(queryByTestId('next-button')).toBeInTheDocument()
-      expect(getByTestId('previous-button')).not.toBeInTheDocument()
+      expect(queryByTestId('previous-button')).not.toBeInTheDocument()
+    })
+  })
+
+  it('Renders previous button for web version', async () => {
+    configuration.featureFlags.appMode = false
+
+    const secondStep = [...steps][1]
+
+    const { queryByTestId } = render(
+      withAppContext(
+        <Wizard>
+          <Steps>
+            <Step
+              id={secondStep}
+              render={() => <IncidentNavigation {...props} />}
+            />
+          </Steps>
+        </Wizard>
+      )
+    )
+
+    await waitFor(() => {
+      expect(queryByTestId('next-button')).toBeInTheDocument()
+      expect(queryByTestId('previous-button')).toBeInTheDocument()
     })
   })
 
