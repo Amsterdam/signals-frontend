@@ -69,4 +69,51 @@ describe('ExplanationSection', () => {
 
     expect(selectFileSpy).toHaveBeenCalledWith(file)
   })
+
+  it('shows a section with only text', () => {
+    render(<ExplanationSection title="Foo" text={'Bar\nBaz'} />)
+
+    const heading = screen.getByRole('heading', { name: 'Foo' })
+
+    expect(heading).toBeInTheDocument()
+  })
+
+  it('shows a section with only files', () => {
+    render(<ExplanationSection title="Foo" text={null} files={files} />)
+
+    const heading = screen.getByRole('heading', { name: 'Foo' })
+
+    expect(heading).toBeInTheDocument()
+  })
+
+  it('does not show when there is no text and files', () => {
+    render(<ExplanationSection title="Foo" text={null} />)
+
+    const heading = screen.queryByRole('heading', { name: 'Foo' })
+
+    expect(heading).not.toBeInTheDocument()
+  })
+
+  it('does not show when there is no text and only PDF files', () => {
+    const pdfFiles = [{ description: 'pdf', file: 'file.pdf' }]
+
+    render(<ExplanationSection title="Foo" text={null} files={pdfFiles} />)
+
+    const heading = screen.queryByRole('heading', { name: 'Foo' })
+
+    expect(heading).not.toBeInTheDocument()
+  })
+
+  it('filters out PDF files', () => {
+    const filesWithPdf = [
+      { description: 'image', file: 'file.jpg' },
+      { description: 'pdf', file: 'file.pdf' },
+    ]
+
+    render(<ExplanationSection title="Foo" text={null} files={filesWithPdf} />)
+
+    const images = screen.getAllByRole('img')
+
+    expect(images).toHaveLength(1)
+  })
 })

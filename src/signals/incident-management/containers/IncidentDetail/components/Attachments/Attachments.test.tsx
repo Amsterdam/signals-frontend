@@ -503,7 +503,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(4)
     })
 
     it('shows the delete button when allowed from others and for normal incidents', () => {
@@ -529,7 +529,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(4)
     })
 
     it('shows the delete button when allowed from others and for child incidents', () => {
@@ -555,7 +555,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(4)
     })
 
     it('shows the delete button when allowed from others and for parent incidents', () => {
@@ -581,7 +581,7 @@ describe('Attachments', () => {
         )
       )
 
-      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(3)
+      expect(screen.getAllByTitle(/bijlage verwijderen/i)).toHaveLength(4)
     })
 
     it('shows the delete button when its your own attachment and allowed for normal incidents', () => {

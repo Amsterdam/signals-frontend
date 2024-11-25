@@ -215,6 +215,25 @@ describe('ForwardToExternal', () => {
         })
         expect(closeSpy).toHaveBeenCalled()
       })
+
+      it('only shows image attachments', async () => {
+        render(
+          withAppContext(
+            <IncidentDetailContext.Provider
+              value={{
+                update: jest.fn(),
+                attachments: attachmentsFixture,
+              }}
+            >
+              <ForwardToExternal onClose={jest.fn()} />
+            </IncidentDetailContext.Provider>
+          )
+        )
+
+        const images = screen.getAllByRole('img')
+
+        expect(images).toHaveLength(3)
+      })
     })
   })
 })
