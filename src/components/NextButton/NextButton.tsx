@@ -26,8 +26,8 @@ const NextButton = ({ className = '', children, onClick }: Props) => (
     className={className}
     data-testid="next-button"
     onClick={onClick}
-    type="submit"
     taskflow={!appMode}
+    type="submit"
     variant={appMode ? 'primary' : 'secondary'}
   >
     {children}
