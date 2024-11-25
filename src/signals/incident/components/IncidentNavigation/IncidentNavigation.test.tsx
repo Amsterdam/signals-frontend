@@ -8,11 +8,8 @@ import wizardDefinition from 'signals/incident/definitions/wizard'
 import { withAppContext } from 'test/utils'
 
 import IncidentNavigation from '.'
-import type configurationType from '../../../../shared/services/configuration/__mocks__/configuration'
 import configuration from '../../../../shared/services/configuration/configuration'
 import { Step, Steps, Wizard } from '../StepWizard'
-
-const mockConfiguration = configuration as typeof configurationType
 
 jest.mock('shared/services/auth/auth', () => ({
   __esModule: true,
@@ -52,15 +49,6 @@ jest.mock('react-router-dom', () => {
 jest.spyOn(reactRouterDom, 'useNavigate').mockImplementation(() => navigateSpy)
 
 describe('signals/incident/components/IncidentNavigation', () => {
-  afterAll(() => {
-    jest.restoreAllMocks()
-  })
-
-  afterEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    mockConfiguration.__reset()
-  })
-
   beforeEach(() => {
     handleSubmit.mockReset()
   })
@@ -182,7 +170,7 @@ describe('signals/incident/components/IncidentNavigation', () => {
     })
   })
 
-  it('Renders previous button for web version', async () => {
+  it('renders previous button for web version', async () => {
     configuration.featureFlags.appMode = false
 
     const secondStep = [...steps][1]
