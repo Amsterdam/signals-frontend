@@ -216,7 +216,7 @@ describe('ForwardToExternal', () => {
         expect(closeSpy).toHaveBeenCalled()
       })
 
-      it('only shows image attachements', async () => {
+      it('only shows image attachments', async () => {
         render(
           withAppContext(
             <IncidentDetailContext.Provider
