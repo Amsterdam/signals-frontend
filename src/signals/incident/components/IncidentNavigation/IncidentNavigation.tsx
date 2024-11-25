@@ -102,6 +102,7 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
     (!mapActive &&
       (appMode ? (
         <NextButton
+          appMode
           onClick={(e) => {
             handleSubmit(e, next, wizardStep.formAction)
           }}

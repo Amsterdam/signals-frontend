@@ -6,25 +6,20 @@ import styled from 'styled-components'
 
 import Button from 'components/Button'
 
-import configuration from '../../shared/services/configuration/configuration'
-
-const appMode = configuration.featureFlags.appMode
-
-const StyledButton = styled(Button)`
-  margin-right: ${appMode ? '0' : '15px !important'};
-  width: ${appMode ? '100%' : 'auto'};
-`
-
 interface Props {
-  className?: string
+  appMode?: boolean
   children: ReactNode
   onClick: (event: BaseSyntheticEvent) => void
 }
 
-const NextButton = ({ className = '', children, onClick }: Props) => (
+const StyledButton = styled(Button)<Props>`
+  ${({ appMode }) => !appMode && 'margin-right: 15px !important'};
+  ${({ appMode }) => appMode && 'width: 100%;'}
+`
+
+const NextButton = ({ appMode, children, onClick, ...restProps }: Props) => (
   <StyledButton
-    className={className}
-    data-testid="next-button"
+    {...restProps}
     onClick={onClick}
     taskflow={!appMode}
     type="submit"
