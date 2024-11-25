@@ -2,7 +2,6 @@
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 
 import { ApplicationInsights } from '@microsoft/applicationinsights-web'
-import * as Sentry from '@sentry/browser'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { HistoryRouter as Router } from 'redux-first-history/rr6'
@@ -22,19 +21,8 @@ import './fonts.css'
 
 import configureStore from './configureStore'
 
-const environment = process.env.BUILD_ENV
-const dsn = configuration?.sentry?.dsn
 const connectionString = configuration?.azure?.connectionString
 const release = process.env.FRONTEND_TAG
-
-if (dsn) {
-  Sentry.init({
-    environment,
-    dsn,
-    release,
-    autoSessionTracking: false,
-  })
-}
 
 if (connectionString) {
   const appInsights = new ApplicationInsights({

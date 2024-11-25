@@ -118,9 +118,6 @@
     "responseType": "code",
     "scope": "openid"
   },
-  "sentry": {
-    "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry-new.data.amsterdam.nl/27"
-  },
   "azure": {
     "connectionString": "InstrumentationKey=c39a786a-82ac-471d-a0c6-feb41eb4967b;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"
   }

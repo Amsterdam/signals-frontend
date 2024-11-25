@@ -36,9 +36,6 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
-        "sentry": {
-          "$ref": "#/definitions/Sentry"
-        },
         "azure": {
           "$ref": "#/definitions/Azure"
         },
@@ -732,19 +729,6 @@
       },
       "required": ["attribution", "tms"],
       "title": "TilesOptions"
-    },
-    "Sentry": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "dsn": {
-          "type": "string",
-          "format": "uri",
-          "description": "Sentry data source name value. When omitted, Sentry will not be initialised in the application"
-        }
-      },
-      "required": ["dsn"],
-      "title": "Sentry"
     },
     "Azure": {
       "type": "object",

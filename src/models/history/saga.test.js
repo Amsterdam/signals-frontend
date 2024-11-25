@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import * as Sentry from '@sentry/browser'
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { put, takeLatest } from 'redux-saga/effects'
 
 import * as actions from 'containers/App/actions'
 import { VARIANT_ERROR, TYPE_LOCAL } from 'containers/Notification/constants'
@@ -18,7 +17,6 @@ jest.mock('./selectors', () => {
     makeSelectFilterParams: () => mockedMakeSelectFilterParams,
   }
 })
-jest.mock('@sentry/browser')
 jest.mock('containers/App/actions', () => ({
   __esModule: true,
   ...jest.requireActual('containers/App/actions'),
@@ -68,7 +66,5 @@ describe('history saga', () => {
         type: TYPE_LOCAL,
       })
     )
-
-    expect(gen.next().value).toEqual(call([Sentry, 'captureException'], error))
   })
 })
