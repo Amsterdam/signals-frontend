@@ -17,6 +17,7 @@ import type {
 } from 'signals/incident/definitions/wizard'
 import type { WizardSectionProp } from 'signals/incident/definitions/wizard'
 
+import configuration from '../../../../shared/services/configuration/configuration'
 import { WizardContext } from '../StepWizard'
 
 const Nav = styled.div`
@@ -80,6 +81,7 @@ interface WizardStepProps extends IncidentNavigationProps {
 const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { handleSubmit } = meta
   const navigate = useNavigate()
+  const appMode = configuration.featureFlags.appMode
 
   useEffect(() => {
     // wizardStep.formAction is undefined when a user hits the refresh and when wizard-step-1 is rendered for the first time
@@ -97,32 +99,43 @@ const WizardStep = ({ wizardStep, meta, next, previous }: WizardStepProps) => {
   const { mapActive } = useSelector(makeSelectIncidentContainer)
 
   return (
-    (!mapActive && (
-      <Nav className="incident-navigation">
-        {wizardStep.nextButtonLabel && (
-          <NextButton
-            onClick={(e) => {
-              handleSubmit(e, next, wizardStep.formAction)
-            }}
-            data-testid="next-button"
-          >
-            <span className="value">{wizardStep.nextButtonLabel}</span>
-          </NextButton>
-        )}
+    (!mapActive &&
+      (appMode ? (
+        <NextButton
+          appMode
+          onClick={(e) => {
+            handleSubmit(e, next, wizardStep.formAction)
+          }}
+          data-testid="next-button"
+        >
+          <span className="value">{wizardStep.nextButtonLabel}</span>
+        </NextButton>
+      ) : (
+        <Nav className="incident-navigation">
+          {wizardStep.nextButtonLabel && (
+            <NextButton
+              onClick={(e) => {
+                handleSubmit(e, next, wizardStep.formAction)
+              }}
+              data-testid="next-button"
+            >
+              <span className="value">{wizardStep.nextButtonLabel}</span>
+            </NextButton>
+          )}
 
-        {wizardStep.previousButtonLabel ? (
-          <PreviousButton
-            className={wizardStep.previousButtonClass}
-            onClick={previous}
-            data-testid="previous-button"
-          >
-            {wizardStep.previousButtonLabel}
-          </PreviousButton>
-        ) : (
-          <span />
-        )}
-      </Nav>
-    )) ||
+          {!appMode && wizardStep.previousButtonLabel ? (
+            <PreviousButton
+              className={wizardStep.previousButtonClass}
+              onClick={previous}
+              data-testid="previous-button"
+            >
+              {wizardStep.previousButtonLabel}
+            </PreviousButton>
+          ) : (
+            <span />
+          )}
+        </Nav>
+      ))) ||
     null
   )
 }
