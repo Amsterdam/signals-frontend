@@ -134,7 +134,7 @@ const FileInput: FunctionComponent<FileInputProps> = ({
               type="file"
               id="fileUpload"
               data-testid="file-input-upload"
-              accept={allowedFileTypes.join(',')}
+              accept={`${allowedFileTypes.join(',')};capture=camera`}
               onChange={addFiles}
               name={name}
               multiple
