@@ -134,7 +134,11 @@ const FileInput: FunctionComponent<FileInputProps> = ({
               type="file"
               id="fileUpload"
               data-testid="file-input-upload"
-              accept={`${allowedFileTypes.join(',')};capture=camera`}
+              accept={`${allowedFileTypes.join(
+                ','
+              )},android/force-camera-workaround`}
+              // android/force-camera-workaround is a dummy value to allow users to open their camera on Chrome on Android devices.
+              // It can be removed when Chrome fixes this bug.
               onChange={addFiles}
               name={name}
               multiple
