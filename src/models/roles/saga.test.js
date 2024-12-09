@@ -83,7 +83,6 @@ describe('models/roles/saga', () => {
           })
         )
         .next()
-        .next()
         .isDone()
     })
   })
@@ -118,7 +117,6 @@ describe('models/roles/saga', () => {
           })
         )
         .next()
-        .next()
         .isDone()
     })
   })
@@ -150,7 +148,6 @@ describe('models/roles/saga', () => {
             type: TYPE_LOCAL,
           })
         )
-        .next()
         .next()
         .isDone()
     })
@@ -191,7 +188,6 @@ describe('models/roles/saga', () => {
             type: TYPE_LOCAL,
           })
         )
-        .next()
         .next()
         .isDone()
     })

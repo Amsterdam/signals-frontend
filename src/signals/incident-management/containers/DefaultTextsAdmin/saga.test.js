@@ -121,7 +121,6 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
           })
         )
         .next()
-        .next()
         .isDone()
     })
   })
@@ -239,7 +238,6 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
             type: TYPE_LOCAL,
           })
         )
-        .next()
         .next()
         .isDone()
     })

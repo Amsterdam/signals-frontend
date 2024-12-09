@@ -51,7 +51,6 @@ describe('models/departments/saga', () => {
           })
         )
         .next()
-        .next()
         .isDone()
     })
   })
