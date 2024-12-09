@@ -16,6 +16,7 @@ This poses a challenge, because there is a lot in the application that is specif
 - URLs of API endpoints, machine learning service, Authz service and map server
 - Nginx configuration
 - HTML `<title />`
+- [`Sentry` Package](https://www.npmjs.com/package/@sentry/browser) dependency and configuration
 - PWA manifest
 - Logo
 - Favicon
