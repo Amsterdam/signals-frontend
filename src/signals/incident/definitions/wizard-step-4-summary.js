@@ -8,6 +8,8 @@ import { QuestionFieldType } from 'types/question'
 
 import afvalControls from './wizard-step-2-vulaan/afval'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
+import afvalThorControls from './wizard-step-2-vulaan/afval-thor'
+import bomenControls from './wizard-step-2-vulaan/bomen'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
@@ -17,9 +19,11 @@ import locatie from './wizard-step-2-vulaan/locatie'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
+import overlastOpHetWaterThorControls from './wizard-step-2-vulaan/overlast-op-het-water-thor'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
+import verkeersoverlastControls from './wizard-step-2-vulaan/verkeersoverlast'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
 import { controls as wonenControls } from './wizard-step-2-vulaan/wonen'
 import IncidentNavigation from '../components/IncidentNavigation'
@@ -123,9 +127,11 @@ const getExtraQuestions = (category, subcategory, questions) => {
     case 'afval': {
       if (subcategory.startsWith('container')) {
         return summary(afvalContainerControls)
-      } else {
-        return summary(afvalControls)
       }
+      if (['asbest-accu', 'handhaving-op-afval'].includes(subcategory)) {
+        return summary(afvalThorControls)
+      }
+      return summary(afvalControls)
     }
 
     case 'civiele-constructies':
@@ -143,6 +149,18 @@ const getExtraQuestions = (category, subcategory, questions) => {
     }
 
     case 'overlast-op-het-water':
+      if (
+        [
+          'blokkade-van-de-vaarweg',
+          'overig-boten',
+          'overlast-op-het-water-geluid',
+          'overlast-op-het-water-snel-varen',
+          'scheepvaart-nautisch-toezicht',
+        ].includes(subcategory)
+      ) {
+        return summary(overlastOpHetWaterThorControls)
+      }
+
       return summary(overlastOpHetWaterControls)
 
     case 'overlast-van-en-door-personen-of-groepen':
@@ -158,6 +176,10 @@ const getExtraQuestions = (category, subcategory, questions) => {
         ? straatverlichtingKlokkenControls
         : wegenVerkeerStraatmeubilairControls
 
+      if (subcategory === 'verkeersoverlast') {
+        return summary(verkeersoverlastControls)
+      }
+
       return summary(config)
     }
 
@@ -165,6 +187,19 @@ const getExtraQuestions = (category, subcategory, questions) => {
       return summary(wonenControls)
 
     case 'openbaar-groen-en-water': {
+      if (
+        subcategory === 'boom' ||
+        subcategory === 'boom-noodkap' ||
+        subcategory === 'boom-illegale-kap' ||
+        subcategory === 'boom-aanvraag-plaatsing' ||
+        subcategory === 'boom-overig' ||
+        subcategory === 'boom-afval' ||
+        subcategory === 'boom-stormschade' ||
+        subcategory === 'boom-verzoek-inspectie' ||
+        subcategory === 'boomziekten-en-plagen'
+      ) {
+        return summary(bomenControls)
+      }
       if (subcategory === 'eikenprocessierups') {
         return summary(eikenprocessierupsControls)
       } else if (subcategory === 'japanse-duizendknoop') {

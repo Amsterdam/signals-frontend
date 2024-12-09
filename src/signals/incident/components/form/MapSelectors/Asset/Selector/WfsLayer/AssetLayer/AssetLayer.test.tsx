@@ -176,7 +176,7 @@ describe('AssetLayer', () => {
           featureTypes: [
             {
               label: 'Papier',
-              description: 'Papier met nummer: {{ id_nummer }}',
+              description: 'Papier met nummer: PAB00022',
               icon: {
                 options: [Object],
                 iconUrl: '/assets/images/afval/paper.svg',
@@ -190,14 +190,16 @@ describe('AssetLayer', () => {
       })
     )
 
-    const container = screen.getByAltText(`Papier met nummer: ${featureId}`)
+    const container = screen.getByAltText(
+      `Papier met nummer: ${featureId} (${featureId})`
+    )
     userEvent.click(container)
 
     const item = {
       id: 'PAB00022',
       type: 'Papier',
-      description: 'Papier met nummer: {{ id_nummer }}',
-      label: 'Papier met nummer: PAB00022',
+      description: 'Papier met nummer: PAB00022',
+      label: 'Papier met nummer: PAB00022 - PAB00022',
       status: undefined,
       coordinates,
     }

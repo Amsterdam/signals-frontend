@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2023 Vereniging van Nederlandse Gemeenten
+
+// TODO: Typing is a mess here, should fix
+// eslint-disable-next-line
+// @ts-nocheck
 import { render, waitFor, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { mocked } from 'jest-mock'

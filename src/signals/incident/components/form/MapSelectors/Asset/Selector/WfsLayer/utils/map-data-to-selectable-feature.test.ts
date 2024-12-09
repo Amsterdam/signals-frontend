@@ -95,7 +95,7 @@ describe('mapDataToSelectableFeature', () => {
       {
         id: '230281',
         type: undefined,
-        description: 'Lichtpunt {{ MastCode }} ',
+        description: 'Lichtpunt Koningskade-0542 ',
         status: undefined,
         label: 'Lichtpunt Koningskade-0542 ',
         coordinates: { lat: 52.08410811, lng: 4.31817273 },

@@ -26,11 +26,8 @@ jest.mock('shared/services/auth/auth', () => ({
   ...jest.requireActual('shared/services/auth/auth')!,
 }))
 
-jest.useFakeTimers()
-
 describe('<App />', () => {
   let listenSpy: jest.SpyInstance
-  let spyScrollTo: jest.Mock
   let props: JSX.IntrinsicAttributes & { resetIncidentAction: jest.Mock }
 
   afterAll(() => {
@@ -39,8 +36,6 @@ describe('<App />', () => {
 
   beforeEach(() => {
     dispatch.mockReset()
-    spyScrollTo = jest.fn()
-    Object.defineProperty(global.window, 'scrollTo', { value: spyScrollTo })
     listenSpy = jest.spyOn(history, 'listen')
     props = {
       resetIncidentAction: jest.fn(),
@@ -54,15 +49,18 @@ describe('<App />', () => {
   })
 
   it('should scroll to top on history change', () => {
+    const scrollToMock = jest.fn()
+    Object.defineProperty(global.window, 'scrollTo', { value: scrollToMock })
+
     render(withAppContext(<App />))
 
-    expect(spyScrollTo).toHaveBeenCalledWith(0, 0)
+    expect(scrollToMock).toHaveBeenCalledWith(0, 0)
 
     act(() => {
       history.push('/somewhere/else')
     })
 
-    expect(spyScrollTo).toHaveBeenCalledTimes(2)
+    expect(scrollToMock).toHaveBeenCalledTimes(2)
   })
 
   it('should reset incident on page unload', () => {

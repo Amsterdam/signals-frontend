@@ -5,7 +5,6 @@ import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as reactRedux from 'react-redux'
 import * as reactResponsive from 'react-responsive'
-import { act } from 'react-test-renderer'
 
 import type { Item } from 'signals/incident/components/form/MapSelectors/types'
 import { closeMap } from 'signals/incident/containers/IncidentContainer/actions'
@@ -114,11 +113,9 @@ describe('DetailPanel', () => {
     )
     dispatch.mockReset()
     dispatchEventSpy.mockReset()
-    jest.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.useRealTimers()
     jest.resetAllMocks()
   })
 
@@ -130,10 +127,6 @@ describe('DetailPanel', () => {
         selectableFeatures: [],
       })
     )
-
-    act(() => {
-      jest.runAllTimers()
-    })
 
     expect(screen.getByText('Selecteer de locatie')).toBeInTheDocument()
 
@@ -165,10 +158,6 @@ describe('DetailPanel', () => {
         selection,
       })
     )
-
-    act(() => {
-      jest.runAllTimers()
-    })
 
     expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
     expect(screen.getByTestId('mock-asset-list')).toBeInTheDocument()
@@ -206,10 +195,6 @@ describe('DetailPanel', () => {
 
     expect(dispatch).not.toHaveBeenCalledWith(closeMap())
 
-    act(() => {
-      jest.runAllTimers()
-    })
-
     userEvent.click(screen.getByTestId('asset-select-submit-button'))
 
     expect(dispatch).toHaveBeenCalledWith(closeMap())
@@ -224,10 +209,6 @@ describe('DetailPanel', () => {
         selection: undefined,
       })
     )
-
-    act(() => {
-      jest.runAllTimers()
-    })
 
     expect(screen.getByTestId('asset-select-submit-button')).toBeInTheDocument()
 
@@ -245,10 +226,6 @@ describe('DetailPanel', () => {
         selection: undefined,
       })
     )
-
-    act(() => {
-      jest.runAllTimers()
-    })
 
     expect(screen.getByText('Ga verder zonder object')).toBeInTheDocument()
   })
@@ -270,10 +247,6 @@ describe('DetailPanel', () => {
         selection: undefined,
       })
     )
-
-    act(() => {
-      jest.runAllTimers()
-    })
 
     expect(screen.getByText('Ga verder zonder container')).toBeInTheDocument()
   })

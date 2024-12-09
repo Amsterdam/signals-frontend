@@ -163,7 +163,7 @@ const Selector: FC = () => {
   }, [coordinates, map, mapOptions.zoom, selection])
 
   useEffect(() => {
-    global.window.scrollTo(0, 0)
+    window.scrollTo(0, 0)
 
     disablePageScroll()
 

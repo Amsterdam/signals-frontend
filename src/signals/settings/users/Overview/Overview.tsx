@@ -159,7 +159,7 @@ const UsersOverviewContainer = () => {
 
   const onPaginationClick = useCallback(
     (pageToNavigateTo: number) => {
-      global.window.scrollTo(0, 0)
+      window.scrollTo(0, 0)
       navigate(
         `${BASE_URL}/${USERS_PAGED_URL}/${pageToNavigateTo}?${filters.toString()}`
       )

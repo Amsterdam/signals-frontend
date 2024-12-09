@@ -3,6 +3,7 @@
 
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 import * as reactRedux from 'react-redux'
 import * as reactRouterDom from 'react-router-dom'
 
@@ -22,7 +23,6 @@ import * as API from '../../../../../internals/testing/api'
 import {
   fetchMock,
   mockRequestHandler,
-  rest,
   server,
 } from '../../../../../internals/testing/msw-server'
 
@@ -410,11 +410,11 @@ describe('signals/incident-management/containers/IncidentDetail', () => {
     })
 
     server.use(
-      rest.delete(
+      http.delete(
         'http://localhost:8000/signals/v1/private/signals/63/attachments/88',
-        async (_req, res, ctx) => {
+        async () => {
           deleteCalled = true
-          return res(ctx.status(201))
+          return HttpResponse.json('', { status: 201 })
         }
       )
     )

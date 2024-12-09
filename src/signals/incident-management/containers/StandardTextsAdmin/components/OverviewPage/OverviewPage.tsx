@@ -112,7 +112,7 @@ export const OverviewPage = () => {
             setStatusFilter={setStatusFilter}
             setActiveFilter={setActiveFilter}
           />
-          <StyledLink to="../new">
+          <StyledLink to="./new">
             <Button variant="secondary">Tekst toevoegen</Button>
           </StyledLink>
         </div>
@@ -155,7 +155,7 @@ export const OverviewPage = () => {
               pageSize={PAGE_SIZE}
               page={page}
               onPageChange={(page) => {
-                global.window.scrollTo(0, 0)
+                window.scrollTo(0, 0)
                 fetchData(page)
                 setPage(page)
               }}

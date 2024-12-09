@@ -85,7 +85,7 @@ const GPSButton: FunctionComponent<GPSButtonProps & HTMLProps<HTMLElement>> = ({
 
       setLoading(true)
 
-      global.navigator.geolocation.getCurrentPosition(onSuccess, onError)
+      navigator.geolocation.getCurrentPosition(onSuccess, onError)
     },
     [loading, onError, onSuccess]
   )

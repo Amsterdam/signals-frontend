@@ -6,7 +6,6 @@ services:
       context: .
       target: base
     volumes:
-      - ./e2e-tests/app.json:/app/app.json
       - ./app.amsterdam.json:/app/app.amsterdam.json
       - ./app.base.json:/app/app.base.json
       - ./src:/app/src

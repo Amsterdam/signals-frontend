@@ -4,6 +4,7 @@ import { Heading, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import Paragraph from 'components/Paragraph'
+import { isPdf } from 'signals/incident-management/containers/IncidentDetail/utils/isPdf'
 
 type File = {
   description: string
@@ -56,7 +57,13 @@ const ExplanationSection = ({
       onSelectFile(file)
     }
   }
-  return (
+
+  // Only show image files, pdf files are not supported
+  const imageFiles = files.filter(({ file }) => !isPdf(file))
+
+  const showSection = text || imageFiles.length > 0
+
+  return showSection ? (
     <Section className={className}>
       <StyledHeading forwardedAs="h4">{title}</StyledHeading>
 
@@ -67,9 +74,9 @@ const ExplanationSection = ({
           </Paragraph>
         ))}
 
-      {files.length > 0 ? (
+      {imageFiles.length > 0 ? (
         <ImageWrapper>
-          {files.map((file) => (
+          {imageFiles.map((file) => (
             <Image
               tabIndex={0}
               onKeyDown={handleImageKeyPress(file)}
@@ -86,7 +93,7 @@ const ExplanationSection = ({
         </ImageWrapper>
       ) : null}
     </Section>
-  )
+  ) : null
 }
 
 export default ExplanationSection

@@ -1,25 +1,20 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2023 Gemeente Amsterdam
+// Copyright (C) 2018 - 2024 Gemeente Amsterdam
+import { inPast } from 'signals/incident/services/custom-validators'
 import { QuestionFieldType } from 'types/question'
 
-import dateTime from './dateTime'
 import locatie from './locatie'
 
 export const overlastInDeOpenbareRuimte = {
   locatie,
-  dateTime,
-  extra_auto_scooter_bromfietswrak: {
+  dateTime: {
     meta: {
-      ifAllOf: {
-        subcategory: 'auto-scooter-bromfietswrak',
-      },
-      label:
-        'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
-      shortLabel: 'Extra informatie',
-      subtitle: 'Bijvoorbeeld: kenteken, merk, kleur, roest, zonder wielen',
-      pathMerge: 'extra_properties',
+      label: 'Wanneer is of was de overlast?',
     },
-    render: QuestionFieldType.TextInput,
+    options: {
+      validators: [inPast, 'required'],
+    },
+    render: QuestionFieldType.DateTimeInput,
   },
   extra_fietswrak: {
     meta: {

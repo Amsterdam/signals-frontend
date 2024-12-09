@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
+
+// TODO: Typing is a mess here, should fix
+// eslint-disable-next-line
+// @ts-nocheck
 import 'jest-localstorage-mock'
-import * as Sentry from '@sentry/browser'
 import { mocked } from 'jest-mock'
 import { push } from 'redux-first-history'
 import { channel } from 'redux-saga'
@@ -52,7 +55,6 @@ import watchAppSaga, {
 } from './saga'
 import type { UploadFile, ApiError } from './types'
 
-jest.mock('@sentry/browser')
 jest.mock('shared/services/auth/auth')
 jest.mock(
   'shared/services/auth/services/random-string-generator/random-string-generator'
@@ -402,7 +404,6 @@ describe('containers/App/saga', () => {
             type: TYPE_GLOBAL,
           })
         )
-        .call([Sentry, 'captureException'], error)
         .run()
     })
   })

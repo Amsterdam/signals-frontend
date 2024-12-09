@@ -1,9 +1,0 @@
-{
-  "apiBaseUrl": "http://localhost:8000",
-  "oidc": {
-    "authEndpoint": "http://localhost:5556/auth",
-    "clientId": "signals",
-    "responseType": "id_token",
-    "scope": "openid email profile"
-  }
-}

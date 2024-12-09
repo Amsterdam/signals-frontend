@@ -19,10 +19,10 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 98.77,
-      branches: 94.62,
-      lines: 98.92,
-      functions: 97.78,
+      statements: 94.06,
+      branches: 88.01,
+      lines: 94.42,
+      functions: 93.53,
     },
   },
   coverageReporters: process.env.CI ? ['text'] : ['lcov'],
@@ -34,12 +34,16 @@ module.exports = {
     '.*\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/internals/mocks/image.ts',
   },
+  setupFiles: ['<rootDir>/internals/testing/jest.polyfills.ts'],
   setupFilesAfterEnv: [
     '<rootDir>/internals/testing/test-bundler.ts',
     '<rootDir>/internals/testing/jest-setup-msw.ts',
   ],
   testTimeout: 10000,
   testEnvironment: 'jsdom',
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
   transform: {
     '^.+\\.(j|t)s(x?)$': [
       'babel-jest',

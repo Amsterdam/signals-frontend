@@ -8,7 +8,6 @@ export {
   pointWithinBounds,
   serviceResultToAddress,
   wktPointToLocation,
-  sanitizeCoordinates,
 } from './map-location'
 export type {
   PdokResponse,

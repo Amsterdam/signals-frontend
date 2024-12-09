@@ -135,6 +135,11 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
     }
   }, [emailTemplateError, storeDispatch])
 
+  // Only show image attachments, pdf attachments are not supported
+  const imageAttachments = attachments?.results.filter(
+    (attachment) => attachment.is_image
+  )
+
   return (
     <Form
       ref={formRef}
@@ -182,11 +187,11 @@ const ForwardToExternal = ({ onClose }: ForwardToExternalProps) => {
         </ErrorWrapper>
       </StyledSection>
 
-      {attachments?.count ? (
+      {imageAttachments && imageAttachments.length > 0 ? (
         <StyledSection>
           <StyledParagraph strong>Foto&apos;s</StyledParagraph>
           <ImageWrapper>
-            {attachments.results.map((attachment) => (
+            {imageAttachments.map((attachment) => (
               <Image
                 key={attachment.location}
                 src={attachment.location}

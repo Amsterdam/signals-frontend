@@ -1,7 +1,7 @@
 # This Makefile is based on the Makefile defined in the Python Best Practices repository:
 # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 #
-.PHONY = help build stop pull start stop release start-e2e
+.PHONY = help build stop pull start stop release
 dc = docker-compose
 BUILD_ENV ?= development
 GITHUB_TOKEN := $(shell cat .githubtoken)
@@ -35,7 +35,3 @@ start-dev: build                        ## Run frontend
 
 stop:                               ## Clean docker stuff
 	$(dc) down -v --remove-orphans
-
-start-e2e: build                    ## Starts the application and opens cypress
-	$(dc) up -d frontend-dev
-	npm run open --prefix e2e-tests

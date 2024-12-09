@@ -17,7 +17,7 @@ export const serviceURL = `${configuration.map.pdok.reverse}?type=adres&rows=1&f
 export const formatRequest = (
   baseUrl: URL | string,
   wgs84point: LatLngLiteral,
-  distance = 50
+  distance = 30
 ) => {
   const { x, y } = wgs84ToRd(wgs84point)
   return `${new URL(baseUrl).toString()}&X=${x}&Y=${y}&distance=${distance}`

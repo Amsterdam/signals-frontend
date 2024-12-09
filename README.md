@@ -43,26 +43,11 @@ Run the unit tests and generate a coverage report with:
 npm test
 ```
 
-## End-to-end tests
+## Back office
 
-First start the backend and frontend with Docker compose:
+It is possible to login manually on <http://localhost:3001/manage> with the following credentials:
 
-```bash
-docker-compose build
-docker-compose up -d
-```
-
-Then run the end-to-end tests:
-
-```bash
-cd e2e-tests/
-npm install
-npm run open
-```
-
-It is possible to login manually on http://localhost:3001/manage with the following credentials:
-
-- E-mail: signals.admin@example.com
+- E-mail: <signals.admin@example.com>
 - Password: password
 
 ## Deployment

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2023 Gemeente Amsterdam
+// Copyright (C) 2020 - 2024 Gemeente Amsterdam
 import configuration from 'shared/services/configuration/configuration'
 
 import PreviewComponents from '../../components/IncidentPreview/components'
@@ -148,25 +148,6 @@ describe('Wizard summary', () => {
             label: 'Wanneer was het?',
             optional: true,
             render: PreviewComponents.DateTime,
-          },
-          extra_afval_handhaving: {
-            label: 'Welk afval is verkeerd neergezet?',
-            optional: true,
-            render: Label,
-            canBeNull: false,
-          },
-          extra_afval_handhaving_owner: {
-            label:
-              'Weet u wie de eigenaar is van het verkeerd geplaatste afval? Bijvoorbeeld omdat u dat ziet aan een adressticker of iets anders?',
-            optional: true,
-            render: ObjectLabel,
-            canBeNull: false,
-          },
-          extra_afval_handhaving_owner_confirmation: {
-            canBeNull: false,
-            label: undefined,
-            optional: true,
-            render: Null,
           },
           extra_afval: {
             label: 'Waar komt het afval vandaan, denkt u?',
