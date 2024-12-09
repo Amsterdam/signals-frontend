@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import * as Sentry from '@sentry/browser'
 import { testSaga } from 'redux-saga-test-plan'
 
 import * as actions from 'containers/App/actions'
@@ -12,8 +11,6 @@ import departmentsJson from 'utils/__tests__/fixtures/departments.json'
 import { fetchDepartmentsSuccess, fetchDepartmentsError } from '../actions'
 import { FETCH_DEPARTMENTS } from '../constants'
 import watchDepartmentsSaga, { fetchDepartments } from '../saga'
-
-jest.mock('@sentry/browser')
 
 describe('models/departments/saga', () => {
   it('should watchDepartmentsSaga', () => {
@@ -53,8 +50,6 @@ describe('models/departments/saga', () => {
             type: TYPE_LOCAL,
           })
         )
-        .next()
-        .call([Sentry, 'captureException'], error)
         .next()
         .isDone()
     })
