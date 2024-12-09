@@ -53,7 +53,6 @@ describe('models/categories/saga', () => {
           })
         )
         .next()
-        .next()
         .isDone()
     })
   })
