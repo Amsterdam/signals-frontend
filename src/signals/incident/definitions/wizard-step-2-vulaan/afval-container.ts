@@ -134,7 +134,7 @@ export const controls = {
     },
     render: QuestionFieldType.AssetSelect,
     options: {
-      validators: [validateObjectLocation('container'), 'required'],
+      validators: [validateObjectLocation('container')],
     },
   },
 }

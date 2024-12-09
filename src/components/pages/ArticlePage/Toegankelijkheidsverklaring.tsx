@@ -48,6 +48,16 @@ const Toegankelijkheidsverklaring: FC = () => (
       </header>
       <List variant="bullet">
         <ListItem>
+          17-10-2024: Handmatig onderzoek door Digitaal Toegankelijk:{' '}
+          <Link
+            variant="inline"
+            icon="download"
+            href="/assets/2024-04_meldingen.amsterdam.nl_Digitaal-Toegankelijk-WCAG-EM.pdf"
+          >
+            document downloaden
+          </Link>
+        </ListItem>
+        <ListItem>
           23-07-2021: Handmatig onderzoek door Firm Ground:{' '}
           <Link
             variant="inline"

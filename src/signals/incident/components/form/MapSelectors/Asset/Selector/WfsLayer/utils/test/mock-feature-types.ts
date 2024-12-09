@@ -213,7 +213,7 @@ export const mockCaterpillarFeatureTypes: FeatureType[] = [
         className: 'object-marker',
         iconSize: [40, 40],
       },
-      iconUrl: '/assets/images/groen_water/oak.svg',
+      iconUrl: '/assets/images/groen_water/tree.svg',
     },
     idField: 'id',
     typeValue: 'Eikenboom',

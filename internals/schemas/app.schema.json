@@ -36,9 +36,6 @@
         "oidc": {
           "$ref": "#/definitions/Oidc"
         },
-        "sentry": {
-          "$ref": "#/definitions/Sentry"
-        },
         "azure": {
           "$ref": "#/definitions/Azure"
         },
@@ -336,11 +333,7 @@
           "format": "uri-reference"
         }
       },
-      "required": [
-        "help",
-        "home",
-        "privacy"
-      ],
+      "required": ["help", "home", "privacy"],
       "title": "Links"
     },
     "Logo": {
@@ -350,47 +343,26 @@
       "properties": {
         "url": {
           "description": "Any URL that will hold the image for the application's logo. Can be a URI or an absolute URL that points to the webroot",
-          "type": [
-            "string",
-            "null"
-          ]
+          "type": ["string", "null"]
         },
         "width": {
           "description": "Length value that sets the logo image's width. See https://developer.mozilla.org/en-US/docs/Web/CSS/width for reference",
-          "type": [
-            "string",
-            "integer"
-          ]
+          "type": ["string", "integer"]
         },
         "height": {
           "description": "Length value that sets the logo image's height. In pixels, the height should be 74 or less.",
-          "type": [
-            "string",
-            "integer"
-          ]
+          "type": ["string", "integer"]
         },
         "smallWidth": {
           "description": "Length value that sets the logo image's width in case the logo is rendered in a site header with limited height",
-          "type": [
-            "string",
-            "integer"
-          ]
+          "type": ["string", "integer"]
         },
         "smallHeight": {
           "description": "Length value that sets the logo image's height in case the logo is rendered in a site header with limited height. In pixels, the smallHeight should be 34 or less.",
-          "type": [
-            "string",
-            "integer"
-          ]
+          "type": ["string", "integer"]
         }
       },
-      "required": [
-        "height",
-        "smallHeight",
-        "smallWidth",
-        "url",
-        "width"
-      ],
+      "required": ["height", "smallHeight", "smallWidth", "url", "width"],
       "title": "Logo"
     },
     "Map": {
@@ -455,12 +427,18 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "dataPlatformKey": {
-              "description": "Key needed for calls to dataPlatform api's. Should be renewed every year",
-              "type": "string"
+            "bomen": {
+              "description": "GeoJSON URL for the retrieval of tree location data. Used by the incident form for showing tree locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri-template"
             },
             "containers": {
               "description": "GeoJSON URL for the retrieval of container location data. Used by the incident form for showing container locations on a map\n\nNo Swagger documentation available",
+              "type": "string",
+              "format": "uri-template"
+            },
+            "eikenprocessierups": {
+              "description": "GeoJSON URL for the retrieval of oak caterpillar data. Used by the incident form for showing oak caterpillar locations on a map\n\nNo Swagger documentation available",
               "type": "string",
               "format": "uri-template"
             },
@@ -471,11 +449,6 @@
             },
             "verlichting": {
               "description": "GeoJSON URL for the retrieval of street light data. Used by the incident form for showing street light locations on a map\n\nNo Swagger documentation available",
-              "type": "string",
-              "format": "uri-template"
-            },
-            "eikenprocessierups": {
-              "description": "GeoJSON URL for the retrieval of oak caterpillar data. Used by the incident form for showing oak caterpillar locations on a map\n\nNo Swagger documentation available",
               "type": "string",
               "format": "uri-template"
             }
@@ -498,11 +471,7 @@
           }
         }
       },
-      "required": [
-        "municipality",
-        "options",
-        "tiles"
-      ],
+      "required": ["municipality", "options", "tiles"],
       "title": "Map"
     },
     "MapOptions": {
@@ -511,11 +480,7 @@
       "properties": {
         "crs": {
           "description": "The Coordinate Reference System (CRS) of the map",
-          "enum": [
-            "EPSG:28992",
-            "EPSG:3857",
-            "EPSG:4326"
-          ]
+          "enum": ["EPSG:28992", "EPSG:3857", "EPSG:4326"]
         },
         "center": {
           "type": "array",
@@ -559,14 +524,7 @@
           "type": "integer"
         }
       },
-      "required": [
-        "crs",
-        "center",
-        "maxBounds",
-        "maxZoom",
-        "minZoom",
-        "zoom"
-      ],
+      "required": ["crs", "center", "maxBounds", "maxZoom", "minZoom", "zoom"],
       "title": "MapOptions"
     },
     "Oidc": {
@@ -588,23 +546,14 @@
         },
         "responseType": {
           "description": "oAuth2 `response_type` service parameter value",
-          "enum": [
-            "token",
-            "id_token",
-            "code"
-          ]
+          "enum": ["token", "id_token", "code"]
         },
         "scope": {
           "description": "oAuth2 `scope` service parameter value",
           "type": "string"
         }
       },
-      "required": [
-        "authEndpoint",
-        "clientId",
-        "scope",
-        "responseType"
-      ]
+      "required": ["authEndpoint", "clientId", "scope", "responseType"]
     },
     "OptionsBackOffice": {
       "type": "object",
@@ -752,10 +701,7 @@
           "$ref": "#/definitions/TilesOptions"
         }
       },
-      "required": [
-        "args",
-        "options"
-      ],
+      "required": ["args", "options"],
       "title": "Tiles"
     },
     "TilesOptions": {
@@ -781,26 +727,8 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "attribution",
-        "tms"
-      ],
+      "required": ["attribution", "tms"],
       "title": "TilesOptions"
-    },
-    "Sentry": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "dsn": {
-          "type": "string",
-          "format": "uri",
-          "description": "Sentry data source name value. When omitted, Sentry will not be initialised in the application"
-        }
-      },
-      "required": [
-        "dsn"
-      ],
-      "title": "Sentry"
     },
     "Azure": {
       "type": "object",
@@ -854,4 +782,3 @@
     }
   }
 }
-

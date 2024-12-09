@@ -38,7 +38,7 @@
     "district": "Stadsdeel",
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 08.00 tot 18.00 uur.",
-    "helpTextHeader": "Lukt het niet om een melding te doen? Bel het telefoonnummer [14 020](tel:14020)",
+    "helpTextHeader": "Heeft u een vraag of heeft u ondersteuning nodig bij het invullen van dit formulier? Bel het telefoonnummer [14 020](tel:14020).",
     "logoDescription": "Gemeente Amsterdam logo - Home",
     "mapDescription": "Weet u het adres niet, bel dan 14 020 om telefonisch de melding te maken.",
     "phoneNumber": "14 020",
@@ -76,10 +76,11 @@
         [52.50536, 5.10737]
       ],
       "maxNumberOfAssets": {
-        "straatverlichting": 3,
-        "klokken": 1,
         "afvalContainer": 5,
-        "eikenProcessierups": 5
+        "bomen": 5,
+        "eikenProcessierups": 5,
+        "klokken": 1,
+        "straatverlichting": 3
       },
       "maxZoom": 16,
       "minZoom": 8,
@@ -103,10 +104,11 @@
       }
     },
     "layers": {
+      "bomen": "https://api.data.amsterdam.nl/v1/wfs/bomen/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=stamgegevens&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
       "containers": "https://api.data.amsterdam.nl/v1/wfs/huishoudelijkafval/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=app:container&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
+      "eikenprocessierups": "https://gisib.acc.meldingen.amsterdam.nl/public/gisib/geography/?object_kind_name=Boom&bbox={east},{south},{west},{north}",
       "klokken": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
-      "verlichting": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json",
-      "eikenprocessierups": "https://gisib.acc.meldingen.amsterdam.nl/public/gisib/geography/?object_kind_name=Boom&bbox={east},{south},{west},{north}"
+      "verlichting": "https://api.data.amsterdam.nl/v1/wfs/openbareverlichting/?SERVICE=WFS&REQUEST=GetFeature&VERSION=2.0.0&TYPENAMES=openbareverlichting&COUNT=1000&SRSNAME=urn:ogc:def:crs:EPSG::4326&outputFormat=application/json"
     }
   },
   "oidc": {
@@ -115,9 +117,6 @@
     "realm": "datapunt-ad-acc",
     "responseType": "code",
     "scope": "openid"
-  },
-  "sentry": {
-    "dsn": "https://3de59e3a93034a348089131aa565bdf4@sentry-new.data.amsterdam.nl/27"
   },
   "azure": {
     "connectionString": "InstrumentationKey=c39a786a-82ac-471d-a0c6-feb41eb4967b;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/"

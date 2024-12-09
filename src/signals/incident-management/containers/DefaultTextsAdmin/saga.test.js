@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import * as Sentry from '@sentry/browser'
 import { takeLatest } from 'redux-saga/effects'
 import { testSaga } from 'redux-saga-test-plan'
 
@@ -122,8 +121,6 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
           })
         )
         .next()
-        .call([Sentry, 'captureException'], error)
-        .next()
         .isDone()
     })
   })
@@ -241,8 +238,6 @@ describe('/signals/incident-management/containers/DefaultTextsAdmin/saga', () =>
             type: TYPE_LOCAL,
           })
         )
-        .next()
-        .call([Sentry, 'captureException'], error)
         .next()
         .isDone()
     })

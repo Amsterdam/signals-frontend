@@ -6,24 +6,24 @@ import styled from 'styled-components'
 
 import Button from 'components/Button'
 
-const StyledButton = styled(Button)`
-  margin-right: 15px !important;
+const StyledButton = styled(Button)<{ $appMode?: boolean }>`
+  ${({ $appMode }) => !$appMode && 'margin-right: 15px !important'};
 `
 
 interface Props {
-  className?: string
+  appMode?: boolean
   children: ReactNode
   onClick: (event: BaseSyntheticEvent) => void
 }
 
-const NextButton = ({ className = '', children, onClick }: Props) => (
+const NextButton = ({ appMode, children, onClick, ...restProps }: Props) => (
   <StyledButton
-    className={className}
-    data-testid="next-button"
+    {...restProps}
+    $appMode={appMode}
     onClick={onClick}
-    taskflow
+    taskflow={!appMode}
     type="submit"
-    variant="secondary"
+    variant={appMode ? 'primary' : 'secondary'}
   >
     {children}
   </StyledButton>

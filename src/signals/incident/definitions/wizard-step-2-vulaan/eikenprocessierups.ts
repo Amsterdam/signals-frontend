@@ -43,7 +43,7 @@ export const controls = {
           description: 'Eikenboom',
           icon: {
             options,
-            iconUrl: '/assets/images/groen_water/oak.svg',
+            iconUrl: '/assets/images/groen_water/tree.svg',
           },
           idField: 'id',
           typeValue: 'Eikenboom',
