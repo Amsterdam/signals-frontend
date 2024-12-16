@@ -6,6 +6,7 @@ import configuration from 'shared/services/configuration/configuration'
 
 import afval from './wizard-step-2-vulaan/afval'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
+import afvalRolcontainer from './wizard-step-2-vulaan/afval-rolcontainer'
 import afvalThor from './wizard-step-2-vulaan/afval-thor'
 import autoScooterBromfietswrak from './wizard-step-2-vulaan/auto-scooter-bromfietswrak'
 import bomen from './wizard-step-2-vulaan/bomen'
@@ -115,6 +116,12 @@ export default {
         if (['asbest-accu', 'handhaving-op-afval'].includes(subcategory)) {
           return expandQuestions(afvalThor, category, subcategory)
         }
+        if (
+          ['rolcontainer-is-kapot', 'rolcontainer-is-vol'].includes(subcategory)
+        ) {
+          return expandQuestions(afvalRolcontainer, category, subcategory)
+        }
+
         return expandQuestions(afval, category, subcategory)
       }
 
