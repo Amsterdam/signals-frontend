@@ -32,7 +32,7 @@ export const controls = {
         extra_afval_rolcontainer: 'kapot',
       },
       value:
-        'U kunt in een ander formulier [een nieuwe rolcontainer aanvragen](https://www.amsterdam.nl/).',
+        'U kunt in een ander formulier [een nieuwe rolcontainer aanvragen](https://formulier.amsterdam.nl/thema/afval-grondstoffen/rolcontainer/Aanvragen/).',
       type: 'alert',
     },
     options: {
