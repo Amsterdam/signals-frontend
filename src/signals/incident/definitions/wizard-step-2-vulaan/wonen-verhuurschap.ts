@@ -16,6 +16,7 @@ export const verhuurderschap = {
         huurcontract: 'Huurcontract',
         bemiddelingskosten: 'Bemiddelingskosten',
         servicekosten: 'Servicekosten',
+        huur_algemeen: 'De huur van uw woning',
         overige: 'Iets anders',
       },
     },
@@ -418,6 +419,95 @@ export const verhuurderschap = {
       validators: ['required'],
     },
     render: QuestionFieldType.TextareaInput,
+  },
+
+  // De huur van uw woning
+  extra_wonen_verhuurderschap_huur_algemeen_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huur_algemeen',
+      },
+      label: 'De huur van uw woning',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
+  extra_wonen_verhuurderschap_huur_algemeen_onderwerp: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huur_algemeen',
+      },
+      label:
+        'U wilt een melding doen over de huur van uw woning. Waar gaat uw melding precies over?',
+      shortLabel: 'Onderwerp huur algemeen',
+      pathMerge: 'extra_properties',
+      values: {
+        huurprijs: 'Onjuiste huurprijs',
+        huurprijsverhoging: 'Onjuiste huurprijsverhoging',
+        puntentelling: 'Puntentelling ontbreekt bij start huurovereenkomst',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.CheckboxInput,
+  },
+
+  extra_wonen_verhuurderschap_huur_algemeen_afsluitende_vragen_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_huur_algemeen_onderwerp: [
+          'huurprijs',
+          'huurprijsverhoging',
+          'puntentelling',
+        ],
+      },
+      label: 'Afsluitende vragen en opmerkingen',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
+  extra_wonen_verhuurderschap_huur_algemeen_afsluitende_vragen: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_huur_algemeen_onderwerp: [
+          'huurprijs',
+          'huurprijsverhoging',
+          'puntentelling',
+        ],
+      },
+      label:
+        'Ik verklaar dat ik akkoord ga met het delen van gegevens met stichting !WOON',
+      shortLabel: 'Consent Stichting !WOON',
+      pathMerge: 'extra_properties',
+      values: {
+        ja: 'Ja',
+        nee: 'Nee',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_wonen_verhuurderschap_huur_algemeen_info: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_huur_algemeen_onderwerp: [
+          'huurprijs',
+          'huurprijsverhoging',
+          'puntentelling',
+        ],
+      },
+      value:
+        'Vaak hebben we nog een vraag over uw antwoorden. Dan willen we graag contact met u op kunnen nemen. Bijvoorbeeld om documenten aan te leveren. Wilt u op de volgende pagina uw telefoonnummer en e-mailadres invullen? Dan kunnen we u bereiken.',
+      type: 'info',
+    },
+
+    render: QuestionFieldType.PlainText,
   },
 
   // Afsluitende vragen en opmerkingen
