@@ -15,11 +15,11 @@ export const controls = {
       shortLabel: 'Probleem rolcontainer',
       pathMerge: 'extra_properties',
       values: {
-        kapot: 'De rolcontainer is kapot en moet vervangen worden.',
-        vol: 'De rolcontainer is vol en moet worden geleegd.',
+        kapot: 'De rolcontainer is kapot en moet vervangen worden',
+        vol: 'De rolcontainer is vol en moet worden geleegd',
         oneens:
-          'Ik ben het er niet mee eens dat ik verplicht een rolcontainer krijg.',
-        anders: 'Iets anders.',
+          'Ik ben het er niet mee eens dat ik verplicht een rolcontainer krijg',
+        anders: 'Iets anders',
       },
     },
     options: {
