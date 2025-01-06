@@ -19,6 +19,7 @@ export const controls = {
         vol: 'De rolcontainer is vol en moet worden geleegd.',
         oneens:
           'Ik ben het er niet mee eens dat ik verplicht een rolcontainer krijg.',
+        anders: 'Iets anders.',
       },
     },
     options: {
