@@ -52,6 +52,8 @@ describe('definition wonen', () => {
       'extra_wonen_verhuurderschap_servicekosten_jaarlijkse_afrekening',
       'extra_wonen_verhuurderschap_servicekosten_hoogte',
       'extra_wonen_verhuurderschap_servicekosten_toelichting_ja',
+      'extra_wonen_verhuurderschap_huur_probleem_title',
+      'extra_wonen_verhuurderschap_huur_probleem_onderwerp',
       'extra_wonen_verhuurderschap_afsluitende_vragen_title',
       'extra_wonen_verhuurderschap_arbeidsmigrant',
       'extra_wonen_verhuurderschap_arbeidsmigrant_huurcontract',

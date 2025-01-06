@@ -16,6 +16,7 @@ export const verhuurderschap = {
         huurcontract: 'Huurcontract',
         bemiddelingskosten: 'Bemiddelingskosten',
         servicekosten: 'Servicekosten',
+        huur_probleem: 'De huur van uw woning',
         overige: 'Iets anders',
       },
     },
@@ -420,6 +421,39 @@ export const verhuurderschap = {
     render: QuestionFieldType.TextareaInput,
   },
 
+  // De huur van uw woning
+  extra_wonen_verhuurderschap_huur_probleem_title: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huur_probleem',
+      },
+      label: 'De huur van uw woning',
+    },
+
+    render: QuestionFieldType.QuestionHeader,
+  },
+
+  extra_wonen_verhuurderschap_huur_probleem_onderwerp: {
+    meta: {
+      ifOneOf: {
+        extra_wonen_verhuurderschap_onderwerp: 'huur_probleem',
+      },
+      label:
+        'U wilt een melding doen over de huur van uw woning. Waar gaat uw melding precies over?',
+      shortLabel: 'Huur probleem',
+      pathMerge: 'extra_properties',
+      values: {
+        huurprijs: 'Onjuiste huurprijs',
+        huurprijsverhoging: 'Onjuiste huurprijsverhoging',
+        puntentelling: 'Puntentelling ontbreekt bij start huurovereenkomst',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.CheckboxInput,
+  },
+
   // Afsluitende vragen en opmerkingen
   extra_wonen_verhuurderschap_afsluitende_vragen_title: {
     meta: {
@@ -429,6 +463,7 @@ export const verhuurderschap = {
           'intimidatie',
           'huurcontract',
           'bemiddelingskosten',
+          'huur_probleem',
           'servicekosten',
           'overige',
         ],
@@ -530,6 +565,7 @@ export const verhuurderschap = {
           'intimidatie',
           'huurcontract',
           'bemiddelingskosten',
+          'huur_probleem',
           'servicekosten',
           'overige',
         ],
@@ -557,6 +593,7 @@ export const verhuurderschap = {
           'intimidatie',
           'huurcontract',
           'bemiddelingskosten',
+          'huur_probleem',
           'servicekosten',
           'overige',
         ],

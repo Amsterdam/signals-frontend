@@ -20,7 +20,7 @@ export const overig = {
           'Woningdelen (de woning wordt door verschillende mensen gedeeld)',
         woningkwaliteit:
           'Achterstallig onderhoud of een gebrek aan een woning wordt niet verholpen door de eigenaar/beheerder',
-        verhuurderschap: 'Problemen met verhuuders',
+        verhuurderschap: 'Problemen met verhuurders',
       },
       resetsStateOnChange: true,
     },
