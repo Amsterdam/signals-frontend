@@ -8,6 +8,7 @@ import { QuestionFieldType } from 'types/question'
 
 import afvalControls from './wizard-step-2-vulaan/afval'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
+import afvalRolcontainerControls from './wizard-step-2-vulaan/afval-rolcontainer'
 import afvalThorControls from './wizard-step-2-vulaan/afval-thor'
 import bomenControls from './wizard-step-2-vulaan/bomen'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
@@ -131,6 +132,12 @@ const getExtraQuestions = (category, subcategory, questions) => {
       if (['asbest-accu', 'handhaving-op-afval'].includes(subcategory)) {
         return summary(afvalThorControls)
       }
+      if (
+        ['rolcontainer-is-kapot', 'rolcontainer-is-vol'].includes(subcategory)
+      ) {
+        return summary(afvalRolcontainerControls)
+      }
+
       return summary(afvalControls)
     }
 
