@@ -20,6 +20,22 @@ export const wegenVerkeerStraatmeubilair = {
     meta: {
       label: 'Wanneer was het?',
       canBeNull: true,
+      ifOneOf: {
+        subcategory: [
+          'autom-verzinkbare-palen',
+          'bewegwijzering',
+          'camerasystemen',
+          'oplaadpunt',
+          'parkeerautomaten',
+          'parkeer-verwijssysteem',
+          'put-riool-kapot',
+          'stadsplattegronden',
+          'lantaarnpaal-straatverlichting',
+          'verkeerslicht',
+          'verkeerssituaties',
+          'omleiding',
+        ],
+      },
     },
     options: {
       validators: [falsyOrNumberOrNow, inPast],
@@ -29,7 +45,7 @@ export const wegenVerkeerStraatmeubilair = {
   extra_onderhoud_stoep_straat_en_fietspad: {
     meta: {
       ifOneOf: {
-        subcategory: ['onderhoud-stoep-straat-en-fietspad', 'gladheid'],
+        subcategory: ['gladheid'],
       },
       label: 'Om wat voor soort wegdek gaat het?',
       shortLabel: 'Soort wegdek',
