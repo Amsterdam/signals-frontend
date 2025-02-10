@@ -80,9 +80,7 @@ const HistoryList: FunctionComponent<HistoryListProps> = ({
             )}
             {description && (
               <span data-testid="history-list-item-description">
-                <Markdown allowedElements={['a', 'p', 'ul', 'ol', 'li']}>
-                  {description}
-                </Markdown>
+                <Markdown skipHtml>{description}</Markdown>
               </span>
             )}
           </Action>
