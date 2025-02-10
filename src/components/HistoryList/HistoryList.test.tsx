@@ -27,4 +27,26 @@ describe('<ChildIncidentHistory />', () => {
 
     expect(screen.getByText('mock description')).toBeInTheDocument()
   })
+
+  it('renders emphasis and lists in the description', () => {
+    const historyWithDescription = [
+      {
+        ...history[0],
+        description:
+          '*Emphasis* **Strong** ***Strong emphasis***\n\n1. Ordered list item 1\n2. Ordered list item 2\n\n- Unordered list item 1\n- Unordered list item 2',
+      },
+    ]
+
+    render(withAppContext(<HistoryList list={historyWithDescription} />))
+
+    expect(screen.getByText('Emphasis')).toBeInTheDocument()
+    expect(screen.getByText('Strong')).toBeInTheDocument()
+    expect(screen.getByText('Strong emphasis')).toBeInTheDocument()
+
+    expect(screen.getByText('Ordered list item 1')).toBeInTheDocument()
+    expect(screen.getByText('Ordered list item 2')).toBeInTheDocument()
+
+    expect(screen.getByText('Unordered list item 1')).toBeInTheDocument()
+    expect(screen.getByText('Unordered list item 2')).toBeInTheDocument()
+  })
 })
