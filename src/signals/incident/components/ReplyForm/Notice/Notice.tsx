@@ -24,7 +24,7 @@ const Notice = ({ content, title }: NoticeProps) => {
           <StyledHeading>{title}</StyledHeading>
           {contentArray.map((item) => {
             return (
-              <ReactMarkdown key={item} allowedElements={['a', 'p']}>
+              <ReactMarkdown key={item} skipHtml allowedElements={['a', 'p']}>
                 {item}
               </ReactMarkdown>
             )
