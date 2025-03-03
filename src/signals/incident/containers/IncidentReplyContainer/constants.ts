@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 Gemeente Amsterdam
+// import configuration from 'shared/services/configuration/configuration'
 /**
  * Possible responses
  */
@@ -16,8 +17,10 @@ export const SUBMITTED_PREVIOUSLY_DETAIL = 'Already used!'
  * Notices
  */
 export const INACCESSIBLE_TITLE = 'U kunt niet meer reageren op onze vragen'
-export const INACCESSIBLE_CONTENT =
-  'U hebt hierover een email ontvangen of u krijgt deze binnenkort nog.'
+export const INACCESSIBLE_CONTENT = [
+  'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.',
+  `Wilt u dat wij toch nog iets doen? Dan kunt u [een nieuwe melding maken](https:meldingen.amsterdam.nl/incident/beschrijf). Geef alstublieft zoveel mogelijk details van de situatie. En stuur als dat kan een foto mee.`,
+]
 
 export const SUBMITTED_PREVIOUSLY_TITLE =
   'U hebt onze vragen al eerder beantwoord'
