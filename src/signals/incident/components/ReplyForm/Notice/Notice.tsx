@@ -23,7 +23,11 @@ const Notice = ({ content, title }: NoticeProps) => {
         <div>
           <StyledHeading>{title}</StyledHeading>
           {contentArray.map((item) => {
-            return <ReactMarkdown key={item}>{item}</ReactMarkdown>
+            return (
+              <ReactMarkdown key={item} allowedElements={['a', 'p']}>
+                {item}
+              </ReactMarkdown>
+            )
           })}
         </div>
       </Column>

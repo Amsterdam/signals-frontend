@@ -181,7 +181,7 @@ describe('IncidentReplyContainer', () => {
 
       await waitFor(() => {
         screen.getByRole('heading', { name: constants.INACCESSIBLE_TITLE })
-        screen.getByText(constants.INACCESSIBLE_CONTENT)
+        screen.getByText(constants.INACCESSIBLE_CONTENT[0])
       })
     })
   })
@@ -219,7 +219,7 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', {
           name: constants.INACCESSIBLE_TITLE,
         })
-        screen.getByText(constants.INACCESSIBLE_CONTENT)
+        screen.getByText(constants.INACCESSIBLE_CONTENT[0])
       })
     })
   })
