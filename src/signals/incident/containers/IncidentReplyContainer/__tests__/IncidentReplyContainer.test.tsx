@@ -184,6 +184,10 @@ describe('IncidentReplyContainer', () => {
         screen.getByText(
           'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
         )
+        screen.getByRole('link', { name: 'een nieuwe melding maken' })
+        screen.getByText(
+          /. Geef alstublieft zoveel mogelijk details van de situatie. En stuur als dat kan een foto mee./
+        )
       })
     })
   })
@@ -223,6 +227,10 @@ describe('IncidentReplyContainer', () => {
         })
         screen.getByText(
           'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
+        )
+        screen.getByRole('link', { name: 'een nieuwe melding maken' })
+        screen.getByText(
+          /. Geef alstublieft zoveel mogelijk details van de situatie. En stuur als dat kan een foto mee./
         )
       })
     })
