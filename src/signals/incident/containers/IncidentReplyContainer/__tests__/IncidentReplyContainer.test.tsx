@@ -181,7 +181,9 @@ describe('IncidentReplyContainer', () => {
 
       await waitFor(() => {
         screen.getByRole('heading', { name: constants.INACCESSIBLE_TITLE })
-        screen.getByText(constants.INACCESSIBLE_CONTENT[0])
+        screen.getByText(
+          'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
+        )
       })
     })
   })
@@ -219,7 +221,9 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', {
           name: constants.INACCESSIBLE_TITLE,
         })
-        screen.getByText(constants.INACCESSIBLE_CONTENT[0])
+        screen.getByText(
+          'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
+        )
       })
     })
   })

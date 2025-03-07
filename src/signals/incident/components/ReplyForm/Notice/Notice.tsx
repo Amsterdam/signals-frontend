@@ -14,21 +14,17 @@ interface NoticeProps {
   content: string
 }
 
-const Notice = ({ content, title }: NoticeProps) => {
-  // const contentArray = Array.isArray(content) ? content : [content]
-
-  return (
-    <Row>
-      <Column span={12}>
-        <div>
-          <StyledHeading>{title}</StyledHeading>
-          <ReactMarkdown skipHtml allowedElements={['a', 'p']}>
-            {content}
-          </ReactMarkdown>
-        </div>
-      </Column>
-    </Row>
-  )
-}
+const Notice = ({ content, title }: NoticeProps) => (
+  <Row>
+    <Column span={12}>
+      <div>
+        <StyledHeading>{title}</StyledHeading>
+        <ReactMarkdown skipHtml allowedElements={['a', 'p']}>
+          {content}
+        </ReactMarkdown>
+      </div>
+    </Column>
+  </Row>
+)
 
 export default Notice
