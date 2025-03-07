@@ -13,10 +13,4 @@ describe('Notice', () => {
     expect(screen.getByText('Foo')).toBeInTheDocument()
     expect(screen.getByText('Bar')).toBeInTheDocument()
   })
-  it('renders multiple paragraphs', () => {
-    render(withAppContext(<Notice title="Foo" content={['Bar', 'foobar']} />))
-
-    expect(screen.getByText('Bar')).toBeInTheDocument()
-    expect(screen.getByText('foobar')).toBeInTheDocument()
-  })
 })

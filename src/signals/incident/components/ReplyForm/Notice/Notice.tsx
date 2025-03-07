@@ -11,24 +11,20 @@ const StyledHeading = styled(Heading)`
 
 interface NoticeProps {
   title: string
-  content: string | string[]
+  content: string
 }
 
 const Notice = ({ content, title }: NoticeProps) => {
-  const contentArray = Array.isArray(content) ? content : [content]
+  // const contentArray = Array.isArray(content) ? content : [content]
 
   return (
     <Row>
       <Column span={12}>
         <div>
           <StyledHeading>{title}</StyledHeading>
-          {contentArray.map((item) => {
-            return (
-              <ReactMarkdown key={item} skipHtml allowedElements={['a', 'p']}>
-                {item}
-              </ReactMarkdown>
-            )
-          })}
+          <ReactMarkdown skipHtml allowedElements={['a', 'p']}>
+            {content}
+          </ReactMarkdown>
         </div>
       </Column>
     </Row>
