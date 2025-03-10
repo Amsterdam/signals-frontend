@@ -14,7 +14,7 @@ class Keycloak {
 
   constructor() {
     this.storage = window.localStorage || window.sessionStorage
-    this.keycloak = keycloakJS({
+    this.keycloak = new keycloakJS({
       clientId: configuration.oidc.clientId,
       realm: (configuration.oidc as any).realm as string,
       url: configuration.oidc.authEndpoint,
