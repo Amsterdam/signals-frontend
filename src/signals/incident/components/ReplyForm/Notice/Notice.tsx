@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2021 - 2022 Gemeente Amsterdam, Vereniging van Nederlandse Gemeenten
-import { Column, Heading, Row, themeSpacing } from '@amsterdam/asc-ui'
+import {
+  Column,
+  Heading,
+  Link,
+  Paragraph,
+  Row,
+  themeColor,
+  themeSpacing,
+} from '@amsterdam/asc-ui'
 import ReactMarkdown from 'react-markdown'
 import styled from 'styled-components'
 
@@ -9,17 +17,32 @@ const StyledHeading = styled(Heading)`
   margin-bottom: ${themeSpacing(5)};
 `
 
+const StyledParagraph = styled(Paragraph)`
+  a {
+    color: ${themeColor('primary')};
+  }
+`
+
 interface NoticeProps {
   title: string
   content: string
+  classname?: string
 }
 
 const Notice = ({ content, title }: NoticeProps) => (
   <Row>
-    <Column span={6}>
+    <Column span={9}>
       <div>
         <StyledHeading>{title}</StyledHeading>
-        <ReactMarkdown skipHtml allowedElements={['a', 'p']}>
+        <ReactMarkdown
+          skipHtml
+          allowedElements={['a', 'p']}
+          components={{
+            a: ({ node, ...props }) => <Link variant="inline" {...props} />,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            p: ({ node, color, ...props }) => <StyledParagraph {...props} />,
+          }}
+        >
           {content}
         </ReactMarkdown>
       </div>
