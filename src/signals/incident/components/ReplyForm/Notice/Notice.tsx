@@ -6,7 +6,6 @@ import {
   Link,
   Paragraph,
   Row,
-  themeColor,
   themeSpacing,
 } from '@amsterdam/asc-ui'
 import ReactMarkdown from 'react-markdown'
@@ -17,16 +16,9 @@ const StyledHeading = styled(Heading)`
   margin-bottom: ${themeSpacing(5)};
 `
 
-const StyledParagraph = styled(Paragraph)`
-  a {
-    color: ${themeColor('primary')};
-  }
-`
-
 interface NoticeProps {
   title: string
   content: string
-  classname?: string
 }
 
 const Notice = ({ content, title }: NoticeProps) => (
@@ -40,7 +32,7 @@ const Notice = ({ content, title }: NoticeProps) => (
           components={{
             a: ({ node, ...props }) => <Link variant="inline" {...props} />,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            p: ({ node, color, ...props }) => <StyledParagraph {...props} />,
+            p: ({ node, color, ...props }) => <Paragraph {...props} />,
           }}
         >
           {content}
