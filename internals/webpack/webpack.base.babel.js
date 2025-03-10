@@ -128,6 +128,10 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
         },
       },
     }),
+
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ].filter(Boolean),
 
   resolve: {
@@ -136,6 +140,12 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       types: path.resolve(__rootdir, 'src/types/'),
+    },
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      vm: require.resolve('vm-browserify'),
+      process: require.resolve('process/browser'),
     },
   },
 
