@@ -16,7 +16,7 @@ interface NoticeProps {
 
 const Notice = ({ content, title }: NoticeProps) => (
   <Row>
-    <Column span={12}>
+    <Column span={6}>
       <div>
         <StyledHeading>{title}</StyledHeading>
         <ReactMarkdown skipHtml allowedElements={['a', 'p']}>
