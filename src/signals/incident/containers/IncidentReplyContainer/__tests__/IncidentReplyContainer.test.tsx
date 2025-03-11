@@ -181,7 +181,13 @@ describe('IncidentReplyContainer', () => {
 
       await waitFor(() => {
         screen.getByRole('heading', { name: constants.INACCESSIBLE_TITLE })
-        screen.getByText(constants.INACCESSIBLE_CONTENT)
+        screen.getByText(
+          'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
+        )
+        screen.getByRole('link', { name: 'een nieuwe melding maken' })
+        screen.getByText(
+          /. Geef alstublieft zoveel mogelijk details van de situatie. En stuur als dat kan een foto mee./
+        )
       })
     })
   })
@@ -219,7 +225,13 @@ describe('IncidentReplyContainer', () => {
         screen.getByRole('heading', {
           name: constants.INACCESSIBLE_TITLE,
         })
-        screen.getByText(constants.INACCESSIBLE_CONTENT)
+        screen.getByText(
+          'U hebt hierover een e-mail ontvangen of u krijgt deze binnenkort nog.'
+        )
+        screen.getByRole('link', { name: 'een nieuwe melding maken' })
+        screen.getByText(
+          /. Geef alstublieft zoveel mogelijk details van de situatie. En stuur als dat kan een foto mee./
+        )
       })
     })
   })
