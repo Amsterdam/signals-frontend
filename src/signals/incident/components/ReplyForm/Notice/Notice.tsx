@@ -16,6 +16,14 @@ const StyledHeading = styled(Heading)`
   margin-bottom: ${themeSpacing(5)};
 `
 
+const Wrapper = styled.div`
+  a,
+  p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+`
+
 interface NoticeProps {
   title: string
   content: string
@@ -23,8 +31,8 @@ interface NoticeProps {
 
 const Notice = ({ content, title }: NoticeProps) => (
   <Row>
-    <Column span={9}>
-      <div>
+    <Column span={8}>
+      <Wrapper>
         <StyledHeading>{title}</StyledHeading>
         <ReactMarkdown
           skipHtml
@@ -37,7 +45,7 @@ const Notice = ({ content, title }: NoticeProps) => (
         >
           {content}
         </ReactMarkdown>
-      </div>
+      </Wrapper>
     </Column>
   </Row>
 )
