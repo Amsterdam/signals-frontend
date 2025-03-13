@@ -9,7 +9,7 @@ import { Button, ButtonContent, Content, Wrapper, Border } from './styled'
 type Props = {
   id: string
   title: string
-  count: number | string
+  count?: number | string
   onToggle?: (open: boolean) => void
   children: React.ReactNode
 }

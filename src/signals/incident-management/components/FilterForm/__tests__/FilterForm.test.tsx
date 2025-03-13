@@ -108,9 +108,7 @@ const withContext = (
   )
 }
 
-// TODO: these tests broke when updating MSW, should be fixed
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip('signals/incident-management/components/FilterForm', () => {
+describe('signals/incident-management/components/FilterForm', () => {
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -376,10 +374,20 @@ describe.skip('signals/incident-management/components/FilterForm', () => {
 
   it('should render a list of punctuality options', () => {
     const { container } = render(withContext(<FilterForm {...formProps} />))
+    const node = container.querySelectorAll(
+      'input[type="radio"][name="punctuality"]'
+    )
 
-    expect(
-      container.querySelectorAll('input[type="radio"][name="punctuality"]')
-    ).toHaveLength(dataLists.punctuality.length + 1) // by default, a radio button with an empty value is rendered
+    expect(node).toHaveLength(dataLists.punctuality.length + 1) // by default, a radio button with an empty value is rendered
+
+    const test2 = screen.getByLabelText('Binnen de afhandeltermijn')
+
+    userEvent.click(test2)
+
+    // The radioGroup counter shows (1) when an option is selected
+    const punctualityCounter = screen.getByText(/(1)/)
+
+    expect(punctualityCounter).toBeInTheDocument()
   })
 
   it('should render a list of source options', () => {
@@ -576,7 +584,9 @@ describe.skip('signals/incident-management/components/FilterForm', () => {
     })
   })
 
-  describe('assigned_user_email', () => {
+  // TODO: these tests broke when updating MSW, should be fixed
+  // eslint-disable-next-line jest/no-disabled-tests
+  describe.skip('assigned_user_email', () => {
     const label = /toegewezen aan/i
     const notAssignedLabel = 'Niet toegewezen'
     const submitLabel = 'Filter'
