@@ -555,7 +555,7 @@ const FilterForm = ({
             <Accordion
               id="feedback"
               title="Feedback"
-              count={state.options.feedback?.length ?? ''}
+              count={state.options.feedback && '1'}
             >
               <RadioGroup
                 defaultValue={state.options.feedback}
@@ -595,7 +595,7 @@ const FilterForm = ({
             <Accordion
               id="punctuality"
               title="Doorlooptijd"
-              count={state.options.punctuality?.length ?? ''}
+              count={state.options.punctuality && '1'}
             >
               <RadioGroup
                 defaultValue={state.options.punctuality}
