@@ -301,8 +301,8 @@ const List: FunctionComponent<ListProps> = ({
                   <Td detailLink={detailLink} data-testid="incident-postcode">
                     {incident.location?.postcode
                       ? incident.location.postcode
-                      : // fallback to old schema
-                        incident.location?.address?.postcode}
+                      : // fallback to old schema so older signals have a postcode too.
+                        incident.location?.address?.postcode ?? ''}
                   </Td>
                 )}
                 {configuration.featureFlags.assignSignalToEmployee && (

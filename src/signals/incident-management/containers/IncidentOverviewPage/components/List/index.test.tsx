@@ -98,10 +98,25 @@ describe('List', () => {
       headers.forEach((header, index) => {
         expect(header).toHaveTextContent(expectedHeaders[index])
       })
+
+    configuration.featureFlags.showPostcodeSortColumn = true
+
+    render(withContext(<List {...props} />))
+
+    const postcodeHeaders = screen.getByRole('columnheader', {
+      name: 'Postcode',
+    })
+
+    expect(postcodeHeaders).toBeInTheDocument()
   })
 
   it('should render rows correctly', () => {
-    render(withContext(<List {...props} />))
+    const specificProps = {
+      ...props,
+      incidents: [incidents[0], incidents[1]] as unknown as IncidentList,
+    }
+
+    render(withContext(<List {...specificProps} />))
 
     const [INCIDENT_1, INCIDENT_2] = incidents
 
@@ -225,6 +240,40 @@ describe('List', () => {
     ).toHaveTextContent(/^$/)
   })
 
+  it('should render correctly with showPostcodeSortColumn', () => {
+    configuration.featureFlags.showPostcodeSortColumn = true
+
+    // Postcode in location.postcode field (added new)
+    const renderOne = render(withContext(<List {...props} />))
+
+    expect(
+      renderOne.container.querySelector('tr th:nth-child(10)')
+    ).toHaveTextContent('Postcode')
+    expect(
+      renderOne.container.querySelector('tr:nth-child(1) td:nth-child(10)')
+    ).toHaveTextContent(incidents[0].location.postcode as string)
+
+    // Postcode in location.address.postcode field. (Fallback old situation)
+    const renderTwo = render(withContext(<List {...props} />))
+
+    expect(
+      renderTwo.container.querySelector('tr th:nth-child(10)')
+    ).toHaveTextContent('Postcode')
+    expect(
+      renderTwo.container.querySelector('tr:nth-child(2) td:nth-child(10)')
+    ).toHaveTextContent(incidents[1].location.address.postcode)
+
+    // No postcode
+    const renderThree = render(withContext(<List {...props} />))
+
+    expect(
+      renderThree.container.querySelector('tr th:nth-child(10)')
+    ).toHaveTextContent('Postcode')
+    expect(
+      renderThree.container.querySelector('tr:nth-child(3) td:nth-child(10)')
+    ).toHaveTextContent(incidents[2].location.address.postcode)
+  })
+
   describe('events', () => {
     it('should not show days open for specific statuses', () => {
       const incidentWithStatus = (state: StatusCode, id: number) =>
@@ -258,7 +307,7 @@ describe('List', () => {
         ...screen.getAllByTestId('incident-days-open'),
       ].filter((element) => element.textContent !== '-')
 
-      expect(elementsWithTextContent).toHaveLength(2)
+      expect(elementsWithTextContent).toHaveLength(3)
     })
 
     it('should render an icon for each parent incident', () => {
