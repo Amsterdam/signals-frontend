@@ -166,7 +166,7 @@
           "type": "boolean"
         },
         "showPostcodeSortColumn": {
-          "description": "Show a postcode column on the overview page. Postcode is stripped from the address column.",
+          "description": "Show a postcode column on the overview page. Postcode and place are stripped from the address column.",
           "type": "boolean"
         }
       },
