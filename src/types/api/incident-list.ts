@@ -48,6 +48,7 @@ export interface IncidentListItem {
     area_code?: string | null
     address: Address | null
     address_text?: string | null
+    postcode?: string | null
     geometrie: Geometrie
     extra_properties: Record<string, unknown> | null
     created_by?: string | null

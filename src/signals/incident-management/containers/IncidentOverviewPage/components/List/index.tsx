@@ -226,6 +226,14 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
+            <ThSort
+              StyledComponent={BaseTh}
+              sortOption={SortOptions.POSTCODE_ASC}
+              headerText={SortOptionLabels.POSTCODE}
+              ordering={ordering}
+              changeOrder={changeOrder}
+              sortingDisabled={sortingDisabled}
+            />
             {configuration.featureFlags.assignSignalToEmployee && (
               <ThSort
                 StyledComponent={BaseTh}
@@ -286,6 +294,9 @@ const List: FunctionComponent<ListProps> = ({
                 <Td detailLink={detailLink} data-testid="incident-address">
                   {incident.location?.address &&
                     formatAddress(incident.location?.address)}
+                </Td>
+                <Td detailLink={detailLink} data-testid="incident-postcode">
+                  {incident.location?.postcode && incident.location.postcode}
                 </Td>
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td
