@@ -7,12 +7,14 @@ export enum SortOptions {
   ASSIGNED_USER_EMAIL_DESC = '-assigned_user_email',
   BUROUGH_ASC = 'stadsdeel',
   BUROUGH_DESC = '-stadsdeel',
-  ID_ASC = 'id',
-  ID_DESC = '-id',
-  DISTRICT_ASC = 'area_name',
-  DISTRICT_DESC = '-area_name',
   CREATED_AT_ASC = 'created_at',
   CREATED_AT_DESC = '-created_at',
+  DISTRICT_ASC = 'area_name',
+  DISTRICT_DESC = '-area_name',
+  ID_ASC = 'id',
+  ID_DESC = '-id',
+  POSTCODE_ASC = 'postcode',
+  POSTCODE_DESC = '-postcode',
   PRIORITY_ASC = 'priority',
   PRIORITY_DESC = '-priority',
   STATUS_ASC = 'status',
@@ -35,14 +37,15 @@ export enum SortOptionKeys {
 
 export enum SortOptionLabels {
   ADDRESS = 'Adres',
-  DISTRICT = `Wijk`,
-  DATE = 'Datum',
-  ID = 'Id',
+  ASSIGNED_USER_EMAIL = 'Toegewezen aan',
   BUROUGH = 'Stadsdeel',
+  DATE = 'Datum',
+  DISTRICT = `Wijk`,
+  ID = 'Id',
+  POSTCODE = 'Postcode',
+  PRIORITY = 'Urgentie',
   STATUS = 'Status',
   SUBCATEGORY = 'Subcategorie',
-  PRIORITY = 'Urgentie',
-  ASSIGNED_USER_EMAIL = 'Toegewezen aan',
 }
 
 export type SortOption = {
@@ -116,5 +119,12 @@ export const sortOptionsList: SortOption[] = [
     asc_label: '(hoog-laag-normaal)',
     desc: SortOptions.PRIORITY_DESC,
     desc_label: '(normaal-laag-hoog)',
+  },
+  {
+    label: SortOptionLabels.POSTCODE,
+    asc: SortOptions.POSTCODE_ASC,
+    asc_label: '(1-9, a-z)',
+    desc: SortOptions.POSTCODE_DESC,
+    desc_label: '(9-1, z-a)',
   },
 ]

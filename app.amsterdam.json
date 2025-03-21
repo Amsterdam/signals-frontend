@@ -17,13 +17,14 @@
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "reporterMailHandledNegativeContactEnabled": true,
+    "showContactEdit": true,
     "showMainCategories": true,
-    "showStandardTextAdminV2": true,
+    "showPostcodeSortColumn": true,
     "showStandardTextAdminV1": false,
+    "showStandardTextAdminV2": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false,
-    "showContactEdit": true
+    "useProjectenSignalType": false
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

@@ -37,6 +37,7 @@
         "openbare_ruimte": "Staalstraat",
         "huisnummer_toevoeging": ""
       },
+      "postcode": "1011JJ",
       "address_text": "Staalstraat 3B 1011JJ Amsterdam",
       "geometrie": {
         "type": "Point",
@@ -125,6 +126,92 @@
         "huisnummer_toevoeging": ""
       },
       "address_text": "Raamgracht 45 1011KJ Amsterdam",
+      "geometrie": {
+        "type": "Point",
+        "coordinates": [4.900460243225099, 52.3692814746251]
+      },
+      "extra_properties": null
+    },
+    "incident_date_end": null,
+    "updated_at": "2018-11-29T23:05:52.590923+01:00",
+    "_links": {
+      "self": {
+        "href": "https://acc.api.data.amsterdam.nl/signals/auth/signal/1667/"
+      }
+    },
+    "source": "Telefoon – CCA",
+    "id": 1667,
+    "image": null,
+    "operational_date": null,
+    "category": {
+      "sub": "Dode dieren",
+      "sub_slug": "dode-dieren",
+      "main": "Overlast van dieren",
+      "main_slug": "overlast-van-dieren",
+      "departments": "ASC, CCA, THO",
+      "category_url": "https://category-url.amsterdam.nl",
+      "created_by": "another_user@domain.com",
+      "deadline": "2021-09-14T12:05:04.002163+02:00",
+      "deadline_factor_3": "2021-09-22T12:05:04.002163+02:00",
+      "text": null
+    },
+    "incident_date_start": "2018-11-29T23:03:19+01:00",
+    "text_extra": "",
+    "has_attachments": false,
+    "has_children": false,
+    "has_parent": false,
+    "notes": [
+      {
+        "created_by": null,
+        "text": "Automatische e-mail bij registratie van de melding is verzonden aan de melder."
+      }
+    ],
+    "type": {
+      "code": "SIG",
+      "created_at": "2018-12-03T10:41:43.012139+01:00",
+      "created_by": "user@domain.com"
+    },
+    "routing_departments": null
+  },
+  {
+    "reporter": {
+      "email": "",
+      "phone": "",
+      "sharing_allowed": true
+    },
+    "extra_properties": null,
+    "_display": "1667 - m - A04h - 2018-11-29 22:03:19.398904+00:00",
+    "priority": {
+      "priority": "normal",
+      "created_by": "user@domain.com"
+    },
+    "created_at": "2018-11-29T23:03:19.398904+01:00",
+    "text": "poep",
+    "notes_count": 0,
+    "signal_id": "323c11d0-a196-432d-96aa-a07895d81ace",
+    "status": {
+      "text": null,
+      "user": null,
+      "state": "m",
+      "state_display": "Gemeld",
+      "extra_properties": {},
+      "created_at": "2018-11-29T23:03:19.566082+01:00",
+      "target_api": null
+    },
+    "location": {
+      "id": 1637,
+      "area_code": "south",
+      "stadsdeel": "K",
+      "buurt_code": "A04h",
+      "address": {
+        "postcode": "",
+        "huisletter": "",
+        "huisnummer": "45",
+        "woonplaats": "Amsterdam",
+        "openbare_ruimte": "Raamgracht",
+        "huisnummer_toevoeging": ""
+      },
+      "address_text": "Raamgracht 45 Amsterdam",
       "geometrie": {
         "type": "Point",
         "coordinates": [4.900460243225099, 52.3692814746251]
