@@ -226,14 +226,16 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
-            <ThSort
-              StyledComponent={BaseTh}
-              sortOption={SortOptions.POSTCODE_ASC}
-              headerText={SortOptionLabels.POSTCODE}
-              ordering={ordering}
-              changeOrder={changeOrder}
-              sortingDisabled={sortingDisabled}
-            />
+            {configuration.featureFlags.showPostcodeSortColumn && (
+              <ThSort
+                StyledComponent={BaseTh}
+                sortOption={SortOptions.POSTCODE_ASC}
+                headerText={SortOptionLabels.POSTCODE}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            )}
             {configuration.featureFlags.assignSignalToEmployee && (
               <ThSort
                 StyledComponent={BaseTh}
@@ -295,9 +297,14 @@ const List: FunctionComponent<ListProps> = ({
                   {incident.location?.address &&
                     formatAddress(incident.location?.address)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incident-postcode">
-                  {incident.location?.postcode && incident.location.postcode}
-                </Td>
+                {configuration.featureFlags.showPostcodeSortColumn && (
+                  <Td detailLink={detailLink} data-testid="incident-postcode">
+                    {incident.location?.postcode
+                      ? incident.location.postcode
+                      : // fallback to old schema
+                        incident.location?.address?.postcode}
+                  </Td>
+                )}
                 {configuration.featureFlags.assignSignalToEmployee && (
                   <Td
                     detailLink={detailLink}

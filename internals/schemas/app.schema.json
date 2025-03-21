@@ -164,6 +164,10 @@
         "showContactEdit": {
           "description": "Shows the contact edit and cancel button and form in the backoffice.",
           "type": "boolean"
+        },
+        "showPostcodeSortColumn": {
+          "description": "Show a postcode column on the overview page. Postcode is stripped from the address column.",
+          "type": "boolean"
         }
       },
       "required": [
