@@ -52,6 +52,8 @@ describe('formatAddress', () => {
   it('should format the address without woonplaats and postcode when feature flag showPostcodeSortColumn is set to true', () => {
     configuration.featureFlags.showPostcodeSortColumn = true
 
-    expect(formatAddress(testAddress)).toEqual('Keizersgracht 666D-3')
+    expect(formatAddress(testAddress)).toEqual(
+      'Keizersgracht 666D-3, Amsterdam'
+    )
   })
 })

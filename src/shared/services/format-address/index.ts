@@ -11,7 +11,7 @@ export const formatAddress = ({
 }: Address) => {
   const postcodeAndWoonplaats = configuration.featureFlags
     .showPostcodeSortColumn
-    ? undefined
+    ? [woonplaats]
     : [postcode?.trim(), woonplaats]
 
   return [
