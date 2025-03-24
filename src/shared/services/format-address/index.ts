@@ -11,8 +11,8 @@ export const formatAddress = ({
 }: Address) => {
   const postcodeAndWoonplaats = configuration.featureFlags
     .showPostcodeSortColumn
-    ? []
-    : [[postcode?.trim(), woonplaats]]
+    ? undefined
+    : [postcode?.trim(), woonplaats]
 
   return [
     [
@@ -21,9 +21,9 @@ export const formatAddress = ({
         huisnummer_toevoeging ? `-${huisnummer_toevoeging}` : ''
       }`.trim(),
     ],
-    ...postcodeAndWoonplaats,
+    postcodeAndWoonplaats,
   ]
-    .flatMap((parts) => parts.filter(Boolean).join(' '))
+    .flatMap((parts) => parts?.filter(Boolean).join(' '))
     .filter(Boolean)
     .join(', ')
 }
