@@ -1,9 +1,6 @@
-import configuration from 'shared/services/configuration/configuration'
 import type { Address } from 'types/address'
 
 import { formatAddress } from '.'
-
-jest.mock('shared/services/configuration/configuration')
 
 const testAddress: Address = {
   openbare_ruimte: 'Keizersgracht',
@@ -15,11 +12,6 @@ const testAddress: Address = {
 }
 
 describe('formatAddress', () => {
-  afterEach(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    configuration.__reset()
-  })
   it('should return an empty string when no data', () => {
     expect(formatAddress({} as Address)).toEqual('')
   })
@@ -47,13 +39,5 @@ describe('formatAddress', () => {
         huisnummer_toevoeging: '',
       })
     ).toEqual('Rozengracht, Amsterdam')
-  })
-
-  it('should format the address without woonplaats and postcode when feature flag showPostcodeSortColumn is set to true', () => {
-    configuration.featureFlags.showPostcodeSortColumn = true
-
-    expect(formatAddress(testAddress)).toEqual(
-      'Keizersgracht 666D-3, Amsterdam'
-    )
   })
 })
