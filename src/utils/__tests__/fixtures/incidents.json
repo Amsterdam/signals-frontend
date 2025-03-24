@@ -38,7 +38,7 @@
         "huisnummer_toevoeging": ""
       },
       "postcode": "1011JJ",
-      "address_text": "Staalstraat 3B 1011JJ Amsterdam",
+      "address_text": "Staalstraat 3B, 1011JJ Amsterdam",
       "geometrie": {
         "type": "Point",
         "coordinates": [4.896941184997559, 52.368364148255644]
@@ -125,7 +125,7 @@
         "openbare_ruimte": "Raamgracht",
         "huisnummer_toevoeging": ""
       },
-      "address_text": "Raamgracht 45 1011KJ Amsterdam",
+      "address_text": "Raamgracht 45, 1011KJ Amsterdam",
       "geometrie": {
         "type": "Point",
         "coordinates": [4.900460243225099, 52.3692814746251]
@@ -211,7 +211,7 @@
         "openbare_ruimte": "Raamgracht",
         "huisnummer_toevoeging": ""
       },
-      "address_text": "Raamgracht 45 Amsterdam",
+      "address_text": "Raamgracht 45, Amsterdam",
       "geometrie": {
         "type": "Point",
         "coordinates": [4.900460243225099, 52.3692814746251]

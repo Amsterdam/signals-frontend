@@ -61,6 +61,20 @@ export const getDaysOpen = (incident: IncidentListItem) => {
 
   return differenceInCalendarDays(new Date(), createdAtDate)
 }
+
+const getAddress = (location: IncidentListItem['location']) => {
+  if (!location?.address) return
+
+  const { address, postcode } = location
+
+  // If the postcode exists and is shown in a separate column, we remove it from the address string
+  if (configuration.featureFlags.showPostcodeSortColumn && postcode) {
+    const addressWithoutPostcode = { ...address, postcode: '' }
+    return formatAddress(addressWithoutPostcode)
+  }
+
+  return formatAddress(address)
+}
 interface TdProps {
   detailLink: string
   children: ReactNode
@@ -251,6 +265,7 @@ const List: FunctionComponent<ListProps> = ({
         <tbody>
           {incidents.map((incident) => {
             const detailLink = `/manage/incident/${incident.id}`
+
             return (
               <Tr
                 key={incident.id}
@@ -294,15 +309,11 @@ const List: FunctionComponent<ListProps> = ({
                       )}
                 </Td>
                 <Td detailLink={detailLink} data-testid="incident-address">
-                  {incident.location?.address &&
-                    formatAddress(incident.location?.address)}
+                  {getAddress(incident.location)}
                 </Td>
                 {configuration.featureFlags.showPostcodeSortColumn && (
                   <Td detailLink={detailLink} data-testid="incident-postcode">
-                    {incident.location?.postcode
-                      ? incident.location.postcode
-                      : // fallback to old schema so older signals have a postcode too.
-                        incident.location?.address?.postcode ?? ''}
+                    {incident.location?.postcode}
                   </Td>
                 )}
                 {configuration.featureFlags.assignSignalToEmployee && (

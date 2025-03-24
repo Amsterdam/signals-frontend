@@ -256,12 +256,21 @@ describe('List', () => {
     // Postcode in location.address.postcode field. (Fallback old situation)
     const renderTwo = render(withContext(<List {...props} />))
 
+    // Address field
+    expect(
+      renderTwo.container.querySelector('tr th:nth-child(9)')
+    ).toHaveTextContent('Adres')
+    expect(
+      renderTwo.container.querySelector('tr:nth-child(2) td:nth-child(9)')
+    ).toHaveTextContent(incidents[1].location.address_text)
+
+    // Postcode field
     expect(
       renderTwo.container.querySelector('tr th:nth-child(10)')
     ).toHaveTextContent('Postcode')
     expect(
       renderTwo.container.querySelector('tr:nth-child(2) td:nth-child(10)')
-    ).toHaveTextContent(incidents[1].location.address.postcode)
+    ).toHaveTextContent('')
 
     // No postcode
     const renderThree = render(withContext(<List {...props} />))

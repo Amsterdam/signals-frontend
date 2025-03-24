@@ -1,4 +1,3 @@
-import configuration from 'shared/services/configuration/configuration'
 import type { Address } from 'types/address'
 
 export const formatAddress = ({
@@ -8,22 +7,16 @@ export const formatAddress = ({
   huisnummer_toevoeging,
   postcode,
   woonplaats,
-}: Address) => {
-  const postcodeAndWoonplaats = configuration.featureFlags
-    .showPostcodeSortColumn
-    ? [woonplaats]
-    : [postcode?.trim(), woonplaats]
-
-  return [
+}: Address) =>
+  [
     [
       openbare_ruimte,
       `${huisnummer || ''}${huisletter || ''}${
         huisnummer_toevoeging ? `-${huisnummer_toevoeging}` : ''
       }`.trim(),
     ],
-    postcodeAndWoonplaats,
+    [postcode?.trim(), woonplaats],
   ]
-    .flatMap((parts) => parts?.filter(Boolean).join(' '))
+    .flatMap((parts) => parts.filter(Boolean).join(' '))
     .filter(Boolean)
     .join(', ')
-}
