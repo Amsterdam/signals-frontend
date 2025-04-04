@@ -239,7 +239,7 @@ const overlastVanDieren = {
         extra_dieren_waar_meeuwen: 'woning',
       },
       value:
-        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). \\\n U kunt dit formulier niet meer verder invullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). Bekijk ook de [tips om overlast te verminderen](https://ggdleefomgeving.nl/ongedierte-en-schadelijke-planten/duiven/).  \\\n U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
