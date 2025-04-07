@@ -52,7 +52,7 @@ const overlastVanDieren = {
         extra_dieren_waar_wespen: 'woning',
       },
       value:
-        'De gemeente bestrijdt geen wespen in of bij de woning. U kunt zelf maatregelen nemen als u dat wilt. Bekijk [onze tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).  \\\n U kunt dit formulier niet meer verder invullen.',
+        'De gemeente bestrijdt geen wespen in of bij de woning. De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). Bekijk ook de [tips om overlast te verminderen](https://www.ggd.amsterdam.nl/dierplagen/wespen-bijen-hommels/).  \\\n U kunt dit formulier niet meer verder invullen. ',
       type: 'alert',
     },
     options: {
@@ -234,12 +234,38 @@ const overlastVanDieren = {
     meta: {
       ifOneOf: {
         extra_dieren_waar_duiven_meeuwen_ganzen: 'woning',
-        extra_dieren_waar_duiven: 'woning',
         extra_dieren_waar_ganzen: 'woning',
-        extra_dieren_waar_meeuwen: 'woning',
+      },
+      value:
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). Bekijk ook de [tips om overlast te verminderen](https://ggdleefomgeving.nl/ongedierte-en-schadelijke-planten/).  \\\n U kunt dit formulier niet meer verder invullen.',
+      type: 'alert',
+    },
+    options: {
+      validators: ['isBlocking'],
+    },
+    render: QuestionFieldType.PlainText,
+  },
+  extra_dieren_waar_duiven_woning: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_duiven: 'woning',
       },
       value:
         'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). Bekijk ook de [tips om overlast te verminderen](https://ggdleefomgeving.nl/ongedierte-en-schadelijke-planten/duiven/).  \\\n U kunt dit formulier niet meer verder invullen.',
+      type: 'alert',
+    },
+    options: {
+      validators: ['isBlocking'],
+    },
+    render: QuestionFieldType.PlainText,
+  },
+  extra_dieren_waar_meeuwen_woning: {
+    meta: {
+      ifOneOf: {
+        extra_dieren_waar_meeuwen: 'woning',
+      },
+      value:
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl/). Bekijk ook de [tips om overlast te verminderen](https://ggdleefomgeving.nl/ongedierte-en-schadelijke-planten/meeuwen/).  \\\n U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
@@ -308,7 +334,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'ander_gebouw',
       },
       value:
-        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). \\\n U kunt dit formulier niet meer verder invullen.',
+        'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). Bekijk ook de [tips om overlast te verminderen](https://www.ggd.amsterdam.nl/ratten-overlast-plaagdieren/ratten/). \\\n U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
