@@ -168,6 +168,10 @@
         "showPostcodeSortColumn": {
           "description": "Show a postcode column on the overview page. Postcode and place are stripped from the address column.",
           "type": "boolean"
+        },
+        "enableSortAndFilterStadsdeel": {
+          "description": "Enable sorting and filter based on hardcoded stadsdelen",
+          "type": "boolean"
         }
       },
       "required": [

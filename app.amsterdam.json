@@ -1,6 +1,6 @@
 {
   "apiBaseUrl": "https://api.acc.meldingen.amsterdam.nl",
-  "areaTypeCodeForDistrict": "stadsdeel",
+  "areaTypeCodeForDistrict": "ggw",
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
@@ -13,7 +13,8 @@
     "enablePublicIncidentsMap": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
-    "fetchDistrictsFromBackend": false,
+    "enableSortAndFilterStadsdeel": true,
+    "fetchDistrictsFromBackend": true,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "reporterMailHandledNegativeContactEnabled": true,
@@ -36,7 +37,7 @@
   },
   "language": {
     "consentToContactSharing": "Ja, ik geef de gemeente Amsterdam toestemming om mijn melding door te sturen naar andere organisaties als de melding niet voor de gemeente is bestemd.",
-    "district": "Stadsdeel",
+    "district": "Deelgebied",
     "headerTitle": "",
     "helpText": "Wij zijn bereikbaar van maandag tot en met vrijdag van 08.00 tot 18.00 uur.",
     "helpTextHeader": "Heeft u een vraag of heeft u ondersteuning nodig bij het invullen van dit formulier? Bel het telefoonnummer [14 020](tel:14020).",

@@ -69,6 +69,7 @@ const props = {
 describe('List', () => {
   beforeEach(() => {
     orderingChangedActionMock.mockClear()
+    configuration.featureFlags.enableSortAndFilterStadsdeel = true
   })
 
   afterEach(() => {
@@ -202,8 +203,8 @@ describe('List', () => {
   })
 
   it('should render correctly with fetchDistrictsFromBackend', () => {
-    const DISTRICT = 'District'
-    const DISTRICT_INDEX = 7
+    const DISTRICT = 'Deelgebied'
+    const DISTRICT_INDEX = 8
 
     configuration.featureFlags.fetchDistrictsFromBackend = true
     configuration.language.district = DISTRICT
@@ -221,6 +222,28 @@ describe('List', () => {
     )
     expect(within(row2).getAllByRole('cell')[DISTRICT_INDEX]).toHaveTextContent(
       'South'
+    )
+  })
+
+  it('should render correctly with enableSortAndFilterStadsdeel', () => {
+    const DISTRICT = 'Stadsdeel'
+    const DISTRICT_INDEX = 7
+
+    configuration.language.district = DISTRICT
+
+    render(withContext(<List {...props} />))
+
+    const [headers, row1, row2] = screen.getAllByRole('row')
+
+    expect(
+      within(headers).getAllByRole('columnheader')[DISTRICT_INDEX]
+    ).toHaveTextContent(DISTRICT)
+
+    expect(within(row1).getAllByRole('cell')[DISTRICT_INDEX]).toHaveTextContent(
+      'Centrum'
+    )
+    expect(within(row2).getAllByRole('cell')[DISTRICT_INDEX]).toHaveTextContent(
+      'Zuid'
     )
   })
 
