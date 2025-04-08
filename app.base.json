@@ -15,6 +15,7 @@
     "enablePublicIncidentsMap": false,
     "enablePublicSignalMap": false,
     "enableReporter": false,
+    "enableSortAndFilterStadsdeel": false,
     "fetchDistrictsFromBackend": false,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": false,

@@ -3,14 +3,9 @@
 import { useContext, useMemo } from 'react'
 
 import { Tag, themeSpacing } from '@amsterdam/asc-ui'
+import Button from 'components/Button'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import styled from 'styled-components'
-
-import Button from 'components/Button'
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,
@@ -19,8 +14,13 @@ import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
+import configuration from 'shared/services/configuration/configuration'
 import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
+import styled from 'styled-components'
 
 import AppContext from '../../../../containers/App/context'
 import { useIncidentManagementContext } from '../../context'
@@ -50,6 +50,9 @@ export const mapKeys = (key) => {
   switch (key) {
     case 'source':
       return 'bron'
+
+    case 'area':
+      return configuration.language.district
 
     case 'priority':
       return 'urgentie'

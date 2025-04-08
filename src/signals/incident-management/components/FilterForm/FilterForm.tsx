@@ -496,10 +496,11 @@ const FilterForm = ({
                   onSubmit={onSubmitForm}
                   options={districts}
                   state={state}
+                  hasAccordion
                 />
               )}
 
-            {!configuration.featureFlags.fetchDistrictsFromBackend && (
+            {configuration.featureFlags.enableSortAndFilterStadsdeel && (
               <CheckboxGroup
                 defaultValue={state.options.stadsdeel}
                 label="Stadsdeel"

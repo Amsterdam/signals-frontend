@@ -213,7 +213,7 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
-            {configuration.featureFlags.fetchDistrictsFromBackend ? (
+            {configuration.featureFlags.fetchDistrictsFromBackend && (
               <ThSort
                 StyledComponent={ThArea}
                 sortOption={SortOptions.DISTRICT_ASC}
@@ -222,7 +222,8 @@ const List: FunctionComponent<ListProps> = ({
                 changeOrder={changeOrder}
                 sortingDisabled={sortingDisabled}
               />
-            ) : (
+            )}
+            {configuration.featureFlags.enableSortAndFilterStadsdeel && (
               <ThSort
                 StyledComponent={ThArea}
                 sortOption={SortOptions.BUROUGH_ASC}
@@ -301,12 +302,11 @@ const List: FunctionComponent<ListProps> = ({
                   {getListValueByKey(status, incident.status?.state)}
                 </Td>
                 <Td detailLink={detailLink} data-testid="incident-area">
-                  {configuration.featureFlags.fetchDistrictsFromBackend
-                    ? getListValueByKey(districts, incident.location?.area_code)
-                    : getListValueByKey(
-                        stadsdeel,
-                        incident.location?.stadsdeel
-                      )}
+                  {configuration.featureFlags.fetchDistrictsFromBackend &&
+                    getListValueByKey(districts, incident.location?.area_code)}
+                </Td>
+                <Td detailLink={detailLink} data-testid="incident-stadsdeel">
+                  {getListValueByKey(stadsdeel, incident.location?.stadsdeel)}
                 </Td>
                 <Td detailLink={detailLink} data-testid="incident-address">
                   {getAddress(incident.location)}
