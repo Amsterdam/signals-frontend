@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2023 Gemeente Amsterdam
+import { makeSelectSearchQuery } from 'containers/App/selectors'
 import { push } from 'redux-first-history'
 import {
   all,
@@ -12,8 +13,6 @@ import {
   take,
   takeLatest,
 } from 'redux-saga/effects'
-
-import { makeSelectSearchQuery } from 'containers/App/selectors'
 import {
   authCall,
   authDeleteCall,
@@ -35,6 +34,8 @@ import {
   getFilters,
   getFiltersFailed,
   getFiltersSuccess,
+  getGGWDistrictsFailed,
+  getGGWDistrictsSuccess,
   removeFilterFailed,
   removeFilterSuccess,
   requestIncidents,
@@ -49,6 +50,7 @@ import {
   APPLY_FILTER,
   CLEAR_FILTERS,
   GET_DISTRICTS,
+  GET_GGW_DISTRICTS,
   GET_FILTERS,
   ORDERING_CHANGED,
   PAGE_CHANGED,
@@ -154,6 +156,24 @@ export function* fetchDistricts() {
     yield put(getDistrictsFailed(error.message))
   }
 }
+
+export function* fetchGGWDistricts() {
+  console.log('-- FETCH GGE DISTRICTS')
+
+  try {
+    const result = yield call(authCall, CONFIGURATION.AREAS_ENDPOINT, {
+      type_code: 'ggw',
+      page_size: 1000,
+    })
+    console.log('--- result:', result)
+
+    yield put(getGGWDistrictsSuccess(result.results))
+  } catch (error) {
+    yield put(getGGWDistrictsFailed(error.message))
+  }
+}
+
+// TODO: make call to fetch GGW gebieden
 
 export function* fetchFilters() {
   try {
@@ -271,6 +291,7 @@ export function* updateFilter(action) {
 export default function* watchIncidentManagementSaga() {
   yield all([
     takeLatest(GET_DISTRICTS, fetchDistricts),
+    takeLatest(GET_GGW_DISTRICTS, fetchGGWDistricts),
     takeLatest(GET_FILTERS, fetchFilters),
     takeLatest(REMOVE_FILTER, removeFilter),
     takeLatest(SAVE_FILTER, saveFilter),

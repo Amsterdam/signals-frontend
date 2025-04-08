@@ -1,22 +1,25 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import {
-  GET_DISTRICTS,
-  GET_DISTRICTS_FAILED,
-  GET_DISTRICTS_SUCCESS,
-  SEARCH_INCIDENTS,
   APPLY_FILTER_REFRESH_STOP,
   APPLY_FILTER_REFRESH,
   APPLY_FILTER,
-  CLEAR_FILTERS,
   CLEAR_EDIT_FILTER,
+  CLEAR_FILTERS,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
+  GET_DISTRICTS,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
   GET_FILTERS,
+  GET_GGW_DISTRICTS,
+  GET_GGW_DISTRICTS_FAILED,
+  GET_GGW_DISTRICTS_SUCCESS,
   ORDERING_CHANGED,
   PAGE_CHANGED,
+  PATCH_INCIDENT_SUCCESS,
   REMOVE_FILTER_FAILED,
   REMOVE_FILTER_SUCCESS,
   REMOVE_FILTER,
@@ -28,10 +31,10 @@ import {
   SAVE_FILTER,
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
+  SEARCH_INCIDENTS,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
   UPDATE_FILTER,
-  PATCH_INCIDENT_SUCCESS,
 } from './constants'
 
 export const getDistricts = () => ({
@@ -47,6 +50,22 @@ export const getDistrictsSuccess = (payload) => ({
   type: GET_DISTRICTS_SUCCESS,
   payload,
 })
+
+export const getGGWDistricts = () => ({
+  type: GET_GGW_DISTRICTS,
+})
+
+export const getGGWGDistrictsFailed = (payload) => ({
+  type: GET_GGW_DISTRICTS_FAILED,
+  payload,
+})
+
+export const getGGWDistrictsSuccess = (payload) => ({
+  type: GET_GGW_DISTRICTS_SUCCESS,
+  payload,
+})
+
+// TODO: Create GGW actions
 
 export const getFiltersSuccess = (payload) => ({
   type: GET_FILTERS_SUCCESS,

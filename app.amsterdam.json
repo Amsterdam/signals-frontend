@@ -1,6 +1,6 @@
 {
   "apiBaseUrl": "https://api.acc.meldingen.amsterdam.nl",
-  "areaTypeCodeForDistrict": "stadsdeel",
+  "areaTypeCodeForDistrict": "ggw",
   "featureFlags": {
     "assignSignalToDepartment": false,
     "assignSignalToEmployee": false,
@@ -13,7 +13,7 @@
     "enablePublicIncidentsMap": true,
     "enablePublicSignalMap": false,
     "enableReporter": true,
-    "fetchDistrictsFromBackend": false,
+    "fetchDistrictsFromBackend": true,
     "fetchQuestionsFromBackend": false,
     "mapFilter24Hours": true,
     "reporterMailHandledNegativeContactEnabled": true,

@@ -106,7 +106,7 @@ const FilterForm = ({
   onUpdateFilter,
 }: Props) => {
   const { sources } = useContext(AppContext)
-  const { districts } = useIncidentManagementContext()
+  const { districts, ggwDistricts } = useIncidentManagementContext()
   const categories = useSelector(makeSelectStructuredCategories)
   const directingDepartments = useSelector(makeSelectDirectingDepartments)
   const routingDepartments = useSelector(makeSelectRoutingDepartments)
@@ -134,12 +134,13 @@ const FilterForm = ({
   const dataListValues = useMemo(
     () => ({
       ...dataLists,
-      area: districts,
+      area: ggwDistricts,
+      // area: ggwDistricts,
       source: sources,
       directing_department: directingDepartments,
       routing_department: routingDepartments,
     }),
-    [districts, sources, directingDepartments, routingDepartments]
+    [ggwDistricts, sources, directingDepartments, routingDepartments]
   )
 
   const initialFormState = useMemo(() => cloneDeep(init(filter)), [filter])
@@ -498,6 +499,22 @@ const FilterForm = ({
                   state={state}
                 />
               )}
+
+            {ggwDistricts && (
+              <CheckboxGroup
+                defaultValue={state.options.area}
+                label={'Deelgebied'}
+                name="area"
+                onChange={onGroupChange}
+                onToggle={onGroupToggle}
+                onSubmit={onSubmitForm}
+                options={ggwDistricts}
+                state={state}
+                hasAccordion
+              />
+            )}
+
+            {/* TODO: Add GGW filter to filter form */}
 
             {!configuration.featureFlags.fetchDistrictsFromBackend && (
               <CheckboxGroup

@@ -4,7 +4,6 @@ import format from 'date-fns/format'
 import isValid from 'date-fns/isValid'
 import parse from 'date-fns/parse'
 import clonedeep from 'lodash/cloneDeep'
-
 import dataLists from 'signals/incident-management/definitions'
 
 const arrayFields = [
@@ -49,12 +48,13 @@ export const parseDate = (dateString, timeString) => {
 export const parseOutputFormData = (options) =>
   Object.entries(options).reduce((acc, [key, value]) => {
     let entryValue
-
+    // TODO: Add casae for GGW gebieden
     switch (key) {
       case 'category_slug':
       case 'maincategory_slug':
         entryValue = value.map(({ slug }) => slug)
         break
+      case 'area':
       case 'area':
       case 'contact_details':
       case 'directing_department':

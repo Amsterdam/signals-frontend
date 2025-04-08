@@ -6,6 +6,12 @@ export const GET_DISTRICTS_FAILED =
 export const GET_DISTRICTS_SUCCESS =
   'sia/incidentManagement/GET_DISTRICTS_SUCCESS'
 
+export const GET_GGW_DISTRICTS = 'sia/incidentManagement/GET_GGW_DISTRICTS'
+export const GET_GGW_DISTRICTS_FAILED =
+  'sia/incidentManagement/GET_GGW_DISTRICTS_FAILED'
+export const GET_GGW_DISTRICTS_SUCCESS =
+  'sia/incidentManagement/GET_GGW_DISTRICTS_SUCCESS'
+
 export const CLEAR_FILTERS = 'sia/incidentManagement/CLEAR_FILTERS'
 
 export const APPLY_FILTER = 'sia/incidentManagement/APPLY_FILTER'

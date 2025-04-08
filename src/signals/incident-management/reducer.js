@@ -1,29 +1,30 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
+import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
 import { fromJS } from 'immutable'
 
-import { SET_SEARCH_QUERY, RESET_SEARCH_QUERY } from 'containers/App/constants'
-
 import {
-  GET_DISTRICTS_FAILED,
-  GET_DISTRICTS_SUCCESS,
   APPLY_FILTER,
-  CLEAR_FILTERS,
   CLEAR_EDIT_FILTER,
+  CLEAR_FILTERS,
   EDIT_FILTER,
   FILTER_EDIT_CANCELED,
+  GET_DISTRICTS_FAILED,
+  GET_DISTRICTS_SUCCESS,
   GET_FILTERS_FAILED,
   GET_FILTERS_SUCCESS,
+  GET_GGW_DISTRICTS_FAILED,
+  GET_GGW_DISTRICTS_SUCCESS,
   ORDERING_CHANGED,
   PAGE_CHANGED,
   REMOVE_FILTER_SUCCESS,
   REQUEST_INCIDENTS_ERROR,
   REQUEST_INCIDENTS_SUCCESS,
+  REQUEST_INCIDENTS,
   SAVE_FILTER_FAILED,
   SAVE_FILTER_SUCCESS,
   SEARCH_INCIDENTS_ERROR,
   SEARCH_INCIDENTS_SUCCESS,
-  REQUEST_INCIDENTS,
   UPDATE_FILTER_FAILED,
   UPDATE_FILTER_SUCCESS,
 } from './constants'
@@ -35,6 +36,7 @@ export const initialState = fromJS({
     options: {},
   },
   districts: [],
+  ggwDistricts: [],
   editFilter: {
     // settings selected for editing
     name: '',
@@ -59,6 +61,7 @@ const updateLoading = (state) =>
   state.set(
     'loading',
     state.get('loadingDistricts') ||
+      state.get('loadingGGWDistricts') ||
       state.get('loadingFilters') ||
       state.get('loadingIncidents')
   )
@@ -82,6 +85,24 @@ export default (state = initialState, action) => {
           .set('error', true)
           .set('errorMessage', action.payload)
       )
+
+    case GET_GGW_DISTRICTS_SUCCESS:
+      console.log('--- action:', action)
+      return updateLoading(
+        state
+          .set('ggwDistricts', fromJS(action.payload))
+          .set('loadingGGWDistricts', false)
+      )
+
+    case GET_GGW_DISTRICTS_FAILED:
+      return updateLoading(
+        state
+          .set('loadingGGWDistricts', false)
+          .set('error', true)
+          .set('errorMessage', action.payload)
+      )
+
+    // Catch case GGW gebieden success and failed
 
     case GET_FILTERS_SUCCESS:
       return updateLoading(

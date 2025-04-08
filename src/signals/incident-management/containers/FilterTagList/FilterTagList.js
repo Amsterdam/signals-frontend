@@ -3,14 +3,9 @@
 import { useContext, useMemo } from 'react'
 
 import { Tag, themeSpacing } from '@amsterdam/asc-ui'
+import Button from 'components/Button'
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import styled from 'styled-components'
-
-import Button from 'components/Button'
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,
@@ -19,8 +14,12 @@ import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect'
 import { dataListType, filterType } from 'shared/types'
 import dataLists from 'signals/incident-management/definitions'
+import styled from 'styled-components'
 
 import AppContext from '../../../../containers/App/context'
 import { useIncidentManagementContext } from '../../context'
@@ -121,11 +120,12 @@ export const FilterTagListComponent = (props) => {
     routingDepartments,
   } = props
   const { sources } = useContext(AppContext)
-  const { districts } = useIncidentManagementContext()
+  const { districts, ggwDistricts } = useIncidentManagementContext()
 
   const map = {
     ...dataLists,
-    area: districts,
+    area: ggwDistricts,
+    // area: ggwDistricts,
     maincategory_slug: mainCategories,
     category_slug: subCategories,
     source: sources,

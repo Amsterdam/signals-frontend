@@ -2,13 +2,12 @@
 // Copyright (C) 2018 - 2023 Gemeente Amsterdam
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
-import { compose } from 'redux'
-
 import LoadingIndicator from 'components/LoadingIndicator'
 import { makeSelectSearchQuery } from 'containers/App/selectors'
 import { useLocationReferrer } from 'hooks'
+import { useDispatch, useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
+import { compose } from 'redux'
 import { getIsAuthenticated } from 'shared/services/auth/auth'
 import configuration from 'shared/services/configuration/configuration'
 import injectReducer from 'utils/injectReducer'
@@ -17,6 +16,7 @@ import injectSaga from 'utils/injectSaga'
 import {
   getDistricts,
   getFilters,
+  getGGWDistricts,
   requestIncidents,
   searchIncidents,
 } from './actions'
@@ -24,7 +24,7 @@ import { IncidentManagementContext } from './context'
 import reducer from './reducer'
 import routes from './routes'
 import saga from './saga'
-import { makeSelectDistricts } from './selectors'
+import { makeSelectDistricts, makeSelectGGWDistricts } from './selectors'
 
 // Not possible to properly test the async loading, setting coverage reporter to ignore lazy imports
 // istanbul ignore next
@@ -55,6 +55,8 @@ const SignalingContainer = lazy(() => import('./containers/SignalingContainer'))
 
 const IncidentManagement = () => {
   const districts = useSelector(makeSelectDistricts)
+  const ggwDistricts = useSelector(makeSelectGGWDistricts)
+  console.log('--- ggwDistricts:', ggwDistricts)
   const searchQueryIncidents = useSelector(makeSelectSearchQuery)
   const dispatch = useDispatch()
   const location = useLocationReferrer()
@@ -66,6 +68,7 @@ const IncidentManagement = () => {
   const contextValue = useMemo(
     () => ({
       districts,
+      ggwDistricts,
       standardTexts: {
         page,
         setPage,
@@ -78,7 +81,15 @@ const IncidentManagement = () => {
       },
       referrer: location.referrer,
     }),
-    [activeFilter, districts, page, searchQuery, statusFilter, location]
+    [
+      districts,
+      ggwDistricts,
+      page,
+      statusFilter,
+      activeFilter,
+      searchQuery,
+      location.referrer,
+    ]
   )
 
   useEffect(() => {
@@ -95,6 +106,10 @@ const IncidentManagement = () => {
     if (configuration.featureFlags.fetchDistrictsFromBackend) {
       dispatch(getDistricts())
     }
+
+    dispatch(getGGWDistricts())
+
+    // TODO: Get GGW gebieden from backend
 
     dispatch(getFilters())
   }, [dispatch, searchQueryIncidents])

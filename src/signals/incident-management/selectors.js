@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { fromJS } from 'immutable'
-import { createSelector } from 'reselect'
-
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,
@@ -11,6 +9,7 @@ import {
   makeSelectDirectingDepartments,
   makeSelectRoutingDepartments,
 } from 'models/departments/selectors'
+import { createSelector } from 'reselect'
 import configuration from 'shared/services/configuration/configuration'
 import {
   mapFilterParams,
@@ -43,9 +42,27 @@ export const makeSelectDistricts = createSelector(
       : null
 )
 
+export const makeSelectGGWDistricts = createSelector(
+  [selectIncidentManagementDomain],
+  (stateMap) =>
+    stateMap.get('ggwDistricts').size
+      ? stateMap
+          .get('ggwDistricts')
+          .push({ code: 'null', name: 'Niet bepaald' })
+          .toJS()
+          .map((ddwDistrict) => ({
+            key: ddwDistrict.code,
+            value: ddwDistrict.name,
+          }))
+      : null
+)
+
+// TODO: Create GGW gebieden selector
+
 export const makeSelectFixtures = createSelector(
   [
     makeSelectDistricts,
+    makeSelectGGWDistricts,
     makeSelectSources,
     makeSelectMainCategories,
     makeSelectSubCategories,
@@ -152,7 +169,8 @@ export const makeSelectFilterParams = createSelector(
     }
     const filterOptions =
       filter.options.area && filter.options.area[0] !== 'null'
-        ? { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
+        ? // TODO: set correct areaType
+          { ...filter.options, areaType: configuration.areaTypeCodeForDistrict }
         : filter.options
 
     return {

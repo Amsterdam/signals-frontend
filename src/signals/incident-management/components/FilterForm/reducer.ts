@@ -46,6 +46,7 @@ type Priority = {
 
 export type Options = {
   address_text: string
+  // area: []
   area: []
   assigned_user_email: string | null
   category_slug: ExtendedSubCategory[]
@@ -85,6 +86,7 @@ export const initialState: FilterState = {
   options: {
     address_text: '',
     area: [],
+    // area: [],
     assigned_user_email: null,
     category_slug: [],
     directing_department: [],

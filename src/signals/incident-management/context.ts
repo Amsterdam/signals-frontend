@@ -9,6 +9,7 @@ import type { Definition } from './definitions/types'
 
 const initialContext = {
   districts: undefined,
+  ggwDistricts: undefined,
   users: null,
   standardTexts: {
     page: 1,
@@ -24,6 +25,7 @@ const initialContext = {
 
 interface IncidentManagementContext {
   districts?: Definition[]
+  ggwDistricts?: Definition[]
   standardTexts: StandardTextsAdminValue
   users?: User | null
   referrer?: string
