@@ -39,7 +39,7 @@ interface CalendarInputProps {
    */
   onSelect: (
     date: Date | [Date, Date] | null,
-    event: SyntheticEvent<HTMLInputElement> | undefined
+    event?: SyntheticEvent<HTMLElement, Event>
   ) => void
   /** Date value */
   selectedDate?: Date
@@ -62,7 +62,7 @@ const CalendarInput: FunctionComponent<CalendarInputProps> = ({
         dateFormat="dd-MM-yyyy"
         id={id}
         locale="nl"
-        onChange={onChange}
+        onChange={(date, event) => onChange(date, event)}
         selected={selectedDate}
       />
 
