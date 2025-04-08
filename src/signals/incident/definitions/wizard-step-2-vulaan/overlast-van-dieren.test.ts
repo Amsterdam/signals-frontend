@@ -21,6 +21,8 @@ describe('definition overlast-van-dieren', () => {
       'extra_dieren_waar_ganzen_openbaar',
       'extra_dieren_waar_duiven_meeuwen_ganzen',
       'extra_dieren_waar_duiven_meeuwen_ganzen_woning',
+      'extra_dieren_waar_duiven_woning',
+      'extra_dieren_waar_meeuwen_woning',
       'extra_dieren_waar_duiven_meeuwen_ganzen_openbaar',
       'extra_dieren_waar_ratten',
       'extra_dieren_waar_ratten_woning',
