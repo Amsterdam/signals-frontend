@@ -4,8 +4,8 @@ import type { FunctionComponent, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 
 import { Play } from '@amsterdam/asc-assets'
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
-import parseISO from 'date-fns/parseISO'
+import { differenceInCalendarDays } from 'date-fns/differenceInCalendarDays'
+import { parseISO } from 'date-fns/parseISO'
 import { Link, useNavigate } from 'react-router-dom'
 
 import ParentIncidentIcon from 'components/ParentIncidentIcon'

@@ -3,7 +3,7 @@
 import type { FunctionComponent, SyntheticEvent } from 'react'
 import { Fragment, useRef } from 'react'
 
-import nl from 'date-fns/locale/nl'
+import { nl } from 'date-fns/locale/nl'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import styled from 'styled-components'
 
