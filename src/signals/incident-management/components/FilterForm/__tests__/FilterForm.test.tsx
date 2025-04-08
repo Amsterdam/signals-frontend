@@ -306,6 +306,7 @@ describe('signals/incident-management/components/FilterForm', () => {
   })
 
   it('should render a list of stadsdeel options', () => {
+    configuration.featureFlags.enableSortAndFilterStadsdeel = true
     const { container } = render(withContext(<FilterForm {...formProps} />))
 
     expect(

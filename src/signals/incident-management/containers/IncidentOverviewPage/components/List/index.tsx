@@ -213,21 +213,21 @@ const List: FunctionComponent<ListProps> = ({
               changeOrder={changeOrder}
               sortingDisabled={sortingDisabled}
             />
-            {configuration.featureFlags.fetchDistrictsFromBackend && (
-              <ThSort
-                StyledComponent={ThArea}
-                sortOption={SortOptions.DISTRICT_ASC}
-                headerText={configuration.language.district}
-                ordering={ordering}
-                changeOrder={changeOrder}
-                sortingDisabled={sortingDisabled}
-              />
-            )}
             {configuration.featureFlags.enableSortAndFilterStadsdeel && (
               <ThSort
                 StyledComponent={ThArea}
                 sortOption={SortOptions.BUROUGH_ASC}
                 headerText={SortOptionLabels.BUROUGH}
+                ordering={ordering}
+                changeOrder={changeOrder}
+                sortingDisabled={sortingDisabled}
+              />
+            )}
+            {configuration.featureFlags.fetchDistrictsFromBackend && (
+              <ThSort
+                StyledComponent={ThArea}
+                sortOption={SortOptions.DISTRICT_ASC}
+                headerText={configuration.language.district}
                 ordering={ordering}
                 changeOrder={changeOrder}
                 sortingDisabled={sortingDisabled}
@@ -301,13 +301,14 @@ const List: FunctionComponent<ListProps> = ({
                 <Td detailLink={detailLink} data-testid="incident-status">
                   {getListValueByKey(status, incident.status?.state)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incident-area">
-                  {configuration.featureFlags.fetchDistrictsFromBackend &&
-                    getListValueByKey(districts, incident.location?.area_code)}
-                </Td>
                 <Td detailLink={detailLink} data-testid="incident-stadsdeel">
                   {getListValueByKey(stadsdeel, incident.location?.stadsdeel)}
                 </Td>
+                {configuration.featureFlags.fetchDistrictsFromBackend && (
+                  <Td detailLink={detailLink} data-testid="incident-area">
+                    {getListValueByKey(districts, incident.location?.area_code)}
+                  </Td>
+                )}
                 <Td detailLink={detailLink} data-testid="incident-address">
                   {getAddress(incident.location)}
                 </Td>

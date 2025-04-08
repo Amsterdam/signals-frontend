@@ -485,6 +485,20 @@ const FilterForm = ({
               hasAccordion
             />
 
+            {configuration.featureFlags.enableSortAndFilterStadsdeel && (
+              <CheckboxGroup
+                defaultValue={state.options.stadsdeel}
+                label="Stadsdeel"
+                name="stadsdeel"
+                onChange={onGroupChange}
+                onToggle={onGroupToggle}
+                onSubmit={onSubmitForm}
+                options={dataLists.stadsdeel}
+                state={state}
+                hasAccordion
+              />
+            )}
+
             {configuration.featureFlags.fetchDistrictsFromBackend &&
               districts && (
                 <CheckboxGroup
@@ -499,20 +513,6 @@ const FilterForm = ({
                   hasAccordion
                 />
               )}
-
-            {configuration.featureFlags.enableSortAndFilterStadsdeel && (
-              <CheckboxGroup
-                defaultValue={state.options.stadsdeel}
-                label="Stadsdeel"
-                name="stadsdeel"
-                onChange={onGroupChange}
-                onToggle={onGroupToggle}
-                onSubmit={onSubmitForm}
-                options={dataLists.stadsdeel}
-                state={state}
-                hasAccordion
-              />
-            )}
 
             <CheckboxGroup
               defaultValue={state.options.priority}
