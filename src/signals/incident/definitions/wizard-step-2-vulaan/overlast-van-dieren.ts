@@ -334,7 +334,7 @@ const overlastVanDieren = {
         extra_dieren_waar_ratten: 'ander_gebouw',
       },
       value:
-        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbesheersing inhuren. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). Bekijk ook de [tips om overlast te verminderen](https://www.ggd.amsterdam.nl/ratten-overlast-plaagdieren/ratten/). \\\n U kunt dit formulier niet meer verder invullen.',
+        'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbeheersing inhuren. U vindt adressen van specialisten dierplaagbeheersing op [nvbp.org](https://www.nvpb.org/) of [platformplaagdierbeheersing.nl](https://www.platformplaagdierbeheersing.nl). Bekijk ook de [tips om overlast te verminderen](https://www.ggd.amsterdam.nl/ratten-overlast-plaagdieren/ratten/). \\\n U kunt dit formulier niet meer verder invullen.',
       type: 'alert',
     },
     options: {
