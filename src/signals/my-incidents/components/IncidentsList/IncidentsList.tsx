@@ -2,8 +2,8 @@
 // Copyright (C) 2023 Gemeente Amsterdam
 import { Fragment, useEffect } from 'react'
 
-import { format } from 'date-fns/format'
-import { nl } from 'date-fns/locale/nl'
+import format from 'date-fns/format'
+import nl from 'date-fns/locale/nl'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 

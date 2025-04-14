@@ -3,7 +3,7 @@
 import type { FunctionComponent, SyntheticEvent } from 'react'
 import { Fragment, useRef } from 'react'
 
-import { nl } from 'date-fns/locale/nl'
+import nl from 'date-fns/locale/nl'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import styled from 'styled-components'
 
@@ -39,7 +39,7 @@ interface CalendarInputProps {
    */
   onSelect: (
     date: Date | [Date, Date] | null,
-    event?: SyntheticEvent<HTMLElement, Event>
+    event: SyntheticEvent<HTMLInputElement> | undefined
   ) => void
   /** Date value */
   selectedDate?: Date
@@ -62,7 +62,7 @@ const CalendarInput: FunctionComponent<CalendarInputProps> = ({
         dateFormat="dd-MM-yyyy"
         id={id}
         locale="nl"
-        onChange={(date, event) => onChange(date, event)}
+        onChange={onChange}
         selected={selectedDate}
       />
 

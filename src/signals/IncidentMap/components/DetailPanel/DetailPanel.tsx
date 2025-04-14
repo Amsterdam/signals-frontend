@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 
 import { Close } from '@amsterdam/asc-assets'
 import { Heading } from '@amsterdam/asc-ui'
-import { format } from 'date-fns/format'
-import { nl } from 'date-fns/locale/nl'
+import format from 'date-fns/format'
+import nl from 'date-fns/locale/nl'
 import styled from 'styled-components'
 
 import { capitalize } from 'shared/services/date-utils'

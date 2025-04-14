@@ -8,8 +8,8 @@ import {
   ChevronRight,
   Close as CloseIcon,
 } from '@amsterdam/asc-assets'
-import { format } from 'date-fns/format'
-import { parseISO } from 'date-fns/parseISO'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 
 import { getAttachmentFileName } from 'shared/services/get-attachment-file-name'
 
