@@ -3,7 +3,7 @@
 import type { FunctionComponent } from 'react'
 
 import { themeColor, themeSpacing } from '@amsterdam/asc-ui'
-import { format } from 'date-fns/format'
+import format from 'date-fns/format'
 import styled from 'styled-components'
 
 import ParentIncidentIcon from 'components/ParentIncidentIcon'

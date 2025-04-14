@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2021 Gemeente Amsterdam
-import { format } from 'date-fns/format'
+import format from 'date-fns/format'
 
 export const dateToISOString = (date) =>
   date &&

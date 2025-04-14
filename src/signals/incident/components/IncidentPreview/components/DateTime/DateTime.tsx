@@ -2,8 +2,8 @@
 // Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { FC } from 'react'
 
-import { format } from 'date-fns/format'
-import { nl } from 'date-fns/locale/nl'
+import format from 'date-fns/format'
+import nl from 'date-fns/locale/nl'
 
 import { capitalize } from 'shared/services/date-utils'
 import type { Incident } from 'types/incident'

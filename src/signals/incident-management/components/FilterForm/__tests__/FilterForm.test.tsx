@@ -890,7 +890,7 @@ describe('signals/incident-management/components/FilterForm', () => {
         fireEvent.change(nameField, { target: { value: 'My filter' } })
       })
       act(() => {
-        fireEvent.change(dateField, { target: { value: '01-01-1970' } })
+        fireEvent.change(dateField, { target: { value: '1970-01-01' } })
       })
       act(() => {
         fireEvent.change(noteField, { target: { value: 'test123' } })

@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import { format } from 'date-fns/format'
-import { isValid } from 'date-fns/isValid'
-import { parse } from 'date-fns/parse'
+import format from 'date-fns/format'
+import isValid from 'date-fns/isValid'
+import parse from 'date-fns/parse'
 import clonedeep from 'lodash/cloneDeep'
+
 import dataLists from 'signals/incident-management/definitions'
 
 const arrayFields = [
