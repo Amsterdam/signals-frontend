@@ -115,7 +115,7 @@ const OverviewMap: FC<OverviewMapProps> = ({
       ...filterParams,
       // fixed query period (24 hours, with feature flag mapFilter24Hours enabled)
       created_after: configuration.featureFlags.mapFilter24Hours
-        ? format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss")
+        ? format(subDays(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss")
         : (filterParams as Record<string, unknown>).created_after,
       created_before: configuration.featureFlags.mapFilter24Hours
         ? format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")
