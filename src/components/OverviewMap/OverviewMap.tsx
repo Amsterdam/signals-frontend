@@ -12,8 +12,8 @@ import {
 
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { themeSpacing } from '@amsterdam/asc-ui'
-import subDays from 'date-fns/addDays'
-import format from 'date-fns/format'
+import { format } from 'date-fns/format'
+import { subDays } from 'date-fns/subDays'
 import type {
   Map as MapType,
   MarkerCluster as MarkerClusterType,
@@ -113,9 +113,9 @@ const OverviewMap: FC<OverviewMapProps> = ({
   const params = useMemo(
     () => ({
       ...filterParams,
-      // fixed query period (24 hours, with featuere flag mapFilter24Hours enabled)
+      // fixed query period (24 hours, with feature flag mapFilter24Hours enabled)
       created_after: configuration.featureFlags.mapFilter24Hours
-        ? format(subDays(new Date(), -1), "yyyy-MM-dd'T'HH:mm:ss")
+        ? format(subDays(new Date(), 1), "yyyy-MM-dd'T'HH:mm:ss")
         : (filterParams as Record<string, unknown>).created_after,
       created_before: configuration.featureFlags.mapFilter24Hours
         ? format(new Date(), "yyyy-MM-dd'T'HH:mm:ss")

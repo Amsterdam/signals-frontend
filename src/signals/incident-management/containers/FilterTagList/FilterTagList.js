@@ -4,8 +4,8 @@ import { useContext, useMemo } from 'react'
 
 import { Tag, themeSpacing } from '@amsterdam/asc-ui'
 import Button from 'components/Button'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import { format } from 'date-fns/format'
+import { parseISO } from 'date-fns/parseISO'
 import {
   makeSelectMainCategories,
   makeSelectSubCategories,

@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react'
 import type { FC } from 'react'
 
 import { Label, RadioGroup } from '@amsterdam/asc-ui'
-import format from 'date-fns/format'
-import locale from 'date-fns/locale/nl'
-import parse from 'date-fns/parse'
-import subDays from 'date-fns/subDays'
+import { format } from 'date-fns/format'
+import { nl } from 'date-fns/locale/nl'
+import { parse } from 'date-fns/parse'
+import { subDays } from 'date-fns/subDays'
 
 import Radio from 'components/RadioButton'
 import Select from 'components/Select'
@@ -42,7 +42,7 @@ defaultTimestamp.setMinutes(0)
 defaultTimestamp.setSeconds(0)
 
 const getFormattedDate = (date: Date) =>
-  capitalize(format(date, 'EEEE d MMMM', { locale }))
+  capitalize(format(date, 'EEEE d MMMM', { locale: nl }))
 
 type FormattedDate = 'Vandaag' | ReturnType<typeof getFormattedDate>
 
@@ -117,7 +117,7 @@ const DateTime: FC<DateTimeProps> = ({ onUpdate, value }) => {
         case 'day': {
           const dateStr = `${targetValue} ${cloned.getFullYear()}`
           const parsedDate = parse(dateStr, 'EEEE d MMMM yyyy', datetime, {
-            locale,
+            locale: nl,
           })
           parsedDate.setHours(cloned.getHours())
           parsedDate.setMinutes(cloned.getMinutes())

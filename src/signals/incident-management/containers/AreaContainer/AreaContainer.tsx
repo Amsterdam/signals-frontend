@@ -3,7 +3,7 @@
 import type { FunctionComponent } from 'react'
 import { useCallback, useState, useEffect } from 'react'
 
-import subWeeks from 'date-fns/subWeeks'
+import { subWeeks } from 'date-fns/subWeeks'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'

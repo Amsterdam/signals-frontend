@@ -10,8 +10,8 @@ import {
   Close as CloseIcon,
   TrashBin as DeleteIcon,
 } from '@amsterdam/asc-assets'
-import format from 'date-fns/format'
-import parseISO from 'date-fns/parseISO'
+import { format } from 'date-fns/format'
+import { parseISO } from 'date-fns/parseISO'
 import { useSelector } from 'react-redux'
 
 import Button from 'components/Button'
