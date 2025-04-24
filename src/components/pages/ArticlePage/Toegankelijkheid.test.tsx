@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withAppContext } from 'test/utils'
 
-import Toegankelijkheidsverklaring from './Toegankelijkheidsverklaring'
+import Toegankelijkheidsverklaring from './Toegankelijkheid'
 
 describe('components/Toegankelijkheidsverklaring', () => {
   it('Renders Toegankelijkheidsverklaring', () => {

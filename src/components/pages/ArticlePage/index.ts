@@ -1,1 +1,1 @@
-export { default as Toegankelijkheidsverklaring } from './Toegankelijkheidsverklaring'
+export { default as Toegankelijkheid } from './Toegankelijkheid'
