@@ -1,12 +1,17 @@
 import type { FC } from 'react'
 
 import { Heading, Paragraph, List, ListItem, Link } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
 
 import BasePage from '../BasePage'
 
+const StyledHeader = styled(Heading)`
+  font-size: 1.125rem;
+`
+
 const Toegankelijkheid: FC = () => (
   <BasePage documentTitle="Toegankelijkheid" pageTitle="Toegankelijkheid">
-    <aside>
+    <article>
       <Paragraph>Opgesteld op 02-11-2024</Paragraph>
 
       <Paragraph>
@@ -37,12 +42,9 @@ const Toegankelijkheid: FC = () => (
           </Link>
         </ListItem>
       </List>
-    </aside>
 
-    <section>
-      <header>
-        <Heading as="h4">Toegankelijkheidsverklaring</Heading>
-      </header>
+      <StyledHeader as="h2">Toegankelijkheidsverklaring</StyledHeader>
+
       <Paragraph>
         De meldingen website voldoet aan de toegankelijkheidseisen van
         <Link variant="inline" href="https://www.digitoegankelijk.nl/">
@@ -61,11 +63,10 @@ const Toegankelijkheid: FC = () => (
         .
       </Paragraph>
 
-      <header>
-        <Heading as="h4">
-          Aanpak om de toegankelijkheid van onze website te bevorderen
-        </Heading>
-      </header>
+      <StyledHeader as="h2">
+        Aanpak om de toegankelijkheid van onze website te bevorderen
+      </StyledHeader>
+
       <Paragraph>
         Dit is wat wij doen om het online melden toegankelijk te maken en te
         houden voor iedereen:
@@ -86,11 +87,10 @@ const Toegankelijkheid: FC = () => (
         </ListItem>
       </List>
 
-      <header>
-        <Heading as="h4">
-          Probleem met de toegankelijkheid van deze website?
-        </Heading>
-      </header>
+      <StyledHeader as="h2">
+        Probleem met de toegankelijkheid van deze website?
+      </StyledHeader>
+
       <List variant="bullet">
         <ListItem>
           Als u ondanks de maatregelen die wij al hebben genomen een
@@ -105,7 +105,7 @@ const Toegankelijkheid: FC = () => (
           .
         </ListItem>
       </List>
-    </section>
+    </article>
   </BasePage>
 )
 
