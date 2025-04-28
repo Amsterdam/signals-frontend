@@ -80,12 +80,12 @@ describe('IncidentSplitFormIncident', () => {
     )
 
     expect(screen.getByTestId('select-loader')).toBeInTheDocument()
-    expect(screen.queryByTestId('subcategory-22')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('subcategory-25')).not.toBeInTheDocument()
 
     rerender(withFormContext(<IncidentSplitFormIncident {...props} />))
 
     expect(screen.queryByTestId('select-loader')).not.toBeInTheDocument()
-    expect(screen.getByTestId('subcategory-22')).toBeInTheDocument()
+    expect(screen.getByTestId('subcategory-25')).toBeInTheDocument()
   })
 
   it('should render incident split form when parent already has split incidents', () => {

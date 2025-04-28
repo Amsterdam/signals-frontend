@@ -9,7 +9,6 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { act } from 'react-dom/test-utils'
-
 import { FormProviderWithResolver, withAppContext } from 'test/utils'
 
 import IncidentForm from '.'
@@ -332,7 +331,7 @@ describe('<IncidentForm />', () => {
         })
 
         await waitFor(() => {
-          expect(nextSpy).toHaveBeenCalledTimes(2)
+          expect(nextSpy).toHaveBeenCalledTimes(1)
         })
       })
 

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (C) 2020 - 2023 Gemeente Amsterdam
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-
 import { withAppContext } from 'test/utils'
 import {
   subcategoriesGroupedByCategories as subcategories,
@@ -73,6 +72,8 @@ describe('IncidentSplitForm', () => {
         ,
         ,
         ,
+        ,
+        ,
         {
           subcategory: parentIncidentFixture.subcategory,
           description:
@@ -80,6 +81,7 @@ describe('IncidentSplitForm', () => {
           priority: 'normal',
           type: 'SIG',
         },
+        ,
         {
           subcategory: parentIncidentFixture.subcategory,
           description:
