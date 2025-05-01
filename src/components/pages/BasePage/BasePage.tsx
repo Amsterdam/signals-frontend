@@ -46,11 +46,7 @@ const BasePage = ({
       </Helmet>
 
       <article>
-        {pageTitle && (
-          <header>
-            <StyledHeading>{pageTitle}</StyledHeading>
-          </header>
-        )}
+        {pageTitle && <StyledHeading>{pageTitle}</StyledHeading>}
 
         {children}
       </article>

@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 import Footer from 'components/FooterContainer'
 import LoadingIndicator from 'components/LoadingIndicator'
-import { Toegankelijkheidsverklaring } from 'components/pages/ArticlePage'
+import { Toegankelijkheid } from 'components/pages/ArticlePage'
 import MaintenancePage from 'components/pages/MaintenancePage'
 import ThemeProvider from 'components/ThemeProvider'
 import SiteHeaderContainer from 'containers/SiteHeader'
@@ -180,7 +180,7 @@ export const AppContainer = () => {
                   />
                   <Route
                     path="/toegankelijkheidsverklaring"
-                    element={<Toegankelijkheidsverklaring />}
+                    element={<Toegankelijkheid />}
                   />
                   <Route
                     path="/verify_email/:token"
