@@ -20,7 +20,7 @@ export const controls = {
     meta: {
       label: 'Welk afval is verkeerd neergezet?',
       subtitle:
-        'U helpt ons door zoveel mogelijk informatie te geven over het soort afval: huisafval, bedrijfsafval, grofvuil of dozen en papier.',
+        'U helpt ons door zoveel mogelijk informatie te geven over het soort afval: huisafval, bedrijfsafval, grof afval of dozen en papier.',
       shortLabel: 'Welk afval',
       pathMerge: 'extra_properties',
     },
