@@ -91,7 +91,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/enzyme": "^3.10.18",
     "@types/invariant": "^2.2.37",
     "@types/jest": "^27.5.2",
