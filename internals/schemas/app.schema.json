@@ -138,7 +138,7 @@
           "type": "boolean"
         },
         "useProjectmatigOnderhoudSignalType": {
-          "description": "When true, will add a signal type 'Projectmatig onderhoud' which is used in Amsterdam.",
+          "description": "When true, will add a signal type called 'Projectmatig onderhoud'.",
           "type": "boolean"
         },
         "reporterMailHandledNegativeContactEnabled": {
