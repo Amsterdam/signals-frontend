@@ -25,7 +25,8 @@
     "showStandardTextAdminV2": true,
     "showThorButton": true,
     "showVulaanControls": true,
-    "useProjectenSignalType": false
+    "useProjectenSignalType": false,
+    "useProjectmatigOnderhoudSignalType": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",

@@ -32,4 +32,13 @@ export default [
       ? 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een project.'
       : 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
   },
+  ...(configuration.featureFlags.useProjectmatigOnderhoudSignalType
+    ? [
+        {
+          key: 'PRO',
+          value: 'Projectmatig onderhoud',
+          info: 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
+        },
+      ]
+    : []),
 ]
