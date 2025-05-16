@@ -137,6 +137,10 @@
           "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
+        "useProjectmatigOnderhoudSignalType": {
+          "description": "When true, will add a signal type 'Projectmatig onderhoud' which is used in Amsterdam.",
+          "type": "boolean"
+        },
         "reporterMailHandledNegativeContactEnabled": {
           "description": "When true, will show a feedback text based on the satisfaction value yes or no.",
           "type": "boolean"
@@ -187,7 +191,8 @@
         "mapFilter24Hours",
         "showThorButton",
         "showVulaanControls",
-        "useProjectenSignalType"
+        "useProjectenSignalType",
+        "useProjectmatigOnderhoudSignalType"
       ],
       "title": "FeatureFlags"
     },
