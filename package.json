@@ -119,7 +119,6 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "chalk": "^5.4.1",
     "circular-dependency-plugin": "^5.2.2",
-    "clsx": "^2.1.1",
     "compression-webpack-plugin": "^11.1.0",
     "copy-webpack-plugin": "^12.0.2",
     "core-js": "^3.41.0",
