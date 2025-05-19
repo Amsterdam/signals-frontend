@@ -35,7 +35,7 @@ export default [
   ...(configuration.featureFlags.useProjectmatigOnderhoudSignalType
     ? [
         {
-          key: 'PRO',
+          key: 'PRJ',
           value: 'Projectmatig onderhoud',
           info: 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
         },
