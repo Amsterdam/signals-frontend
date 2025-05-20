@@ -5,6 +5,7 @@ import memoize from 'lodash/memoize'
 import configuration from 'shared/services/configuration/configuration'
 
 import afval from './wizard-step-2-vulaan/afval'
+import afvalAEG from './wizard-step-2-vulaan/afval-aeg'
 import afvalContainer from './wizard-step-2-vulaan/afval-container'
 import afvalRolcontainer from './wizard-step-2-vulaan/afval-rolcontainer'
 import afvalThor from './wizard-step-2-vulaan/afval-thor'
@@ -120,6 +121,17 @@ export default {
           ['rolcontainer-is-kapot', 'rolcontainer-is-vol'].includes(subcategory)
         ) {
           return expandQuestions(afvalRolcontainer, category, subcategory)
+        }
+        if (
+          [
+            'grofvuil',
+            'huisafval',
+            'puin-sloopafval',
+            'bruin-en-witgoed',
+            'overig-afval',
+          ].includes(subcategory)
+        ) {
+          return expandQuestions(afvalAEG, category, subcategory)
         }
 
         return expandQuestions(afval, category, subcategory)
