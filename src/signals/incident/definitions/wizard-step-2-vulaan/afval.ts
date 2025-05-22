@@ -20,16 +20,5 @@ export const controls = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-  extra_afval: {
-    meta: {
-      ifOneOf: {
-        subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
-      },
-      label: 'Waar komt het afval vandaan, denkt u?',
-      shortLabel: 'Waar vandaan',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextareaInput,
-  },
 }
 export default controls
