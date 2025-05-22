@@ -26,7 +26,7 @@
     "showThorButton": true,
     "showVulaanControls": true,
     "useProjectenSignalType": false,
-    "useProjectmatigOnderhoudSignalType": true
+    "useProjectverzoekSignalType": true
   },
   "head": {
     "androidIcon": "/icon_192x192.png",
