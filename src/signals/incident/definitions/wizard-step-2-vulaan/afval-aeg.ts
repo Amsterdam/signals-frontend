@@ -23,7 +23,37 @@ export const controls = {
   locatie,
   extra_wanneer: {
     meta: {
+      ifOneOf: {
+        subcategory: [
+          'grofvuil',
+          'huisafval',
+          'puin-sloopafval',
+          'bruin-en-witgoed',
+          'overig-afval',
+        ],
+      },
       label: 'Sinds wanneer ligt het afval daar?',
+      shortLabel: 'Wanneer',
+      pathMerge: 'extra_properties',
+      values: {
+        today: 'Vandaag',
+        oneDayAgo: formatDate(1),
+        twoDaysAgo: formatDate(2),
+        threeDaysAgo: formatDate(3),
+        fourDaysAgo: formatDate(4),
+        fiveDaysAgo: formatDate(5),
+        sixDaysAgo: formatDate(6),
+      },
+    },
+    options: { validators: ['required'] },
+    render: QuestionFieldType.RadioInput,
+  },
+  extra_wanneer_kerstbomen: {
+    meta: {
+      ifOneOf: {
+        subcategory: ['kerstbomen'],
+      },
+      label: 'Sinds wanneer liggen de kerstbomen daar?',
       shortLabel: 'Wanneer',
       pathMerge: 'extra_properties',
       values: {

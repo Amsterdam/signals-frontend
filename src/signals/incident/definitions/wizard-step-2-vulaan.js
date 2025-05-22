@@ -128,6 +128,7 @@ export default {
             'huisafval',
             'puin-sloopafval',
             'bruin-en-witgoed',
+            'kerstbomen',
             'overig-afval',
           ].includes(subcategory)
         ) {

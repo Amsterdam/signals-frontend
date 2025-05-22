@@ -144,6 +144,7 @@ const getExtraQuestions = (category, subcategory, questions) => {
           'huisafval',
           'puin-sloopafval',
           'bruin-en-witgoed',
+          'kerstbomen',
           'overig-afval',
         ].includes(subcategory)
       ) {
