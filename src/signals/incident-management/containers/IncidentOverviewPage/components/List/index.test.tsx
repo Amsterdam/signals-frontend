@@ -453,4 +453,16 @@ describe('List', () => {
 
     expect(orderingChangedActionMock).toHaveBeenCalledTimes(1)
   })
+
+  it('should not render burough column when feature flag enableSortAndFilterStadsdeel is set to false', () => {
+    configuration.featureFlags.enableSortAndFilterStadsdeel = false
+
+    render(withContext(<List {...props} />))
+
+    const header = screen.queryByRole('columnheader', { name: 'Stadsdeel' })
+    const body = screen.queryByRole('cell', { name: 'Centrum' })
+
+    expect(header).not.toBeInTheDocument()
+    expect(body).not.toBeInTheDocument()
+  })
 })
