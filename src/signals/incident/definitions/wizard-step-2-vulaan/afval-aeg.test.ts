@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2024 Gemeente Amsterdam
+// Copyright (C) 2025 Gemeente Amsterdam
 import afvalAEG from './afval-aeg'
 
 describe('definition afvalAEG', () => {
