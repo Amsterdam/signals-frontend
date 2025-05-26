@@ -301,9 +301,11 @@ const List: FunctionComponent<ListProps> = ({
                 <Td detailLink={detailLink} data-testid="incident-status">
                   {getListValueByKey(status, incident.status?.state)}
                 </Td>
-                <Td detailLink={detailLink} data-testid="incident-stadsdeel">
-                  {getListValueByKey(stadsdeel, incident.location?.stadsdeel)}
-                </Td>
+                {configuration.featureFlags.enableSortAndFilterStadsdeel && (
+                  <Td detailLink={detailLink} data-testid="incident-stadsdeel">
+                    {getListValueByKey(stadsdeel, incident.location?.stadsdeel)}
+                  </Td>
+                )}
                 {configuration.featureFlags.fetchDistrictsFromBackend && (
                   <Td detailLink={detailLink} data-testid="incident-area">
                     {getListValueByKey(districts, incident.location?.area_code)}
