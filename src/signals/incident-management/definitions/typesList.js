@@ -32,11 +32,11 @@ export default [
       ? 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een project.'
       : 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
   },
-  ...(configuration.featureFlags.useProjectmatigOnderhoudSignalType
+  ...(configuration.featureFlags.useProjectverzoekSignalType
     ? [
         {
           key: 'PRJ',
-          value: 'Projectmatig onderhoud',
+          value: 'Projectverzoek',
           info: 'Een verzoek dat niet onder dagelijks beheer valt, maar onder een langdurig traject.',
         },
       ]

@@ -137,7 +137,7 @@
           "description": "When true, will make a textual change to the signal type 'Groot onderhoud', becoming 'Projecten'. This is temporarily needed until the signal types have been moved to the database.",
           "type": "boolean"
         },
-        "useProjectmatigOnderhoudSignalType": {
+        "useProjectverzoekSignalType": {
           "description": "When true, will add a signal type called 'Projectmatig onderhoud'.",
           "type": "boolean"
         },
@@ -192,7 +192,7 @@
         "showThorButton",
         "showVulaanControls",
         "useProjectenSignalType",
-        "useProjectmatigOnderhoudSignalType"
+        "useProjectverzoekSignalType"
       ],
       "title": "FeatureFlags"
     },
