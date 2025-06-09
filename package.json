@@ -44,7 +44,7 @@
     "@amsterdam/asc-assets": "^0.38.0",
     "@amsterdam/asc-ui": "^0.38.0",
     "@amsterdam/react-maps": "^1.1.1",
-    "@hookform/resolvers": "^2.9.11",
+    "@hookform/resolvers": "^5.1.1",
     "@microsoft/applicationinsights-web": "^2.8.18",
     "date-fns": "^4.1.0",
     "focus-trap-react": "^10.3.1",
