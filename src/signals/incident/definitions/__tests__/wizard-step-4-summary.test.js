@@ -149,12 +149,6 @@ describe('Wizard summary', () => {
             optional: true,
             render: PreviewComponents.DateTime,
           },
-          extra_afval: {
-            label: 'Waar komt het afval vandaan, denkt u?',
-            optional: true,
-            render: expect.any(Function),
-            canBeNull: false,
-          },
           ...expectedLocation,
         },
       }
