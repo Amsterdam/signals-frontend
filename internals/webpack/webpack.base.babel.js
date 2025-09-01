@@ -142,7 +142,7 @@ const baseConfig = /** @type { import('webpack').Configuration } */ {
       types: path.resolve(__rootdir, 'src/types/'),
     },
     fallback: {
-      crypto: require.resolve('crypto-browserify'),
+      crypto: false,
       stream: require.resolve('stream-browserify'),
       vm: require.resolve('vm-browserify'),
       process: require.resolve('process/browser'),
