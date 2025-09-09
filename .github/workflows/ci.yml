@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Setup Node 18
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '18.13'
           check-latest: true
