@@ -33,7 +33,7 @@ export const controls = {
         extra_afval_rolcontainer: 'kapot',
       },
       value:
-        'U kunt in een ander formulier [een nieuwe rolcontainer aanvragen](https://formulieren.amsterdam.nl/TriplEforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Rolcontainer.aspx/fSTD_Intro).',
+        'U kunt in een ander formulier [een nieuwe rolcontainer aanvragen](https://formulieren.amsterdam.nl/TriplEforms/DirectRegelen/formulier/nl-NL/evAmsterdam/Rolcontainer.aspx).',
       type: 'alert',
     },
     options: {
