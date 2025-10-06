@@ -173,8 +173,8 @@ const straatverlichtingKlokken = {
   },
   extra_straatverlichting: {
     meta: {
-      label: 'Denkt u dat de situatie gevaarlijk is?',
-      shortLabel: 'Denkt u dat de situatie gevaarlijk is?',
+      label: 'Is er iets bijzonders aan de hand?',
+      shortLabel: 'Is er iets bijzonders aan de hand?',
       ifAllOf: {
         subcategory: 'lantaarnpaal-straatverlichting',
       },
@@ -186,8 +186,9 @@ const straatverlichtingKlokken = {
         ],
       },
       values: {
-        niet_gevaarlijk: 'Nee, niet gevaarlijk',
-        drie_of_meer_kapot: 'Ja, 3 of meer lampen in de straat zijn kapot',
+        niet_bijzonder: 'Nee, er is niets bijzonders aan de hand',
+        alle_lampen_kapot:
+          'Ja, alle lampen in de straat of buurt doen het niet',
         is_gevolg_van_aanrijding: 'Ja, het is een gevolg van een aanrijding',
         lamp_op_grond_of_scheef:
           'Ja, de lamp of lantaarnpaal ligt op de grond of staat gevaarlijk scheef',
@@ -218,7 +219,7 @@ const straatverlichtingKlokken = {
       },
       ifOneOf: {
         extra_straatverlichting: [
-          'drie_of_meer_kapot',
+          'alle_lampen_kapot',
           'is_gevolg_van_aanrijding',
           'lamp_op_grond_of_scheef',
           'deurtje_weg_of_open',
