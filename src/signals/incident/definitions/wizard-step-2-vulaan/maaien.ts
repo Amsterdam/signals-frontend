@@ -44,7 +44,7 @@ const maaien = {
         extra_groen_voor_recreatie: ['nee'],
       },
       type: 'alert',
-      value: `U kunt hier geen melding over doen. 
+      value: `U kunt hier geen melding over doen.  
 We hebben vaste momenten om te maaien. [Bekijk wanneer en hoe we maaien.](https://www.amsterdam.nl/leefomgeving/dieren-groen/maaien/)`,
     },
     render: QuestionFieldType.PlainText,
