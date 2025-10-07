@@ -17,12 +17,14 @@ import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierupsControls from './wizard-step-2-vulaan/eikenprocessierups'
 import japanseDuizendknoop from './wizard-step-2-vulaan/japanse-duizendknoop'
 import locatie from './wizard-step-2-vulaan/locatie'
+import maaien from './wizard-step-2-vulaan/maaien'
 import overlastBedrijvenEnHorecaControls from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimteControls from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWaterControls from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastOpHetWaterThorControls from './wizard-step-2-vulaan/overlast-op-het-water-thor'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepenControls from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
+import snoeien from './wizard-step-2-vulaan/snoeien'
 import straatverlichtingKlokkenControls from './wizard-step-2-vulaan/straatverlichting-klokken'
 import verkeersoverlastControls from './wizard-step-2-vulaan/verkeersoverlast'
 import wegenVerkeerStraatmeubilairControls from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
@@ -213,6 +215,10 @@ const getExtraQuestions = (category, subcategory, questions) => {
         return summary(japanseDuizendknoop)
       } else if (subcategory === 'boom-illegale-kap') {
         return summary(boomIllegaleKap)
+      } else if (subcategory === 'snoeien') {
+        return expandQuestions(snoeien, category, subcategory)
+      } else if (subcategory === 'maaien-snoeien') {
+        return expandQuestions(maaien, category, subcategory)
       } else {
         return fallback
       }
