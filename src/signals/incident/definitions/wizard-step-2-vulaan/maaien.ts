@@ -23,6 +23,9 @@ const maaien = {
 
   extra_groen_voor_recreatie: {
     meta: {
+      ifOneOf: {
+        extra_gras_of_berm_onveilig: ['nee'],
+      },
       values: {
         ja: 'Ja',
         nee: 'Nee',
@@ -46,6 +49,9 @@ const maaien = {
       type: 'alert',
       value: `U kunt hier geen melding over doen.  
 We hebben vaste momenten om te maaien. [Bekijk wanneer en hoe we maaien.](https://www.amsterdam.nl/leefomgeving/dieren-groen/maaien/)`,
+    },
+    options: {
+      validators: ['isBlocking'],
     },
     render: QuestionFieldType.PlainText,
   },

@@ -31,6 +31,9 @@ const snoeien = {
       value: `U kunt hier geen melding over doen.  
       Wij controleren regelmatig bomen en struiken. Als dat voor de boom of struik goed is snoeien wij hem. Dat doen we alleen in het voorjaar en het najaar. [Lees meer over hoe we voor bomen zorgen.](https://www.amsterdam.nl/leefomgeving/dieren-groen/bomen/)`,
     },
+    options: {
+      validators: ['isBlocking'],
+    },
     render: QuestionFieldType.PlainText,
   },
 }
