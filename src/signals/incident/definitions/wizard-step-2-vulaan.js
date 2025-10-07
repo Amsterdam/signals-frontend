@@ -16,12 +16,14 @@ import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierups from './wizard-step-2-vulaan/eikenprocessierups'
 import japanseDuizendknoop from './wizard-step-2-vulaan/japanse-duizendknoop'
 import locatie from './wizard-step-2-vulaan/locatie'
+import maaien from './wizard-step-2-vulaan/maaien'
 import overlastBedrijvenEnHoreca from './wizard-step-2-vulaan/overlast-bedrijven-en-horeca'
 import overlastInDeOpenbareRuimte from './wizard-step-2-vulaan/overlast-in-de-openbare-ruimte'
 import overlastOpHetWater from './wizard-step-2-vulaan/overlast-op-het-water'
 import overlastOpHetWaterThor from './wizard-step-2-vulaan/overlast-op-het-water-thor'
 import overlastVanDieren from './wizard-step-2-vulaan/overlast-van-dieren'
 import overlastPersonenEnGroepen from './wizard-step-2-vulaan/overlast-van-en-door-personen-of-groepen'
+import snoeien from './wizard-step-2-vulaan/snoeien'
 import straatverlichtingKlokken from './wizard-step-2-vulaan/straatverlichting-klokken'
 import verkeersoverlast from './wizard-step-2-vulaan/verkeersoverlast'
 import wegenVerkeerStraatmeubilair from './wizard-step-2-vulaan/wegen-verkeer-straatmeubilair'
@@ -145,6 +147,10 @@ export default {
           return expandQuestions(japanseDuizendknoop, category, subcategory)
         } else if (subcategory === 'boom-illegale-kap') {
           return expandQuestions(boomIllegaleKap, category, subcategory)
+        } else if (subcategory === 'snoeien') {
+          return expandQuestions(snoeien, category, subcategory)
+        } else if (subcategory === 'maaien-snoeien') {
+          return expandQuestions(maaien, category, subcategory)
         } else {
           return fallback
         }
