@@ -46,6 +46,9 @@ export const onderhuur = {
         'Als het om een woning van een particuliere eigenaar gaat, neem dan contact op met de eigenaar van de woning.',
       type: 'alert',
     },
+    options: {
+      validators: ['isBlocking'],
+    },
     render: QuestionFieldType.PlainText,
   },
 
