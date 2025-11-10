@@ -16,11 +16,43 @@ export const onderhuur = {
     render: QuestionFieldType.DateTimeInput,
   },
 
-  extra_wonen_onderhuur_aantal_personen: {
+  extra_eigenaar_woning: {
     meta: {
       ifOneOf: {
         subcategory: 'onderhuur-en-adreskwaliteit',
         wonen_overig: 'onderhuur',
+      },
+      label: 'Weet u wie de eigenaar is van de woning?',
+      shortLabel: 'Eigenaar woning',
+      pathMerge: 'extra_properties',
+      values: {
+        woningcorporatie: 'Woningcorporatie',
+        particuliere_eigenaar: 'Particuliere eigenaar',
+        weet_ik_niet: 'Weet ik niet',
+      },
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+
+  extra_particuliere_eigenaar: {
+    meta: {
+      ifOneOf: {
+        extra_eigenaar_woning: 'particuliere_eigenaar',
+      },
+      value:
+        'Als het om een woning van een particuliere eigenaar gaat, neem dan contact op met de eigenaar van de woning.',
+      type: 'alert',
+    },
+    render: QuestionFieldType.PlainText,
+  },
+
+  extra_wonen_onderhuur_aantal_personen: {
+    meta: {
+      ifOneOf: {
+        extra_eigenaar_woning: 'woningcorporatie',
       },
       label: 'Hoeveel personen wonen op dit adres?',
       shortLabel: 'Aantal personen',
@@ -43,8 +75,7 @@ export const onderhuur = {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          subcategory: 'onderhuur-en-adreskwaliteit',
-          wonen_overig: 'onderhuur',
+          extra_eigenaar_woning: 'woningcorporatie',
         },
       },
       ifOneOf: {
@@ -72,8 +103,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_woon_periode: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
+        extra_eigenaar_woning: 'woningcorporatie',
       },
       label: 'Hoe lang wonen deze mensen al op dit adres?',
       shortLabel: 'Woon periode',
@@ -92,8 +122,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_iemand_aanwezig: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
+        extra_eigenaar_woning: 'woningcorporatie',
       },
       label: 'Op welke dag/tijd is er iemand op het adres?',
       shortLabel: 'Iemand aanwezig',
@@ -104,8 +133,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_huurder_woont: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
+        extra_eigenaar_woning: 'woningcorporatie',
       },
       label: 'Weet u waar de officiële huurder woont?',
       shortLabel: 'Huurder woont',
@@ -124,8 +152,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_adres_huurder: {
     meta: {
       ifOneOf: {
-        subcategory: 'onderhuur-en-adreskwaliteit',
-        wonen_overig: 'onderhuur',
+        extra_eigenaar_woning: 'woningcorporatie',
       },
       ifAllOf: {
         extra_wonen_onderhuur_huurder_woont: 'ander_adres',

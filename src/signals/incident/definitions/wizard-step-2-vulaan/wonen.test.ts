@@ -13,6 +13,8 @@ describe('definition wonen', () => {
       'extra_wonen_leegstand_activiteit_in_woning',
       'extra_wonen_leegstand_iemand_aanwezig',
       'onderhuur_dateTime',
+      'extra_eigenaar_woning',
+      'extra_particuliere_eigenaar',
       'extra_wonen_onderhuur_aantal_personen',
       'extra_wonen_onderhuur_bewoners_familie',
       'extra_wonen_onderhuur_woon_periode',
