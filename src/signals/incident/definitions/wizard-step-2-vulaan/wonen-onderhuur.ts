@@ -55,7 +55,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_aantal_personen: {
     meta: {
       ifOneOf: {
-        extra_eigenaar_woning: 'woningcorporatie',
+        extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
       },
       label: 'Hoeveel personen wonen op dit adres?',
       shortLabel: 'Aantal personen',
@@ -78,7 +78,7 @@ export const onderhuur = {
     meta: {
       ifAllOf: {
         ifOneOf: {
-          extra_eigenaar_woning: 'woningcorporatie',
+          extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
         },
       },
       ifOneOf: {
@@ -106,7 +106,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_woon_periode: {
     meta: {
       ifOneOf: {
-        extra_eigenaar_woning: 'woningcorporatie',
+        extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
       },
       label: 'Hoe lang wonen deze mensen al op dit adres?',
       shortLabel: 'Woon periode',
@@ -125,7 +125,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_iemand_aanwezig: {
     meta: {
       ifOneOf: {
-        extra_eigenaar_woning: 'woningcorporatie',
+        extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
       },
       label: 'Op welke dag/tijd is er iemand op het adres?',
       shortLabel: 'Iemand aanwezig',
@@ -136,7 +136,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_huurder_woont: {
     meta: {
       ifOneOf: {
-        extra_eigenaar_woning: 'woningcorporatie',
+        extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
       },
       label: 'Weet u waar de officiële huurder woont?',
       shortLabel: 'Huurder woont',
@@ -155,7 +155,7 @@ export const onderhuur = {
   extra_wonen_onderhuur_adres_huurder: {
     meta: {
       ifOneOf: {
-        extra_eigenaar_woning: 'woningcorporatie',
+        extra_eigenaar_woning: ['woningcorporatie', 'weet_ik_niet'],
       },
       ifAllOf: {
         extra_wonen_onderhuur_huurder_woont: 'ander_adres',
