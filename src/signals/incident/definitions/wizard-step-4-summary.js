@@ -10,11 +10,13 @@ import afvalControls from './wizard-step-2-vulaan/afval'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalRolcontainerControls from './wizard-step-2-vulaan/afval-rolcontainer'
 import afvalThorControls from './wizard-step-2-vulaan/afval-thor'
+import autoScooterBromfietswrak from './wizard-step-2-vulaan/auto-scooter-bromfietswrak'
 import bomenControls from './wizard-step-2-vulaan/bomen'
 import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierupsControls from './wizard-step-2-vulaan/eikenprocessierups'
+import fietswrak from './wizard-step-2-vulaan/fietswrak'
 import japanseDuizendknoop from './wizard-step-2-vulaan/japanse-duizendknoop'
 import locatie from './wizard-step-2-vulaan/locatie'
 import maaien from './wizard-step-2-vulaan/maaien'
@@ -152,6 +154,12 @@ const getExtraQuestions = (category, subcategory, questions) => {
     case 'overlast-in-de-openbare-ruimte': {
       if (subcategory === 'bouw-sloopoverlast') {
         return expandQuestions(bouwSloopOverlast, category, subcategory)
+      }
+      if (subcategory === 'auto-scooter-bromfietswrak') {
+        return expandQuestions(autoScooterBromfietswrak, category, subcategory)
+      }
+      if (subcategory === 'fietswrak') {
+        return expandQuestions(fietswrak, category, subcategory)
       }
 
       return summary(overlastInDeOpenbareRuimteControls)
