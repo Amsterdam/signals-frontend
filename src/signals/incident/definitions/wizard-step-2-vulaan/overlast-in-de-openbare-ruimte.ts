@@ -16,19 +16,6 @@ export const overlastInDeOpenbareRuimte = {
     },
     render: QuestionFieldType.DateTimeInput,
   },
-  extra_fietswrak: {
-    meta: {
-      ifAllOf: {
-        subcategory: 'fietswrak',
-      },
-      label:
-        'Wat weet u over hoe het wrak eruit ziet? Weet u waar het wrak ligt?',
-      subtitle: 'Bijvoorbeeld: merk, kleur, roest, zonder wielen',
-      shortLabel: 'Extra informatie',
-      pathMerge: 'extra_properties',
-    },
-    render: QuestionFieldType.TextInput,
-  },
   extra_parkeeroverlast: {
     meta: {
       ifAllOf: {
