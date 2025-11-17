@@ -14,6 +14,7 @@ import boomIllegaleKap from './wizard-step-2-vulaan/boom-illegale-kap'
 import bouwSloopOverlast from './wizard-step-2-vulaan/bouw-sloop-overlast'
 import civieleConstructies from './wizard-step-2-vulaan/civieleConstructies'
 import eikenprocessierups from './wizard-step-2-vulaan/eikenprocessierups'
+import fietswrak from './wizard-step-2-vulaan/fietswrak'
 import japanseDuizendknoop from './wizard-step-2-vulaan/japanse-duizendknoop'
 import locatie from './wizard-step-2-vulaan/locatie'
 import maaien from './wizard-step-2-vulaan/maaien'
@@ -172,6 +173,9 @@ export default {
             category,
             subcategory
           )
+        }
+        if (subcategory === 'fietswrak') {
+          return expandQuestions(fietswrak, category, subcategory)
         }
 
         return expandQuestions(
