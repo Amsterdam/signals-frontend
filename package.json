@@ -166,7 +166,7 @@
     "prop-types": "^15.8.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga-test-plan": "^4.0.6",
-    "rimraf": "^6.0.1",
+    "rimraf": "^6.1.2",
     "stream-browserify": "^3.0.0",
     "svg-url-loader": "^8.0.0",
     "ts-jest": "^29.3.4",
