@@ -42,7 +42,7 @@ jobs:
         run: npm run ${{ matrix.job }}
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: matrix.job == 'test'
         with:
           name: coverage-report
