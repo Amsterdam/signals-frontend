@@ -56,13 +56,13 @@ const FileInput = ({ handler, parent, meta }: Props) => {
         )
       }
 
-      if (meta.allowedFileTypes && !files.every(checkFileType)) {
-        errorMessages.push(
-          `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
-            .map((type) => type.replace(/.*\//, ''))
-            .join(', ')}.`
-        )
-      }
+      // if (meta.allowedFileTypes && !files.every(checkFileType)) {
+      //   errorMessages.push(
+      //     `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${meta.allowedFileTypes
+      //       .map((type) => type.replace(/.*\//, ''))
+      //       .join(', ')}.`
+      //   )
+      // }
 
       if (!files.every(checkNumberOfFiles)) {
         errorMessages.push(
@@ -86,15 +86,15 @@ const FileInput = ({ handler, parent, meta }: Props) => {
     (batchFiles) => {
       const minFileSizeFilter = meta.minFileSize ? checkMinFileSize : () => true
       const maxFileSizeFilter = meta.maxFileSize ? checkMaxFileSize : () => true
-      const allowedFileTypesFilter = meta.allowedFileTypes
-        ? checkFileType
-        : () => true
+      // const allowedFileTypesFilter = meta.allowedFileTypes
+      //   ? checkFileType
+      //   : () => true
       const maxNumberOfFilesFilter = checkNumberOfFiles
 
       const files = batchFiles
         .filter(minFileSizeFilter)
         .filter(maxFileSizeFilter)
-        .filter(allowedFileTypesFilter)
+        // .filter(allowedFileTypesFilter)
         .filter(maxNumberOfFilesFilter)
 
       setErrors(getErrorMessages(batchFiles))

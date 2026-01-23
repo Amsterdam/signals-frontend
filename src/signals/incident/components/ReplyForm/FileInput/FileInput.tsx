@@ -17,7 +17,7 @@ export const ALLOWED_FILE_TYPES = [
   'image/png',
   'image/gif',
 ]
-const ALLOWED_EXTENSIONS = ALLOWED_FILE_TYPES.map((type) => type.split('/')[1])
+// const ALLOWED_EXTENSIONS = ALLOWED_FILE_TYPES.map((type) => type.split('/')[1])
 
 type FileInputProps = {
   shortLabel: string
@@ -43,17 +43,17 @@ const FileInput = ({
     defaultValue: [],
     rules: {
       validate: {
-        fileType: (files) => {
-          if (
-            (files as File[]).find(
-              (file) => !ALLOWED_FILE_TYPES.includes(file.type)
-            )
-          ) {
-            return `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${ALLOWED_EXTENSIONS.join(
-              ', '
-            )}`
-          }
-        },
+        // // fileType: (files) => {
+        // //   if (
+        // //     (files as File[]).find(
+        // //       (file) => !ALLOWED_FILE_TYPES.includes(file.type)
+        // //     )
+        // //   ) {
+        // //     return `Dit bestandstype wordt niet ondersteund. Toegestaan zijn: ${ALLOWED_EXTENSIONS.join(
+        // //       ', '
+        // //     )}`
+        // //   }
+        // },
         numberOfFiles: (files) => {
           if ((files as File[]).length > MAX_NUMBER_OF_FILES)
             return `U kunt maximaal ${MAX_NUMBER_OF_FILES} bestanden uploaden`
