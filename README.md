@@ -7,7 +7,7 @@ This project provides a web frontend for Signalen, an application that helps cit
 Make sure you installed the following versions on your machine:
 
 - npm >= 8.9
-- node >= 18.2
+- node >= 24
 
 Install the dependencies:
 

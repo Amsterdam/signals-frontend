@@ -1,7 +1,7 @@
 ################################
 # Base
 ################################
-FROM node:18 AS base
+FROM node:24 AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
