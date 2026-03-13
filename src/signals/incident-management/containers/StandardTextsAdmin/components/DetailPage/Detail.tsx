@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import isEmpty from 'lodash/isEmpty'
+import type { Resolver } from 'react-hook-form'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import * as yup from 'yup'
@@ -90,7 +91,7 @@ export const Detail = () => {
   }))
 
   const formMethods = useForm<StandardTextForm>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as unknown as Resolver<StandardTextForm>,
     defaultValues: { ...defaultValues },
   })
 

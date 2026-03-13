@@ -6,7 +6,7 @@
   },
   "engines": {
     "npm": ">=8.9.0",
-    "node": ">=18.2"
+    "node": ">=24"
   },
   "author": "Datapunt Amsterdam",
   "license": "MPL-2.0",
@@ -44,7 +44,7 @@
     "@amsterdam/asc-assets": "^0.38.0",
     "@amsterdam/asc-ui": "^0.38.0",
     "@amsterdam/react-maps": "^1.1.1",
-    "@hookform/resolvers": "^2.9.11",
+    "@hookform/resolvers": "^3.10.0",
     "@microsoft/applicationinsights-web": "^3.3.10",
     "date-fns": "^4.1.0",
     "focus-trap-react": "^10.3.1",
@@ -56,7 +56,7 @@
     "leaflet": "^1.9.4",
     "leaflet-gesture-handling": "^1.2.2",
     "leaflet.markercluster": "^1.5.3",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "react": "^17.0.2",
     "react-datepicker": "^8.3.0",
     "react-dom": "^17.0.2",
@@ -98,7 +98,7 @@
     "@types/jsdom": "^21.1.7",
     "@types/leaflet": "^1.9.18",
     "@types/leaflet.markercluster": "^1.5.5",
-    "@types/lodash": "^4.17.16",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^16.18.126",
     "@types/react": "^17.0.85",
     "@types/react-dom": "^17.0.26",

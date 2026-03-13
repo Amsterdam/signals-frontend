@@ -10,6 +10,7 @@ import type {
 
 import { Heading } from '@amsterdam/asc-ui'
 import { yupResolver } from '@hookform/resolvers/yup'
+import type { Resolver } from 'react-hook-form'
 import { useForm, FormProvider } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
@@ -102,7 +103,7 @@ const KtoForm = ({
   )
 
   const formMethods = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as unknown as Resolver<FormData>,
     defaultValues: {
       allows_contact: contactAllowed,
       is_satisfied: isSatisfied,

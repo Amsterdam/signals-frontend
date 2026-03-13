@@ -29,10 +29,10 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
-      - name: Setup Node 18
+      - name: Setup Node 24
         uses: actions/setup-node@v6
         with:
-          node-version: '18.13'
+          node-version: '24'
           check-latest: true
 
       - name: Install dependencies
