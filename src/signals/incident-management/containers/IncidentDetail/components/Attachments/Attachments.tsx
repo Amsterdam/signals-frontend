@@ -65,7 +65,10 @@ interface AttachmentsProps {
   className?: string
   add: (file: File) => void
   remove: (attachment: Attachment) => void
-  patch: (href: string, payload: { public?: boolean; caption?: string }) => void
+  patch: (
+    href: string,
+    payload: { public?: boolean; caption?: string | null }
+  ) => void
   isChildIncident: boolean
   isParentIncident: boolean
   isRemoving: boolean

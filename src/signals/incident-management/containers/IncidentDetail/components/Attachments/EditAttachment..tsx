@@ -23,7 +23,7 @@ type Props = {
 
 type FormValues = {
   public: boolean
-  caption?: string
+  caption?: string | null
 }
 
 export default function EditAttachment({
@@ -34,7 +34,7 @@ export default function EditAttachment({
   setSelectedEditAttachment,
 }: Props) {
   const schema = yup.object().shape({
-    public: yup.boolean(),
+    public: yup.boolean().required(),
     caption: yup
       .string()
       .nullable()
@@ -99,6 +99,7 @@ export default function EditAttachment({
               return (
                 <TextArea
                   {...field}
+                  value={field.value ?? undefined}
                   errorMessage={errors.caption?.message}
                   label={
                     <>
