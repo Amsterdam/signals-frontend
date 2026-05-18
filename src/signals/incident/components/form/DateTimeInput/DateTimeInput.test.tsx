@@ -17,6 +17,7 @@ const props = {
   hasError: () => false,
   meta: {
     isVisible: true,
+    name: 'dateTime',
   },
   parent: {
     meta: {
@@ -46,11 +47,25 @@ describe('DateTimeInput', () => {
     const notVisible = {
       ...props,
       meta: {
+        ...props.meta,
         isVisible: false,
       },
     }
 
     render(withAppContext(<DateTimeInput {...notVisible} />))
+
+    expect(screen.queryByTestId('date-time')).not.toBeInTheDocument()
+  })
+
+  it('does not render without a name', () => {
+    const noName = {
+      ...props,
+      meta: {
+        isVisible: true,
+      },
+    }
+
+    render(withAppContext(<DateTimeInput {...noName} />))
 
     expect(screen.queryByTestId('date-time')).not.toBeInTheDocument()
   })
@@ -74,5 +89,26 @@ describe('DateTimeInput', () => {
     userEvent.click(screen.getByTestId('call-update'))
 
     expect(updateIncident).toHaveBeenCalledWith({ dateTime: customValue.value })
+  })
+
+  it('updates incident under the field name from meta', () => {
+    updateIncident.mockClear()
+
+    const customName = {
+      ...props,
+      meta: {
+        ...props.meta,
+        name: 'leegstand_dateTime',
+      },
+      value: 1234567890,
+    }
+
+    render(withAppContext(<DateTimeInput {...customName} />))
+
+    userEvent.click(screen.getByTestId('call-update'))
+
+    expect(updateIncident).toHaveBeenCalledWith({
+      leegstand_dateTime: customName.value,
+    })
   })
 })
