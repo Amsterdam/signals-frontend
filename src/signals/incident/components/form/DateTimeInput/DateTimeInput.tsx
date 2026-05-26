@@ -17,10 +17,12 @@ const DateTimeInput: FC<DateTimeInputProps> = ({
   validatorsOrOpts,
   value,
 }) => {
-  if (!meta?.isVisible) return null
+  if (!meta?.isVisible || !meta.name) return null
+
+  const { name } = meta
 
   const updateTimestamp = (timestamp: number) => {
-    parent.meta.updateIncident({ dateTime: timestamp })
+    parent.meta.updateIncident({ [name]: timestamp })
   }
 
   return (
