@@ -25,7 +25,6 @@ export const wegenVerkeerStraatmeubilair = {
           'autom-verzinkbare-palen',
           'bewegwijzering',
           'camerasystemen',
-          'oplaadpunt',
           'parkeerautomaten',
           'parkeer-verwijssysteem',
           'put-riool-kapot',
@@ -225,7 +224,6 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
     },
     render: QuestionFieldType.TextInput,
   },
-
   extra_fietsrek_aanvragen: {
     meta: {
       ifAllOf: {
@@ -256,6 +254,38 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       pathMerge: 'extra_properties',
     },
     render: QuestionFieldType.PlainText,
+  },
+  extra_oplaadpunt_type: {
+    meta: {
+      label: 'Waar gaat uw melding over?',
+      shortLabel: 'Type oplaadpunt',
+      ifAllOf: {
+        subcategory: 'oplaadpunt',
+      },
+      values: {
+        auto: 'Oplaadpunt voor een auto',
+        boot: 'Oplaadpunt voor een boot',
+        anders: 'Anders',
+      },
+      pathMerge: 'extra_properties',
+    },
+    options: {
+      validators: ['required'],
+    },
+    render: QuestionFieldType.RadioInput,
+  },
+  extra_oplaadpunt_nummer: {
+    meta: {
+      label: 'Wat is het nummer van de laadpaal?',
+      shortLabel: 'Nummer laadpaal',
+      subtitle:
+        'Met deze informatie kunnen wij het probleem sneller oplossen. Het cijfer bestaat uit 5 cijfers en staat bij het stopcontact.',
+      pathMerge: 'extra_properties',
+      ifAllOf: {
+        extra_oplaadpunt_type: 'boot',
+      },
+    },
+    render: QuestionFieldType.TextInput,
   },
 }
 
