@@ -282,6 +282,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
         'Met deze informatie kunnen wij het probleem sneller oplossen. Het cijfer bestaat uit 5 cijfers en staat bij het stopcontact.',
       pathMerge: 'extra_properties',
       ifAllOf: {
+        subcategory: 'oplaadpunt',
         extra_oplaadpunt_type: 'boot',
       },
     },
