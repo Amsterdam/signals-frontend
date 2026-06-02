@@ -279,7 +279,7 @@ Is het glad bij een trein-, bus- of metrostation? Neem dan contact op met de NS 
       label: 'Wat is het nummer van de laadpaal?',
       shortLabel: 'Nummer laadpaal',
       subtitle:
-        'Met deze informatie kunnen wij het probleem sneller oplossen. Het cijfer bestaat uit 5 cijfers en staat bij het stopcontact.',
+        'Met deze informatie kunnen wij het probleem sneller oplossen. Het nummer bestaat uit 5 cijfers en staat bij het stopcontact.',
       pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'oplaadpunt',
