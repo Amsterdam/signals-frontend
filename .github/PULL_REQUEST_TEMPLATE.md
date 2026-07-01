@@ -2,6 +2,8 @@ Ticket: [SIG-1234](https://gemeente-amsterdam.atlassian.net/browse/SIG-1234)
 
 ## Signalen
 
+- [ ] Includes AI-assisted code via GitHub Copilot
+
 Before opening a pull request, please ensure:
 
 - Make sure your PR title follows naming conventions: [feat-1234]: name feature
