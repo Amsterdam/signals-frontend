@@ -344,7 +344,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             </div>
           )}
           {emailIsNotSend && (
-            <div data-testid="no-emaiI-is-sent-warning">
+            <div data-testid="no-email-is-sent-warning">
               {constants.NO_EMAIL_IS_SENT}
             </div>
           )}

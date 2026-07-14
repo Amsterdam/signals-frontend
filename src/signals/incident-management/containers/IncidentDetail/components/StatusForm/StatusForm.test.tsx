@@ -255,7 +255,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.Afgehandeld,
     ])
 
-    const noEmailNotification = screen.getByTestId('no-emaiI-is-sent-warning')
+    const noEmailNotification = screen.getByTestId('no-email-is-sent-warning')
     expect(noEmailNotification).toBeInTheDocument()
   })
 
@@ -275,7 +275,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.VerzoekTotHeropenen,
     ])
 
-    const noEmailNotification = screen.getByTestId('no-emaiI-is-sent-warning')
+    const noEmailNotification = screen.getByTestId('no-email-is-sent-warning')
     expect(noEmailNotification).toBeInTheDocument()
     expect(checkbox).not.toBeInTheDocument()
   })
