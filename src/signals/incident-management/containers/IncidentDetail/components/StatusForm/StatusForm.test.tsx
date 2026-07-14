@@ -259,6 +259,27 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
     expect(noEmailNotification).toBeInTheDocument()
   })
 
+  it("renders a notification 'not sending email' when changing status to verzoek tot heropenen", () => {
+    const withAfgehandeldStatus = { ...incidentFixture }
+    if (withAfgehandeldStatus?.status?.state) {
+      withAfgehandeldStatus.status.state = StatusCode.Afgehandeld
+    }
+
+    // render status afgehandeld
+    render(renderWithContext(withAfgehandeldStatus))
+
+    const checkbox = screen.getByTestId('send-email-checkbox')
+    expect(checkbox).toBeChecked()
+
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
+      StatusCode.VerzoekTotHeropenen,
+    ])
+
+    const noEmailNotification = screen.getByTestId('no-emaiI-is-sent-warning')
+    expect(noEmailNotification).toBeInTheDocument()
+    expect(checkbox).not.toBeInTheDocument()
+  })
+
   it('requires a text value when the checkbox is selected', async () => {
     const withSendEmailStatus = { ...incidentFixture }
     if (withSendEmailStatus?.status?.state) {

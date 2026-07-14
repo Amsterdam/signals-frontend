@@ -212,13 +212,13 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [])
 
   const onStatusChange = useCallback((event) => {
-    if (
-      !configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
-      event.target.value === StatusCode.Afgehandeld &&
-      state.status.key === StatusCode.VerzoekTotHeropenen
-    ) {
-      setEmailIsNotSend(true)
-    }
+    const emailIsNotSend =
+      event.target.value === StatusCode.VerzoekTotHeropenen ||
+      (!configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+        event.target.value === StatusCode.Afgehandeld &&
+        state.status.key === StatusCode.VerzoekTotHeropenen)
+
+    setEmailIsNotSend(emailIsNotSend)
 
     const selectedStatus = changeStatusOptionList.find(
       (status) => event.target.value === status.key
