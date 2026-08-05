@@ -480,6 +480,10 @@
               "description": "PDOK url to reverse coordinates to a readable address",
               "type": "string",
               "format": "uri-template"
+            },
+            "distance": {
+              "description": "Distance that is used to determine the nearest location of coordinates",
+              "type": "number"
             }
           }
         }
