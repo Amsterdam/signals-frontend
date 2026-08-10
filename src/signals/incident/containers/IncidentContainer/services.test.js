@@ -37,6 +37,13 @@ const mockedQuestions = [
     },
     field_type: 'date_time_input',
   },
+  {
+    key: 'key6',
+    meta: {
+      label: 'Header label',
+    },
+    field_type: 'question_header',
+  },
 ]
 
 describe('Incident container services', () => {
@@ -53,7 +60,8 @@ describe('Incident container services', () => {
       expect(result).toHaveProperty('key3')
       expect(result).toHaveProperty('key4')
       expect(result).toHaveProperty('key5')
-      expect(Object.keys(result).length).toBe(5)
+      expect(result).toHaveProperty('key6')
+      expect(Object.keys(result).length).toBe(6)
     })
 
     it('should pass meta prop', () => {
@@ -105,6 +113,9 @@ describe('Incident container services', () => {
       })
       expect(result.key2).toMatchObject({
         render: 'RadioInputGroup',
+      })
+      expect(result.key6).toMatchObject({
+        render: 'QuestionHeader',
       })
     })
 
