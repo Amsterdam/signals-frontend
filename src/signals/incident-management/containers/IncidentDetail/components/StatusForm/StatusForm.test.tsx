@@ -134,6 +134,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   afterEach(() => {
     fetch.resetMocks()
     update.mockReset()
+    configuration.featureFlags.disableReopenRequestStatusOption = false
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
   })
 
@@ -169,6 +170,23 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         document.querySelector(`option[value="${key}"]`)
       )
     })
+  })
+
+  it('hides the option Verzoek tot heropenen when disabled with a feature flag', () => {
+    configuration.featureFlags.disableReopenRequestStatusOption = true
+
+    render(renderWithContext())
+
+    const selectElement = screen.getByTestId('select-status')
+    const selectOptions =
+      getQueriesForElement(selectElement).getAllByRole('option')
+
+    expect(selectOptions.length).toEqual(changeStatusOptionList.length)
+    expect(
+      document.querySelector(
+        `option[value="${StatusCode.VerzoekTotHeropenen}"]`
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('shows the number of available standard texts', () => {
