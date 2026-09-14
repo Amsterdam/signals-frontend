@@ -109,6 +109,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
   )
+  const statusOptions = configuration.featureFlags
+    .disableReopenRequestStatusOption
+    ? changeStatusOptionList.filter(
+        (status) => status.key !== StatusCode.VerzoekTotHeropenen
+      )
+    : changeStatusOptionList
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -220,7 +226,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
 
     setEmailIsNotSend(emailIsNotSend)
 
-    const selectedStatus = changeStatusOptionList.find(
+    const selectedStatus = statusOptions.find(
       (status) => event.target.value === status.key
     )
     selectedStatus &&
@@ -277,7 +283,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           onChange={onStatusChange}
         >
           <option key="default">Kies status</option>
-          {changeStatusOptionList.map((status: Status) => (
+          {statusOptions.map((status: Status) => (
             <option key={status.key} value={status.key}>
               {status.value}
             </option>
