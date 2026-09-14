@@ -134,6 +134,7 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
   afterEach(() => {
     fetch.resetMocks()
     update.mockReset()
+    configuration.featureFlags.disableReopenRequestStatusOption = false
     configuration.featureFlags.reporterMailHandledNegativeContactEnabled = true
   })
 
@@ -169,6 +170,23 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
         document.querySelector(`option[value="${key}"]`)
       )
     })
+  })
+
+  it('hides the option Verzoek tot heropenen when disabled with a feature flag', () => {
+    configuration.featureFlags.disableReopenRequestStatusOption = true
+
+    render(renderWithContext())
+
+    const selectElement = screen.getByTestId('select-status')
+    const selectOptions =
+      getQueriesForElement(selectElement).getAllByRole('option')
+
+    expect(selectOptions.length).toEqual(changeStatusOptionList.length)
+    expect(
+      document.querySelector(
+        `option[value="${StatusCode.VerzoekTotHeropenen}"]`
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('shows the number of available standard texts', () => {
@@ -255,8 +273,29 @@ describe('signals/incident-management/containers/IncidentDetail/components/Statu
       StatusCode.Afgehandeld,
     ])
 
-    const noEmailNotification = screen.getByTestId('no-emaiI-is-sent-warning')
+    const noEmailNotification = screen.getByTestId('no-email-is-sent-warning')
     expect(noEmailNotification).toBeInTheDocument()
+  })
+
+  it("renders a notification 'not sending email' when changing status to verzoek tot heropenen", () => {
+    const withAfgehandeldStatus = { ...incidentFixture }
+    if (withAfgehandeldStatus?.status?.state) {
+      withAfgehandeldStatus.status.state = StatusCode.Afgehandeld
+    }
+
+    // render status afgehandeld
+    render(renderWithContext(withAfgehandeldStatus))
+
+    const checkbox = screen.getByTestId('send-email-checkbox')
+    expect(checkbox).toBeChecked()
+
+    userEvent.selectOptions(screen.getByTestId('select-status'), [
+      StatusCode.VerzoekTotHeropenen,
+    ])
+
+    const noEmailNotification = screen.getByTestId('no-email-is-sent-warning')
+    expect(noEmailNotification).toBeInTheDocument()
+    expect(checkbox).not.toBeInTheDocument()
   })
 
   it('requires a text value when the checkbox is selected', async () => {

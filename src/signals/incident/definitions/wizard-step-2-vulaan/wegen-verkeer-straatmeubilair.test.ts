@@ -18,6 +18,8 @@ describe('definition wegen-verkeer-straatmeubilair', () => {
       'extra_verkeerslicht_nummer',
       'extra_fietsrek_aanvragen',
       'extra_fietsrek_aanvraag',
+      'extra_oplaadpunt_type',
+      'extra_oplaadpunt_nummer',
     ])
   })
 })

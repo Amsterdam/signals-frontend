@@ -30,6 +30,20 @@ const mockedQuestions = [
     field_type: 'select_input',
     required: true,
   },
+  {
+    key: 'key5',
+    meta: {
+      metaProp: 'metaProp',
+    },
+    field_type: 'date_time_input',
+  },
+  {
+    key: 'key6',
+    meta: {
+      label: 'Header label',
+    },
+    field_type: 'question_header',
+  },
 ]
 
 describe('Incident container services', () => {
@@ -45,7 +59,9 @@ describe('Incident container services', () => {
       expect(result).toHaveProperty('key2')
       expect(result).toHaveProperty('key3')
       expect(result).toHaveProperty('key4')
-      expect(Object.keys(result).length).toBe(4)
+      expect(result).toHaveProperty('key5')
+      expect(result).toHaveProperty('key6')
+      expect(Object.keys(result).length).toBe(6)
     })
 
     it('should pass meta prop', () => {
@@ -61,7 +77,7 @@ describe('Incident container services', () => {
       })
     })
 
-    it('should not add extra_properties prop to meta when field type is location', () => {
+    it('should not add extra_properties prop to meta when field type is location or date time input', () => {
       const result = resolveQuestions(mockedQuestions)
       expect(result.key1).toMatchObject({
         meta: {
@@ -83,6 +99,11 @@ describe('Incident container services', () => {
           pathMerge: 'extra_properties',
         },
       })
+      expect(result.key5).not.toMatchObject({
+        meta: {
+          pathMerge: 'extra_properties',
+        },
+      })
     })
 
     it('should add render prop', () => {
@@ -92,6 +113,9 @@ describe('Incident container services', () => {
       })
       expect(result.key2).toMatchObject({
         render: 'RadioInputGroup',
+      })
+      expect(result.key6).toMatchObject({
+        render: 'QuestionHeader',
       })
     })
 

@@ -4,6 +4,7 @@ import {
   FIELD_TYPE_MAP,
   INPUT_VALIDATOR_MAP,
   LOCATION_SELECT_FIELD_TYPE,
+  DATE_TIME_INPUT_FIELD_TYPE,
 } from './constants'
 
 const mapValidatorWithArgs = ([key, ...args]) => [
@@ -13,18 +14,22 @@ const mapValidatorWithArgs = ([key, ...args]) => [
 const mapValidator = (key) =>
   Array.isArray(key) ? mapValidatorWithArgs(key) : INPUT_VALIDATOR_MAP[key]
 
+const excludedFromExtraProperties = [
+  LOCATION_SELECT_FIELD_TYPE,
+  DATE_TIME_INPUT_FIELD_TYPE,
+]
+
 export const resolveQuestions = (questions) =>
   questions.reduce(
     (acc, question) => ({
       ...acc,
       [question.key]: {
-        meta:
-          question.field_type === LOCATION_SELECT_FIELD_TYPE
-            ? question.meta
-            : {
-                ...question.meta,
-                pathMerge: 'extra_properties',
-              },
+        meta: excludedFromExtraProperties.includes(question.field_type)
+          ? question.meta
+          : {
+              ...question.meta,
+              pathMerge: 'extra_properties',
+            },
         options: {
           validators: [
             ...new Set([

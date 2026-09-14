@@ -84,6 +84,14 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
     }
   }, [mapActive, dispatch])
 
+  const tileLayers = configuration.map.tiles.args.map((tileUrl, index) => (
+    <TileLayer
+      args={[tileUrl]}
+      options={configuration.map.tiles.options}
+      key={index}
+    />
+  ))
+
   return (
     <StyledMap
       // Disabling linter; without className prop, the Map component cannot be styled
@@ -111,10 +119,7 @@ const Map: FC<PropsWithChildren<MapProps>> = ({
         }
       />
 
-      <TileLayer
-        args={configuration.map.tiles.args as [string]}
-        options={configuration.map.tiles.options}
-      />
+      {tileLayers}
     </StyledMap>
   )
 }

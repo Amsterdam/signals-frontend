@@ -35,13 +35,14 @@ export const REMOVE_FROM_SELECTION =
   'sia/IncidentContainer/REMOVE_FROM_SELECTION'
 
 export const LOCATION_SELECT_FIELD_TYPE = 'location_select'
+export const DATE_TIME_INPUT_FIELD_TYPE = 'date_time_input'
 
 export const FIELD_TYPE_MAP = {
   asset_select: QuestionFieldType.AssetSelect,
   caterpillar_select: QuestionFieldType.CaterpillarSelect,
   checkbox_input: QuestionFieldType.CheckboxInput,
   clock_select: QuestionFieldType.ClockSelect,
-  date_time_input: QuestionFieldType.DateTimeInput,
+  [DATE_TIME_INPUT_FIELD_TYPE]: QuestionFieldType.DateTimeInput,
   description_with_classification_input: QuestionFieldType.DescriptionInput,
   emphasis_checkbox_input: QuestionFieldType.EmphasisCheckboxInput,
   file_input: QuestionFieldType.FileInput,
@@ -52,6 +53,7 @@ export const FIELD_TYPE_MAP = {
   map_input: QuestionFieldType.MapInput,
   multi_text_input: QuestionFieldType.MultiTextInput,
   plain_text: QuestionFieldType.PlainText,
+  question_header: QuestionFieldType.QuestionHeader,
   radio_input: QuestionFieldType.RadioInput,
   select_input: QuestionFieldType.SelectInput,
   streetlight_select: QuestionFieldType.StreetlightSelect,

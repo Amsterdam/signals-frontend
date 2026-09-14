@@ -109,6 +109,12 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   const disableSubmit = Boolean(
     state.warnings.some(({ level }) => level === 'error')
   )
+  const statusOptions = configuration.featureFlags
+    .disableReopenRequestStatusOption
+    ? changeStatusOptionList.filter(
+        (status) => status.key !== StatusCode.VerzoekTotHeropenen
+      )
+    : changeStatusOptionList
 
   const onUpdate = useCallback(() => {
     const textValue = state.text.value || state.text.defaultValue
@@ -212,15 +218,15 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
   }, [])
 
   const onStatusChange = useCallback((event) => {
-    if (
-      !configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
-      event.target.value === StatusCode.Afgehandeld &&
-      state.status.key === StatusCode.VerzoekTotHeropenen
-    ) {
-      setEmailIsNotSend(true)
-    }
+    const emailIsNotSend =
+      event.target.value === StatusCode.VerzoekTotHeropenen ||
+      (!configuration.featureFlags.reporterMailHandledNegativeContactEnabled &&
+        event.target.value === StatusCode.Afgehandeld &&
+        state.status.key === StatusCode.VerzoekTotHeropenen)
 
-    const selectedStatus = changeStatusOptionList.find(
+    setEmailIsNotSend(emailIsNotSend)
+
+    const selectedStatus = statusOptions.find(
       (status) => event.target.value === status.key
     )
     selectedStatus &&
@@ -277,7 +283,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
           onChange={onStatusChange}
         >
           <option key="default">Kies status</option>
-          {changeStatusOptionList.map((status: Status) => (
+          {statusOptions.map((status: Status) => (
             <option key={status.key} value={status.key}>
               {status.value}
             </option>
@@ -344,7 +350,7 @@ const StatusForm: FunctionComponent<StatusFormProps> = ({
             </div>
           )}
           {emailIsNotSend && (
-            <div data-testid="no-emaiI-is-sent-warning">
+            <div data-testid="no-email-is-sent-warning">
               {constants.NO_EMAIL_IS_SENT}
             </div>
           )}
