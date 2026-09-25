@@ -35,6 +35,68 @@ describe('Summary', () => {
     expect(screen.getByText('Afgehandeld')).toBeInTheDocument()
   })
 
+  it('renders API highlights using emphasis', () => {
+    render(
+      <Summary
+        {...defaultProps}
+        standardText={{
+          ...defaultProps.standardText,
+          meta: {
+            highlight: {
+              title: ['Titel <em>#7</em>'],
+              text: ['Lorem <em>ipsum</em>', '<em>dolor</em> sit amet'],
+            },
+          },
+        }}
+      />
+    )
+
+    expect(screen.getByText('#7').tagName).toBe('EM')
+    expect(screen.getByText('ipsum').tagName).toBe('EM')
+    expect(screen.getByText('dolor').tagName).toBe('EM')
+  })
+
+  it('does not interpret HTML in standard texts', () => {
+    const payload =
+      '<img src=x onerror=alert(localStorage.getItem("accessToken"))>'
+    const { container } = render(
+      <Summary
+        {...defaultProps}
+        standardText={{
+          ...defaultProps.standardText,
+          title: payload,
+          text: payload,
+          meta: {},
+        }}
+      />
+    )
+
+    expect(container.querySelector('img')).not.toBeInTheDocument()
+    expect(container).toHaveTextContent(payload)
+  })
+
+  it('only interprets em tags in API highlights', () => {
+    const payload = '<img src=x onerror=alert(1)>'
+    const { container } = render(
+      <Summary
+        {...defaultProps}
+        standardText={{
+          ...defaultProps.standardText,
+          meta: {
+            highlight: {
+              title: [`<em>match</em>${payload}`],
+              text: [`<em>${payload}</em>`],
+            },
+          },
+        }}
+      />
+    )
+
+    expect(screen.getByText('match').tagName).toBe('EM')
+    expect(container.querySelector('img')).not.toBeInTheDocument()
+    expect(container).toHaveTextContent(payload)
+  })
+
   it('calls onClick with standardText.id when clicking ', () => {
     render(<Summary {...defaultProps} />)
 

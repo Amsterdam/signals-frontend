@@ -20,6 +20,13 @@ export interface Props {
   onClick: (id: number) => void
 }
 
+const renderHighlight = (value: string) =>
+  value.split(/(<em>[\s\S]*?<\/em>)/gi).map((part, index) => {
+    const match = /^<em>([\s\S]*?)<\/em>$/i.exec(part)
+
+    return match ? <em key={index}>{match[1]}</em> : part
+  })
+
 export const Summary = ({ standardText, onClick }: Props) => {
   const {
     state,
@@ -31,8 +38,8 @@ export const Summary = ({ standardText, onClick }: Props) => {
 
   const status = statusList.find(({ key }) => key === state) as StatusType
 
-  const title = highlight?.title ? highlight.title : originalTitle
-  const description = highlight?.text ? highlight.text.join('...') : text
+  const highlightedTitle = highlight?.title?.join('...')
+  const highlightedDescription = highlight?.text?.join('...')
 
   return (
     <Wrapper
@@ -53,11 +60,14 @@ export const Summary = ({ standardText, onClick }: Props) => {
       </ColumnStatus>
 
       <ColumnDescription>
-        <Title dangerouslySetInnerHTML={{ __html: title }} />
-        <Text
-          dangerouslySetInnerHTML={{ __html: description }}
-          $isHighlighted={highlight?.text}
-        />
+        <Title>
+          {highlightedTitle ? renderHighlight(highlightedTitle) : originalTitle}
+        </Title>
+        <Text $isHighlighted={Boolean(highlight?.text)}>
+          {highlightedDescription
+            ? renderHighlight(highlightedDescription)
+            : text}
+        </Text>
       </ColumnDescription>
     </Wrapper>
   )
