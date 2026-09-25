@@ -69,7 +69,7 @@ describe('Keycloak authorization', () => {
       })
     })
 
-    it('calls keycloak-js init with check-sso when localstorage domain value is set', () => {
+    it('calls keycloak-js init with check-sso when session storage domain value is set', () => {
       new Keycloak().init()
 
       expect(keycloakJSMock.init).not.toHaveBeenCalledWith(
@@ -78,7 +78,9 @@ describe('Keycloak authorization', () => {
         })
       )
 
-      jest.spyOn(global.localStorage, 'getItem').mockReturnValueOnce('keycloak')
+      jest
+        .spyOn(global.sessionStorage, 'getItem')
+        .mockReturnValueOnce('keycloak')
 
       new Keycloak().init()
 

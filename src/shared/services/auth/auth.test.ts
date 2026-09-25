@@ -51,18 +51,13 @@ describe('Auth', () => {
     })
   })
 
-  it('uses DummyAuth as fallback when both sessionStorage and localStorage are not available', () => {
+  it('uses DummyAuth as fallback when sessionStorage is not available', () => {
     jest.isolateModules(() => {
       jest.clearAllMocks()
       jest.mock('./services/dummy-auth', () => jest.fn())
       const IsolatedMockDummyAuth = require('./services/dummy-auth')
-      const localStorage = window.localStorage
       const sessionStorage = window.sessionStorage
 
-      Object.defineProperty(window, 'localStorage', {
-        value: null,
-        writable: true,
-      })
       Object.defineProperty(window, 'sessionStorage', {
         value: null,
         writable: true,
@@ -74,10 +69,6 @@ describe('Auth', () => {
       expect(mocked(Keycloak)).not.toHaveBeenCalled()
       expect(mocked(IsolatedMockDummyAuth)).toHaveBeenCalled()
 
-      Object.defineProperty(window, 'localStorage', {
-        value: localStorage,
-        writable: false,
-      })
       Object.defineProperty(window, 'sessionStorage', {
         value: sessionStorage,
         writable: false,
