@@ -6,7 +6,12 @@ export interface StandardText {
   active: boolean
   categories: number[]
   id: number
-  meta: Record<any, any>
+  meta: {
+    highlight?: {
+      text?: string[]
+      title?: string[]
+    }
+  }
   state: StatusCode
   text: string
   title: string
