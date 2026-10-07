@@ -13,7 +13,7 @@ class Keycloak {
   private storage: Storage
 
   constructor() {
-    this.storage = window.localStorage || window.sessionStorage
+    this.storage = window.sessionStorage
     this.keycloak = new keycloakJS({
       clientId: configuration.oidc.clientId,
       realm: (configuration.oidc as any).realm as string,
