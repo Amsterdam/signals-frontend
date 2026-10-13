@@ -30,7 +30,7 @@ const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state']
 
 const AUTH_REDIRECT_URI = `${window.location.protocol}//${window.location.host}/manage/incidents`
 
-// The keys of values we need to store in the local storage
+// The keys of values we need to store for the current browser session
 const STATE_TOKEN_KEY = 'stateToken' // OAuth2 state token (prevent CSRF)
 const NONCE_KEY = 'nonce' // OpenID Connect nonce (prevent replay attacks)
 const ACCESS_TOKEN_KEY = 'accessToken' // OAuth2 access token
@@ -39,11 +39,11 @@ class OidcImplicit {
   private storage: Storage
 
   constructor() {
-    this.storage = window.localStorage || window.sessionStorage
+    this.storage = window.sessionStorage
   }
 
   init() {
-    this.restoreAccessToken() // Restore access token from local storage
+    this.restoreAccessToken()
     this.handleAuthorizationError() // Catch any error from the OAuth2 authorization service
     this.handleAuthorizationCallback() // Handle a callback from the OAuth2 authorization service
   }
@@ -100,11 +100,11 @@ class OidcImplicit {
   }
 
   /**
-   * Gets the access token and return path, and clears the localstorage
+   * Gets the access token and return path, and clears the session storage
    */
   private saveToken(state: string, accessToken: string) {
     // The state param must be exactly the same as the state token we
-    // have saved in local storage (to prevent CSRF)
+    // have saved in session storage (to prevent CSRF)
     const localStateToken = this.storage.getItem(STATE_TOKEN_KEY)
     const paramStateToken = decodeURIComponent(state)
 

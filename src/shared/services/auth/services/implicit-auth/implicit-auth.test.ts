@@ -39,7 +39,7 @@ describe('ImplicitAuth authorization', () => {
   let randomString: string
 
   beforeEach(() => {
-    mocked(global.localStorage.getItem).mockImplementation((key) => {
+    mocked(global.sessionStorage.getItem).mockImplementation((key) => {
       switch (key) {
         case 'accessToken':
           return savedAccessToken
@@ -95,8 +95,8 @@ describe('ImplicitAuth authorization', () => {
     mocked(global.location.assign).mockRestore()
     mocked(global.location.reload).mockRestore()
 
-    mocked(global.localStorage.removeItem).mockReset()
-    mocked(global.localStorage.setItem).mockReset()
+    mocked(global.sessionStorage.removeItem).mockReset()
+    mocked(global.sessionStorage.setItem).mockReset()
   })
 
   describe('receiving response errors from the auth service', () => {
@@ -128,7 +128,7 @@ describe('ImplicitAuth authorization', () => {
       }).rejects.toThrow()
     })
 
-    it('removes the state token from the local storage', async () => {
+    it('removes the state token from session storage', async () => {
       queryObject = {
         error: 'invalid_request',
       }
@@ -136,7 +136,9 @@ describe('ImplicitAuth authorization', () => {
       await expect(async () => {
         implicitauth.init()
       }).rejects.toThrow()
-      expect(global.localStorage.removeItem).toHaveBeenCalledWith('stateToken')
+      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        'stateToken'
+      )
     })
 
     it('does not handle any errors without an error in the query string', () => {
@@ -145,7 +147,7 @@ describe('ImplicitAuth authorization', () => {
       expect(async () => {
         implicitauth.init()
       }).not.toThrow()
-      expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+      expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
         'stateToken'
       )
     })
@@ -156,7 +158,7 @@ describe('ImplicitAuth authorization', () => {
       expect(async () => {
         implicitauth.init()
       }).not.toThrow()
-      expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+      expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
         'stateToken'
       )
     })
@@ -211,7 +213,7 @@ describe('ImplicitAuth authorization', () => {
         expect(queryStringParser).toHaveBeenLastCalledWith(`#${queryString}`)
       })
 
-      it('Updates local storage', () => {
+      it('Updates session storage', () => {
         const queryString =
           '?access_token=123AccessToken&token_type=token&expires_in=36000&state=random-string'
         global.location.hash = queryString
@@ -224,11 +226,11 @@ describe('ImplicitAuth authorization', () => {
         savedStateToken = 'random-string'
 
         implicitauth.init()
-        expect(global.localStorage.setItem).toHaveBeenCalledWith(
+        expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         )
-        expect(global.localStorage.removeItem).toHaveBeenCalledWith(
+        expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
           'stateToken'
         )
       })
@@ -247,7 +249,7 @@ describe('ImplicitAuth authorization', () => {
         savedStateToken = 'random-string'
 
         implicitauth.init()
-        expect(global.localStorage.setItem).toHaveBeenCalledWith(
+        expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         )
@@ -265,11 +267,11 @@ describe('ImplicitAuth authorization', () => {
         savedStateToken = 'random-string'
 
         implicitauth.init()
-        expect(global.localStorage.setItem).not.toHaveBeenCalledWith(
+        expect(global.sessionStorage.setItem).not.toHaveBeenCalledWith(
           'accessToken',
           '123AccessToken'
         )
-        expect(global.localStorage.removeItem).not.toHaveBeenCalledWith(
+        expect(global.sessionStorage.removeItem).not.toHaveBeenCalledWith(
           'stateToken'
         )
       })
@@ -284,18 +286,20 @@ describe('ImplicitAuth authorization', () => {
       }).toThrow('crypto library is not available on the current browser')
     })
 
-    it('Updates the local storage', () => {
+    it('Updates session storage', () => {
       const hash = '#?the=current-hash'
       global.location.hash = hash
 
       implicitauth.login()
 
-      expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken')
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
+      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        'accessToken'
+      )
+      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
         'stateToken',
         randomString
       )
-      expect(global.localStorage.setItem).toHaveBeenCalledWith(
+      expect(global.sessionStorage.setItem).toHaveBeenCalledWith(
         'nonce',
         randomString
       )
@@ -322,9 +326,11 @@ describe('ImplicitAuth authorization', () => {
   })
 
   describe('Logout process', () => {
-    it('Removes the access token from local storage', () => {
+    it('Removes the access token from session storage', () => {
       implicitauth.logout()
-      expect(global.localStorage.removeItem).toHaveBeenCalledWith('accessToken')
+      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith(
+        'accessToken'
+      )
     })
   })
 
@@ -377,7 +383,7 @@ describe('ImplicitAuth authorization', () => {
 
   describe('getIsAuthenticated', () => {
     it('returns false for expired token', () => {
-      mocked(global.localStorage.getItem).mockImplementation((key) => {
+      mocked(global.sessionStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return expiredToken
@@ -390,7 +396,7 @@ describe('ImplicitAuth authorization', () => {
     })
 
     it('returns false for invalid token', () => {
-      mocked(global.localStorage.getItem).mockImplementation((key) => {
+      mocked(global.sessionStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return invalidToken
@@ -406,7 +412,7 @@ describe('ImplicitAuth authorization', () => {
       const actual = jest.requireActual('../parse-access-token').default
       mocked(parseAccessToken).mockImplementation(actual)
 
-      mocked(global.localStorage.getItem).mockImplementation((key) => {
+      mocked(global.sessionStorage.getItem).mockImplementation((key) => {
         switch (key) {
           case 'accessToken':
             return validToken

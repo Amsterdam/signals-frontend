@@ -5,7 +5,7 @@ export const AUTH_ERROR =
 
 /**
  * Dummy auth class
- * Used as fallback when the user's browser does not support authentication (e.g. when local storage is disabled)
+ * Used as fallback when the user's browser does not support authentication (e.g. when session storage is disabled)
  */
 class DummyAuth {
   async authenticate() {
