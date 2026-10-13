@@ -13,11 +13,12 @@ import type { RevGeo } from 'types/pdok/revgeo'
 
 const flParams = pdokResponseFieldList.join(',')
 export const serviceURL = `${configuration.map.pdok.reverse}?type=adres&rows=1&fl=${flParams}`
+export const locationDistance = configuration.map.pdok.distance
 
 export const formatRequest = (
   baseUrl: URL | string,
   wgs84point: LatLngLiteral,
-  distance = 30
+  distance = locationDistance
 ) => {
   const { x, y } = wgs84ToRd(wgs84point)
   return `${new URL(baseUrl).toString()}&X=${x}&Y=${y}&distance=${distance}`
