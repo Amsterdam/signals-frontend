@@ -76,15 +76,15 @@ Object.defineProperties(global, {
 })
 
 describe('containers/App/saga', () => {
-  let origLocalStorage: typeof global.localStorage
+  let origSessionStorage: typeof global.sessionStorage
 
   beforeEach(() => {
     mocked(randomStringGenerator).mockImplementation(
       () => 'n8vd9fv528934n797cv342bj3h56'
     )
     global.window.open = jest.fn()
-    origLocalStorage = global.localStorage
-    global.localStorage = {
+    origSessionStorage = global.sessionStorage
+    global.sessionStorage = {
       getItem: (key) => {
         switch (key) {
           case 'accessToken':
@@ -104,7 +104,7 @@ describe('containers/App/saga', () => {
   })
 
   afterEach(() => {
-    global.localStorage = origLocalStorage
+    global.sessionStorage = origSessionStorage
     jest.resetAllMocks()
   })
 
