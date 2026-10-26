@@ -1,15 +1,13 @@
 ################################
 # Base
 ################################
-FROM node:24 AS base
+FROM node:24-alpine AS base
 LABEL maintainer="datapunt@amsterdam.nl"
 
 WORKDIR /app
 
-# Install dependencies and remove apt cache
-RUN apt-get update && apt-get install -y \
-  git \
-  && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+RUN apk add --no-cache git
 
 # Change git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
@@ -52,9 +50,12 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 ################################
 FROM nginx:stable-alpine
 
-RUN apk add --no-cache jq nodejs yarn
+RUN apk add --no-cache jq libstdc++
 
-RUN yarn add @exodus/schemasafe lodash
+# Node and the dependencies of the config scripts that run in start.sh
+COPY --from=base /usr/local/bin/node /usr/local/bin/node
+COPY --from=base /app/node_modules/@exodus/schemasafe /node_modules/@exodus/schemasafe
+COPY --from=base /app/node_modules/lodash /node_modules/lodash
 
 COPY --from=base /app/build/. /usr/share/nginx/html/
 
