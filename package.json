@@ -63,7 +63,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.56.4",
     "react-markdown": "^6.0.3",
-    "react-redux": "^7.2.9",
+    "react-redux": "^9.3.0",
     "react-responsive": "^10.0.1",
     "react-router-dom": "6.30.4",
     "redux": "^4.2.1",
