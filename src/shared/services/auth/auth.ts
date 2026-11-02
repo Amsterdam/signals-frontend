@@ -7,13 +7,12 @@ import ImplicitAuth from './services/implicit-auth'
 import Keycloak from './services/keycloak-auth'
 import configuration from '../configuration/configuration'
 
-// Verify that local or session storage is supported & enabled
+// Verify that session storage is supported & enabled
 let storageEnabled = false
 try {
-  storageEnabled = Boolean(window.localStorage || window.sessionStorage)
+  storageEnabled = Boolean(window.sessionStorage)
 } catch (error) {
-  // Accessing local- or sessionstorage throws when
-  //  this type of storage is explicitly disabled by the user
+  // Accessing session storage throws when it is explicitly disabled by the user
 }
 
 // Keycloak login depends on cookies for SSO, and realm for login
