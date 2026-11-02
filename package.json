@@ -130,7 +130,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-find-rules": "^4.2.0",
     "eslint-formatter-mo": "^1.4.1",
     "eslint-import-resolver-typescript": "^3.10.1",
