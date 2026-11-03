@@ -7,6 +7,7 @@ import configuration from 'shared/services/configuration/configuration'
 import { QuestionFieldType } from 'types/question'
 
 import afvalControls from './wizard-step-2-vulaan/afval'
+import afvalAEGControls from './wizard-step-2-vulaan/afval-aeg'
 import afvalContainerControls from './wizard-step-2-vulaan/afval-container'
 import afvalRolcontainerControls from './wizard-step-2-vulaan/afval-rolcontainer'
 import afvalThorControls from './wizard-step-2-vulaan/afval-thor'
@@ -140,6 +141,18 @@ const getExtraQuestions = (category, subcategory, questions) => {
         ['rolcontainer-is-kapot', 'rolcontainer-is-vol'].includes(subcategory)
       ) {
         return summary(afvalRolcontainerControls)
+      }
+      if (
+        [
+          'grofvuil',
+          'huisafval',
+          'puin-sloopafval',
+          'bruin-en-witgoed',
+          'kerstbomen',
+          'overig-afval',
+        ].includes(subcategory)
+      ) {
+        return summary(afvalAEGControls)
       }
 
       return summary(afvalControls)
