@@ -29,7 +29,9 @@ if (connectionString) {
     config: { connectionString },
   })
   appInsights.loadAppInsights()
-  appInsights.trackPageView()
+  appInsights.trackPageView({
+    uri: `${window.location.origin}${window.location.pathname}`,
+  })
 }
 
 // Create redux store with history
